@@ -24,45 +24,75 @@
     <!-- <fieldset class="layui-elem-field layui-field-title" style="margin-top: 10px;">
         <legend>HealthApp Demo show</legend>
     </fieldset> -->
-    <div class="layui-carousel" id="health">
-        <div carousel-item="">
+    <!-- <div class="carousel"> -->
+    <div class="layui-carousel" id="health" lay-filter="carofilter">
+        <div carousel-item>
             <!-- health by web -->
-            <div><img src="resource/images/login_web.jpg"></div>
-            <div><img src="resource/images/add_and_mod_study_web.png"></div>
-            <div><img src="resource/images/show_study_web.png"></div>
-            <div><img src="resource/images/image_web1.png"></div>
-            <div><img src="resource/images/image_web2.png"></div>
-            <div><img src="resource/images/report_web.png"></div>
+            <div><img src="resource/images/login_web.jpg" class="img" style="width:100%; height:auto"></div>
+            <div><img src="resource/images/add_and_mod_study_web.png" class="img" style="width:100%; height:auto"></div>
+            <div><img src="resource/images/show_study_web.png" class="img" style="width:100%; height:auto"></div>
+            <div><img src="resource/images/image_web1.png" class="img" style="width:100%; height:auto"></div>
+            <div><img src="resource/images/image_web2.png" class="img" style="width:100%; height:auto"></div>
+            <div><img src="resource/images/report_web.png" class="img" style="width:100%; height:auto"></div>
             <!-- health by web & app -->
-            <div><img src="resource/images/add_and_mod_study_app1.png"></div>
-            <div><img src="resource/images/add_and_mod_study_app2.png"></div>
-            <div><img src="resource/images/add_and_mod_study_app3.png"></div>
-            <div><img src="resource/images/report_app_show_web.png"></div>
+            <div><img src="resource/images/add_and_mod_study_app1.png" class="img" style="width:100%; height:auto">
+            </div>
+            <div><img src="resource/images/add_and_mod_study_app2.png" class="img" style="width:100%; height:auto">
+            </div>
+            <div><img src="resource/images/add_and_mod_study_app3.png" class="img" style="width:100%; height:auto">
+            </div>
+            <div><img src="resource/images/report_app_show_web.png" class="img" style="width:100%; height:auto"></div>
             <!-- health by  only app -->
-            <div><img src="resource/images/image_app1.png"></div>
-            <div><img src="resource/images/image_app2.png"></div>
-            <div><img src="resource/images/report_word_app.png"></div>
+            <div><img src="resource/images/image_app1.png" class="img" style="width:100%; height:auto"></div>
+            <div><img src="resource/images/image_app2.png" class="img" style="width:100%; height:auto"></div>
+            <div><img src="resource/images/report_word_app.png" class="img" style="width:100%; height:auto"></div>
+
+            <!-- <img src="resource/images/login_web.jpg" class="img" style="width: 100%; height: auto">
+            <img src="resource/images/add_and_mod_study_web.png" class="img" style="width: 100%; height: auto">
+            <img src="resource/images/show_study_web.png" class="img" style="width: 100%; height: auto">
+            <img src="resource/images/image_web1.png" class="img" style="width: 100%; height: auto">
+            <img src="resource/images/image_web2.png" class="img" style="width: 100%; height: auto">
+            <img src="resource/images/report_web.png" class="img" style="width: 100%; height: auto"> -->
+            <!-- health by web & app -->
+            <!-- <img src="resource/images/add_and_mod_study_app1.png" class="img" style="width: 100%; height: auto">
+            <img src="resource/images/add_and_mod_study_app2.png" class="img" style="width: 100%; height: auto">
+            <img src="resource/images/add_and_mod_study_app3.png" class="img" style="width: 100%; height: auto">
+            <img src="resource/images/report_app_show_web.png" class="img" style="width: 100%; height: auto"> -->
+            <!-- health by  only app -->
+            <!-- <img src="resource/images/image_app1.png" class="img" style="width: 100%; height: auto">
+            <img src="resource/images/image_app2.png" class="img" style="width: 100%; height: auto">
+            <img src="resource/images/report_word_app.png" class="img" style="width: 100%; height: auto"> -->
         </div>
     </div>
+    <!-- </div> -->
     <script>
-        var b = 1930 / 1300;
-        // 获取浏览器宽度
+        function reImageSize(ins, i) {
+            // var width = $(".img")[i].width
+            var height = $(".img")[i].height
+            ins.reload({
+                elem: '#carousel',
+                width: '100%',
+                height: height,
+                arrow: 'hover',
+                anim: 'default',
+                autoplay: false
+            });
+        }
+
         var W = $(window).width();
         var H = $(window).height();
         layui.use(['carousel', 'form'], function () {
             var carousel = layui.carousel
                 , form = layui.form;
 
-            //图片轮播
             carousel.render({
                 elem: '#health'
                 , width: '100%'
-                , height: (W / b).toString() + 'px'
+                , height: (W * 103 / 192).toString() + 'px'
                 , arrow: 'always'
-                , interval: 200
+                , interval: 1500
             });
 
-            //事件
             carousel.on('change(test4)', function (res) {
                 console.log(res)
             });
@@ -79,7 +109,6 @@
                 }
             };
 
-            //监听开关
             form.on('switch(autoplay)', function () {
                 ins3.reload({
                     autoplay: this.checked
@@ -95,6 +124,11 @@
                 ins3.reload(options);
             });
         });
+
+        $(window).resize(function () {
+            // setBanner();
+            window.location.reload()
+        })
     </script>
 
 </body>
