@@ -2,11 +2,11 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <title>welcome！I'm bittersweet!</title>
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="renderer" content="webkit" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <!--css -->
 </head>
 
@@ -22,24 +22,24 @@
         var W = $(window).width();
         var H = $(window).height();
         window.onload = function() {
-            var img = document.getElementById('img'),
-
+            var img = document.getElementById("img"),
                 resizeImg = function(img, maxWidth, maxHeight) {
                     var w = img.width,
                         h = img.height;
 
-                    if (w < maxWidth && h < maxHeight)
-                        return;
+                    if (w < maxWidth && h < maxHeight) return;
 
-                    w / h > maxWidth / maxHeight ? img.width = maxWidth : img.height = maxHeight;
+                    w / h > maxWidth / maxHeight ?
+                        (img.width = maxWidth) :
+                        (img.height = maxHeight);
                 };
             resizeImg(img, W - 20, H);
-        }
+        };
 
         $(window).resize(function() {
             // setBanner();
-            window.location.reload()
-        })
+            window.location.reload();
+        });
     </script>
 </body>
 
