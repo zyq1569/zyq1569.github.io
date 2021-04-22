@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>welcome！I'm bittersweet!</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!--css -->
+</head>
+
+<body>
+    <script type="text/javascript" src="lib/jquery/jquery-3.4.1.min.js"></script>
+    <!-- <p>Hello, welcome！I'm bittersweet!</p> -->
+    <div class="HealthApp Demo show"></div>
+    <div>
+        <image id="img" src="demo.gif" />
+        <!-- <image onload="javascript:DrawImage(this,1440,863)" src="demo.gif" style="width:100%; height:auto" alt="" /> -->
+    </div>
+    <script>
+        var W = $(window).width();
+        var H = $(window).height();
+        window.onload = function() {
+            var img = document.getElementById('img'),
+
+                resizeImg = function(img, maxWidth, maxHeight) {
+                    var w = img.width,
+                        h = img.height;
+
+                    if (w < maxWidth && h < maxHeight)
+                        return;
+
+                    w / h > maxWidth / maxHeight ? img.width = maxWidth : img.height = maxHeight;
+                };
+            resizeImg(img, W - 20, H);
+        }
+
+        $(window).resize(function() {
+            // setBanner();
+            window.location.reload()
+        })
+    </script>
+</body>
+
+</html>
