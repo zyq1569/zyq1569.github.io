@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 17.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
+	<!ENTITY ns_extend "http://ns.adobe.com/Extensibility/1.0/">
+	<!ENTITY ns_ai "http://ns.adobe.com/AdobeIllustrator/10.0/">
+	<!ENTITY ns_graphs "http://ns.adobe.com/Graphs/1.0/">
+	<!ENTITY ns_vars "http://ns.adobe.com/Variables/1.0/">
+	<!ENTITY ns_imrep "http://ns.adobe.com/ImageReplacement/1.0/">
+	<!ENTITY ns_sfw "http://ns.adobe.com/SaveForWeb/1.0/">
+	<!ENTITY ns_custom "http://ns.adobe.com/GenericCustomNamespace/1.0/">
+	<!ENTITY ns_adobe_xpath "http://ns.adobe.com/XPath/1.0/">
+]>
+<svg version="1.1" id="Layer_1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 64 64"
+	 enable-background="new 0 0 64 64" xml:space="preserve">
+<switch>
+	<foreignObject requiredExtensions="&ns_ai;" x="0" y="0" width="1" height="1">
+		<i:pgfRef  xlink:href="#adobe_illustrator_pgf">
+		</i:pgfRef>
+	</foreignObject>
+	<g i:extraneous="self">
+		<g opacity="0.1">
+			<g>
+				<path fill="#231F20" d="M52,63H12C5.9,63,1,58.1,1,52V12C1,5.9,5.9,1,12,1h40c6.1,0,11,4.9,11,11v40C63,58.1,58.1,63,52,63z"/>
+			</g>
+		</g>
+		<g>
+			<g>
+				<path fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" d="M12,2h40c5.5,0,10,4.5,10,10v40c0,5.5-4.5,10-10,10H12
+					C6.5,62,2,57.5,2,52V12C2,6.5,6.5,2,12,2z"/>
+			</g>
+		</g>
+		<g>
+			<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="24.838" y1="33.654" x2="46.7322" y2="55.5482">
+				<stop  offset="0.3569" style="stop-color:#EF6B2E"/>
+				<stop  offset="0.6328" style="stop-color:#F19F00"/>
+			</linearGradient>
+			<path fill-rule="evenodd" clip-rule="evenodd" fill="url(#SVGID_1_)" d="M29,39.8c2.5,1.5,8.6,0.6,13.4,3.7s7.5,8.1,7.6,8.3
+				c0.1,0.2,0.1,0.4-0.2,0.7S49,52.8,49,52.8s-11.1,1.8-18.2-4.9c-7.2-6.7-6.6-13.5-6.6-13.5S24.6,37.3,29,39.8z"/>
+		</g>
+		<g>
+			<linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="24.8588" y1="30.3876" x2="46.753" y2="8.4933">
+				<stop  offset="0.3707" style="stop-color:#16B8C3"/>
+				<stop  offset="0.7422" style="stop-color:#02AEF0"/>
+			</linearGradient>
+			<path fill-rule="evenodd" clip-rule="evenodd" fill="url(#SVGID_2_)" d="M24.1,29.7c0,0-0.5-6.9,6.6-13.5
+				C37.9,9.4,49,11.2,49,11.2s0.5,0.1,0.8,0.3s0.3,0.5,0.2,0.7s-2.8,5.3-7.6,8.3S31.5,22.7,29,24.2C24.7,26.8,24.1,29.7,24.1,29.7z"
+				/>
+		</g>
+		<g>
+			<path fill-rule="evenodd" clip-rule="evenodd" fill="#1B1F24" d="M24,32c0,11.6,9.4,21,21,21H31c-11.6,0-21-9.4-21-21
+				s9.4-21,21-21h14C33.4,11,24,20.4,24,32z"/>
+		</g>
+	</g>
+</switch>
+</svg>

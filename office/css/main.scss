@@ -1,0 +1,56 @@
+@charset "utf-8";
+@import "home.scss";
+@import "download.scss";
+@import "component.scss";
+
+.size-full {
+  width: auto !important;
+  height: auto !important;
+}
+
+.wp-caption {
+  width: auto !important;
+}
+
+.wp-caption-text {
+  font-style: italic;
+}
+
+.app-logo{
+  width:auto;
+}
+.distribution-table h2 {
+  margin-top: 0;
+}
+
+.distribution-table img {
+  width: initial;
+}
+
+.feature {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  & > div {
+    padding: 20px;
+    flex-grow: 1;
+  }
+
+  div > img {
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 800px) {
+  .feature {
+    flex-direction: row;
+  }
+  .feature:nth-child(odd) > div {
+    order: 1;
+  }
+  .feature:nth-child(odd) > img {
+    order: 0;
+  }
+}
+

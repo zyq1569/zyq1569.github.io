@@ -1,0 +1,283 @@
+#kHeader {
+    width: 100%;
+    height: 400px;
+    background-image: url(/assets/img/Next.jpg);
+    background-position: center;
+    background-size: cover;
+
+    h1 {
+        font-size: 1.8em;
+        font-weight: bold;
+    }
+
+    .carousel-inner {
+        width: 100%;
+        height: 100%;
+    }
+
+    .carousel-item {
+        color: #EEE;
+        width: 100%;
+        height: 100%;
+    }
+
+    .carousel .carousel-item {
+        padding: 0;
+    }
+
+    .carousel-item-content {
+        width: 100%;
+        height: 90%;
+        display: flex;
+        flex-direction: column-reverse;
+        margin: auto;
+
+        @media(min-width: 768px) {
+            flex-direction: row;
+            align-items: center;
+            height: 100%;
+        }
+        @media(min-width: 1100px) {
+            max-width: 1140px;
+            width: 100%;
+        }
+    }
+
+    .slide-background {
+        width: 100%;
+        flex-grow: 2;
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+
+        @media(min-width: 768px) {
+            flex: 2 1 auto;
+            height: 100%;
+        }
+    }
+
+    .carousel-text-overlay {
+        flex-shrink: 2;
+        text-align: center;
+        margin: auto;
+        width: 100%;
+        padding: 30px 0 10px 0;
+        color: #FFF;
+
+        h1 {
+            font-size: 1.2em;
+
+            @media(min-width: 1100px) {
+                margin-bottom: 16px;
+            }
+        }
+
+        p {
+            line-height: 1.4em;
+        }
+
+        @media(min-width: 768px) {
+            flex: 1 3 auto;
+            position: unset;
+            border: none;
+            background: none;
+            text-align: left;
+            color: #FFF;
+            font-size: 1em;
+            padding: 0 10px 0 15px;
+        }
+        @media(min-width: 1100px) {
+            font-size: 1.3em;
+            padding: 0 40px 0 15px;
+        }
+
+    }
+
+    .learn-more {
+        color: #54a3d8;
+    }
+
+    @media(min-width: 768px) {
+        height: 500px;
+    }
+    @media(min-width: 1100px) {
+        height: 700px;
+    }   
+}  
+
+.overlay::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.product-anchor {
+    display: block;
+    position: relative;
+    top: -52px; /* compensate for sticky header */
+    visibility: hidden;
+}
+
+.main {
+    .block:nth-of-type(odd) {
+        background-color: #eff1f1;
+    }
+
+    .block:nth-of-type(even) {
+        background-color: #fff;
+    }
+}
+
+.light-text {
+    h1 {
+        color: #EEE;
+    }
+
+    a {
+        color: #abdaf9;
+    }
+}
+
+.kAppInfo {
+    display: flex;
+    flex-direction: column-reverse;
+
+    img {
+        max-width: 100%;
+
+        @media(min-width: 768px) {
+            max-width: 40%;
+            height: auto;
+            margin: 15px;
+        }
+    }
+
+    .kappInfo-content {
+        margin: 15px;
+    }
+
+    @media(min-width: 768px) {
+        flex-direction: row;
+        align-items: center;
+    }
+}
+
+// Component Selector
+
+.component-selector{
+    padding: 0;
+    border-radius: 0;
+}
+
+.nav-menu-apps{
+    display: flex;
+    flex-wrap: wrap;
+    min-width: 360px;
+  
+    a {
+        min-width: 50%;
+        flex: 1 1 auto;
+        position: relative;
+        min-height: 100px;
+        line-height: 100px;
+        font-size: 1.3em;
+        color: #334545;
+        background-repeat: no-repeat;
+        background-position: -9999px -9999px;
+        text-align: center !important;
+    }
+
+    a::before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: 155%;
+        opacity: 0.5;
+        background-image: inherit;
+        background-repeat: no-repeat;
+        background-position: center;
+        display: block;
+        content: '';
+        z-index: -1;
+        transition: background-size 0.3s;
+
+    }
+
+    a:hover::before {
+        background-size: 60%;
+    }
+
+    a.component-large{
+        min-width: 360px;
+    }
+
+    a.component-large::before{
+        background-size: 100%;
+    }
+    a.component-large:hover::before{
+        background-size: 150%;
+
+    }
+  }
+
+#akonadi-logo {
+    width: 50%;
+    height: auto;
+    margin: auto;
+
+    @media(min-width: 768px) {
+        max-width: 30%;
+    }
+}
+
+// Description of Application Suite in box
+
+#kWelcome {
+  font-size: 18px;
+  border-radius: 2px;
+  border: solid 1px #abdaf9;
+  background-color: #e1f2ff;
+  color: #375a7d;
+  padding: 10px 20px;
+  margin-top: 60px;
+  margin-bottom: 60px;
+  text-align: center;
+
+  p {
+    padding: 0;
+    margin: 0;
+  }
+}
+
+@media (min-width: 768px) {
+    div.block:nth-of-type(odd) .kAppInfo {
+        flex-direction: row-reverse;
+    }
+}
+
+//Make Component Selector Responsive
+
+@media (prefers-color-scheme: dark){
+    .component-selector{
+        background-color: inherit;
+        background: #31363b;
+    }
+}
+
+    @media (max-width: 991.98px){
+        .component-selector{
+            background: transparent !important;
+        }
+        
+        .nav-menu-apps{
+            a{
+                width: auto !important;
+            }
+        }
+      }

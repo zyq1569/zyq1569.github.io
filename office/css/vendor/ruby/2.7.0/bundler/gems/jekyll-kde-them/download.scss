@@ -1,0 +1,30 @@
+main.main h1 {
+    display: inline-blocks;
+}
+
+.distribution-table {
+    margin-bottom: 30px;
+
+    .title-row {
+        td {
+            padding-top: 30px;
+        }
+        th {
+            padding-top: 20px;
+        }
+    }
+
+    th {
+        font-size: 1.3em;
+        font-weight: normal;
+    }
+
+    td {
+        vertical-align: top;
+        padding: 5px;
+    }
+
+    img {
+        width: 64px;
+    }
+}
