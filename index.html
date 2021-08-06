@@ -1,135 +1,351 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <title>HealthApp Demo</title>
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="lib/layui/css/layui.css" media="all">
-    <!--css -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Bittersweet</title>
+
+  <link href="office/assets/aether/media/192x192.png" rel="icon" sizes="192x192" />
+  <link href="office/assets/aether/media/180x180.png" rel="apple-touch-icon" sizes="180x180" />
+  <link href="office/assets/aether/media/128x128.svg" rel="icon" sizes="128x128" />
+  <link href="office/assets/aether/media/64x64.svg" rel="icon" sizes="64x64" />
+  <link href="office/assets/aether/media/32x32.svg" rel="icon" sizes="32x32" />
+  <link href="office/assets/aether/media/24x24.svg" rel="icon" sizes="24x24" />
+  <link href="office/assets/aether/media/16x16.svg" rel="icon" sizes="16x16" />
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="office/css/bootstrap.css">
+  <link rel="stylesheet" href="office/css/aether-kde-org.css">
+
+  <link rel="stylesheet" href="office/css/main.css?6-jekyll">
+
+  <!-- Standard JS Files, bootstrap Async -->
+  <script src="office/js/bootstrap.js" defer=""></script>
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Article",
+      "author": "KDE Community",
+      "name": "",
+      "datePublished": ""
+    }
+    </script>
 </head>
 
-<body>
-    <!-- <p>Hello, welcome！I'm bittersweet!</p> -->
-    <!-- <p>I'm hosted with GitHub Pages.</p> -->
-    <!-- <div class="HealthApp Demo show"></div>
-    <div>
-        <image src="demo.gif" width="100%" alt="" />
-    </div> -->
-    <!-- layui js src~~ -->
-    <script src="lib/layui/layui.all.js"></script>
-    <script type="text/javascript" src="lib/jquery/jquery-3.4.1.min.js"></script>
-    <!-- <fieldset class="layui-elem-field layui-field-title" style="margin-top: 10px;">
-        <legend>HealthApp Demo show</legend>
-    </fieldset> -->
-    <!-- <div class="carousel"> -->
-    <div class="layui-carousel" id="health" lay-filter="carofilter">
-        <div carousel-item>
-            <!-- health by web -->
-            <div><img src="resource/images/login_web.jpg" class="img" style="width:100%; height:auto"></div>
-            <div><img src="resource/images/add_and_mod_study_web.png" class="img" style="width:100%; height:auto"></div>
-            <div><img src="resource/images/show_study_web.png" class="img" style="width:100%; height:auto"></div>
-            <div><img src="resource/images/image_web1.png" class="img" style="width:100%; height:auto"></div>
-            <div><img src="resource/images/image_web2.png" class="img" style="width:100%; height:auto"></div>
-            <div><img src="resource/images/report_web.png" class="img" style="width:100%; height:auto"></div>
-            <!-- health by web & app -->
-            <div><img src="resource/images/add_and_mod_study_app1.png" class="img" style="width:100%; height:auto">
-            </div>
-            <div><img src="resource/images/add_and_mod_study_app2.png" class="img" style="width:100%; height:auto">
-            </div>
-            <div><img src="resource/images/add_and_mod_study_app3.png" class="img" style="width:100%; height:auto">
-            </div>
-            <div><img src="resource/images/report_app_show_web.png" class="img" style="width:100%; height:auto"></div>
-            <!-- health by  only app -->
-            <div><img src="resource/images/image_app1.png" class="img" style="width:100%; height:auto"></div>
-            <div><img src="resource/images/image_app2.png" class="img" style="width:100%; height:auto"></div>
-            <div><img src="resource/images/report_word_app.png" class="img" style="width:100%; height:auto"></div>
 
-            <!-- <img src="resource/images/login_web.jpg" class="img" style="width: 100%; height: auto">
-            <img src="resource/images/add_and_mod_study_web.png" class="img" style="width: 100%; height: auto">
-            <img src="resource/images/show_study_web.png" class="img" style="width: 100%; height: auto">
-            <img src="resource/images/image_web1.png" class="img" style="width: 100%; height: auto">
-            <img src="resource/images/image_web2.png" class="img" style="width: 100%; height: auto">
-            <img src="resource/images/report_web.png" class="img" style="width: 100%; height: auto"> -->
-            <!-- health by web & app -->
-            <!-- <img src="resource/images/add_and_mod_study_app1.png" class="img" style="width: 100%; height: auto">
-            <img src="resource/images/add_and_mod_study_app2.png" class="img" style="width: 100%; height: auto">
-            <img src="resource/images/add_and_mod_study_app3.png" class="img" style="width: 100%; height: auto">
-            <img src="resource/images/report_app_show_web.png" class="img" style="width: 100%; height: auto"> -->
-            <!-- health by  only app -->
-            <!-- <img src="resource/images/image_app1.png" class="img" style="width: 100%; height: auto">
-            <img src="resource/images/image_app2.png" class="img" style="width: 100%; height: auto">
-            <img src="resource/images/report_word_app.png" class="img" style="width: 100%; height: auto"> -->
+
+<body data-spy="scroll" data-target="#kHeaderCarousel" data-offset="50">
+
+  <header id="KGlobalHeader" class="header clearfix">
+    <nav class="navbar navbar-expand-lg  with-made-by-kde ">
+
+      <!-- <a class="app-logo navbar-brand active" href="/">
+        <img src="assets/img/app_icon.svg" alt="Logo" />
+      </a> -->
+
+
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-kde"
+        aria-controls="navbar-kde" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbar-kde">
+        <ul class="navbar-nav mr-auto">
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarcalligra" role="button" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              Bittersweet
+            </a>
+            <div class="dropdown-menu component-selector" aria-labelledby="navbarcalligra">
+              <div class="nav-menu-apps">
+
+                <a href="words.html" style="background-image: url(office/assets/img/bg-words.svg)">Words</a>
+
+                <a href="index.html" style="background-image: url(office/assets/img/bg-sheets.svg)">Sheets</a>
+
+                <a href="index.html" style="background-image: url(office/assets/img/bg-kexi.svg)">KEXI</a>
+
+                <a href="index.html" style="background-image: url(office/assets/img/bg-karbon.svg)">Karbon</a>
+
+                <a href="index.html" style="background-image: url(office/assets/img/bg-plan.svg)">Plan</a>
+
+                <a href="index.html" style="background-image: url(office/assets/img/bg-stage.svg)">Stage</a>
+
+                <a href="index.html" style="background-image: url(office/assets/img/bg-gemini.svg)">Gemini</a>
+
+                <!-- <a href="sheets" style="background-image: url(assets/img/bg-sheets.svg)">Sheets</a>
+
+                <a href="kexi" style="background-image: url(assets/img/bg-kexi.svg)">KEXI</a>
+
+                <a href="karbon" style="background-image: url(assets/img/bg-karbon.svg)">Karbon</a>
+
+                <a href="plan" style="background-image: url(assets/img/bg-plan.svg)">Plan</a>
+
+                <a href="stage" style="background-image: url(assets/img/bg-stage.svg)">Stage</a>
+
+                <a href="gemini" style="background-image: url(assets/img/bg-gemini.svg)">Gemini</a> -->
+
+              </div>
+            </div>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link " href="https://sourceforge.net/projects/health1212/files/Tools/"
+              target="_blank">下载应用</a>
+          </li>
+
+        </ul>
+      </div>
+
+      <a class="made-by-kde" href="https://zyq1569.github.io/" target="_blank">
+        主页
+      </a>
+
+    </nav>
+  </header>
+
+  <section id="kHeader" class="carousel slide overlay" data-ride="carousel">
+    <div class="carousel-inner" role="listbox">
+      <article class="carousel-item dark-text active">
+        <div class="carousel-item-content">
+          <div class="slide-background" style="background-image: url(office/assets/img/words-summary.png)"></div>
+          <div class="carousel-text-overlay">
+            <h1>Words </h1>
+            <p>直观的文字处理应用程序,支持图像表格的富文本编辑,使用简单.
+            </p>
+            <a href="https://zyq1569.github.io/" class="learn-more smooth-scroll">Learn More</a>
+          </div>
         </div>
+      </article>
+
+      <article class="carousel-item dark-text ">
+        <div class="carousel-item-content">
+          <div class="slide-background" style="background-image: url(office/assets/img/sheets-summary.png)"></div>
+          <div class="carousel-text-overlay">
+            <h1>Sheets</h1>
+            <p>一个功能齐全的电子表格应用程序,可以快速创建带有公式和图表的电子表格.
+            </p>
+            <!-- <a href="#sheets" class="learn-more smooth-scroll">Learn More</a> -->
+          </div>
+        </div>
+      </article>
+
+
+      <article class="carousel-item dark-text ">
+        <div class="carousel-item-content">
+          <div class="slide-background" style="background-image: url(office/assets/img/kexi-summary.png)"></div>
+          <div class="carousel-text-overlay">
+            <h1>KEXI</h1>
+            <p>一个可视化数据库应用程序生成器,可以用于设计数据库应用程序、插入和编辑数据、执行查询和处理数据
+            </p>
+            <!-- <a href="#kexi" class="learn-more smooth-scroll">Learn More</a> -->
+          </div>
+        </div>
+      </article>
+
+
+      <article class="carousel-item dark-text ">
+        <div class="carousel-item-content">
+          <div class="slide-background" style="background-image: url(office/assets/img/karbon-summary.png)"></div>
+          <div class="carousel-text-overlay">
+            <h1>Karbon</h1>
+            <p>一个矢量绘图应用程序,支持插图等,用户界面易于使用,高度可定制和可扩展.
+            </p>
+            <!-- <a href="#karbon" class="learn-more smooth-scroll">Learn More</a> -->
+          </div>
+        </div>
+      </article>
+
+
+      <article class="carousel-item dark-text ">
+        <div class="carousel-item-content">
+          <div class="slide-background" style="background-image: url(office/assets/img/plan-summary.png)"></div>
+          <div class="carousel-text-overlay">
+            <h1>Plan</h1>
+            <p>项目管理应用程序.</p>
+            <!-- <a href="#plan" class="learn-more smooth-scroll">Learn More</a> -->
+          </div>
+        </div>
+      </article>
+
+
+      <article class="carousel-item dark-text ">
+        <div class="carousel-item-content">
+          <div class="slide-background" style="background-image: url(office/assets/img/stage-summary.png)"></div>
+          <div class="carousel-text-overlay">
+            <h1>Stage</h1>
+            <p>功能强大且易于使用的演示幻灯片应用程序</p>
+            <!-- <a href="#stage" class="learn-more smooth-scroll">Learn More</a> -->
+          </div>
+        </div>
+      </article>
+
+
+      <article class="carousel-item dark-text ">
+        <div class="carousel-item-content">
+          <div class="slide-background" style="background-image: url(office/assets/img/gemini-summary.png)"></div>
+          <div class="carousel-text-overlay">
+            <h1>Gemini</h1>
+            <p>二和一集成设备
+            </p>
+            <!-- <a href="#gemini" class="learn-more smooth-scroll">Learn More</a> -->
+          </div>
+        </div>
+      </article>
+
+
     </div>
-    <!-- </div> -->
-    <script>
-        function reImageSize(ins, i) {
-            // var width = $(".img")[i].width
-            var height = $(".img")[i].height
-            ins.reload({
-                elem: '#carousel',
-                width: '100%',
-                height: height,
-                arrow: 'hover',
-                anim: 'default',
-                autoplay: false
-            });
-        }
 
-        var W = $(window).width();
-        var H = $(window).height();
-        layui.use(['carousel', 'form'], function () {
-            var carousel = layui.carousel
-                , form = layui.form;
+    <ol class="carousel-indicators">
 
-            carousel.render({
-                elem: '#health'
-                , width: '100%'
-                , height: (W * 103 / 192).toString() + 'px'
-                , arrow: 'always'
-                , interval: 1500
-            });
 
-            carousel.on('change(test4)', function (res) {
-                console.log(res)
-            });
+      <li data-target="#kHeader" data-slide-to="0" class="active"></li>
 
-            var $ = layui.$, active = {
-                set: function (othis) {
-                    var THIS = 'layui-bg-normal'
-                        , key = othis.data('key')
-                        , options = {};
 
-                    othis.css('background-color', '#5FB878').siblings().removeAttr('style');
-                    options[key] = othis.data('value');
-                    ins3.reload(options);
-                }
-            };
+      <li data-target="#kHeader" data-slide-to="1"></li>
 
-            form.on('switch(autoplay)', function () {
-                ins3.reload({
-                    autoplay: this.checked
-                });
-            });
 
-            $('.demoSet').on('keyup', function () {
-                var value = this.value
-                    , options = {};
-                if (!/^\d+$/.test(value)) return;
+      <li data-target="#kHeader" data-slide-to="2"></li>
 
-                options[this.name] = value;
-                ins3.reload(options);
-            });
-        });
 
-        $(window).resize(function () {
-            // setBanner();
-            window.location.reload()
-        })
-    </script>
+      <li data-target="#kHeader" data-slide-to="3"></li>
+
+
+      <li data-target="#kHeader" data-slide-to="4"></li>
+
+
+      <li data-target="#kHeader" data-slide-to="5"></li>
+
+
+      <li data-target="#kHeader" data-slide-to="6"></li>
+
+
+    </ol>
+  </section>
+
+  <main aria-label="Content" id="content" class="container">
+    <h1>Calligra</h1>
+
+    <aside id="kWelcome" class="container">
+      <p>
+        Calligra Suite是由早期KOffice创建的KDE的图形艺术和办公套件.<br>
+        它可用于Linux和FreeBSD系统,及Mac OSX和Windows的支持.<br>
+        它包含文字处理,电子表格,演示文稿,数据库,矢量图形和数字绘画的桌面应用程序.<br>
+      </p>
+    </aside>
+
+    <!-- <div class="features">
+      <div class="my-4 row align-items-center">
+        <div class="col-12 col-md-4">
+          <h2><a href="/words/index.html">Words</a></h2>
+          <p>Calligra Words is an intuitive word processor application with desktop publishing features. With it, you
+            can create informative and attractive documents with ease. Calligra Words makes adding images, charts etc to
+            your documents effortless. It’s as simple as dragging it onto the document.
+          </p>
+          <p><a href="/words/index.html">Read more...</a></p>
+        </div>
+        <div class="col-12 col-md-8">
+          <img class="img-fluid" src="assets/img/words-summary.png" alt="Words">
+        </div>
+      </div>
+
+
+      <div class="my-4 row align-items-center">
+        <div class="col-12 col-md-4">
+          <h2><a href="/sheets/index.html">Sheets</a></h2>
+          <p>Calligra Sheets is a fully-featured spreadsheet application. Use it to quickly create spreadsheets with
+            formulas and charts, to calculate and organize your data.
+          </p>
+          <p><a href="/sheets/index.html">Read more...</a></p>
+        </div>
+        <div class="col-12 col-md-8">
+          <img class="img-fluid" src="assets/img/sheets-summary.png" alt="Sheets">
+        </div>
+      </div>
+
+
+      <div class="my-4 row align-items-center">
+        <div class="col-12 col-md-4">
+          <h2><a href="/kexi/index.html">KEXI</a></h2>
+          <p>KEXI is a visual database applications creator. It can be used for designing database applications,
+            inserting and editing data, performing queries, and processing data. Forms can be created to provide a
+            custom interface to your data. All database objects – tables, queries, forms, reports – are stored in the
+            database, making it easy to share data and design.
+          </p>
+          <p><a href="/kexi/index.html">Read more...</a></p>
+        </div>
+        <div class="col-12 col-md-8">
+          <img class="img-fluid" src="assets/img/kexi-summary.png" alt="KEXI">
+        </div>
+      </div>
+
+
+      <div class="my-4 row align-items-center">
+        <div class="col-12 col-md-4">
+          <h2><a href="/karbon/index.html">Karbon</a></h2>
+          <p>Karbon is a vector drawing application with an user interface that is easy to use, highly customizable and
+            extensible. That makes Karbon a great application for users starting to explore the world of vector graphics
+            as well as for artists wanting to create breathtaking vector art.
+          </p>
+          <p><a href="/karbon/index.html">Read more...</a></p>
+        </div>
+        <div class="col-12 col-md-8">
+          <img class="img-fluid" src="assets/img/karbon-summary.png" alt="Karbon">
+        </div>
+      </div>
+
+
+      <div class="my-4 row align-items-center">
+        <div class="col-12 col-md-4">
+          <h2><a href="/plan/index.html">Plan</a></h2>
+          <p>Plan is a project management application. It is intended for managing moderately large projects with
+            multiple resources.To enable you to model your project adequately, Plan offers different types of task
+            dependencies and timing constraints. The usual use case is to define your tasks, estimate the effort needed
+            to perform each task, allocate resources and then let Plan schedule the tasks according to network and
+            resource availability.
+          </p>
+          <p><a href="/plan/index.html">Read more...</a></p>
+        </div>
+        <div class="col-12 col-md-8">
+          <img class="img-fluid" src="assets/img/plan-summary.png" alt="Plan">
+        </div>
+      </div>
+
+
+      <div class="my-4 row align-items-center">
+        <div class="col-12 col-md-4">
+          <h2><a href="/stage/index.html">Stage</a></h2>
+          <p>Calligra Stage is a powerful and easy to use presentation application.You can dazzle your audience with
+            stunning slides containing images, videos, animation and more
+          </p>
+          <p><a href="/stage/index.html">Read more...</a></p>
+        </div>
+        <div class="col-12 col-md-8">
+          <img class="img-fluid" src="assets/img/stage-summary.png" alt="Stage">
+        </div>
+      </div>
+
+
+      <div class="my-4 row align-items-center">
+        <div class="col-12 col-md-4">
+          <h2><a href="/gemini/index.html">Gemini</a></h2>
+          <p>Calligra Gemini is an open source office suite updated with a transforming interface for 2 in 1 devices, is
+            a cool step in office application design.
+          </p>
+          <p><a href="/gemini/index.html">Read more...</a></p>
+        </div>
+        <div class="col-12 col-md-8">
+          <img class="img-fluid" src="assets/img/gemini-summary.png" alt="Gemini">
+        </div>
+      </div>
+
+ -->
+    </div>
+  </main>
 
 </body>
 
