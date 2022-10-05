@@ -148,21 +148,21 @@ define("webodf/editor/Tools", [
                 toolbar = new Toolbar({}, toolbarElementId);
 
                 // About
-                if (args.aboutEnabled) {
-                    aboutButton = new Button({
-                        label: tr('About WebODF Text Editor'),
-                        showLabel: false,
-                        iconClass: 'webodfeditor-dijitWebODFIcon'
-                    });
-                    aboutDialog = new AboutDialog(function (dialog) {
-                        aboutButton.onClick = function () {
-                            dialog.startup();
-                            dialog.show();
-                        };
-                    });
-                    aboutDialog.onToolDone = onToolDone;
-                    aboutButton.placeAt(toolbar);
-                }
+                // if (args.aboutEnabled) {
+                //     aboutButton = new Button({
+                //         label: tr('About WebODF Text Editor'),
+                //         showLabel: false,
+                //         iconClass: 'webodfeditor-dijitWebODFIcon'
+                //     });
+                //     aboutDialog = new AboutDialog(function (dialog) {
+                //         aboutButton.onClick = function () {
+                //             dialog.startup();
+                //             dialog.show();
+                //         };
+                //     });
+                //     aboutDialog.onToolDone = onToolDone;
+                //     aboutButton.placeAt(toolbar);
+                // }
 
                 // Load
                 if (loadOdtFile) {
