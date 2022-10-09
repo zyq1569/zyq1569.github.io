@@ -1,42 +1,65 @@
 <!DOCTYPE HTML>
 <html style="width:100%; height:100%; margin:0px; padding:0px" xml:lang="en" lang="en">
-  <head>
-    <!--
+
+<head>
+  <!--
     This HTML page is meant to bootstrap the webodf based ODF editor. This
     is not the HTML page hosting any collaborative editing.
     It will run on a standard HTTP server and as usual the webodf magic
     happens client-side in your browser.
     This page is meant to be served out of a webodf build directory.
     -->
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <!-- Support for mobile touch devices -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="viewport" content=" width=device-width, initial-scale=1, maximum-scale=1, minimal-ui">
-    <!-- user-scalable=no, -->
-    
-    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-    <meta name="format-detection" content="email=no" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="format-detection" content="telephone=no" />
-    <meta name="renderer" content="webkit">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="Amaze UI" />
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
-    <title>Word</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <!-- Support for mobile touch devices -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1, minimal-ui">
 
-    <!-- editor: start -->
-    <script src="wodotexteditor/wodotexteditor.js" type="text/javascript" charset="utf-8"></script>
-    <script src="FileSaver.js" type="text/javascript" charset="utf-8"></script>
-    <script src="localfileeditor.js" type="text/javascript" charset="utf-8"></script>
-    <!-- editor: end -->
-  </head>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="format-detection" content="email=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="renderer" content="webkit">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <title>Word</title>
 
-  <body style="width:100%; height:100%; margin:0px; padding:0px" onload="createEditor();">
-    <div id="editorContainer" style="width:100%; height:100%; margin:0px; padding:0px"></div>
-    <!-- <div id="editorContainer" style="width:100%; height:100%; margin:0px; padding:0px"> -->
-      <!-- 打印和另存为PDF文件功能 to do... -->
-    </div>
-  </body>
+  <!-- editor: start -->
+  <script src="wodotexteditor/wodotexteditor.js" type="text/javascript" charset="utf-8"></script>
+  <script src="FileSaver.js" type="text/javascript" charset="utf-8"></script>
+  <script src="localfileeditor.js" type="text/javascript" charset="utf-8"></script>
+  <!-- editor: end -->
+</head>
+
+<body style="width:100%; height:100%; margin:0px; padding:0px" onload="createEditor();">
+  <div id="editorContainer" style="width:100%; height:100%; margin:0px; padding:0px"></div>
+  <!-- <div id="editorContainer" style="width:100%; height:100%; margin:0px; padding:0px"> -->
+  <!-- 打印和另存为PDF文件功能 to do... -->
+  <script type="text/javascript">
+    document.documentElement.addEventListener('touchmove', function (event) {
+      if (event.touches.length > 1) {
+        event.preventDefault();
+      }
+    }, false);
+    window.onload=function () {  
+        document.addEventListener('touchstart',function (event) {  
+            if(event.touches.length>1){  
+                event.preventDefault();  //阻止元素的默认行为
+            }  
+        })  
+        var lastTouchEnd=0;  
+        document.addEventListener('touchend',function (event) {  
+            var now=(new Date()).getTime();  
+            if(now-lastTouchEnd<=300){  
+                event.preventDefault();  
+            }  
+            lastTouchEnd=now;  //当前为最后一次触摸
+        },false)  
+    }
+  </script>
+  </div>
+</body>
+
 </html>
