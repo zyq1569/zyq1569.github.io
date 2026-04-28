@@ -152,6 +152,18 @@
         .navbar .nav-link {
             color: #fff !important;
         }
+
+        .floating-text {
+            position: fixed;
+            bottom: 0;
+            left: 30%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 2px 6px;
+            pointer-events: none;
+            z-index: 9999;
+        }
     </style>
 
     <!-- Carousel wrapper -->
@@ -258,7 +270,8 @@
                     <div class="d-flex justify-content-center align-items-center h-100">
                         <div class="text-white text-center">
                             <h1 class="mb-3">影像</h1>
-                            <h5 class="mb-4">支持常规二维功能(pan, zoom, rotate, flip, invert,distances, angles, 2D ROIs, TA-GT,MIP...),也支持SPECT-CT/PET-CT融合、三维重建3D.</h5>
+                            <h5 class="mb-4">支持常规二维功能(pan, zoom, rotate, flip, invert,distances, angles, 2D ROIs,
+                                TA-GT,MIP...),也支持SPECT-CT/PET-CT融合、三维重建3D.</h5>
                             <a class="btn btn-outline-light btn-lg m-2"
                                 href="https://sourceforge.net/projects/health1212/files/Tools/" target="_blank"
                                 role="button">Download</a>
@@ -306,7 +319,8 @@
         </div>
         <!-- Inner -->
     </div>
-    <p style="font-size: 6px;">人身难得. 返本归真</p>
+    <!-- <p style="font-size: 10px;">人身难得. 返本归真</p> -->
+     <div class="floating-text">红尘可怕名利情.因果报应陷轮回.苦在迷中身不知.返本归真唯正途</div>
 
 </head>
 
