@@ -26,6 +26,32 @@
             document.getElementsByClassName('avatar')[0].style.display = 'block';
             document.getElementsByClassName('loading')[0].style.display = 'none';
         }
+
+        // 获取audio元素
+        const audioPlayer = document.getElementById('audioPlayer');
+
+        // 播放/暂停功能
+        function togglePlayPause() {
+            if (audioPlayer.paused) {
+                audioPlayer.play();
+            } else {
+                audioPlayer.pause();
+            }
+        }
+
+        // 循环功能
+        function toggleLoop() {
+            audioPlayer.loop = !audioPlayer.loop;
+            alert(audioPlayer.loop ? '循环已启用' : '循环已禁用');
+        }
+
+        // 下载功能
+        function downloadAudio() {
+            const link = document.createElement('a');
+            link.href = 'your-audio-file.mp3'; // 替换为你的音频文件路径
+            link.download = 'your-audio-file.mp3'; // 设置下载文件名
+            link.click();
+        }
     </script>
 </head>
 
@@ -34,7 +60,7 @@
     <header class="header"></header>
 
     <p>
-        <PRE> 
+    <PRE>
 
         感恩！🎉🎆
         【01】ChatGPT (可以免注册直接试用)：
@@ -50,6 +76,7 @@
         https://x.com/i/grok
 
         【04】需要的网络工具。
+        fgvpn17.apk 安卓手机端  fg805p.zip 电脑端
         <a href=" https://github.com/freegate-release/website" target="_blank">下载(在使用过程中，建议退出其它所有软件，说明：当前为window版本，下方链包含android版本)</a>
         <a href=" https://github.com/freegate-release/website/tree/gh-pages/files" target="_blank">VPN下载链接</a>
         https://github.com/freegate-release/website/tree/gh-pages/files
@@ -59,12 +86,23 @@
         <a href=" https://sourceforge.net/projects/health1212/files/Tools/OS%20Software/windows%20tools/" target="_blank">fg805p.7z</a>
         https://sourceforge.net/projects/health1212/files/Tools/OS%20Software/windows%20tools/
 
-        </PRE>     
+        </PRE>
+    <h1>MP3 播放器</h1>
+    <!-- Audio播放器 -->
+    <audio id="audioPlayer" controls>
+        <source src="resource/tsdyl.mp3" type="audio/mp3">
+        您的浏览器不支持音频播放。
+    </audio>
+    <div>
+        <button onclick="togglePlayPause()">播放/暂停</button>
+        <button onclick="toggleLoop()">循环</button>
+        <button onclick="downloadAudio()">下载</button>
+    </div>
     </p>
     <p>
         -----------------------------------
     </p>
- 
+
     <footer class="footer">
         <p>© 2025-2026 Null2live.
             <time>2022年01月13日</time>.
