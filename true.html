@@ -20,39 +20,7 @@
     <link rel="shortcut icon" href="resource/images/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="assets/css/typo.css">
     <link rel="stylesheet" href="assets/css/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/css/index.css">
-    <script>
-        function loading() {
-            document.getElementsByClassName('avatar')[0].style.display = 'block';
-            document.getElementsByClassName('loading')[0].style.display = 'none';
-        }
-
-        // 获取audio元素
-        const audioPlayer = document.getElementById('audioPlayer');
-
-        // 播放/暂停功能
-        function togglePlayPause() {
-            if (audioPlayer.paused) {
-                audioPlayer.play();
-            } else {
-                audioPlayer.pause();
-            }
-        }
-
-        // 循环功能
-        function toggleLoop() {
-            audioPlayer.loop = !audioPlayer.loop;
-            alert(audioPlayer.loop ? '循环已启用' : '循环已禁用');
-        }
-
-        // 下载功能
-        function downloadAudio() {
-            const link = document.createElement('a');
-            link.href = 'your-audio-file.mp3'; // 替换为你的音频文件路径
-            link.download = 'your-audio-file.mp3'; // 设置下载文件名
-            link.click();
-        }
-    </script>
+    <link rel="stylesheet" href="assets/css/index.css">    
 </head>
 
 <body>
@@ -87,7 +55,7 @@
         https://sourceforge.net/projects/health1212/files/Tools/OS%20Software/windows%20tools/
 
         </PRE>
-    <h1>MP3 播放器</h1>
+    <!-- <h1>MP3 播放器</h1> -->
     <!-- Audio播放器 -->
     <audio id="audioPlayer" controls>
         <source src="resource/tsdyl.mp3" type="audio/mp3">
@@ -122,7 +90,40 @@
         </ul>
     </aside>
 
+    <script>
+        function loading() {
+            document.getElementsByClassName('avatar')[0].style.display = 'block';
+            document.getElementsByClassName('loading')[0].style.display = 'none';
+        }
+
+        // 获取audio元素
+        const audioPlayer = document.getElementById('audioPlayer');
+
+        // 播放/暂停功能
+        function togglePlayPause() {
+            if (audioPlayer.paused) {
+                audioPlayer.play();
+            } else {
+                audioPlayer.pause();
+            }
+        }
+
+        // 循环功能
+        function toggleLoop() {
+            audioPlayer.loop = !audioPlayer.loop;
+            alert(audioPlayer.loop ? '循环已启用' : '循环已禁用');
+        }
+
+        // 下载功能
+        function downloadAudio() {
+            const link = document.createElement('a');
+            link.href = 'resource/tsdyl.mp3'; // 替换为你的音频文件路径
+            link.download = 'tsdyl.mp3'; // 设置下载文件名
+            link.click();
+        }
+    </script>
     <script src="./assets/js/index.js"></script>
+
 </body>
 <!--考虑参考,展示收藏的pdf https://viewerjs.org/ -->
 
