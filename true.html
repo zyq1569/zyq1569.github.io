@@ -16,16 +16,55 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
-    <title>[S]Null2live/</title>
+    <title>[Null]Null2live/</title>
     <link rel="shortcut icon" href="resource/images/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="assets/css/typo.css">
     <link rel="stylesheet" href="assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/index.css">
+
+    <title>MP3 Player</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+            padding: 20px;
+        }
+
+        #player {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            width: 400px;
+            margin: auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #playlist {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0;
+        }
+
+        #playlist li {
+            padding: 5px;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+        }
+
+        #playlist li.active {
+            background: #d0eaff;
+            font-weight: bold;
+        }
+
+        button {
+            margin: 5px;
+        }
+    </style>
 </head>
 
 <body>
     <header class="header"></header>
-    <p>
+    <!-- <p> -->
     <PRE>
         感恩！🎉🎆
         【01】ChatGPT (可以免注册直接试用)：
@@ -42,12 +81,12 @@
 
         【04】需要的网络工具('九评' 值的看)。
         fgvpn17.apk安卓手机端  fg805p.zip电脑端
-        <a href=" https://github.com/freegate-release/website" target="_blank">下载(在使用过程中，建议退出其它所有软件，说明：当前为window版本，下方链包含android版本)</a>
+        <a href=" https://github.com/freegate-release/website" target="_blank">下载(在使用过程中，建议关闭其它软件)</a>
         <a href=" https://github.com/freegate-release/website/tree/gh-pages/files" target="_blank">VPN下载链接</a>
         https://github.com/freegate-release/website/tree/gh-pages/files
         https://git.io/vFUxz
        
-        临时备用下载地址：
+        备用下载地址：
         <a href="https://sourceforge.net/projects/health1212/files/Tools/OS%20Software/windows%20tools/fg805p.7z/download" target="_blank">fg805p.7z</a>
         https://sourceforge.net/projects/health1212/files/Tools/OS%20Software/windows%20tools/
 
@@ -55,21 +94,25 @@
         https://sourceforge.net/projects/health1212/files/Tools/OS%20Software/windows%20tools/      
 
         </PRE>
-    <!-- <h1>MP3 播放器</h1> -->
+    <h5>MP3 Player</h5>
     <!-- Audio播放器 -->
-    <audio id="audioPlayer" controls>
-        <source src="resource/tsdyl.mp3" type="audio/mp3">
+    <audio id="Player" controls>
+        <!-- <source src="resource/tsdyl.mp3" type="audio/mp3"> -->
         您的浏览器不支持音频播放。
     </audio>
     <div>
-        <button onclick="togglePlayPause()">播放/暂停</button>
-        <button onclick="toggleLoop()">循环</button>
-        <button onclick="downloadAudio()">下载</button>
+        <div>
+            <button id="prev">⏮ 上一首</button>
+            <button id="next">⏭ 下一首</button>
+            <button id="mode">模式: 顺序</button>
+            <button id="download">⬇ 下载</button>
+        </div>
+        <ul id="playlist"></ul>
     </div>
-    </p>
-    <p>
+    <!-- </p> -->
+    <!-- <p> -->
         -----------------------------------
-    </p>
+    <!-- </p> -->
 
     <footer class="footer">
         <p>© 2025-2026 Null2live.
@@ -91,41 +134,110 @@
     </aside>
 
     <script>
-        function loading() {
-            document.getElementsByClassName('avatar')[0].style.display = 'block';
-            document.getElementsByClassName('loading')[0].style.display = 'none';
+        const tracks = [
+            { title: "天音 1", src: "resource/dsg.mp3" },
+            { title: "天音 2", src: "resource/tianyi.mp3" },
+            { title: "天音 3", src: "resource/xiyuan.mp3" },
+            { title: "天音 4", src: "resource/tsdyl.mp3" }
+        ];
+
+        let currentIndex = 0;
+        let playMode = 0; // 0=顺序, 1=循环, 2=单曲
+
+        const audio = document.getElementById("Player");
+        const playlist = document.getElementById("playlist");
+        const modeBtn = document.getElementById("mode");
+        const downloadBtn = document.getElementById("download");
+
+        // 初始化列表
+        function renderPlaylist() {
+            playlist.innerHTML = "";
+            tracks.forEach((track, index) => {
+                const li = document.createElement("li");
+                li.textContent = track.title;
+                li.onclick = () => playTrack(index);
+                if (index === currentIndex) li.classList.add("active");
+                playlist.appendChild(li);
+            });
         }
 
-        // 获取audio元素
-        const audioPlayer = document.getElementById('audioPlayer');
+        // 播放指定
+        function playTrack(index) {
+            currentIndex = index;
+            audio.src = tracks[index].src;
+            audio.play();
+            updateActive();
+        }
 
-        // 播放/暂停功能
-        function togglePlayPause() {
-            if (audioPlayer.paused) {
-                audioPlayer.play();
-            } else {
-                audioPlayer.pause();
+        // 更新当前高亮
+        function updateActive() {
+            const items = playlist.querySelectorAll("li");
+            items.forEach((li, idx) => li.classList.toggle("active", idx === currentIndex));
+        }
+
+        // 切换模式
+        function switchMode() {
+            playMode = (playMode + 1) % 3;
+            modeBtn.textContent = ["模式: 顺序", "模式: 循环", "模式: 单曲"][playMode];
+        }
+
+        // 播放下首
+        function nextTrack() {
+            if (playMode === 2) { // 单曲
+                audio.currentTime = 0;
+                audio.play();
+                return;
             }
+            currentIndex++;
+            if (currentIndex >= tracks.length) {
+                if (playMode === 1) currentIndex = 0; // 循环
+                else {
+                    audio.pause();
+                    currentIndex = tracks.length - 1;
+                    return;
+                }
+            }
+            playTrack(currentIndex);
         }
 
-        // 循环功能
-        function toggleLoop() {
-            audioPlayer.loop = !audioPlayer.loop;
-            alert(audioPlayer.loop ? '循环已启用' : '循环已禁用');
+        //播放上首
+        function prevTrack() {
+            currentIndex--;
+            if (currentIndex < 0) {
+                if (playMode === 1) currentIndex = tracks.length - 1;
+                else { currentIndex = 0; return; }
+            }
+            playTrack(currentIndex);
         }
 
-        // 下载功能
-        function downloadAudio() {
-            const link = document.createElement('a');
-            link.href = 'resource/tsdyl.mp3';
-            link.download = 'tsdyl.mp3';
-            link.click();
+        //下载当前
+        function downloadTrack() {
+            const a = document.createElement("a");
+            a.href = tracks[currentIndex].src;
+            a.download = tracks[currentIndex].title + ".mp3";
+            a.click();
         }
+
+        //绑定
+        audio.addEventListener("ended", nextTrack);
+        document.getElementById("next").addEventListener("click", nextTrack);
+        document.getElementById("prev").addEventListener("click", prevTrack);
+        modeBtn.addEventListener("click", switchMode);
+        downloadBtn.addEventListener("click", downloadTrack);
+
+        //初始化
+        renderPlaylist();
+        playTrack(currentIndex);
     </script>
+    <!-- <script src="mp3player.js"> </script> -->
     <script src="./assets/js/index.js"></script>
 
 </body>
-<!--考虑参考,展示收藏的pdf https://viewerjs.org/ -->
+<!--考虑参考,展示收藏的pdf https://viewerjs.org/ 
+老子曰：“人法地，地法天，天法道，道法自然。”
+山靠水而明艳，水靠山而美丽!
+他知道，只有顺着自然，心灵才能获得与天地万事万物的联系，生命才能回归自然，与造物主同在。
+-->
 
 
 <!-- Organizationally Derived UID
