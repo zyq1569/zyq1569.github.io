@@ -16,85 +16,94 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
-    <title>[S]bitter2live/</title>
+    <title>[Null]Null2live/</title>
     <link rel="shortcut icon" href="resource/images/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="assets/css/typo.css">
     <link rel="stylesheet" href="assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/index.css">
-    <script>
-        function loading() {
-            document.getElementsByClassName('avatar')[0].style.display = 'block';
-            document.getElementsByClassName('loading')[0].style.display = 'none';
+
+    <!-- <title>MP3 Player</title> -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+            padding: 20px;
         }
-    </script>
+
+        #player {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            width: 500px;
+            margin: auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #playlist {
+            list-style: none;
+            padding: 0;
+            margin: 5px 0;
+        }
+
+        #playlist li {
+            padding: 5px;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+            font-size: 10px;
+            /* 这里控制播放列表的字体大小 */
+        }
+
+        #playlist li.active {
+            background: #d0eaff;
+            font-weight: bold;
+        }
+
+        button {
+            margin: 5px;
+            font-size: 10px;
+            /* 控制播放按钮的字体大小 */
+        }
+    </style>
 </head>
 
 <body>
-
     <header class="header"></header>
-    <p>
-        <PRE> 
-        【01】ChatGPT (可以免注册直接试用)：
-        <a href="https://chat.openai.com/" target="_blank">链接</a>
-        https://chat.openai.com/
-
-        【02】google 的Gemini的AI
-        <a href="https://aistudio.google.com/prompts/new_chat" target="_blank">链接</a>
-        https://aistudio.google.com/prompts/new_chat
-
-        【03】马斯克的推特的X的AI。
-        <a href="https://x.com/i/grok" target=_blank>链接</a>
-        https://x.com/i/grok
-
-        【04】需要的网络工具。
-        <a href=" https://github.com/freegate-release/website" target="_blank">下载(在使用过程中，建议退出其它所有软件，说明：当前为window版本，下方链包含android版本)</a>
-        <a href=" https://github.com/freegate-release/website/tree/gh-pages/files" target="_blank">VPN下载链接</a>
-        https://github.com/freegate-release/website/tree/gh-pages/files
-        https://git.io/vFUxz
-       
-        上述若无法下载：
-        <a href=" https://sourceforge.net/projects/health1212/files/Tools/OS%20Software/windows%20tools/" target="_blank">fg805p.7z</a>
-        https://sourceforge.net/projects/health1212/files/Tools/OS%20Software/windows%20tools/
-
-
-        【其它 -兑现？2025～2026】
-        推背图：
-        🎉🎆第四六象　己酉 ䷺ 坎下巽上 渙
-        讖曰：
-        黯黯陰霾　殺不用刀
-        萬人不死　一人難逃
-        頌曰：
-        有一軍人身帶弓　只言我是白頭翁
-        東邊門裏伏金劍　勇士後門入帝宮
-
-        -------------------------------------------------
-        黄粱一梦
-        <a href=" https://zyq1569.github.io/zsr.html" target="_blank">链接</a>
-        https://zyq1569.github.io/zsr.html
-
-        【*】2024开始没有大年三十的五年？人世间的大扫除？需要多大的福分、多大的缘分、多大的德？需要心存多大的善念？
-
-        若知前世因，今生受者是；若知后世果，今生作者是。 感恩所有人。
-
-        https://ctext.org/xiyouji/zh
-        </PRE>     
-    </p>
-    <p>
-        -----------------------------------
-    </p>
- 
+    <PRE>
+感恩！🎉🎆
+1.ChatGPT (可以免注册直接试用)： <a href="https://chat.openai.com/" target="_blank">链接进入</a>  https://chat.openai.com/
+2.google 的Gemini的AI            <a href="https://aistudio.google.com/prompts/new_chat" target="_blank">链接进入</a> https://aistudio.google.com/prompts/new_chat
+3.马斯克的推特的X的AI。          <a href="https://x.com/i/grok" target=_blank>链接进入</a> https://x.com/i/grok
+4.需要的网络工具-->fgvpn17.apk安卓手机端  fg805p.zip电脑端
+<a href=" https://github.com/freegate-release/website" target="_blank">最新下载(使用中建议关闭其它软件)</a>
+<a href=" https://github.com/freegate-release/website/tree/gh-pages/files" target="_blank">历史版本下载链接</a>
+https://github.com/freegate-release/website/tree/gh-pages/files     https://git.io/vFUxz       
+备用下载地址：
+<a href="https://sourceforge.net/projects/health1212/files/Tools/OS%20Software/windows%20tools/fg805p.7z/download" target="_blank">fg805p.7z</a>
+https://sourceforge.net/projects/health1212/files/Tools/OS%20Software/windows%20tools/
+<a href="https://sourceforge.net/projects/health1212/files/Tools/OS%20Software/windows%20tools/fgvpn_1.7.apk/download" target="_blank">fgvpn_1.7.apk</a>
+https://sourceforge.net/projects/health1212/files/Tools/OS%20Software/windows%20tools/      
+    </PRE>
+    <h6>MP3 Player：天音</h6>
+    <audio id="Player" controls>
+        <!-- <source src="resource/tsdyl.mp3" type="audio/mp3"> -->
+        您的浏览器不支持音频播放。
+    </audio>
+    <div>
+        <div>
+            <button id="prev">⏮ 上一首</button>
+            <button id="next">⏭ 下一首</button>
+            <button id="mode">模式: 顺序</button>
+            <button id="download">⬇ 下载</button>
+        </div>
+        <ul id="playlist"></ul>
+    </div>
     <footer class="footer">
-        <p>© 2024 bitter2live.
+        <p>© 2025-2026 Null2live.
             <time>2022年01月13日</time>.
         </p>
     </footer>
-
-    <!-- 侧栏 -->
     <aside>
         <ul>
-            <!-- <li>
-                <a href="https://zyq1569.github.io" target="_blank">主页</a>
-            </li> -->
             <li>
                 <a href="https://zyq1569.github.io/null.html" target="_blank">14条语录</a>
                 <a href="https://www.nderf.org/Chinese/index.htm" target="_blank">瀕死體驗</a>
@@ -102,11 +111,106 @@
         </ul>
     </aside>
 
+    <script>
+        const tracks = [
+            { title: "天音 1", src: "resource/dsg.mp3" },
+            { title: "天音 2", src: "resource/tianyi.mp3" },
+            { title: "天音 3", src: "resource/xiyuan.mp3" },
+            { title: "天音 4", src: "resource/tsdyl.mp3" }
+        ];
+
+        let currentIndex = 0;
+        let playMode = 0; // 0=顺序, 1=循环, 2=单曲
+
+        const audio = document.getElementById("Player");
+        const playlist = document.getElementById("playlist");
+        const modeBtn = document.getElementById("mode");
+        const downloadBtn = document.getElementById("download");
+
+        // 初始化列表
+        function renderPlaylist() {
+            playlist.innerHTML = "";
+            tracks.forEach((track, index) => {
+                const li = document.createElement("li");
+                li.textContent = track.title;
+                li.onclick = () => playTrack(index);
+                if (index === currentIndex) li.classList.add("active");
+                playlist.appendChild(li);
+            });
+        }
+
+        // 播放指定
+        function playTrack(index) {
+            currentIndex = index;
+            audio.src = tracks[index].src;
+            audio.play();
+            updateActive();
+        }
+
+        // 更新当前高亮
+        function updateActive() {
+            const items = playlist.querySelectorAll("li");
+            items.forEach((li, idx) => li.classList.toggle("active", idx === currentIndex));
+        }
+
+        // 切换模式
+        function switchMode() {
+            playMode = (playMode + 1) % 3;
+            modeBtn.textContent = ["模式: 顺序", "模式: 循环", "模式: 单曲"][playMode];
+        }
+
+        // 播放下首
+        function nextTrack() {
+            if (playMode === 2) { // 单曲
+                audio.currentTime = 0;
+                audio.play();
+                return;
+            }
+            currentIndex++;
+            if (currentIndex >= tracks.length) {
+                if (playMode === 1) currentIndex = 0; // 循环
+                else {
+                    audio.pause();
+                    currentIndex = tracks.length - 1;
+                    return;
+                }
+            }
+            playTrack(currentIndex);
+        }
+
+        //播放上首
+        function prevTrack() {
+            currentIndex--;
+            if (currentIndex < 0) {
+                if (playMode === 1) currentIndex = tracks.length - 1;
+                else { currentIndex = 0; return; }
+            }
+            playTrack(currentIndex);
+        }
+
+        //下载当前
+        function downloadTrack() {
+            const a = document.createElement("a");
+            a.href = tracks[currentIndex].src;
+            a.download = tracks[currentIndex].title + ".mp3";
+            a.click();
+        }
+
+        //绑定
+        audio.addEventListener("ended", nextTrack);
+        document.getElementById("next").addEventListener("click", nextTrack);
+        document.getElementById("prev").addEventListener("click", prevTrack);
+        modeBtn.addEventListener("click", switchMode);
+        downloadBtn.addEventListener("click", downloadTrack);
+
+        //初始化
+        renderPlaylist();
+        playTrack(currentIndex);
+    </script>
+    <!-- <script src="mp3player.js"> </script> -->
     <script src="./assets/js/index.js"></script>
+    <!-- <script src="./JS/starry-sky.js"></script> -->
 </body>
-<!--考虑参考,展示收藏的pdf https://viewerjs.org/ -->
-
-
 <!-- Organizationally Derived UID
 A UID may be formed using a registered root (see Annex C) and an organization specific suffix. The manner in which the suffix of such an organizationally derived UID is defined is not constrained by the DICOM Standard. Only the guarantee of its uniqueness by the defining organization is required by DICOM.
 
