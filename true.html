@@ -21,7 +21,6 @@
     <link rel="stylesheet" href="assets/css/typo.css">
     <link rel="stylesheet" href="assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/index.css">
-
     <!-- <title>MP3 Player</title> -->
     <style>
         body {
@@ -29,7 +28,6 @@
             background: #f0f0f0;
             padding: 20px;
         }
-
         #player {
             background: #fff;
             padding: 20px;
@@ -38,13 +36,11 @@
             margin: auto;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-
         #playlist {
             list-style: none;
             padding: 0;
             margin: 5px 0;
         }
-
         #playlist li {
             padding: 5px;
             cursor: pointer;
@@ -52,12 +48,10 @@
             font-size: 10px;
             /* 这里控制播放列表的字体大小 */
         }
-
         #playlist li.active {
             background: #d0eaff;
             font-weight: bold;
         }
-
         button {
             margin: 5px;
             font-size: 10px;
@@ -65,14 +59,13 @@
         }
     </style>
 </head>
-
 <body>
     <header class="header"></header>
     <PRE>
 感恩！🎉🎆
-1.ChatGPT (可以免注册直接试用)： <a href="https://chat.openai.com/" target="_blank">链接进入</a>  https://chat.openai.com/
-2.google 的Gemini的AI            <a href="https://aistudio.google.com/prompts/new_chat" target="_blank">链接进入</a> https://aistudio.google.com/prompts/new_chat
-3.马斯克的推特的X的AI。          <a href="https://x.com/i/grok" target=_blank>链接进入</a> https://x.com/i/grok
+1.ChatGPT(可免注册试用)： <a href="https://chat.openai.com/" target="_blank">链接进入</a>  https://chat.openai.com/
+2.google-Gemini-AI       <a href="https://aistudio.google.com/prompts/new_chat" target="_blank">链接进入</a> https://aistudio.google.com/prompts/new_chat
+3.马斯克的X的AI。         <a href="https://x.com/i/grok" target=_blank>链接进入</a> https://x.com/i/grok
 4.需要的网络工具('九评' 值的看)-->fgvpn17.apk安卓手机端  fg805p.zip电脑端
 <a href=" https://github.com/freegate-release/website" target="_blank">最新下载(使用中建议关闭其它软件)</a>
 <a href=" https://github.com/freegate-release/website/tree/gh-pages/files" target="_blank">历史版本下载链接</a>
@@ -142,7 +135,6 @@ https://sourceforge.net/projects/health1212/files/Tools/OS%20Software/windows%20
                 playlist.appendChild(li);
             });
         }
-
         // 播放指定
         function playTrack(index) {
             currentIndex = index;
@@ -150,19 +142,16 @@ https://sourceforge.net/projects/health1212/files/Tools/OS%20Software/windows%20
             audio.play();
             updateActive();
         }
-
         // 更新当前高亮
         function updateActive() {
             const items = playlist.querySelectorAll("li");
             items.forEach((li, idx) => li.classList.toggle("active", idx === currentIndex));
         }
-
         // 切换模式
         function switchMode() {
             playMode = (playMode + 1) % 3;
             modeBtn.textContent = ["模式: 顺序", "模式: 循环", "模式: 单曲"][playMode];
         }
-
         // 播放下首
         function nextTrack() {
             if (playMode === 2) { // 单曲
@@ -181,7 +170,6 @@ https://sourceforge.net/projects/health1212/files/Tools/OS%20Software/windows%20
             }
             playTrack(currentIndex);
         }
-
         //播放上首
         function prevTrack() {
             currentIndex--;
@@ -191,7 +179,6 @@ https://sourceforge.net/projects/health1212/files/Tools/OS%20Software/windows%20
             }
             playTrack(currentIndex);
         }
-
         //下载当前
         function downloadTrack() {
             const a = document.createElement("a");
@@ -199,14 +186,12 @@ https://sourceforge.net/projects/health1212/files/Tools/OS%20Software/windows%20
             a.download = tracks[currentIndex].title + ".mp3";
             a.click();
         }
-
         //绑定
         audio.addEventListener("ended", nextTrack);
         document.getElementById("next").addEventListener("click", nextTrack);
         document.getElementById("prev").addEventListener("click", prevTrack);
         modeBtn.addEventListener("click", switchMode);
         downloadBtn.addEventListener("click", downloadTrack);
-
         //初始化
         renderPlaylist();
         playTrack(currentIndex);
