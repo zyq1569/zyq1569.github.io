@@ -1,0 +1,1 @@
+.\ffmpeg.exe -i sky.mp4 -filter_complex "[0:v]reverse,trim=start_frame=1[rev];[0:v][rev]concat=n=2:v=1[outv]" -map "[outv]" -c:v libx264 -crf 18 -preset slow sky_loop.mp4
