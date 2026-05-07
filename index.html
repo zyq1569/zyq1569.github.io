@@ -1,336 +1,1039 @@
+```html id="h1k9qs"
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="zh-CN">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>bitter2live</title>
-    <link rel="shortcut icon" href="office/assets/img/health.ico" type="image/x-icon">
-    <!-- Bootstrap core CSS -->
+<title>NASA Spiral Galaxy</title>
 
-    <!-- Font Awesome -->
-    <link href="office/css/all.min.css" rel="stylesheet" />
+<style>
 
-    <!-- GoogleFonts -->
-    <link href="office/webfonts/GoogleFonts.woff2" rel="stylesheet" />
-    <link href="office/webfonts/GoogleFonts2.woff2" rel="stylesheet" />
+html,body{
+    margin:0;
+    overflow:hidden;
+    width:100%;
+    height:100%;
+    background:#000;
+}
 
-    <!-- MDB -->
-    <link href="office/css/mdb.min.css" rel="stylesheet" />
-    <script type="text/javascript" src="office/js/mdb.min.js"></script>
+canvas{
+    display:block;
+    width:100vw;
+    height:100vh;
+}
 
-    <!--  -->
-    <style>
-        #introCarousel,
-        .carousel-inner,
-        .carousel-item,
-        .carousel-item.active {
-            height: 100vh;
-        }
-
-        .carousel-item:nth-child(1) {
-            background-image: url(resource/images/login_web.jpg);
-            background-repeat: no-repeat;
-            background-size: contain;
-            background-position: center center;
-            object-fit: scale-down;
-        }
-
-        .carousel-item:nth-child(2) {
-            background-image: url(resource/images/add_and_mod_study_web.png);
-            background-repeat: no-repeat;
-            background-size: contain;
-            background-position: center center;
-            object-fit: scale-down;
-        }
-
-        .carousel-item:nth-child(3) {
-            background-image: url(resource/images/show_study_web.png);
-            background-repeat: no-repeat;
-            background-size: contain;
-            background-position: center center;
-            object-fit: scale-down;
-        }
-
-        .carousel-item:nth-child(4) {
-            background-image: url(resource/images/image_web1.png);
-            background-repeat: no-repeat;
-            background-size: contain;
-            background-position: center center;
-            object-fit: scale-down;
-        }
-
-        .carousel-item:nth-child(5) {
-            background-image: url(resource/images/image_web2.png);
-            background-repeat: no-repeat;
-            background-size: contain;
-            background-position: center center;
-            object-fit: scale-down;
-        }
-
-        .carousel-item:nth-child(6) {
-            background-image: url(resource/images/report_web.png);
-            background-repeat: no-repeat;
-            background-size: contain;
-            background-position: center center;
-            object-fit: scale-down;
-        }
-
-        .carousel-item:nth-child(7) {
-            background-image: url(resource/images/add_and_mod_study_app1.png);
-            background-repeat: no-repeat;
-            background-size: contain;
-            background-position: center center;
-            object-fit: scale-down;
-        }
-
-        .carousel-item:nth-child(8) {
-            background-image: url(resource/images/add_and_mod_study_app2.png);
-            background-repeat: no-repeat;
-            background-size: contain;
-            background-position: center center;
-            object-fit: scale-down;
-        }
-
-        .carousel-item:nth-child(9) {
-            background-image: url(resource/images/add_and_mod_study_app3.png);
-            background-repeat: no-repeat;
-            background-size: contain;
-            background-position: center center;
-            object-fit: scale-down;
-        }
-
-        .carousel-item:nth-child(10) {
-            background-image: url(resource/images/report_app_show_web.png);
-            background-repeat: no-repeat;
-            background-size: contain;
-            background-position: center center;
-            object-fit: scale-down;
-        }
-
-        .carousel-item:nth-child(11) {
-            background-image: url(resource/images/image_app1.png);
-            background-repeat: no-repeat;
-            background-size: contain;
-            background-position: center center;
-            object-fit: scale-down;
-        }
-
-        .carousel-item:nth-child(12) {
-            background-image: url(resource/images/image_app2.png);
-            background-repeat: no-repeat;
-            background-size: contain;
-            background-position: center center;
-            object-fit: scale-down;
-        }
-
-        .carousel-item:nth-child(13) {
-            background-image: url(resource/images/image_app3.png);
-            background-repeat: no-repeat;
-            background-size: contain;
-            background-position: center center;
-            object-fit: scale-down;
-        }
-
-        .carousel-item:nth-child(14) {
-            background-image: url(resource/images/report_word_app.png);
-            background-repeat: no-repeat;
-            background-size: contain;
-            background-position: center center;
-            object-fit: scale-down;
-        }
-
-        /* Height for devices larger than 576px */
-        @media (min-width: 992px) {
-            #introCarousel {
-                margin-top: -1px;
-            }
-        }
-
-        .navbar .nav-link {
-            color: #fff !important;
-        }
-
-        .floating-text {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-80%);
-            font-size: 12px;
-            line-height: 1.2;
-            white-space: pre-wrap;
-            word-break: break-word;
-            background: rgba(255, 255, 255, 0.7);
-            padding: 2px 6px;
-            pointer-events: none;
-            z-index: 9999;
-            box-sizing: border-box;
-        }
-    </style>
-
-    <!-- Carousel wrapper -->
-    <div id="introCarousel" class="carousel slide carousel-fade shadow-2-strong" data-mdb-ride="carousel"
-        data-interval="2500">
-        <!-- Indicators -->
-        <ol class="carousel-indicators">
-            <li data-mdb-target="#introCarousel" data-mdb-slide-to="0" class="active"></li>
-            <li data-mdb-target="#introCarousel" data-mdb-slide-to="1"></li>
-            <li data-mdb-target="#introCarousel" data-mdb-slide-to="2"></li>
-            <li data-mdb-target="#introCarousel" data-mdb-slide-to="3"></li>
-            <li data-mdb-target="#introCarousel" data-mdb-slide-to="4"></li>
-            <li data-mdb-target="#introCarousel" data-mdb-slide-to="5"></li>
-            <li data-mdb-target="#introCarousel" data-mdb-slide-to="6"></li>
-            <li data-mdb-target="#introCarousel" data-mdb-slide-to="7"></li>
-            <li data-mdb-target="#introCarousel" data-mdb-slide-to="8"></li>
-            <li data-mdb-target="#introCarousel" data-mdb-slide-to="9"></li>
-            <li data-mdb-target="#introCarousel" data-mdb-slide-to="10"></li>
-            <li data-mdb-target="#introCarousel" data-mdb-slide-to="11"></li>
-            <li data-mdb-target="#introCarousel" data-mdb-slide-to="12"></li>
-            <li data-mdb-target="#introCarousel" data-mdb-slide-to="13"></li>
-        </ol>
-        <!-- Inner -->
-        <div class="carousel-inner">
-            <!-- Single item -->
-            <div class="carousel-item active">
-                <div class="mask" style="background-color: rgba(0, 0, 0, 0.3);">
-                    <div class="d-flex justify-content-center align-items-center h-100">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Single item -->
-            <div class="carousel-item">
-                <div class="mask" style="background-color: rgba(0, 0, 0, 0.3);">
-                    <div class="d-flex justify-content-center align-items-center h-100">
-                    </div>
-                </div>
-            </div>
-
-            <div class="carousel-item">
-                <div class="mask" style="background-color: rgba(0, 0, 0, 0.3);">
-                    <div class="d-flex justify-content-center align-items-center h-100">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Single item -->
-            <div class="carousel-item">
-                <div class="mask" style="background-color: rgba(0, 0, 0, 0.4);">
-                    <div class="d-flex justify-content-center align-items-center h-100">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Single item -->
-            <div class="carousel-item">
-                <div class="mask" style="background-color: rgba(0, 0, 0, 0.2);">
-                    <div class="d-flex justify-content-center align-items-center h-100">
-                    </div>
-                </div>
-            </div>
-
-            <div class="carousel-item">
-                <div class="mask" style="background-color: rgba(0, 0, 0, 0.4);">
-                    <div class="d-flex justify-content-center align-items-center h-100">
-                    </div>
-                </div>
-            </div>
-
-            <div class="carousel-item">
-                <div class="mask" style="background-color: rgba(0, 0, 0, 0.4);">
-                    <div class="d-flex justify-content-center align-items-center h-100">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Single item -->
-            <div class="carousel-item">
-                <div class="mask" style="background-color: rgba(0, 0, 0, 0.3);">
-                    <div class="d-flex justify-content-center align-items-center h-100">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Single item -->
-            <div class="carousel-item">
-                <div class="mask" style="background-color: rgba(0, 0, 0, 0.3);">
-                    <div class="d-flex justify-content-center align-items-center h-100">
-                    </div>
-                </div>
-            </div>
-
-            <div class="carousel-item">
-                <div class="mask" style="background-color: rgba(0, 0, 0, 0.3);">
-                    <div class="d-flex justify-content-center align-items-center h-100">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Single item -->
-            <div class="carousel-item">
-                <div class="mask" style="background-color: rgba(0, 0, 0, 0.4);">
-                    <div class="d-flex justify-content-center align-items-center h-100">
-                        <div class="text-white text-center">
-                            <h1 class="mb-3">影像</h1>
-                            <h5 class="mb-4">支持常规二维功能(pan, zoom, rotate, flip, invert,distances, angles, 2D ROIs,
-                                TA-GT,MIP...),也支持SPECT-CT/PET-CT融合、三维重建3D.</h5>
-                            <a class="btn btn-outline-light btn-lg m-2"
-                                href="https://sourceforge.net/projects/health1212/files/Tools/" target="_blank"
-                                role="button">Download</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Single item -->
-            <div class="carousel-item">
-                <div class="mask" style="background-color: rgba(0, 0, 0, 0.2);">
-                    <div class="d-flex justify-content-center align-items-center h-100">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Single item -->
-            <div class="carousel-item">
-                <div class="mask" style="background-color: rgba(0, 0, 0, 0.2);">
-                    <div class="d-flex justify-content-center align-items-center h-100">
-                    </div>
-                </div>
-            </div>
-
-            <div class="carousel-item">
-                <div class="mask" style="background-color: rgba(0, 0, 0, 0.473);">
-                    <div class="d-flex justify-content-center align-items-center h-100">
-                        <div class="text-white text-center">
-                            <a class="btn btn-outline-light btn-lg m-1"
-                                href="https://sourceforge.net/projects/health1212/files/Tools/" target="_blank"
-                                role="button">Download</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <a class="carousel-control-prev" href="#introCarousel" role="button" data-mdb-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#introCarousel" role="button" data-mdb-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
-        </div>
-        <!-- Inner -->
-    </div>
-    <!-- <p style="font-size: 10px;">人身难得. 返本归真</p> -->
-    <div class="floating-text">红尘可怕名利情.因果报应陷轮回.苦在迷中身不知.返本归真唯正途</div>
-
+</style>
 </head>
 
-<!-- 开发内容更新日志 参考 https://obsproject.com/blog -->
-<!-- data-interval 设置间隔时间 单位毫秒 -->
-<!-- https://getbootstrap.net/docs/components/carousel/ -->
+<body>
 
+<canvas id="c"></canvas>
+
+<script>
+
+/////////////////////////////////////////////////////////
+// Canvas
+/////////////////////////////////////////////////////////
+
+const canvas = document.getElementById("c");
+const ctx = canvas.getContext("2d");
+
+let w,h,cx,cy;
+
+function resize(){
+
+    w = canvas.width =
+        innerWidth * devicePixelRatio;
+
+    h = canvas.height =
+        innerHeight * devicePixelRatio;
+
+    canvas.style.width =
+        innerWidth + "px";
+
+    canvas.style.height =
+        innerHeight + "px";
+
+    cx = w / 2;
+    cy = h / 2;
+}
+
+window.addEventListener("resize",resize);
+
+resize();
+
+/////////////////////////////////////////////////////////
+// 参数
+/////////////////////////////////////////////////////////
+
+const galaxyStars = [];
+const galaxyDust = [];
+const bgStars = [];
+const pinkNebulas = [];
+
+const GALAXY_RADIUS =
+    Math.min(w,h) * 0.34;
+
+const ARM_COUNT = 4;
+
+/////////////////////////////////////////////////////////
+// 高斯随机
+/////////////////////////////////////////////////////////
+
+function gaussian(){
+
+    let u = 0;
+    let v = 0;
+
+    while(u === 0) u = Math.random();
+    while(v === 0) v = Math.random();
+
+    return Math.sqrt(
+        -2 * Math.log(u)
+    ) * Math.cos(
+        2 * Math.PI * v
+    );
+}
+
+/////////////////////////////////////////////////////////
+// 背景星空
+/////////////////////////////////////////////////////////
+
+for(let i=0;i<2200;i++){
+
+    bgStars.push({
+
+        x:Math.random()*w,
+        y:Math.random()*h,
+
+        size:
+            Math.random()*2,
+
+        alpha:
+            0.2 + Math.random()*0.8,
+
+        twinkle:
+            Math.random()*10
+    });
+}
+
+/////////////////////////////////////////////////////////
+// 银河恒星（降低密度）
+/////////////////////////////////////////////////////////
+
+const STAR_COLORS = [
+
+    [255,255,255],
+    [170,210,255],
+    [120,170,255],
+    [255,220,180],
+    [255,245,220],
+    [255,180,120]
+];
+
+for(let i=0;i<7000;i++){
+
+    const r =
+        Math.pow(
+            Math.random(),
+            0.55
+        ) * GALAXY_RADIUS;
+
+    const arm =
+        i % ARM_COUNT;
+
+    const base =
+        arm * Math.PI * 2 / ARM_COUNT;
+
+    /////////////////////////////////////////////////////
+    // 旋臂扩散
+    /////////////////////////////////////////////////////
+
+    const angle =
+        base +
+        r * 0.018 +
+        gaussian() * 0.32;
+
+    /////////////////////////////////////////////////////
+    // 星星尺寸
+    /////////////////////////////////////////////////////
+
+    const size =
+        0.25 +
+        Math.random()*1.2 +
+        Math.pow(
+            1-r/GALAXY_RADIUS,
+            2
+        ) * 2;
+
+    /////////////////////////////////////////////////////
+    // 星星颜色
+    /////////////////////////////////////////////////////
+
+    const color =
+        STAR_COLORS[
+            Math.floor(
+                Math.random()
+                * STAR_COLORS.length
+            )
+        ];
+
+    galaxyStars.push({
+
+        r,
+        angle,
+        size,
+        color,
+
+        twinkle:
+            Math.random()*5
+    });
+}
+
+/////////////////////////////////////////////////////////
+// 尘埃带（降低密度）
+/////////////////////////////////////////////////////////
+
+for(let i=0;i<4500;i++){
+
+    const r =
+        Math.pow(
+            Math.random(),
+            0.75
+        ) * GALAXY_RADIUS;
+
+    const arm =
+        Math.floor(
+            Math.random()*4
+        );
+
+    const base =
+        arm * Math.PI*2/4;
+
+    const angle =
+        base +
+        r * 0.018 +
+        gaussian()*0.18;
+
+    galaxyDust.push({
+
+        r,
+        angle,
+
+        size:
+            1 +
+            Math.random()*3,
+
+        alpha:
+            0.015 +
+            Math.random()*0.04
+    });
+}
+
+/////////////////////////////////////////////////////////
+// 粉色星云
+/////////////////////////////////////////////////////////
+
+for(let i=0;i<120;i++){
+
+    const r =
+        Math.random()
+        * GALAXY_RADIUS;
+
+    const angle =
+        r*0.018 +
+        Math.random()*Math.PI*2;
+
+    pinkNebulas.push({
+
+        r,
+        angle,
+
+        size:
+            10 +
+            Math.random()*25,
+
+        alpha:
+            0.03 +
+            Math.random()*0.06
+    });
+}
+
+/////////////////////////////////////////////////////////
+// 动画
+/////////////////////////////////////////////////////////
+
+let rotation = 0;
+let last = performance.now();
+
+function draw(time){
+
+    const dt =
+        (time-last)*0.001;
+
+    last = time;
+
+    /////////////////////////////////////////////////////
+    // 缓慢旋转
+    /////////////////////////////////////////////////////
+
+    rotation += dt * 0.008;
+
+    /////////////////////////////////////////////////////
+    // 背景
+    /////////////////////////////////////////////////////
+
+    const bg =
+        ctx.createRadialGradient(
+            cx,cy,0,
+            cx,cy,
+            Math.max(w,h)
+        );
+
+    bg.addColorStop(0,"#07111d");
+    bg.addColorStop(0.4,"#02050b");
+    bg.addColorStop(1,"#000000");
+
+    ctx.fillStyle = bg;
+
+    ctx.fillRect(0,0,w,h);
+
+    /////////////////////////////////////////////////////
+    // 背景星空
+    /////////////////////////////////////////////////////
+
+    for(const s of bgStars){
+
+        const alpha =
+            s.alpha *
+            (
+                0.75 +
+                Math.sin(
+                    time*0.0003
+                    + s.twinkle
+                ) * 0.25
+            );
+
+        ctx.fillStyle =
+            `rgba(255,255,255,${alpha})`;
+
+        ctx.beginPath();
+
+        ctx.arc(
+            s.x,
+            s.y,
+            s.size,
+            0,
+            Math.PI*2
+        );
+
+        ctx.fill();
+    }
+
+    /////////////////////////////////////////////////////
+    // 银河
+    /////////////////////////////////////////////////////
+
+    ctx.save();
+
+    ctx.translate(cx,cy);
+
+    /////////////////////////////////////////////////////
+    // 倾斜银河
+    /////////////////////////////////////////////////////
+
+    ctx.rotate(-0.32);
+
+    /////////////////////////////////////////////////////
+    // 银河整体旋转
+    /////////////////////////////////////////////////////
+
+    ctx.rotate(rotation);
+
+    /////////////////////////////////////////////////////
+    // 蓝色星云主体
+    /////////////////////////////////////////////////////
+
+    for(let i=0;i<32;i++){
+
+        const rr =
+            GALAXY_RADIUS *
+            (0.25 + i/32);
+
+        ///////////////////////////////////////////////////
+        // 增强星云
+        ///////////////////////////////////////////////////
+
+        const alpha =
+            0.05 *
+            (1-i/32);
+
+        const g =
+            ctx.createRadialGradient(
+                0,0,0,
+                0,0,rr
+            );
+
+        g.addColorStop(
+            0,
+            `rgba(
+                120,
+                180,
+                255,
+                ${alpha}
+            )`
+        );
+
+        g.addColorStop(
+            0.5,
+            `rgba(
+                50,
+                120,
+                255,
+                ${alpha*0.8}
+            )`
+        );
+
+        g.addColorStop(
+            1,
+            `rgba(0,0,0,0)`
+        );
+
+        ctx.fillStyle = g;
+
+        ctx.beginPath();
+
+        ctx.ellipse(
+            0,
+            0,
+            rr*1.3,
+            rr*0.34,
+            0,
+            0,
+            Math.PI*2
+        );
+
+        ctx.fill();
+    }
+
+    /////////////////////////////////////////////////////
+    // 尘埃带
+    /////////////////////////////////////////////////////
+
+    ctx.globalCompositeOperation =
+        "multiply";
+
+    for(const d of galaxyDust){
+
+        const x =
+            Math.cos(d.angle)
+            * d.r;
+
+        const y =
+            Math.sin(d.angle)
+            * d.r * 0.34;
+
+        ctx.fillStyle =
+            `rgba(
+                30,
+                20,
+                10,
+                ${d.alpha}
+            )`;
+
+        ctx.beginPath();
+
+        ctx.arc(
+            x,
+            y,
+            d.size*5,
+            0,
+            Math.PI*2
+        );
+
+        ctx.fill();
+    }
+
+    /////////////////////////////////////////////////////
+    // 恒星层
+    /////////////////////////////////////////////////////
+
+    ctx.globalCompositeOperation =
+        "lighter";
+
+    for(const s of galaxyStars){
+
+        const x =
+            Math.cos(s.angle)
+            * s.r;
+
+        const y =
+            Math.sin(s.angle)
+            * s.r * 0.34;
+
+        ///////////////////////////////////////////////////
+        // 闪烁
+        ///////////////////////////////////////////////////
+
+        const pulse =
+            0.7 +
+            Math.sin(
+                time*0.001
+                + s.twinkle
+            ) * 0.3;
+
+        ///////////////////////////////////////////////////
+        // 降低亮度
+        ///////////////////////////////////////////////////
+
+        const alpha =
+            pulse *
+            (
+                0.12 +
+                (1-s.r/GALAXY_RADIUS)
+                * 0.55
+            );
+
+        ///////////////////////////////////////////////////
+        // 星体辉光（缩小）
+        ///////////////////////////////////////////////////
+
+        const glow =
+            ctx.createRadialGradient(
+                x,y,0,
+                x,y,s.size*2.2
+            );
+
+        glow.addColorStop(
+            0,
+            `rgba(
+                ${s.color[0]},
+                ${s.color[1]},
+                ${s.color[2]},
+                ${alpha}
+            )`
+        );
+
+        glow.addColorStop(
+            1,
+            `rgba(
+                ${s.color[0]},
+                ${s.color[1]},
+                ${s.color[2]},
+                0
+            )`
+        );
+
+        ctx.fillStyle = glow;
+
+        ctx.beginPath();
+
+        ctx.arc(
+            x,
+            y,
+            s.size*3.5,
+            0,
+            Math.PI*2
+        );
+
+        ctx.fill();
+
+        ///////////////////////////////////////////////////
+        // 星核
+        ///////////////////////////////////////////////////
+
+        ctx.fillStyle =
+            `rgba(255,255,255,${alpha})`;
+
+        ctx.beginPath();
+
+        ctx.arc(
+            x,
+            y,
+            s.size,
+            0,
+            Math.PI*2
+        );
+
+        ctx.fill();
+    }
+
+    /////////////////////////////////////////////////////
+    // 粉色星云团
+    /////////////////////////////////////////////////////
+
+    for(const n of pinkNebulas){
+
+        const x =
+            Math.cos(n.angle)
+            * n.r;
+
+        const y =
+            Math.sin(n.angle)
+            * n.r * 0.34;
+
+        const neb =
+            ctx.createRadialGradient(
+                x,y,0,
+                x,y,n.size
+            );
+
+        neb.addColorStop(
+            0,
+            `rgba(
+                255,
+                120,
+                180,
+                ${n.alpha}
+            )`
+        );
+
+        neb.addColorStop(
+            1,
+            `rgba(
+                255,
+                120,
+                180,
+                0
+            )`
+        );
+
+        ctx.fillStyle = neb;
+
+        ctx.beginPath();
+
+        ctx.arc(
+            x,
+            y,
+            n.size,
+            0,
+            Math.PI*2
+        );
+
+        ctx.fill();
+    }
+
+    /////////////////////////////////////////////////////
+    // 银河核心
+    /////////////////////////////////////////////////////
+
+    const core =
+        ctx.createRadialGradient(
+            0,0,0,
+            0,0,
+            GALAXY_RADIUS*0.22
+        );
+
+    core.addColorStop(
+        0,
+        "rgba(255,255,255,1)"
+    );
+
+    core.addColorStop(
+        0.15,
+        "rgba(255,250,220,1)"
+    );
+
+    core.addColorStop(
+        0.35,
+        "rgba(255,235,120,0.95)"
+    );
+
+    core.addColorStop(
+        0.6,
+        "rgba(255,170,70,0.45)"
+    );
+
+    core.addColorStop(
+        1,
+        "rgba(255,120,30,0)"
+    );
+
+    ctx.fillStyle = core;
+
+    ctx.beginPath();
+
+    ctx.ellipse(
+        0,
+        0,
+        GALAXY_RADIUS*0.22,
+        GALAXY_RADIUS*0.09,
+        0,
+        0,
+        Math.PI*2
+    );
+
+    ctx.fill();
+
+    ctx.restore();
+
+
+
+    /////////////////////////////////////////////////////
+    // 暗角
+    /////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////
+// 银河外围时钟
+
+/////////////////////////////////////////////////////////
+
+const clockRadius =
+    GALAXY_RADIUS * 1.18;
+
+/////////////////////////////////////////////////////////
+// 发光圆环
+/////////////////////////////////////////////////////////
+
+ctx.save();
+
+ctx.translate(cx,cy);
+
+const ring =
+    ctx.createRadialGradient(
+        0,0,
+        clockRadius*0.9,
+
+        0,0,
+        clockRadius
+    );
+
+ring.addColorStop(
+    0,
+    "rgba(120,180,255,0)"
+);
+
+ring.addColorStop(
+    1,
+    "rgba(120,180,255,0.18)"
+);
+
+ctx.strokeStyle = ring;
+
+ctx.lineWidth = 5;
+
+ctx.beginPath();
+
+ctx.arc(
+    0,
+    0,
+    clockRadius,
+    0,
+    Math.PI*2
+);
+
+ctx.stroke();
+
+/////////////////////////////////////////////////////////
+// 时间
+/////////////////////////////////////////////////////////
+
+const now = new Date();
+
+const ms =
+    now.getMilliseconds();
+
+const sec =
+    now.getSeconds() +
+    ms/1000;
+
+const min =
+    now.getMinutes() +
+    sec/60;
+
+const hour =
+    (now.getHours()%12) +
+    min/60;
+
+/////////////////////////////////////////////////////////
+// 刻度
+/////////////////////////////////////////////////////////
+
+for(let i=0;i<60;i++){
+
+    const a =
+        Math.PI*2 * i/60
+        - Math.PI/2;
+
+    const isHour =
+        i % 5 === 0;
+
+    const r1 =
+        clockRadius
+        - (isHour ? 24 : 10);
+
+    const r2 =
+        clockRadius;
+
+    const x1 =
+        Math.cos(a)*r1;
+
+    const y1 =
+        Math.sin(a)*r1;
+
+    const x2 =
+        Math.cos(a)*r2;
+
+    const y2 =
+        Math.sin(a)*r2;
+
+    ctx.strokeStyle =
+        isHour
+        ?
+        "rgba(255,255,255,0.95)"
+        :
+        "rgba(180,220,255,0.45)";
+
+    ctx.lineWidth =
+        isHour ? 3 : 1;
+
+    ctx.beginPath();
+
+    ctx.moveTo(x1,y1);
+
+    ctx.lineTo(x2,y2);
+
+    ctx.stroke();
+}
+
+/////////////////////////////////////////////////////////
+// 12小时数字
+/////////////////////////////////////////////////////////
+
+ctx.fillStyle =
+    "rgba(255,255,255,0.95)";
+
+ctx.font =
+    `${clockRadius*0.08}px serif`;
+
+ctx.textAlign = "center";
+ctx.textBaseline = "middle";
+
+for(let i=1;i<=12;i++){
+
+    const a =
+        Math.PI*2 * i/12
+        - Math.PI/2;
+
+    const r =
+        clockRadius - 48;
+
+    const x =
+        Math.cos(a)*r;
+
+    const y =
+        Math.sin(a)*r;
+
+    ctx.shadowBlur = 18;
+
+    ctx.shadowColor =
+        "rgba(120,180,255,0.9)";
+
+    ctx.fillText(
+        i,
+        x,
+        y
+    );
+}
+
+/////////////////////////////////////////////////////////
+// 十二时辰
+/////////////////////////////////////////////////////////
+
+const shichen = [
+
+    "子",
+    "丑",
+    "寅",
+    "卯",
+    "辰",
+    "巳",
+
+    "午",
+    "未",
+    "申",
+    "酉",
+    "戌",
+    "亥"
+];
+
+ctx.font =
+    `${clockRadius*0.055}px serif`;
+
+ctx.fillStyle =
+    "rgba(120,180,255,0.85)";
+
+for(let i=0;i<12;i++){
+
+    const a =
+        Math.PI*2 * i/12
+        - Math.PI/2;
+
+    const r =
+        clockRadius - 88;
+
+    const x =
+        Math.cos(a)*r;
+
+    const y =
+        Math.sin(a)*r;
+
+    ctx.fillText(
+        shichen[i],
+        x,
+        y
+    );
+}
+
+/////////////////////////////////////////////////////////
+// 时针
+/////////////////////////////////////////////////////////
+
+function drawHand(
+    angle,
+    length,
+    width,
+    color
+){
+
+    ctx.save();
+
+    ctx.rotate(angle);
+
+    ctx.strokeStyle = color;
+
+    ctx.lineWidth = width;
+
+    ctx.lineCap = "round";
+
+    ctx.shadowBlur = 18;
+
+    ctx.shadowColor = color;
+
+    ctx.beginPath();
+
+    ctx.moveTo(0,12);
+
+    ctx.lineTo(0,-length);
+
+    ctx.stroke();
+
+    ctx.restore();
+}
+
+/////////////////////////////////////////////////////////
+// 指针角度
+/////////////////////////////////////////////////////////
+
+const secAngle =
+    Math.PI*2 * sec/60;
+
+const minAngle =
+    Math.PI*2 * min/60;
+
+const hourAngle =
+    Math.PI*2 * hour/12;
+
+/////////////////////////////////////////////////////////
+// 时针
+/////////////////////////////////////////////////////////
+
+drawHand(
+    hourAngle,
+    clockRadius*0.42,
+    7,
+    "rgba(255,220,160,0.95)"
+);
+
+/////////////////////////////////////////////////////////
+// 分针
+/////////////////////////////////////////////////////////
+
+drawHand(
+    minAngle,
+    clockRadius*0.62,
+    4,
+    "rgba(180,220,255,0.95)"
+);
+
+/////////////////////////////////////////////////////////
+// 秒针
+/////////////////////////////////////////////////////////
+
+drawHand(
+    secAngle,
+    clockRadius*0.74,
+    2,
+    "rgba(255,120,120,0.95)"
+);
+
+/////////////////////////////////////////////////////////
+// 中心
+/////////////////////////////////////////////////////////
+
+const centerGlow =
+    ctx.createRadialGradient(
+        0,0,0,
+        0,0,
+        18
+    );
+
+centerGlow.addColorStop(
+    0,
+    "rgba(255,255,255,1)"
+);
+
+centerGlow.addColorStop(
+    1,
+    "rgba(255,255,255,0)"
+);
+
+ctx.fillStyle =
+    centerGlow;
+
+ctx.beginPath();
+
+ctx.arc(
+    0,
+    0,
+    18,
+    0,
+    Math.PI*2
+);
+
+ctx.fill();
+
+ctx.restore();
+    const vignette =
+        ctx.createRadialGradient(
+            cx,cy,
+            Math.min(w,h)*0.2,
+
+            cx,cy,
+            Math.max(w,h)*0.8
+        );
+
+    vignette.addColorStop(
+        0,
+        "rgba(0,0,0,0)"
+    );
+
+    vignette.addColorStop(
+        1,
+        "rgba(0,0,0,0.72)"
+    );
+
+    ctx.fillStyle = vignette;
+
+    ctx.fillRect(0,0,w,h);
+
+    requestAnimationFrame(draw);
+}
+
+requestAnimationFrame(draw);
+
+</script>
+
+</body>
 </html>
+```
