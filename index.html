@@ -1127,7 +1127,6 @@ function drawHand(
     width,
     color
 ){
-
     ctx.save();
 
     ctx.rotate(angle);
@@ -1151,6 +1150,35 @@ function drawHand(
     ctx.stroke();
 
     ctx.restore();
+    /////////////////////////////////////////////////////////
+// 指针拖尾（最简安全版）
+/////////////////////////////////////////////////////////
+
+for(let i = 8; i >= 1; i--){
+
+    const t = i / 8;
+
+    const x =
+        Math.sin(angle) * (-length * t);
+
+    const y =
+        Math.cos(angle) * (-length * t);
+
+    ctx.fillStyle =
+        `rgba(${color},${0.25 * (1 - t)})`;
+
+    ctx.beginPath();
+
+    ctx.arc(
+        x,
+        y,
+        1.5 * (1 - t),
+        0,
+        Math.PI * 2
+    );
+
+    ctx.fill();
+}
 }
 
 /////////////////////////////////////////////////////////
