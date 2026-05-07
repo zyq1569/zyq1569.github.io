@@ -769,7 +769,6 @@ ring.addColorStop(
     "rgba(120,180,255,0.18)"
 );
 
-// ctx.strokeStyle = ring;
 
 // ctx.lineWidth = 5;
 
@@ -868,13 +867,6 @@ for(let i=0;i<60;i++){
 
     const y2 =
         Math.sin(a)*r2;
-
-    // ctx.strokeStyle =
-    //     isHour
-    //     ?
-    //     "rgba(255,255,255,0.95)"
-    //     :
-    //     "rgba(180,220,255,0.45)";
 ctx.strokeStyle =
     isHour
     ?
@@ -896,9 +888,6 @@ ctx.strokeStyle =
 /////////////////////////////////////////////////////////
 // 12小时数字
 /////////////////////////////////////////////////////////
-
-// ctx.fillStyle =
-//     "rgba(255,255,255,0.95)";
 ctx.fillStyle =
     `rgba(255,255,255,${0.95*clockAlpha})`;
 
@@ -964,33 +953,6 @@ const shichen = [
     "亥"
 ];
 
-// ctx.font =
-//     `${clockRadius*0.055}px serif`;
-
-// ctx.fillStyle =
-//     "rgba(120,180,255,0.85)";
-
-// for(let i=0;i<12;i++){
-
-//     const a =
-//         Math.PI*2 * i/12
-//         - Math.PI/2;
-
-//     const r =
-//         clockRadius - 88;
-
-//     const x =
-//         Math.cos(a)*r;
-
-//     const y =
-//         Math.sin(a)*r;
-
-//     ctx.fillText(
-//         shichen[i],
-//         x,
-//         y
-//     );
-// }
 if(clockAlpha > 0.01){
 
     ctx.font =
@@ -1026,7 +988,7 @@ if(clockAlpha > 0.01){
             - Math.PI/2;
 
         const r =
-            clockRadius - 88;
+            clockRadius - 72;
 
         const x =
             Math.cos(a)*r;
@@ -1208,16 +1170,10 @@ const hourAngle =
 // 时针
 /////////////////////////////////////////////////////////
 
-// drawHand(
-//     hourAngle,
-//     clockRadius*0.42,
-//     7,
-//     "rgba(255,220,160,0.95)"
-// );
 drawHand(
     hourAngle,
     clockRadius*0.42,
-    7,
+    3.5,
     `rgba(255,220,160,${0.95*clockAlpha})`
 );
 /////////////////////////////////////////////////////////
@@ -1227,7 +1183,7 @@ drawHand(
 drawHand(
     minAngle,
     clockRadius*0.62,
-    4,
+    2.2,
     // "rgba(180,220,255,0.95)"
     `rgba(180,220,255,${0.95*clockAlpha})`
 );
@@ -1239,7 +1195,7 @@ drawHand(
 drawHand(
     secAngle,
     clockRadius*0.74,
-    2,
+    1,
     // "rgba(255,120,120,0.95)"
     `rgba(255,120,120,${0.95*clockAlpha})`
 );
