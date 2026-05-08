@@ -726,8 +726,6 @@
 
             ctx.restore();
 
-
-
             /////////////////////////////////////////////////////
             // 暗角
             /////////////////////////////////////////////////////
@@ -1011,8 +1009,7 @@
 
             if (clockAlpha > 0.01) {
 
-                ctx.font =
-                    `${clockRadius * 0.055}px serif`;
+                ctx.font = `${clockRadius * 0.055}px serif`;
 
                 ctx.fillStyle =
                     `rgba(
@@ -1039,18 +1036,13 @@
 
                 for (let i = 0; i < 12; i++) {
 
-                    const a =
-                        Math.PI * 2 * i / 12
-                        - Math.PI / 2;
+                    const a = Math.PI * 2 * i / 12 - Math.PI / 2;
 
-                    const r =
-                        clockRadius - 65;
+                    const r = clockRadius - 65;
 
-                    const x =
-                        Math.cos(a) * r;
+                    const x = Math.cos(a) * r;
 
-                    const y =
-                        Math.sin(a) * r;
+                    const y = Math.sin(a) * r;
 
                     ctx.fillText(
                         shichen[i],
@@ -1241,14 +1233,11 @@
             // 指针角度
             /////////////////////////////////////////////////////////
 
-            const secAngle =
-                Math.PI * 2 * sec / 60;
+            const secAngle = Math.PI * 2 * sec / 60;
 
-            const minAngle =
-                Math.PI * 2 * min / 60;
+            const minAngle = Math.PI * 2 * min / 60;
 
-            const hourAngle =
-                Math.PI * 2 * hour / 12;
+            const hourAngle = Math.PI * 2 * hour / 12;
 
             /////////////////////////////////////////////////////////
             // 时针
@@ -1306,8 +1295,7 @@
                 "rgba(255,255,255,0)"
             );
 
-            ctx.fillStyle =
-                centerGlow;
+            ctx.fillStyle = centerGlow;
 
             ctx.beginPath();
 
@@ -1327,8 +1315,7 @@
 
             ctx.beginPath();
 
-            ctx.strokeStyle =
-                `rgba(120,180,255,${0.08 * clockAlpha})`;
+            ctx.strokeStyle = `rgba(120,180,255,${0.08 * clockAlpha})`;
 
             ctx.lineWidth = 18;
 
@@ -1474,9 +1461,7 @@
 
             reset(first = false) {
                 this.x = Math.random() * innerWidth;
-                this.y = first
-                    ? innerHeight * 0.3 + Math.random() * innerHeight * 0.7
-                    : innerHeight * 0.65 + Math.random() * innerHeight * 0.45;
+                this.y = first ? innerHeight * 0.3 + Math.random() * innerHeight * 0.7 : innerHeight * 0.65 + Math.random() * innerHeight * 0.45;
 
                 this.radius = Math.random() * 2.6 + 0.9;
                 this.speed = Math.random() * 0.68 + 0.36;
@@ -1485,25 +1470,19 @@
                 this.hue = 28 + Math.random() * 48;        // 暖梦幻色调
                 this.opacityBase = Math.random() * 0.33 + 0.25;
             }
-
             update() {
                 this.y -= this.speed;
                 this.x += Math.sin(this.phase) * this.hSpeed;
                 this.phase += 0.016;
-
                 const pulse = Math.sin(this.phase * 1.65) * 0.5 + 0.5;
                 this.opacity = this.opacityBase + pulse * 0.48;
                 this.scale = 0.93 + pulse * 0.17;
-
                 if (this.y < -40) this.reset();
             }
-
             draw() {
                 const ctx = document.getElementById('c').getContext('2d');
                 const r = this.radius * this.scale;
-
                 ctx.save();
-
                 // 最外层梦幻光晕
                 ctx.shadowBlur = 25;
                 ctx.shadowColor = `hsla(${this.hue}, 90%, 86%, ${this.opacity * 0.75})`;
@@ -1537,7 +1516,6 @@
                 risingOrbs.push(new DreamyOrb());
             }
         }
-
         // 动画循环
         function animateOrbs() {
             const canvas = document.getElementById('c');
@@ -1564,4 +1542,3 @@
 </body>
 
 </html>
-```
