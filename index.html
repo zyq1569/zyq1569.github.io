@@ -1447,10 +1447,10 @@
         }
     </style>
 
-    <!-- ==================== 梦幻上升光点 - 独立脚本 ==================== -->
+    <!-- ==================== 梦幻上升光点 - 金黄色版本 ==================== -->
     <script>
         // =====================================================
-        // 梦幻上升暖色光点（独立模块）
+        // 梦幻上升金色光点（修改版）
         // =====================================================
         const risingOrbs = [];
 
@@ -1460,49 +1460,65 @@
             }
 
             reset(first = false) {
+                // 关键修改1：让光点主要出现在页面中间水平线上方
                 this.x = Math.random() * innerWidth;
-                this.y = first ? innerHeight * 0.3 + Math.random() * innerHeight * 0.7 : innerHeight * 0.65 + Math.random() * innerHeight * 0.45;
 
-                this.radius = Math.random() * 2.6 + 0.9;
-                this.speed = Math.random() * 0.68 + 0.36;
-                this.hSpeed = Math.random() * 0.9 - 0.45;
+                if (first) {
+                    // 首次生成时分布在整个上半部分偏上
+                    this.y = innerHeight * 0.15 + Math.random() * innerHeight * 0.55;
+                } else {
+                    // 后续生成从下方升起，但整体偏上
+                    this.y = innerHeight * 0.65 + Math.random() * innerHeight * 0.35;
+                }
+
+                this.radius = Math.random() * 2.8 + 1.1;
+                this.speed = Math.random() * 0.72 + 0.42;     // 稍微加快一点上升感
+                this.hSpeed = Math.random() * 0.85 - 0.42;
                 this.phase = Math.random() * Math.PI * 2;
-                this.hue = 28 + Math.random() * 48;        // 暖梦幻色调
-                this.opacityBase = Math.random() * 0.33 + 0.25;
+
+                // 关键修改2：改为金黄色调
+                this.hue = 46 + Math.random() * 12;           // 金黄色范围 46~58
+                this.opacityBase = Math.random() * 0.35 + 0.28;
             }
+
             update() {
                 this.y -= this.speed;
                 this.x += Math.sin(this.phase) * this.hSpeed;
                 this.phase += 0.016;
+
                 const pulse = Math.sin(this.phase * 1.65) * 0.5 + 0.5;
                 this.opacity = this.opacityBase + pulse * 0.48;
-                this.scale = 0.93 + pulse * 0.17;
-                if (this.y < -40) this.reset();
+                this.scale = 0.92 + pulse * 0.18;
+
+                if (this.y < -50) this.reset();
             }
+
             draw() {
                 const ctx = document.getElementById('c').getContext('2d');
                 const r = this.radius * this.scale;
+
                 ctx.save();
-                // 最外层梦幻光晕
-                ctx.shadowBlur = 25;
-                ctx.shadowColor = `hsla(${this.hue}, 90%, 86%, ${this.opacity * 0.75})`;
-                ctx.fillStyle = `hsla(${this.hue}, 85%, 93%, ${this.opacity * 0.6})`;
+
+                // 最外层金色光晕
+                ctx.shadowBlur = 28;
+                ctx.shadowColor = `hsla(${this.hue}, 95%, 88%, ${this.opacity * 0.7})`;
+                ctx.fillStyle = `hsla(${this.hue}, 90%, 92%, ${this.opacity * 0.55})`;
                 ctx.beginPath();
-                ctx.arc(this.x, this.y, r * 2.4, 0, Math.PI * 2);
+                ctx.arc(this.x, this.y, r * 2.5, 0, Math.PI * 2);
                 ctx.fill();
 
                 // 中层光晕
-                ctx.shadowBlur = 13;
-                ctx.fillStyle = `hsla(${this.hue}, 92%, 94%, ${this.opacity})`;
+                ctx.shadowBlur = 14;
+                ctx.fillStyle = `hsla(${this.hue}, 98%, 94%, ${this.opacity * 0.95})`;
                 ctx.beginPath();
-                ctx.arc(this.x, this.y, r * 1.35, 0, Math.PI * 2);
+                ctx.arc(this.x, this.y, r * 1.4, 0, Math.PI * 2);
                 ctx.fill();
 
-                // 核心亮点
-                ctx.shadowBlur = 6;
-                ctx.fillStyle = `hsla(48, 100%, 98%, ${this.opacity * 1.6})`;
+                // 核心亮点（更亮的金色）
+                ctx.shadowBlur = 7;
+                ctx.fillStyle = `hsla(52, 100%, 98%, ${this.opacity * 1.7})`;
                 ctx.beginPath();
-                ctx.arc(this.x, this.y, r * 0.45, 0, Math.PI * 2);
+                ctx.arc(this.x, this.y, r * 0.48, 0, Math.PI * 2);
                 ctx.fill();
 
                 ctx.restore();
@@ -1511,11 +1527,12 @@
 
         // 初始化
         function initOrbs() {
-            risingOrbs.length = 0; // 清空
+            risingOrbs.length = 0;
             for (let i = 0; i < 105; i++) {
                 risingOrbs.push(new DreamyOrb());
             }
         }
+
         // 动画循环
         function animateOrbs() {
             const canvas = document.getElementById('c');
