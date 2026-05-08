@@ -1358,22 +1358,33 @@
 
     </script>
 
-    <!-- ==================== 四角GIF装饰代码 ==================== -->
+    <!-- ==================== 角落装饰视频 ==================== -->
     <div class="corner-gifs">
         <!-- 左上角 -->
-        <img src="./pic/ginkgo.gif" alt="" class="corner-gif tl">
+        <video class="corner-video tl" autoplay loop muted playsinline loading="lazy">
+            <source src="./pic/ginkgo.mp4" type="video/mp4">
+            <!-- GIF 降级方案（可选） -->
+            <img src="./pic/ginkgo.gif" alt="" class="fallback-gif">
+        </video>
 
         <!-- 右上角 -->
-        <img src="./pic/ginkgob.gif" alt="" class="corner-gif tr">
+        <video class="corner-video tr" autoplay loop muted playsinline loading="lazy">
+            <source src="./pic/ginkgo.mp4" type="video/mp4">
+            <img src="./pic/ginkgob.gif" alt="" class="fallback-gif">
+        </video>
 
-        <!-- 左下角 -->
-        <!-- <img src="./pic/ginkgo.gif" alt="" class="corner-gif bl"> -->
-
-        <!-- 右下角 -->
-        <!-- <img src="./pic/ginkgo.gif" alt="" class="corner-gif br"> -->
+        <!-- 左下角（取消注释后使用） -->
+        <!-- <video class="corner-video bl" autoplay loop muted playsinline loading="lazy">
+        <source src="./pic/ginkgo.mp4" type="video/mp4">
+        <img src="./pic/ginkgo.gif" alt="" class="fallback-gif">
+        </video> -->
+            <!-- 右下角（取消注释后使用） -->
+            <!-- <video class="corner-video br" autoplay loop muted playsinline loading="lazy">
+            <source src="./pic/ginkgo.mp4" type="video/mp4">
+            <img src="./pic/ginkgo.gif" alt="" class="fallback-gif">
+        </video> -->
     </div>
     <style>
-        /* 四角GIF样式 */
         .corner-gifs {
             position: fixed;
             top: 0;
@@ -1381,70 +1392,44 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            /* 不阻挡鼠标点击 */
-            z-index: 9999;
-            /* 根据需要调整层级 */
+            z-index: 5;
             overflow: hidden;
         }
 
-        .corner-gif {
+        .corner-video {
             position: absolute;
-            width: 10vw;
-            /* 或 20vw */
+            width: 220px;
+            /* 根据需要调整大小 */
             height: auto;
-            max-width: 400px;
-            min-width: 120px;
-
-            opacity: 0.8;
-            /* 调整透明度 0.4~0.8 之间效果最好 */
-            mix-blend-mode: screen;
-            /* 融合神器 */
-            /* mix-blend-mode: screen; */
-            /* 或者试试 screen（适合亮色GIF） */
-            /* mix-blend-mode: overlay; */
-            /* 叠加模式 */
-
-            filter: brightness(1.05) contrast(1.1);
-            /* 可微调亮度和对比度 */
-            pointer-events: none;
+            opacity: 0.85;
+            filter: brightness(1.05);
         }
 
-        .corner-gif.tl {
-            top: 0;
-            left: 0;
+        /* 四个角落位置 */
+        .tl {
+            top: 5px;
+            left: 10px;
         }
 
-        .corner-gif.tr {
-            top: 0;
-            right: 0;
+        /* 左上 */
+        .tr {
+            top: 5px;
+            right: 5px;
         }
 
-        .corner-gif.bl {
-            bottom: 0;
-            left: 0;
+        /* 右上 */
+        .bl {
+            bottom: 25px;
+            left: 25px;
         }
 
-        .corner-gif.br {
-            bottom: 0;
-            right: 0;
+        /* 左下 */
+        .br {
+            bottom: 25px;
+            right: 25px;
         }
 
-        /* 可选：增加一点内边距，避免紧贴屏幕边缘 */
-        .corner-gif.tl {
-            margin: 10px;
-        }
-
-        .corner-gif.tr {
-            margin: 10px;
-        }
-
-        .corner-gif.bl {
-            margin: 10px;
-        }
-
-        .corner-gif.br {
-            margin: 10px;
-        }
+        /* 右下 */
     </style>
 
     <!-- ==================== 梦幻上升光点 - 金黄色版本 ==================== -->
@@ -1554,6 +1539,22 @@
         // 窗口大小改变时重新适配
         window.addEventListener('resize', () => {
             initOrbs();
+        });
+    </script>
+
+    <script>
+        // 统一设置所有角落视频的播放速度
+        document.addEventListener('DOMContentLoaded', () => {
+            const videos = document.querySelectorAll('.corner-video');
+
+            videos.forEach(video => {
+                video.playbackRate = 0.2;        // 改为 0.2 倍速度（慢5倍）
+
+                // 确保视频加载后播放
+                video.addEventListener('loadeddata', () => {
+                    video.play().catch(() => { });
+                });
+            });
         });
     </script>
 </body>
