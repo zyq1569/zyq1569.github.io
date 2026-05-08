@@ -15,61 +15,75 @@
             height: 100%;
             background: #000;
         }
-
         canvas {
             display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100vw;
             height: 100vh;
+            z-index: 1;
         }
     </style>
     <style>
-        /* 顶部和底部容器 */
-        .top-link,
+        /* ==================== 顶部按钮 - 紧贴顶部且不影响时钟 ==================== */
+        .top-link {
+            text-align: center;
+            width: 100%;
+            padding: 6px 0;
+            /* 上下留一点安全距离 */
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 9990;
+            background: transparent;
+            pointer-events: none;
+        }
+        .top-link a {
+            display: inline-block;
+            padding: 7px 22px;
+            color: #ffffff;
+            font-size: 15px;
+            /* 稍微小一点，避免按钮太大 */
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            pointer-events: auto;
+        }
+        /* ==================== 底部按钮 ==================== */
         .bottom-link {
             text-align: center;
             width: 100%;
-            padding: 5px 0;
-            position: fixed;          /* 改为 fixed，让它固定在最顶部 */
-            /* 容器上下留一点间距 */
-            position: relative;
-            z-index: 10000;
+            padding: 12px 0;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            z-index: 9990;
             background: transparent;
+            pointer-events: none;
         }
-
-        /* 按钮本体 - 紧贴文字 */
-        .top-link a,
         .bottom-link a {
             display: inline-block;
             padding: 8px 24px;
-            /* 上下8px，左右24px（可继续缩小） */
             color: #ffffff;
             font-size: 17px;
             font-weight: bold;
             text-decoration: none;
             border-radius: 50px;
-
-            /* 按钮背景只包住文字 */
             background: linear-gradient(135deg, #667eea, #764ba2);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-
             transition: all 0.3s ease;
             white-space: nowrap;
-            /* 防止文字换行 */
+            pointer-events: auto;
         }
-
-        /* 悬停效果 */
         .top-link a:hover,
         .bottom-link a:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 20px rgba(102, 126, 234, 0.5);
-            background: linear-gradient(135deg, #764ba2, #667eea);
-        }
-
-        /* 底部固定 */
-        .bottom-link {
-            position: fixed;
-            bottom: 0;
-            left: 0;
         }
     </style>
 </head>
@@ -81,10 +95,8 @@
             1.天.地.人
         </a>
     </div>
-
     <!-- 你的主要内容（包括四角GIF） -->
     <!-- ... 你的页面内容 ... -->
-
     <!-- 底部按钮 -->
     <div class="bottom-link">
         <a href="https://zyq1569.github.io/ai" target="_blank">
@@ -98,35 +110,20 @@
         /////////////////////////////////////////////////////////
         const canvas = document.getElementById("c");
         const ctx = canvas.getContext("2d");
-
         let w, h, cx, cy;
         function resize() {
-            w = canvas.width =
-                innerWidth * devicePixelRatio;
-
-            h = canvas.height =
-                innerHeight * devicePixelRatio;
-
-            canvas.style.width =
-                innerWidth + "px";
-
-            canvas.style.height =
-                innerHeight + "px";
-
+            w = canvas.width = innerWidth * devicePixelRatio;
+            h = canvas.height = innerHeight * devicePixelRatio;
+            canvas.style.width = innerWidth + "px";
+            canvas.style.height = innerHeight + "px";
             cx = w / 2;
-            //cy = h / 2 - h * 0.091;
-            // ==================== 关键修改 ====================
-            // 手机上把中心点向上偏移，让时钟更居中
+            cy = h / 2;                    // 默认正中心
+            // 只在手机上做轻微向上修正
             const isMobile = /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
             if (isMobile) {
-                cy = h / 2 - h * 0.091;     // 向上偏移 8%（可调整）
-            } else {
-                cy = h / 2 - h * 0.091;
+                cy = h / 2 - h * 0.06;     // 手机上保留少量偏移（可调 0.04~0.08）
             }
-            // ================================================
         }
-
         window.addEventListener("resize", resize);
 
         resize();
@@ -134,28 +131,20 @@
         /////////////////////////////////////////////////////////
         // 参数
         /////////////////////////////////////////////////////////
-
         const galaxyStars = [];
         const galaxyDust = [];
         const bgStars = [];
         const pinkNebulas = [];
-
         const GALAXY_RADIUS = Math.min(w, h) * 0.38;
-
         const ARM_COUNT = 4;
-
         /////////////////////////////////////////////////////////
         // 高斯随机
         /////////////////////////////////////////////////////////
-
         function gaussian() {
-
             let u = 0;
             let v = 0;
-
             while (u === 0) u = Math.random();
             while (v === 0) v = Math.random();
-
             return Math.sqrt(
                 -2 * Math.log(u)
             ) * Math.cos(
@@ -166,7 +155,6 @@
         /////////////////////////////////////////////////////////
         // 背景星空
         /////////////////////////////////////////////////////////
-
         for (let i = 0; i < 2200; i++) {
 
             bgStars.push({
@@ -188,7 +176,6 @@
         /////////////////////////////////////////////////////////
         // 银河恒星（降低密度）
         /////////////////////////////////////////////////////////
-
         const STAR_COLORS = [
 
             [255, 255, 255],
