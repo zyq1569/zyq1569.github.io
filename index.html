@@ -22,9 +22,75 @@
             height: 100vh;
         }
     </style>
+    <style>
+        /* 顶部和底部容器 */
+        .top-link,
+        .bottom-link {
+            text-align: center;
+            width: 100%;
+            padding: 5px 0;
+            position: fixed;          /* 改为 fixed，让它固定在最顶部 */
+            /* 容器上下留一点间距 */
+            position: relative;
+            z-index: 10000;
+            background: transparent;
+        }
+
+        /* 按钮本体 - 紧贴文字 */
+        .top-link a,
+        .bottom-link a {
+            display: inline-block;
+            padding: 8px 24px;
+            /* 上下8px，左右24px（可继续缩小） */
+            color: #ffffff;
+            font-size: 17px;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 50px;
+
+            /* 按钮背景只包住文字 */
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            /* 防止文字换行 */
+        }
+
+        /* 悬停效果 */
+        .top-link a:hover,
+        .bottom-link a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.5);
+            background: linear-gradient(135deg, #764ba2, #667eea);
+        }
+
+        /* 底部固定 */
+        .bottom-link {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+        }
+    </style>
 </head>
 
 <body>
+    <!-- 顶部按钮 -->
+    <div class="top-link">
+        <a href="https://zyq1569.github.io/ago" target="_blank">
+            1.天.地.人
+        </a>
+    </div>
+
+    <!-- 你的主要内容（包括四角GIF） -->
+    <!-- ... 你的页面内容 ... -->
+
+    <!-- 底部按钮 -->
+    <div class="bottom-link">
+        <a href="https://zyq1569.github.io/ai" target="_blank">
+            2.科技.AI
+        </a>
+    </div>
     <canvas id="c"></canvas>
     <script>
         /////////////////////////////////////////////////////////
@@ -48,7 +114,17 @@
                 innerHeight + "px";
 
             cx = w / 2;
-            cy = h / 2;
+            //cy = h / 2 - h * 0.091;
+            // ==================== 关键修改 ====================
+            // 手机上把中心点向上偏移，让时钟更居中
+            const isMobile = /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+            if (isMobile) {
+                cy = h / 2 - h * 0.091;     // 向上偏移 8%（可调整）
+            } else {
+                cy = h / 2 - h * 0.091;
+            }
+            // ================================================
         }
 
         window.addEventListener("resize", resize);
@@ -64,8 +140,7 @@
         const bgStars = [];
         const pinkNebulas = [];
 
-        const GALAXY_RADIUS =
-            Math.min(w, h) * 0.34;
+        const GALAXY_RADIUS = Math.min(w, h) * 0.38;
 
         const ARM_COUNT = 4;
 
@@ -260,7 +335,6 @@
         let last = performance.now();
 
         function draw(time) {
-
             const dt =
                 (time - last) * 0.001;
 
@@ -678,8 +752,7 @@
                 time % blinkCycle;
 
             // 前1000ms显示
-            const clockVisible =
-                blinkTime < 12000;
+            const clockVisible = blinkTime < 12000;
 
             // 淡入淡出
             let clockAlpha = 0;
@@ -731,8 +804,7 @@
             }
             /////////////////////////////////////////////////////////
 
-            const clockRadius =
-                GALAXY_RADIUS * 1.18;
+            const clockRadius = GALAXY_RADIUS * 1.00;
 
             /////////////////////////////////////////////////////////
             // 发光圆环
@@ -1308,14 +1380,12 @@
     </script>
 
     <!-- ==================== 四角GIF装饰代码 ==================== -->
-    <!-- 将以下代码复制到 </body> 结束标签之前即可使用 -->
-
     <div class="corner-gifs">
         <!-- 左上角 -->
         <img src="./pic/ginkgo.gif" alt="" class="corner-gif tl">
 
         <!-- 右上角 -->
-        <img src="./pic/ginkgo.gif" alt="" class="corner-gif tr">
+        <img src="./pic/ginkgob.gif" alt="" class="corner-gif tr">
 
         <!-- 左下角 -->
         <!-- <img src="./pic/ginkgo.gif" alt="" class="corner-gif bl"> -->
@@ -1323,7 +1393,6 @@
         <!-- 右下角 -->
         <!-- <img src="./pic/ginkgo.gif" alt="" class="corner-gif br"> -->
     </div>
-
     <style>
         /* 四角GIF样式 */
         .corner-gifs {
@@ -1347,9 +1416,9 @@
             max-width: 400px;
             min-width: 120px;
 
-            opacity: 0.65;
+            opacity: 0.8;
             /* 调整透明度 0.4~0.8 之间效果最好 */
-            mix-blend-mode: multiply;
+            mix-blend-mode: screen;
             /* 融合神器 */
             /* mix-blend-mode: screen; */
             /* 或者试试 screen（适合亮色GIF） */
