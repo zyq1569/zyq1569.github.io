@@ -1,6 +1,7 @@
 ```html id="h1k9qs"
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,6 +15,7 @@
             height: 100%;
             background: #000;
         }
+
         canvas {
             display: block;
             width: 100vw;
@@ -1305,6 +1307,97 @@
 
     </script>
 
+    <!-- ==================== 四角GIF装饰代码 ==================== -->
+    <!-- 将以下代码复制到 </body> 结束标签之前即可使用 -->
+
+    <div class="corner-gifs">
+        <!-- 左上角 -->
+        <img src="./pic/output_slow.gif" alt="" class="corner-gif tl">
+
+        <!-- 右上角 -->
+        <img src="./pic/output_slow.gif" alt="" class="corner-gif tr">
+
+        <!-- 左下角 -->
+        <!-- <img src="./pic/output_slow.gif" alt="" class="corner-gif bl"> -->
+
+        <!-- 右下角 -->
+        <!-- <img src="./pic/output_slow.gif" alt="" class="corner-gif br"> -->
+    </div>
+
+    <style>
+        /* 四角GIF样式 */
+        .corner-gifs {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            /* 不阻挡鼠标点击 */
+            z-index: 9999;
+            /* 根据需要调整层级 */
+            overflow: hidden;
+        }
+
+        .corner-gif {
+            position: absolute;
+            width: 10vw;
+            /* 或 20vw */
+            height: auto;
+            max-width: 400px;
+            min-width: 120px;
+
+            opacity: 0.65;
+            /* 调整透明度 0.4~0.8 之间效果最好 */
+            mix-blend-mode: multiply;
+            /* 融合神器 */
+            /* mix-blend-mode: screen; */
+            /* 或者试试 screen（适合亮色GIF） */
+            /* mix-blend-mode: overlay; */
+            /* 叠加模式 */
+
+            filter: brightness(1.05) contrast(1.1);
+            /* 可微调亮度和对比度 */
+            pointer-events: none;
+        }
+
+        .corner-gif.tl {
+            top: 0;
+            left: 0;
+        }
+
+        .corner-gif.tr {
+            top: 0;
+            right: 0;
+        }
+
+        .corner-gif.bl {
+            bottom: 0;
+            left: 0;
+        }
+
+        .corner-gif.br {
+            bottom: 0;
+            right: 0;
+        }
+
+        /* 可选：增加一点内边距，避免紧贴屏幕边缘 */
+        .corner-gif.tl {
+            margin: 10px;
+        }
+
+        .corner-gif.tr {
+            margin: 10px;
+        }
+
+        .corner-gif.bl {
+            margin: 10px;
+        }
+
+        .corner-gif.br {
+            margin: 10px;
+        }
+    </style>
 </body>
 
 </html>
