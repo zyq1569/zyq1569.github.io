@@ -873,40 +873,23 @@
             /////////////////////////////////////////////////////////
 
             for (let i = 0; i < 60; i++) {
+                const a = Math.PI * 2 * i / 60 - Math.PI / 2;
 
-                const a =
-                    Math.PI * 2 * i / 60
-                    - Math.PI / 2;
+                const isHour = i % 5 === 0;
 
-                const isHour =
-                    i % 5 === 0;
+                const r1 = clockRadius - (isHour ? 24 : 10);
 
-                const r1 =
-                    clockRadius
-                    - (isHour ? 24 : 10);
+                const r2 = clockRadius;
 
-                const r2 =
-                    clockRadius;
+                const x1 = Math.cos(a) * r1;
 
-                const x1 =
-                    Math.cos(a) * r1;
+                const y1 = Math.sin(a) * r1;
 
-                const y1 =
-                    Math.sin(a) * r1;
+                const x2 = Math.cos(a) * r2;
 
-                const x2 =
-                    Math.cos(a) * r2;
-
-                const y2 =
-                    Math.sin(a) * r2;
-                ctx.strokeStyle =
-                    isHour
-                        ?
-                        `rgba(255,255,255,${0.95 * clockAlpha})`
-                        :
-                        `rgba(180,220,255,${0.45 * clockAlpha})`;
-                ctx.lineWidth =
-                    isHour ? 3 : 1;
+                const y2 = Math.sin(a) * r2;
+                ctx.strokeStyle = isHour ? `rgba(255,255,255,${0.95 * clockAlpha})` : `rgba(180,220,255,${0.45 * clockAlpha})`;
+                ctx.lineWidth = isHour ? 3 : 1;
 
                 ctx.beginPath();
 
@@ -920,43 +903,27 @@
             /////////////////////////////////////////////////////////
             // 12小时数字
             /////////////////////////////////////////////////////////
-            ctx.save();                    // 新增 save
-ctx.shadowBlur = 6 * clockAlpha;     // 大幅降低
-ctx.shadowColor = "rgba(180,220,255,0.85)";
+            ctx.fillStyle = `rgba(255,255,255,${0.95 * clockAlpha})`;
 
-ctx.fillStyle = `rgba(255,255,255,${0.95 * clockAlpha})`;
-
-            //ctx.font = `${clockRadius * 0.08}px serif`;
-            ctx.font = `${Math.floor(clockRadius * 0.092)}px "-apple-system", "SF Pro Display", "PingFang SC", sans-serif`;
+            ctx.font = `${clockRadius * 0.08}px serif`;
 
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
 
             for (let i = 1; i <= 12; i++) {
 
-                const a =
-                    Math.PI * 2 * i / 12
-                    - Math.PI / 2;
+                const a = Math.PI * 2 * i / 12 - Math.PI / 2;
 
-                const r =
-                    clockRadius - 40;
+                const r = clockRadius - 40;
 
-                const x =
-                    Math.cos(a) * r;
+                const x = Math.cos(a) * r;
 
-                const y =
-                    Math.sin(a) * r;
+                const y = Math.sin(a) * r;
 
                 ctx.shadowBlur = 18;
 
-                ctx.shadowColor =
-                    "rgba(120,180,255,0.9)";
-
-                ctx.fillText(
-                    i,
-                    x,
-                    y
-                );
+                ctx.shadowColor = "rgba(120,180,255,0.9)";
+                ctx.fillText(i, x, y);
             }
 
             /////////////////////////////////////////////////////////
@@ -966,8 +933,7 @@ ctx.fillStyle = `rgba(255,255,255,${0.95 * clockAlpha})`;
 
             ctx.shadowBlur = 10;
 
-            ctx.shadowColor =
-                `rgba(120,180,255,${0.5 * clockAlpha})`;
+            ctx.shadowColor = `rgba(120,180,255,${0.5 * clockAlpha})`;
             // 十二时辰
             /////////////////////////////////////////////////////////
 
@@ -1347,7 +1313,7 @@ ctx.fillStyle = `rgba(255,255,255,${0.95 * clockAlpha})`;
             <img src="./pic/ginkgo.gif" alt="" class="corner-gif tl">
 
             <!-- 右上角 -->
-            <!-- <img src="./pic/ginkgob.gif" alt="" class="corner-gif tr"> -->
+            <img src="./pic/ginkgob.gif" alt="" class="corner-gif tr">
 
             <!-- 左下角 -->
             <!-- <img src="./pic/ginkgo.gif" alt="" class="corner-gif bl"> -->
