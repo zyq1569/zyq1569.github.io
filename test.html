@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>时钟文字测试</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background: #000;
+            overflow: hidden;
+            font-family: "-apple-system", "PingFang SC", sans-serif;
+        }
+        canvas {
+            display: block;
+            width: 100vw;
+            height: 100vh;
+            image-rendering: crisp-edges;
+            transform: translateZ(0);
+        }
+    </style>
+</head>
+<body>
+    <canvas id="c"></canvas>
+
+    <script>
+        const canvas = document.getElementById("c");
+        const ctx = canvas.getContext("2d");
+
+        let w, h, cx, cy, clockRadius;
+
+        function resize() {
+            w = canvas.width = window.innerWidth * devicePixelRatio;
+            h = canvas.height = window.innerHeight * devicePixelRatio;
+            canvas.style.width = window.innerWidth + "px";
+            canvas.style.height = window.innerHeight + "px";
+            cx = w / 2;
+            cy = h / 2;
+            clockRadius = Math.min(w, h) * 0.42;
+        }
+
+        window.addEventListener("resize", resize);
+        resize();
+
+        function draw() {
+            ctx.clearRect(0, 0, w, h);
+
+            // 深色背景
+            ctx.fillStyle = "#05080f";
+            ctx.fillRect(0, 0, w, h);
+
+            ctx.save();
+            ctx.translate(cx, cy);
+
+            const now = new Date();
+            const sec = now.getSeconds() + now.getMilliseconds() / 1000;
+            const min = now.getMinutes() + sec / 60;
+            const hour = (now.getHours() % 12) + min / 60;
+
+            const alpha = 1.0;   // 先固定为1，方便测试
+
+            // ==================== 外圈发光环 ====================
+            ctx.strokeStyle = `rgba(100, 180, 255, 0.25)`;
+            ctx.lineWidth = 8;
+            ctx.shadowBlur = 25;
+            ctx.shadowColor = "#60a0ff";
+            ctx.beginPath();
+            ctx.arc(0, 0, clockRadius, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // ==================== 刻度 ====================
+            ctx.shadowBlur = 8;
+            for (let i = 0; i < 60; i++) {
+                const a = Math.PI * 2 * i / 60 - Math.PI / 2;
+                const r1 = clockRadius - (i % 5 === 0 ? 28 : 14);
+                const r2 = clockRadius;
+                ctx.strokeStyle = i % 5 === 0 ? 
+                    `rgba(255,255,255,${alpha})` : 
+                    `rgba(160,200,255,0.5)`;
+                ctx.lineWidth = i % 5 === 0 ? 3.5 : 1.5;
+                
+                ctx.beginPath();
+                ctx.moveTo(Math.cos(a) * r1, Math.sin(a) * r1);
+                ctx.lineTo(Math.cos(a) * r2, Math.sin(a) * r2);
+                ctx.stroke();
+            }
+
+            // ==================== 12小时数字 ====================
+            ctx.shadowBlur = 12;
+            ctx.shadowColor = "#a0d0ff";
+            ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+            ctx.font = `${Math.floor(clockRadius * 0.095)}px "-apple-system", "PingFang SC", "Microsoft YaHei", sans-serif`;
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+
+            for (let i = 1; i <= 12; i++) {
+                const a = Math.PI * 2 * i / 12 - Math.PI / 2;
+                const r = clockRadius - 48;
+                ctx.fillText(i.toString(), Math.cos(a) * r, Math.sin(a) * r);
+            }
+
+            // ==================== 十二时辰 ====================
+            const shichen = ["子","丑","寅","卯","辰","巳","午","未","申","酉","戌","亥"];
+            ctx.shadowBlur = 8;
+            ctx.shadowColor = "#70b0ff";
+            ctx.fillStyle = `rgba(120,180,255,${alpha})`;
+            ctx.font = `${Math.floor(clockRadius * 0.062)}px "-apple-system", "PingFang SC", sans-serif`;
+
+            for (let i = 0; i < 12; i++) {
+                const a = Math.PI * 2 * i / 12 - Math.PI / 2;
+                const r = clockRadius - 78;
+                ctx.fillText(shichen[i], Math.cos(a) * r, Math.sin(a) * r);
+            }
+
+            // ==================== 春夏秋冬 ====================
+            const seasons = [
+                {t:"春", a: -Math.PI/2, c:"#80ffaa"},
+                {t:"夏", a: 0,         c:"#ffaa80"},
+                {t:"秋", a: Math.PI/2, c:"#ffdd80"},
+                {t:"冬", a: Math.PI,   c:"#a0d0ff"}
+            ];
+            
+            ctx.shadowBlur = 18;
+            ctx.font = `${Math.floor(clockRadius * 0.092)}px "-apple-system", "PingFang SC", sans-serif`;
+
+            for (let s of seasons) {
+                ctx.shadowColor = s.c;
+                ctx.fillStyle = s.c;
+                const r = clockRadius + 32;
+                ctx.fillText(s.t, Math.cos(s.a) * r, Math.sin(s.a) * r);
+            }
+
+            ctx.restore();
+
+            requestAnimationFrame(draw);
+        }
+
+        draw();
+    </script>
+</body>
+</html>
