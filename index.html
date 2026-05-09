@@ -923,8 +923,8 @@
             ctx.fillStyle =
                 `rgba(255,255,255,${0.95 * clockAlpha})`;
 
-            ctx.font =
-                `${clockRadius * 0.08}px serif`;
+            //ctx.font = `${clockRadius * 0.08}px serif`;
+            ctx.font = `${Math.floor(clockRadius * 0.092)}px "-apple-system", "SF Pro Display", "PingFang SC", sans-serif`;
 
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";

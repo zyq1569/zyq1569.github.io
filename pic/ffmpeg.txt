@@ -1,1 +1,12 @@
 .\ffmpeg.exe -i sky.mp4 -filter_complex "[0:v]reverse,trim=start_frame=1[rev];[0:v][rev]concat=n=2:v=1[outv]" -map "[outv]" -c:v libx264 -crf 18 -preset slow sky_loop.mp4
+
+.\ffmpeg.exe -i ginkgo.mp4 -vf "setpts=PTS/0.2" output_slow.gif
+.\ffmpeg.exe -i ginkgo.gif -movflags faststart -pix_fmt yuv420p -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" -r  ginkgo.gif.mp4
+
+.\ffmpeg.exe -i ginkgob.gif -movflags faststart -pix_fmt yuv420p -vf "fps=source_fps,scale=320:-1:flags=lanczos,setpts=PTS/5" ginkgogifb.mp4
+
+.\ffmpeg.exe -i ginkgob.gif  -movflags faststart -pix_fmt yuv420p -vf "fps=source_fps,scale=320:-1:flags=lanczos,setpts=PTS/5" ginkgogifb.mp4
+
+ffmpeg -i ginkgo.mp4  -movflags faststart -pix_fmt yuv420p -vf "scale=120:-1:flags=lanczos" -crf 28 -r 20 ginkgo_120.mp4
+
+.\ffmpeg.exe -i ginkgo.mp4 -movflags faststart -pix_fmt yuv420p -vf "scale=120:-1:flags=lanczos" -crf 30 -r 18 ginkgo_120.mp4
