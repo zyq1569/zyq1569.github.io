@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Null2Live - 银河静止版</title>
+    <title>Null2Live</title>
     <style>
         html, body {
             margin: 0;
@@ -19,10 +19,10 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            z-index: 1;
-            image-rendering: crisp-edges;
-            transform: translateZ(0);
         }
+        #galaxy { z-index: 1; }
+        #clock { z-index: 2; }
+
         .top-link, .bottom-link {
             position: fixed; width: 100%; text-align: center; z-index: 9999; pointer-events: none;
         }
@@ -44,18 +44,23 @@
         <a href="https://zyq1569.github.io/health" target="_blank">2.科技.AI</a>
     </div>
 
-    <canvas id="c"></canvas>
+    <canvas id="galaxy"></canvas>
+    <canvas id="clock"></canvas>
 
     <script>
-        const canvas = document.getElementById("c");
-        const ctx = canvas.getContext("2d");
+        // ==================== 双 Canvas 初始化 ====================
+        const gCanvas = document.getElementById("galaxy");
+        const gCtx = gCanvas.getContext("2d");
+        const cCanvas = document.getElementById("clock");
+        const cCtx = cCanvas.getContext("2d");
+
         let w, h, cx, cy;
 
         function resize() {
-            w = canvas.width = innerWidth * devicePixelRatio;
-            h = canvas.height = innerHeight * devicePixelRatio;
-            canvas.style.width = innerWidth + "px";
-            canvas.style.height = innerHeight + "px";
+            w = gCanvas.width = cCanvas.width = innerWidth * devicePixelRatio;
+            h = gCanvas.height = cCanvas.height = innerHeight * devicePixelRatio;
+            gCanvas.style.width = cCanvas.style.width = innerWidth + "px";
+            gCanvas.style.height = cCanvas.style.height = innerHeight + "px";
             cx = w / 2;
             cy = h / 2;
             if (/iPhone/.test(navigator.userAgent)) cy -= h * 0.07;
@@ -73,7 +78,7 @@
             return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
         }
 
-        // 背景星空
+        // 初始化数据
         for (let i = 0; i < 2200; i++) {
             bgStars.push({x: Math.random()*w, y: Math.random()*h, size: Math.random()*2, alpha: 0.2+Math.random()*0.8, twinkle: Math.random()*10});
         }
@@ -104,145 +109,147 @@
             pinkNebulas.push({r, angle, size: 10 + Math.random() * 25, alpha: 0.03 + Math.random() * 0.06});
         }
 
+        let rotation = 0;
         let last = performance.now();
 
         function draw(time) {
             const dt = (time - last) * 0.001;
             last = time;
+            rotation += dt * 0.008;
 
-            // 背景
-            const bg = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(w, h));
+            // ==================== 1. 银河 Canvas ====================
+            const bg = gCtx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(w, h));
             bg.addColorStop(0, "#07111d");
             bg.addColorStop(0.4, "#02050b");
             bg.addColorStop(1, "#000000");
-            ctx.fillStyle = bg;
-            ctx.fillRect(0, 0, w, h);
+            gCtx.fillStyle = bg;
+            gCtx.fillRect(0, 0, w, h);
 
             // 背景星星
             for (const s of bgStars) {
                 const alpha = s.alpha * (0.75 + Math.sin(time * 0.0003 + s.twinkle) * 0.25);
-                ctx.fillStyle = `rgba(255,255,255,${alpha})`;
-                ctx.beginPath();
-                ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
-                ctx.fill();
+                gCtx.fillStyle = `rgba(255,255,255,${alpha})`;
+                gCtx.beginPath();
+                gCtx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+                gCtx.fill();
             }
 
-            // ==================== 银河（关闭旋转） ====================
-            ctx.save();
-            ctx.translate(cx, cy);
-            ctx.rotate(-0.32);        // 只保留倾斜，不旋转
+            // 银河本体
+            gCtx.save();
+            gCtx.translate(cx, cy);
+            gCtx.rotate(-0.32);
+            gCtx.rotate(rotation);
 
             // 蓝色星云
             for (let i = 0; i < 32; i++) {
                 const rr = GALAXY_RADIUS * (0.25 + i / 32);
                 const alpha = 0.05 * (1 - i / 32);
-                const g = ctx.createRadialGradient(0, 0, 0, 0, 0, rr);
+                const g = gCtx.createRadialGradient(0, 0, 0, 0, 0, rr);
                 g.addColorStop(0, `rgba(120,180,255,${alpha})`);
                 g.addColorStop(1, "rgba(0,0,0,0)");
-                ctx.fillStyle = g;
-                ctx.beginPath();
-                ctx.ellipse(0, 0, rr * 1.3, rr * 0.34, 0, 0, Math.PI * 2);
-                ctx.fill();
+                gCtx.fillStyle = g;
+                gCtx.beginPath();
+                gCtx.ellipse(0, 0, rr * 1.3, rr * 0.34, 0, 0, Math.PI * 2);
+                gCtx.fill();
             }
 
             // 尘埃
-            ctx.globalCompositeOperation = "multiply";
+            gCtx.globalCompositeOperation = "multiply";
             for (const d of galaxyDust) {
                 const x = Math.cos(d.angle) * d.r;
                 const y = Math.sin(d.angle) * d.r * 0.34;
-                ctx.fillStyle = `rgba(30,20,10,${d.alpha})`;
-                ctx.beginPath();
-                ctx.arc(x, y, d.size * 5, 0, Math.PI * 2);
-                ctx.fill();
+                gCtx.fillStyle = `rgba(30,20,10,${d.alpha})`;
+                gCtx.beginPath();
+                gCtx.arc(x, y, d.size * 5, 0, Math.PI * 2);
+                gCtx.fill();
             }
 
             // 恒星
-            ctx.globalCompositeOperation = "lighter";
+            gCtx.globalCompositeOperation = "lighter";
             for (const s of galaxyStars) {
                 const x = Math.cos(s.angle) * s.r;
                 const y = Math.sin(s.angle) * s.r * 0.34;
                 const pulse = 0.7 + Math.sin(time * 0.001 + s.twinkle) * 0.3;
                 const alpha = pulse * (0.12 + (1 - s.r / GALAXY_RADIUS) * 0.55);
 
-                const glow = ctx.createRadialGradient(x, y, 0, x, y, s.size * 2.2);
+                const glow = gCtx.createRadialGradient(x, y, 0, x, y, s.size * 2.2);
                 glow.addColorStop(0, `rgba(${s.color[0]},${s.color[1]},${s.color[2]},${alpha})`);
                 glow.addColorStop(1, `rgba(${s.color[0]},${s.color[1]},${s.color[2]},0)`);
-                ctx.fillStyle = glow;
-                ctx.beginPath();
-                ctx.arc(x, y, s.size * 3.5, 0, Math.PI * 2);
-                ctx.fill();
+                gCtx.fillStyle = glow;
+                gCtx.beginPath();
+                gCtx.arc(x, y, s.size * 3.5, 0, Math.PI * 2);
+                gCtx.fill();
 
-                ctx.fillStyle = `rgba(255,255,255,${alpha})`;
-                ctx.beginPath();
-                ctx.arc(x, y, s.size, 0, Math.PI * 2);
-                ctx.fill();
+                gCtx.fillStyle = `rgba(255,255,255,${alpha})`;
+                gCtx.beginPath();
+                gCtx.arc(x, y, s.size, 0, Math.PI * 2);
+                gCtx.fill();
             }
 
             // 粉色星云
             for (const n of pinkNebulas) {
                 const x = Math.cos(n.angle) * n.r;
                 const y = Math.sin(n.angle) * n.r * 0.34;
-                const neb = ctx.createRadialGradient(x, y, 0, x, y, n.size);
+                const neb = gCtx.createRadialGradient(x, y, 0, x, y, n.size);
                 neb.addColorStop(0, `rgba(255,120,180,${n.alpha})`);
                 neb.addColorStop(1, "rgba(255,120,180,0)");
-                ctx.fillStyle = neb;
-                ctx.beginPath();
-                ctx.arc(x, y, n.size, 0, Math.PI * 2);
-                ctx.fill();
+                gCtx.fillStyle = neb;
+                gCtx.beginPath();
+                gCtx.arc(x, y, n.size, 0, Math.PI * 2);
+                gCtx.fill();
             }
 
-            // 核心
-            const core = ctx.createRadialGradient(0, 0, 0, 0, 0, GALAXY_RADIUS * 0.22);
+            // 银河核心
+            const core = gCtx.createRadialGradient(0, 0, 0, 0, 0, GALAXY_RADIUS * 0.22);
             core.addColorStop(0, "rgba(255,255,255,1)");
             core.addColorStop(1, "rgba(255,120,30,0)");
-            ctx.fillStyle = core;
-            ctx.beginPath();
-            ctx.ellipse(0, 0, GALAXY_RADIUS * 0.22, GALAXY_RADIUS * 0.09, 0, 0, Math.PI * 2);
-            ctx.fill();
+            gCtx.fillStyle = core;
+            gCtx.beginPath();
+            gCtx.ellipse(0, 0, GALAXY_RADIUS * 0.22, GALAXY_RADIUS * 0.09, 0, 0, Math.PI * 2);
+            gCtx.fill();
 
-            ctx.restore();
+            gCtx.restore();
 
-            // ==================== 最后画时钟 ====================
+            // ==================== 2. 时钟 Canvas（独立绘制） ====================
+            cCtx.clearRect(0, 0, w, h);
+
             const clockRadius = Math.min(w, h) * 0.39;
             const clockAlpha = 0.95;
 
-            ctx.save();
-            ctx.translate(cx, cy);
-
-            ctx.shadowBlur = 0;
-            ctx.globalCompositeOperation = "source-over";
+            cCtx.save();
+            cCtx.translate(cx, cy);
 
             // 外圈
-            ctx.strokeStyle = "rgba(120,180,255,0.28)";
-            ctx.lineWidth = 8;
-            ctx.shadowBlur = 18;
-            ctx.shadowColor = "#70a8ff";
-            ctx.beginPath();
-            ctx.arc(0, 0, clockRadius, 0, Math.PI * 2);
-            ctx.stroke();
+            cCtx.strokeStyle = "rgba(120,180,255,0.28)";
+            cCtx.lineWidth = 8;
+            cCtx.shadowBlur = 18;
+            cCtx.shadowColor = "#70a8ff";
+            cCtx.beginPath();
+            cCtx.arc(0, 0, clockRadius, 0, Math.PI * 2);
+            cCtx.stroke();
 
             // 文字
-            ctx.textAlign = "center";
-            ctx.textBaseline = "middle";
-            ctx.shadowBlur = 10;
+            cCtx.textAlign = "center";
+            cCtx.textBaseline = "middle";
+            cCtx.shadowBlur = 10;
 
-            ctx.fillStyle = "rgba(255,255,255,0.95)";
-            ctx.font = `${Math.floor(clockRadius * 0.092)}px "-apple-system", "PingFang SC", sans-serif`;
+            cCtx.fillStyle = "rgba(255,255,255,0.95)";
+            cCtx.font = `${Math.floor(clockRadius * 0.092)}px "-apple-system", "PingFang SC", sans-serif`;
             for (let i = 1; i <= 12; i++) {
                 const a = Math.PI * 2 * i / 12 - Math.PI / 2;
-                ctx.fillText(i.toString(), Math.cos(a)*(clockRadius-48), Math.sin(a)*(clockRadius-48));
+                cCtx.fillText(i.toString(), Math.cos(a)*(clockRadius-48), Math.sin(a)*(clockRadius-48));
             }
 
             const shichen = ["子","丑","寅","卯","辰","巳","午","未","申","酉","戌","亥"];
-            ctx.fillStyle = "rgba(120,180,255,0.85)";
-            ctx.font = `${Math.floor(clockRadius * 0.058)}px "-apple-system", "PingFang SC", sans-serif`;
+            cCtx.fillStyle = "rgba(120,180,255,0.85)";
+            cCtx.font = `${Math.floor(clockRadius * 0.058)}px "-apple-system", "PingFang SC", sans-serif`;
             for (let i = 0; i < 12; i++) {
                 const a = Math.PI * 2 * i / 12 - Math.PI / 2;
-                ctx.fillText(shichen[i], Math.cos(a)*(clockRadius-76), Math.sin(a)*(clockRadius-76));
+                cCtx.fillText(shichen[i], Math.cos(a)*(clockRadius-76), Math.sin(a)*(clockRadius-76));
             }
 
-            ctx.shadowBlur = 16;
-            ctx.font = `${Math.floor(clockRadius * 0.088)}px "-apple-system", "PingFang SC", sans-serif`;
+            cCtx.shadowBlur = 16;
+            cCtx.font = `${Math.floor(clockRadius * 0.088)}px "-apple-system", "PingFang SC", sans-serif`;
             const seasons = [
                 {t:"春", a:-Math.PI/2, c:"#80ffaa"},
                 {t:"夏", a:0, c:"#ffaa80"},
@@ -250,13 +257,13 @@
                 {t:"冬", a:Math.PI, c:"#a0d0ff"}
             ];
             for (let s of seasons) {
-                ctx.shadowColor = s.c;
-                ctx.fillStyle = s.c;
+                cCtx.shadowColor = s.c;
+                cCtx.fillStyle = s.c;
                 const r = clockRadius + 30;
-                ctx.fillText(s.t, Math.cos(s.a)*r, Math.sin(s.a)*r);
+                cCtx.fillText(s.t, Math.cos(s.a)*r, Math.sin(s.a)*r);
             }
 
-            ctx.restore();
+            cCtx.restore();
 
             requestAnimationFrame(draw);
         }
