@@ -12,6 +12,7 @@
             height: 100%;
             background: #000;
         }
+
         canvas {
             display: block;
             position: fixed;
@@ -19,20 +20,59 @@
             left: 0;
             width: 100vw;
             height: 100vh;
+            z-index: 1;
+            image-rendering: crisp-edges;
+            transform: translateZ(0);
         }
-        #galaxy { z-index: 1; }
-        #clock { z-index: 2; }
 
-        .top-link, .bottom-link {
-            position: fixed; width: 100%; text-align: center; z-index: 9999; pointer-events: none;
+        /* 顶部按钮 */
+        .top-link {
+            text-align: center;
+            width: 100%;
+            padding: 6px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 9990;
+            background: transparent;
+            pointer-events: none;
         }
-        .top-link { top: 0; padding: 6px 0; }
-        .bottom-link { bottom: 0; padding: 12px 0; }
-        .top-link a, .bottom-link a {
-            display: inline-block; padding: 7px 22px; color: #fff; font-weight: bold;
-            text-decoration: none; border-radius: 50px;
+        .top-link a {
+            display: inline-block;
+            padding: 7px 22px;
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 50px;
             background: linear-gradient(135deg, #667eea, #764ba2);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.4); pointer-events: auto;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            pointer-events: auto;
+        }
+
+        /* 底部按钮 */
+        .bottom-link {
+            text-align: center;
+            width: 100%;
+            padding: 12px 0;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            z-index: 9990;
+            background: transparent;
+            pointer-events: none;
+        }
+        .bottom-link a {
+            display: inline-block;
+            padding: 8px 24px;
+            color: #ffffff;
+            font-size: 17px;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            pointer-events: auto;
         }
     </style>
 </head>
@@ -44,32 +84,34 @@
         <a href="https://zyq1569.github.io/health" target="_blank">2.科技.AI</a>
     </div>
 
-    <canvas id="galaxy"></canvas>
-    <canvas id="clock"></canvas>
+    <canvas id="c"></canvas>
 
     <script>
-        // ==================== 双 Canvas 初始化 ====================
-        const gCanvas = document.getElementById("galaxy");
-        const gCtx = gCanvas.getContext("2d");
-        const cCanvas = document.getElementById("clock");
-        const cCtx = cCanvas.getContext("2d");
-
+        const canvas = document.getElementById("c");
+        const ctx = canvas.getContext("2d");
         let w, h, cx, cy;
 
         function resize() {
-            w = gCanvas.width = cCanvas.width = innerWidth * devicePixelRatio;
-            h = gCanvas.height = cCanvas.height = innerHeight * devicePixelRatio;
-            gCanvas.style.width = cCanvas.style.width = innerWidth + "px";
-            gCanvas.style.height = cCanvas.style.height = innerHeight + "px";
+            w = canvas.width = innerWidth * devicePixelRatio;
+            h = canvas.height = innerHeight * devicePixelRatio;
+            canvas.style.width = innerWidth + "px";
+            canvas.style.height = innerHeight + "px";
             cx = w / 2;
             cy = h / 2;
-            if (/iPhone/.test(navigator.userAgent)) cy -= h * 0.07;
+            if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
+                cy = h / 2 - h * 0.06;
+            }
         }
         window.addEventListener("resize", resize);
         resize();
 
-        const GALAXY_RADIUS = Math.min(innerWidth, innerHeight) * 0.38;
-        const galaxyStars = [], galaxyDust = [], bgStars = [], pinkNebulas = [];
+        // ==================== 银河数据 ====================
+        const GALAXY_RADIUS = Math.min(w, h) * 0.38;
+        const ARM_COUNT = 4;
+        const galaxyStars = [];
+        const galaxyDust = [];
+        const bgStars = [];
+        const pinkNebulas = [];
 
         function gaussian() {
             let u = 0, v = 0;
@@ -78,17 +120,23 @@
             return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
         }
 
-        // 初始化数据
+        // 背景星空
         for (let i = 0; i < 2200; i++) {
-            bgStars.push({x: Math.random()*w, y: Math.random()*h, size: Math.random()*2, alpha: 0.2+Math.random()*0.8, twinkle: Math.random()*10});
+            bgStars.push({
+                x: Math.random() * w,
+                y: Math.random() * h,
+                size: Math.random() * 2,
+                alpha: 0.2 + Math.random() * 0.8,
+                twinkle: Math.random() * 10
+            });
         }
 
         const STAR_COLORS = [[255,255,255],[170,210,255],[120,170,255],[255,220,180],[255,245,220],[255,180,120]];
 
         for (let i = 0; i < 7000; i++) {
             const r = Math.pow(Math.random(), 0.55) * GALAXY_RADIUS;
-            const arm = i % 4;
-            const base = arm * Math.PI * 2 / 4;
+            const arm = i % ARM_COUNT;
+            const base = arm * Math.PI * 2 / ARM_COUNT;
             const angle = base + r * 0.018 + gaussian() * 0.32;
             const size = 0.25 + Math.random() * 1.2 + Math.pow(1 - r / GALAXY_RADIUS, 2) * 2;
             const color = STAR_COLORS[Math.floor(Math.random() * STAR_COLORS.length)];
@@ -109,6 +157,9 @@
             pinkNebulas.push({r, angle, size: 10 + Math.random() * 25, alpha: 0.03 + Math.random() * 0.06});
         }
 
+        // 老设备检测
+        const isOldDevice = /iPhone 6s|iPhone 6,|iPhone 7,|iPhone 8,|iPhone OS 1[0-5]_/.test(navigator.userAgent);
+
         let rotation = 0;
         let last = performance.now();
 
@@ -117,153 +168,175 @@
             last = time;
             rotation += dt * 0.008;
 
-            // ==================== 1. 银河 Canvas ====================
-            const bg = gCtx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(w, h));
+            // 背景
+            const bg = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(w, h));
             bg.addColorStop(0, "#07111d");
             bg.addColorStop(0.4, "#02050b");
             bg.addColorStop(1, "#000000");
-            gCtx.fillStyle = bg;
-            gCtx.fillRect(0, 0, w, h);
+            ctx.fillStyle = bg;
+            ctx.fillRect(0, 0, w, h);
 
-            // 背景星星
+            // 背景星空
             for (const s of bgStars) {
                 const alpha = s.alpha * (0.75 + Math.sin(time * 0.0003 + s.twinkle) * 0.25);
-                gCtx.fillStyle = `rgba(255,255,255,${alpha})`;
-                gCtx.beginPath();
-                gCtx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
-                gCtx.fill();
+                ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+                ctx.fill();
             }
 
-            // 银河本体
-            gCtx.save();
-            gCtx.translate(cx, cy);
-            gCtx.rotate(-0.32);
-            gCtx.rotate(rotation);
+            // 银河绘制
+            ctx.save();
+            ctx.translate(cx, cy);
+            ctx.rotate(-0.32);
+            ctx.rotate(rotation);
 
             // 蓝色星云
             for (let i = 0; i < 32; i++) {
                 const rr = GALAXY_RADIUS * (0.25 + i / 32);
                 const alpha = 0.05 * (1 - i / 32);
-                const g = gCtx.createRadialGradient(0, 0, 0, 0, 0, rr);
+                const g = ctx.createRadialGradient(0, 0, 0, 0, 0, rr);
                 g.addColorStop(0, `rgba(120,180,255,${alpha})`);
                 g.addColorStop(1, "rgba(0,0,0,0)");
-                gCtx.fillStyle = g;
-                gCtx.beginPath();
-                gCtx.ellipse(0, 0, rr * 1.3, rr * 0.34, 0, 0, Math.PI * 2);
-                gCtx.fill();
+                ctx.fillStyle = g;
+                ctx.beginPath();
+                ctx.ellipse(0, 0, rr * 1.3, rr * 0.34, 0, 0, Math.PI * 2);
+                ctx.fill();
             }
 
             // 尘埃
-            gCtx.globalCompositeOperation = "multiply";
+            ctx.globalCompositeOperation = "multiply";
             for (const d of galaxyDust) {
                 const x = Math.cos(d.angle) * d.r;
                 const y = Math.sin(d.angle) * d.r * 0.34;
-                gCtx.fillStyle = `rgba(30,20,10,${d.alpha})`;
-                gCtx.beginPath();
-                gCtx.arc(x, y, d.size * 5, 0, Math.PI * 2);
-                gCtx.fill();
+                ctx.fillStyle = `rgba(30,20,10,${d.alpha})`;
+                ctx.beginPath();
+                ctx.arc(x, y, d.size * 5, 0, Math.PI * 2);
+                ctx.fill();
             }
 
             // 恒星
-            gCtx.globalCompositeOperation = "lighter";
+            ctx.globalCompositeOperation = "lighter";
             for (const s of galaxyStars) {
                 const x = Math.cos(s.angle) * s.r;
                 const y = Math.sin(s.angle) * s.r * 0.34;
                 const pulse = 0.7 + Math.sin(time * 0.001 + s.twinkle) * 0.3;
                 const alpha = pulse * (0.12 + (1 - s.r / GALAXY_RADIUS) * 0.55);
 
-                const glow = gCtx.createRadialGradient(x, y, 0, x, y, s.size * 2.2);
+                const glow = ctx.createRadialGradient(x, y, 0, x, y, s.size * 2.2);
                 glow.addColorStop(0, `rgba(${s.color[0]},${s.color[1]},${s.color[2]},${alpha})`);
                 glow.addColorStop(1, `rgba(${s.color[0]},${s.color[1]},${s.color[2]},0)`);
-                gCtx.fillStyle = glow;
-                gCtx.beginPath();
-                gCtx.arc(x, y, s.size * 3.5, 0, Math.PI * 2);
-                gCtx.fill();
+                ctx.fillStyle = glow;
+                ctx.beginPath();
+                ctx.arc(x, y, s.size * 3.5, 0, Math.PI * 2);
+                ctx.fill();
 
-                gCtx.fillStyle = `rgba(255,255,255,${alpha})`;
-                gCtx.beginPath();
-                gCtx.arc(x, y, s.size, 0, Math.PI * 2);
-                gCtx.fill();
+                ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+                ctx.beginPath();
+                ctx.arc(x, y, s.size, 0, Math.PI * 2);
+                ctx.fill();
             }
 
             // 粉色星云
             for (const n of pinkNebulas) {
                 const x = Math.cos(n.angle) * n.r;
                 const y = Math.sin(n.angle) * n.r * 0.34;
-                const neb = gCtx.createRadialGradient(x, y, 0, x, y, n.size);
+                const neb = ctx.createRadialGradient(x, y, 0, x, y, n.size);
                 neb.addColorStop(0, `rgba(255,120,180,${n.alpha})`);
                 neb.addColorStop(1, "rgba(255,120,180,0)");
-                gCtx.fillStyle = neb;
-                gCtx.beginPath();
-                gCtx.arc(x, y, n.size, 0, Math.PI * 2);
-                gCtx.fill();
+                ctx.fillStyle = neb;
+                ctx.beginPath();
+                ctx.arc(x, y, n.size, 0, Math.PI * 2);
+                ctx.fill();
             }
 
             // 银河核心
-            const core = gCtx.createRadialGradient(0, 0, 0, 0, 0, GALAXY_RADIUS * 0.22);
+            const core = ctx.createRadialGradient(0, 0, 0, 0, 0, GALAXY_RADIUS * 0.22);
             core.addColorStop(0, "rgba(255,255,255,1)");
             core.addColorStop(1, "rgba(255,120,30,0)");
-            gCtx.fillStyle = core;
-            gCtx.beginPath();
-            gCtx.ellipse(0, 0, GALAXY_RADIUS * 0.22, GALAXY_RADIUS * 0.09, 0, 0, Math.PI * 2);
-            gCtx.fill();
+            ctx.fillStyle = core;
+            ctx.beginPath();
+            ctx.ellipse(0, 0, GALAXY_RADIUS * 0.22, GALAXY_RADIUS * 0.09, 0, 0, Math.PI * 2);
+            ctx.fill();
 
-            gCtx.restore();
+            ctx.restore();
 
-            // ==================== 2. 时钟 Canvas（独立绘制） ====================
-            cCtx.clearRect(0, 0, w, h);
-
+            // ==================== 时钟（优化后） ====================
             const clockRadius = Math.min(w, h) * 0.39;
-            const clockAlpha = 0.95;
+            const blinkCycle = 15000;
+            const blinkTime = time % blinkCycle;
+            let clockAlpha = 0;
 
-            cCtx.save();
-            cCtx.translate(cx, cy);
-
-            // 外圈
-            cCtx.strokeStyle = "rgba(120,180,255,0.28)";
-            cCtx.lineWidth = 8;
-            cCtx.shadowBlur = 18;
-            cCtx.shadowColor = "#70a8ff";
-            cCtx.beginPath();
-            cCtx.arc(0, 0, clockRadius, 0, Math.PI * 2);
-            cCtx.stroke();
-
-            // 文字
-            cCtx.textAlign = "center";
-            cCtx.textBaseline = "middle";
-            cCtx.shadowBlur = 10;
-
-            cCtx.fillStyle = "rgba(255,255,255,0.95)";
-            cCtx.font = `${Math.floor(clockRadius * 0.092)}px "-apple-system", "PingFang SC", sans-serif`;
-            for (let i = 1; i <= 12; i++) {
-                const a = Math.PI * 2 * i / 12 - Math.PI / 2;
-                cCtx.fillText(i.toString(), Math.cos(a)*(clockRadius-48), Math.sin(a)*(clockRadius-48));
+            if (blinkTime < 12000) {
+                if (blinkTime < 800) clockAlpha = blinkTime / 800;
+                else if (blinkTime > 11200) clockAlpha = 1 - (blinkTime - 11200) / 800;
+                else clockAlpha = 1;
             }
 
-            const shichen = ["子","丑","寅","卯","辰","巳","午","未","申","酉","戌","亥"];
-            cCtx.fillStyle = "rgba(120,180,255,0.85)";
-            cCtx.font = `${Math.floor(clockRadius * 0.058)}px "-apple-system", "PingFang SC", sans-serif`;
-            for (let i = 0; i < 12; i++) {
-                const a = Math.PI * 2 * i / 12 - Math.PI / 2;
-                cCtx.fillText(shichen[i], Math.cos(a)*(clockRadius-76), Math.sin(a)*(clockRadius-76));
+            if (clockAlpha > 0.03) {
+                ctx.save();
+                ctx.translate(cx, cy);
+
+                ctx.shadowBlur = isOldDevice ? 8 : 18;
+
+                // 外圈
+                ctx.strokeStyle = `rgba(120,180,255,${0.22 * clockAlpha})`;
+                ctx.lineWidth = 6;
+                ctx.shadowColor = "rgba(120,180,255,0.9)";
+                ctx.setLineDash([12, 18]);
+                ctx.lineDashOffset = -time * 0.01;
+                ctx.beginPath();
+                ctx.arc(0, 0, clockRadius, 0, Math.PI * 2);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // 文字
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.shadowBlur = isOldDevice ? 6 : 12;
+
+                // 12数字
+                ctx.fillStyle = `rgba(255,255,255,${0.95 * clockAlpha})`;
+                ctx.font = `${Math.floor(clockRadius * 0.092)}px "-apple-system", "PingFang SC", sans-serif`;
+                for (let i = 1; i <= 12; i++) {
+                    const a = Math.PI * 2 * i / 12 - Math.PI / 2;
+                    ctx.fillText(i.toString(), Math.cos(a) * (clockRadius - 48), Math.sin(a) * (clockRadius - 48));
+                }
+
+                // 时辰
+                const shichen = ["子","丑","寅","卯","辰","巳","午","未","申","酉","戌","亥"];
+                ctx.fillStyle = `rgba(120,180,255,${0.85 * clockAlpha})`;
+                ctx.font = `${Math.floor(clockRadius * 0.058)}px "-apple-system", "PingFang SC", sans-serif`;
+                for (let i = 0; i < 12; i++) {
+                    const a = Math.PI * 2 * i / 12 - Math.PI / 2;
+                    ctx.fillText(shichen[i], Math.cos(a) * (clockRadius - 76), Math.sin(a) * (clockRadius - 76));
+                }
+
+                // 春夏秋冬
+                ctx.shadowBlur = isOldDevice ? 10 : 18;
+                ctx.font = `${Math.floor(clockRadius * 0.088)}px "-apple-system", "PingFang SC", sans-serif`;
+                const seasons = [
+                    {t:"春", a:-Math.PI/2, c:"#80ffaa"},
+                    {t:"夏", a:0, c:"#ffaa80"},
+                    {t:"秋", a:Math.PI/2, c:"#ffdd80"},
+                    {t:"冬", a:Math.PI, c:"#a0d0ff"}
+                ];
+                for (let s of seasons) {
+                    ctx.shadowColor = s.c;
+                    ctx.fillStyle = s.c;
+                    const r = clockRadius + 30;
+                    ctx.fillText(s.t, Math.cos(s.a) * r, Math.sin(s.a) * r);
+                }
+
+                ctx.restore();
             }
 
-            cCtx.shadowBlur = 16;
-            cCtx.font = `${Math.floor(clockRadius * 0.088)}px "-apple-system", "PingFang SC", sans-serif`;
-            const seasons = [
-                {t:"春", a:-Math.PI/2, c:"#80ffaa"},
-                {t:"夏", a:0, c:"#ffaa80"},
-                {t:"秋", a:Math.PI/2, c:"#ffdd80"},
-                {t:"冬", a:Math.PI, c:"#a0d0ff"}
-            ];
-            for (let s of seasons) {
-                cCtx.shadowColor = s.c;
-                cCtx.fillStyle = s.c;
-                const r = clockRadius + 30;
-                cCtx.fillText(s.t, Math.cos(s.a)*r, Math.sin(s.a)*r);
-            }
-
-            cCtx.restore();
+            // 暗角
+            const vignette = ctx.createRadialGradient(cx, cy, Math.min(w,h)*0.2, cx, cy, Math.max(w,h)*0.85);
+            vignette.addColorStop(0, "rgba(0,0,0,0)");
+            vignette.addColorStop(1, "rgba(0,0,0,0.72)");
+            ctx.fillStyle = vignette;
+            ctx.fillRect(0, 0, w, h);
 
             requestAnimationFrame(draw);
         }
