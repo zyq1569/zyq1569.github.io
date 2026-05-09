@@ -6,20 +6,75 @@
     <title>Null2Live</title>
     <style>
         html, body {
-            margin: 0; overflow: hidden; width: 100%; height: 100%; background: #000;
+            margin: 0;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            background: #000;
         }
+
         canvas {
             display: block;
-            position: fixed; top: 0; left: 0;
-            width: 100vw; height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
             z-index: 1;
             image-rendering: crisp-edges;
             transform: translateZ(0);
+            -webkit-transform: translateZ(0);
         }
-    </style>
-    <!-- 你的顶部和底部按钮样式保持不变 -->
-    <style>
-        .top-link, .bottom-link { /* 你原来的样式 */ }
+
+        /* 顶部按钮 */
+        .top-link {
+            text-align: center;
+            width: 100%;
+            padding: 6px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 9990;
+            background: transparent;
+            pointer-events: none;
+        }
+        .top-link a {
+            display: inline-block;
+            padding: 7px 22px;
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            pointer-events: auto;
+        }
+
+        /* 底部按钮 */
+        .bottom-link {
+            text-align: center;
+            width: 100%;
+            padding: 12px 0;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            z-index: 9990;
+            background: transparent;
+            pointer-events: none;
+        }
+        .bottom-link a {
+            display: inline-block;
+            padding: 8px 24px;
+            color: #ffffff;
+            font-size: 17px;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            pointer-events: auto;
+        }
     </style>
 </head>
 <body>
@@ -27,6 +82,7 @@
     <div class="top-link">
         <a href="https://zyq1569.github.io/all" target="_blank">1.天.地.人</a>
     </div>
+
     <!-- 底部按钮 -->
     <div class="bottom-link">
         <a href="https://zyq1569.github.io/health" target="_blank">2.科技.AI</a>
@@ -46,17 +102,15 @@
             canvas.style.height = innerHeight + "px";
             cx = w / 2;
             cy = h / 2;
-            if (/Mobi|Android|iPhone/.test(navigator.userAgent)) {
-                cy = h / 2 - h * 0.06;
-            }
+            const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
+            if (isMobile) cy = h / 2 - h * 0.06;
         }
         window.addEventListener("resize", resize);
         resize();
 
-        // ==================== 你的原始银河参数和数据 ====================
+        // ==================== 银河数据 ====================
         const GALAXY_RADIUS = Math.min(w, h) * 0.38;
         const ARM_COUNT = 4;
-
         const galaxyStars = [];
         const galaxyDust = [];
         const bgStars = [];
@@ -89,8 +143,7 @@
             const angle = base + r * 0.018 + gaussian() * 0.32;
             const size = 0.25 + Math.random() * 1.2 + Math.pow(1 - r / GALAXY_RADIUS, 2) * 2;
             const color = STAR_COLORS[Math.floor(Math.random() * STAR_COLORS.length)];
-
-            galaxyStars.push({ r, angle, size, color, twinkle: Math.random() * 5 });
+            galaxyStars.push({r, angle, size, color, twinkle: Math.random() * 5});
         }
 
         for (let i = 0; i < 4500; i++) {
@@ -98,14 +151,17 @@
             const arm = Math.floor(Math.random() * 4);
             const base = arm * Math.PI * 2 / 4;
             const angle = base + r * 0.018 + gaussian() * 0.18;
-            galaxyDust.push({ r, angle, size: 1 + Math.random() * 3, alpha: 0.015 + Math.random() * 0.04 });
+            galaxyDust.push({r, angle, size: 1 + Math.random() * 3, alpha: 0.015 + Math.random() * 0.04});
         }
 
         for (let i = 0; i < 120; i++) {
             const r = Math.random() * GALAXY_RADIUS;
             const angle = r * 0.018 + Math.random() * Math.PI * 2;
-            pinkNebulas.push({ r, angle, size: 10 + Math.random() * 25, alpha: 0.03 + Math.random() * 0.06 });
+            pinkNebulas.push({r, angle, size: 10 + Math.random() * 25, alpha: 0.03 + Math.random() * 0.06});
         }
+
+        // 老设备检测
+        const isOldDevice = /iPhone 6s|iPhone 6,|iPhone 7,|iPhone 8,|iPhone OS 1[0-5]_/.test(navigator.userAgent);
 
         let rotation = 0;
         let last = performance.now();
@@ -123,7 +179,7 @@
             ctx.fillStyle = bg;
             ctx.fillRect(0, 0, w, h);
 
-            // 背景星星
+            // 背景星空
             for (const s of bgStars) {
                 const alpha = s.alpha * (0.75 + Math.sin(time * 0.0003 + s.twinkle) * 0.25);
                 ctx.fillStyle = `rgba(255,255,255,${alpha})`;
@@ -132,7 +188,7 @@
                 ctx.fill();
             }
 
-            // ==================== 原版银河绘制 ====================
+            // ==================== 银河绘制 ====================
             ctx.save();
             ctx.translate(cx, cy);
             ctx.rotate(-0.32);
@@ -144,7 +200,7 @@
                 const alpha = 0.05 * (1 - i / 32);
                 const g = ctx.createRadialGradient(0, 0, 0, 0, 0, rr);
                 g.addColorStop(0, `rgba(120,180,255,${alpha})`);
-                g.addColorStop(0.5, `rgba(50,120,255,${alpha*0.8})`);
+                g.addColorStop(0.5, `rgba(50,120,255,${alpha * 0.8})`);
                 g.addColorStop(1, "rgba(0,0,0,0)");
                 ctx.fillStyle = g;
                 ctx.beginPath();
@@ -212,7 +268,7 @@
 
             ctx.restore();
 
-            // ==================== 安全版时钟（已验证6sp可用） ====================
+            // ==================== 时钟（重点优化） ====================
             const clockRadius = Math.min(w, h) * 0.39;
             const blinkCycle = 15000;
             const blinkTime = time % blinkCycle;
@@ -231,7 +287,7 @@
                 // 外圈
                 ctx.strokeStyle = `rgba(120,180,255,${0.22 * clockAlpha})`;
                 ctx.lineWidth = 6;
-                ctx.shadowBlur = 20 * clockAlpha;
+                ctx.shadowBlur = isOldDevice ? 12 * clockAlpha : 22 * clockAlpha;
                 ctx.shadowColor = "rgba(120,180,255,0.9)";
                 ctx.setLineDash([12, 18]);
                 ctx.lineDashOffset = -time * 0.01;
@@ -240,8 +296,43 @@
                 ctx.stroke();
                 ctx.setLineDash([]);
 
-                // 刻度 + 文字 + 指针（简化安全写法）略... 
-                // （如果你需要我把完整指针+季节也加上，请告诉我）
+                // 文字
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.shadowBlur = isOldDevice ? 8 * clockAlpha : 14 * clockAlpha;
+
+                // 12数字
+                ctx.fillStyle = `rgba(255,255,255,${0.95 * clockAlpha})`;
+                ctx.font = `${Math.floor(clockRadius * 0.092)}px "-apple-system", "PingFang SC", sans-serif`;
+                for (let i = 1; i <= 12; i++) {
+                    const a = Math.PI * 2 * i / 12 - Math.PI / 2;
+                    ctx.fillText(i.toString(), Math.cos(a) * (clockRadius - 48), Math.sin(a) * (clockRadius - 48));
+                }
+
+                // 时辰
+                const shichen = ["子","丑","寅","卯","辰","巳","午","未","申","酉","戌","亥"];
+                ctx.fillStyle = `rgba(120,180,255,${0.85 * clockAlpha})`;
+                ctx.font = `${Math.floor(clockRadius * 0.058)}px "-apple-system", "PingFang SC", sans-serif`;
+                for (let i = 0; i < 12; i++) {
+                    const a = Math.PI * 2 * i / 12 - Math.PI / 2;
+                    ctx.fillText(shichen[i], Math.cos(a) * (clockRadius - 76), Math.sin(a) * (clockRadius - 76));
+                }
+
+                // 春夏秋冬
+                ctx.shadowBlur = isOldDevice ? 12 * clockAlpha : 18 * clockAlpha;
+                ctx.font = `${Math.floor(clockRadius * 0.088)}px "-apple-system", "PingFang SC", sans-serif`;
+                const seasons = [
+                    {t:"春", a:-Math.PI/2, c:"#80ffaa"},
+                    {t:"夏", a:0, c:"#ffaa80"},
+                    {t:"秋", a:Math.PI/2, c:"#ffdd80"},
+                    {t:"冬", a:Math.PI, c:"#a0d0ff"}
+                ];
+                for (let s of seasons) {
+                    ctx.shadowColor = s.c;
+                    ctx.fillStyle = s.c;
+                    const r = clockRadius + 30;
+                    ctx.fillText(s.t, Math.cos(s.a) * r, Math.sin(s.a) * r);
+                }
 
                 ctx.restore();
             }
