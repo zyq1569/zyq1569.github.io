@@ -920,8 +920,11 @@
             /////////////////////////////////////////////////////////
             // 12小时数字
             /////////////////////////////////////////////////////////
-            ctx.fillStyle =
-                `rgba(255,255,255,${0.95 * clockAlpha})`;
+            ctx.save();                    // 新增 save
+ctx.shadowBlur = 6 * clockAlpha;     // 大幅降低
+ctx.shadowColor = "rgba(180,220,255,0.85)";
+
+ctx.fillStyle = `rgba(255,255,255,${0.95 * clockAlpha})`;
 
             //ctx.font = `${clockRadius * 0.08}px serif`;
             ctx.font = `${Math.floor(clockRadius * 0.092)}px "-apple-system", "SF Pro Display", "PingFang SC", sans-serif`;
@@ -1344,7 +1347,7 @@
             <img src="./pic/ginkgo.gif" alt="" class="corner-gif tl">
 
             <!-- 右上角 -->
-            <img src="./pic/ginkgob.gif" alt="" class="corner-gif tr">
+            <!-- <img src="./pic/ginkgob.gif" alt="" class="corner-gif tr"> -->
 
             <!-- 左下角 -->
             <!-- <img src="./pic/ginkgo.gif" alt="" class="corner-gif bl"> -->
