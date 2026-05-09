@@ -1,801 +1,123 @@
-```html id="h1k9qs"
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Null2Live</title>
+    <title>Null2Live - 集成测试版2</title>
     <style>
-        html,
-        body {
-            margin: 0;
-            overflow: hidden;
-            width: 100%;
-            height: 100%;
-            background: #000;
+        html, body {
+            margin: 0; padding: 0; height: 100%; background: #000; overflow: hidden;
         }
-
         canvas {
             display: block;
-            image-rendering: crisp-edges;
-            transform: translateZ(0);
-            -webkit-transform: translateZ(0);
-            will-change: transform;
-            position: fixed;
-            top: 0;
-            left: 0;
             width: 100vw;
             height: 100vh;
-            z-index: 1;
-        }
-    </style>
-    <style>
-        /* ==================== 顶部按钮 - 紧贴顶部且不影响时钟 ==================== */
-        .top-link {
-            text-align: center;
-            width: 100%;
-            padding: 6px 0;
-            /* 上下留一点安全距离 */
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 9990;
-            background: transparent;
-            pointer-events: none;
-        }
-
-        .top-link a {
-            display: inline-block;
-            padding: 7px 22px;
-            color: #ffffff;
-            font-size: 15px;
-            /* 稍微小一点，避免按钮太大 */
-            font-weight: bold;
-            text-decoration: none;
-            border-radius: 50px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-            transition: all 0.3s ease;
-            white-space: nowrap;
-            pointer-events: auto;
-        }
-
-        /* ==================== 底部按钮 ==================== */
-        .bottom-link {
-            text-align: center;
-            width: 100%;
-            padding: 12px 0;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            z-index: 9990;
-            background: transparent;
-            pointer-events: none;
-        }
-
-        .bottom-link a {
-            display: inline-block;
-            padding: 8px 24px;
-            color: #ffffff;
-            font-size: 17px;
-            font-weight: bold;
-            text-decoration: none;
-            border-radius: 50px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-            transition: all 0.3s ease;
-            white-space: nowrap;
-            pointer-events: auto;
-        }
-
-        .top-link a:hover,
-        .bottom-link a:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.5);
+            image-rendering: crisp-edges;
+            transform: translateZ(0);
         }
     </style>
 </head>
-
 <body>
-    <!-- 顶部按钮 -->
     <div class="top-link">
-        <a href="https://zyq1569.github.io/all" target="_blank">
-            1.天.地.人
-        </a>
+        <a href="https://zyq1569.github.io/all" target="_blank">1.天.地.人</a>
     </div>
-    <!-- 主要内容（包括四角GIF） -->
-    <!-- ... 你的页面内容 ... -->
-    <!-- 底部按钮 -->
     <div class="bottom-link">
-        <a href="https://zyq1569.github.io/health" target="_blank">
-            2.科技.AI
-        </a>
+        <a href="https://zyq1569.github.io/health" target="_blank">2.科技.AI</a>
     </div>
+
     <canvas id="c"></canvas>
+
     <script>
-        /////////////////////////////////////////////////////////
-        // Canvas
-        /////////////////////////////////////////////////////////
         const canvas = document.getElementById("c");
         const ctx = canvas.getContext("2d");
         let w, h, cx, cy;
+
         function resize() {
             w = canvas.width = innerWidth * devicePixelRatio;
             h = canvas.height = innerHeight * devicePixelRatio;
             canvas.style.width = innerWidth + "px";
             canvas.style.height = innerHeight + "px";
             cx = w / 2;
-            cy = h / 2;                    // 默认正中心
-            // 只在手机上做轻微向上修正
-            const isMobile = /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            if (isMobile) {
-                cy = h / 2 - h * 0.06;     // 手机上保留少量偏移（可调 0.04~0.08）
+            cy = h / 2;
+            if (/Mobi|Android|iPhone/.test(navigator.userAgent)) {
+                cy = h / 2 - h * 0.06;
             }
         }
         window.addEventListener("resize", resize);
-
         resize();
-
-        /////////////////////////////////////////////////////////
-        // 参数
-        /////////////////////////////////////////////////////////
-        const galaxyStars = [];
-        const galaxyDust = [];
-        const bgStars = [];
-        const pinkNebulas = [];
-        const GALAXY_RADIUS = Math.min(w, h) * 0.38;
-        const ARM_COUNT = 4;
-        /////////////////////////////////////////////////////////
-        // 高斯随机
-        /////////////////////////////////////////////////////////
-        function gaussian() {
-            let u = 0;
-            let v = 0;
-            while (u === 0) u = Math.random();
-            while (v === 0) v = Math.random();
-            return Math.sqrt(
-                -2 * Math.log(u)
-            ) * Math.cos(
-                2 * Math.PI * v
-            );
-        }
-
-        /////////////////////////////////////////////////////////
-        // 背景星空
-        /////////////////////////////////////////////////////////
-        for (let i = 0; i < 2200; i++) {
-
-            bgStars.push({
-
-                x: Math.random() * w,
-                y: Math.random() * h,
-
-                size:
-                    Math.random() * 2,
-
-                alpha:
-                    0.2 + Math.random() * 0.8,
-
-                twinkle:
-                    Math.random() * 10
-            });
-        }
-
-        /////////////////////////////////////////////////////////
-        // 银河恒星（降低密度）
-        /////////////////////////////////////////////////////////
-        const STAR_COLORS = [
-
-            [255, 255, 255],
-            [170, 210, 255],
-            [120, 170, 255],
-            [255, 220, 180],
-            [255, 245, 220],
-            [255, 180, 120]
-        ];
-
-        for (let i = 0; i < 7000; i++) {
-
-            const r =
-                Math.pow(
-                    Math.random(),
-                    0.55
-                ) * GALAXY_RADIUS;
-
-            const arm =
-                i % ARM_COUNT;
-
-            const base =
-                arm * Math.PI * 2 / ARM_COUNT;
-
-            /////////////////////////////////////////////////////
-            // 旋臂扩散
-            /////////////////////////////////////////////////////
-
-            const angle =
-                base +
-                r * 0.018 +
-                gaussian() * 0.32;
-
-            /////////////////////////////////////////////////////
-            // 星星尺寸
-            /////////////////////////////////////////////////////
-
-            const size =
-                0.25 +
-                Math.random() * 1.2 +
-                Math.pow(
-                    1 - r / GALAXY_RADIUS,
-                    2
-                ) * 2;
-
-            /////////////////////////////////////////////////////
-            // 星星颜色
-            /////////////////////////////////////////////////////
-
-            const color =
-                STAR_COLORS[
-                Math.floor(
-                    Math.random()
-                    * STAR_COLORS.length
-                )
-                ];
-
-            galaxyStars.push({
-
-                r,
-                angle,
-                size,
-                color,
-
-                twinkle:
-                    Math.random() * 5
-            });
-        }
-
-        /////////////////////////////////////////////////////////
-        // 尘埃带（降低密度）
-        /////////////////////////////////////////////////////////
-
-        for (let i = 0; i < 4500; i++) {
-
-            const r =
-                Math.pow(
-                    Math.random(),
-                    0.75
-                ) * GALAXY_RADIUS;
-
-            const arm =
-                Math.floor(
-                    Math.random() * 4
-                );
-
-            const base =
-                arm * Math.PI * 2 / 4;
-
-            const angle =
-                base +
-                r * 0.018 +
-                gaussian() * 0.18;
-
-            galaxyDust.push({
-
-                r,
-                angle,
-
-                size:
-                    1 +
-                    Math.random() * 3,
-
-                alpha:
-                    0.015 +
-                    Math.random() * 0.04
-            });
-        }
-
-        /////////////////////////////////////////////////////////
-        // 粉色星云
-        /////////////////////////////////////////////////////////
-
-        for (let i = 0; i < 120; i++) {
-
-            const r =
-                Math.random()
-                * GALAXY_RADIUS;
-
-            const angle =
-                r * 0.018 +
-                Math.random() * Math.PI * 2;
-
-            pinkNebulas.push({
-
-                r,
-                angle,
-
-                size:
-                    10 +
-                    Math.random() * 25,
-
-                alpha:
-                    0.03 +
-                    Math.random() * 0.06
-            });
-        }
-
-        /////////////////////////////////////////////////////////
-        // 动画
-        /////////////////////////////////////////////////////////
 
         let rotation = 0;
         let last = performance.now();
 
         function draw(time) {
-            const dt =
-                (time - last) * 0.001;
-
+            const dt = (time - last) * 0.001;
             last = time;
-
-            /////////////////////////////////////////////////////
-            // 缓慢旋转
-            /////////////////////////////////////////////////////
-
             rotation += dt * 0.008;
 
-            /////////////////////////////////////////////////////
             // 背景
-            /////////////////////////////////////////////////////
-
-            const bg =
-                ctx.createRadialGradient(
-                    cx, cy, 0,
-                    cx, cy,
-                    Math.max(w, h)
-                );
-
-            bg.addColorStop(0, "#07111d");
-            bg.addColorStop(0.4, "#02050b");
-            bg.addColorStop(1, "#000000");
-
-            ctx.fillStyle = bg;
-
+            ctx.fillStyle = "#05080f";
             ctx.fillRect(0, 0, w, h);
 
-            /////////////////////////////////////////////////////
-            // 背景星空
-            /////////////////////////////////////////////////////
-
-            for (const s of bgStars) {
-
-                const alpha =
-                    s.alpha *
-                    (
-                        0.75 +
-                        Math.sin(
-                            time * 0.0003
-                            + s.twinkle
-                        ) * 0.25
-                    );
-
-                ctx.fillStyle =
-                    `rgba(255,255,255,${alpha})`;
-
-                ctx.beginPath();
-
-                ctx.arc(
-                    s.x,
-                    s.y,
-                    s.size,
-                    0,
-                    Math.PI * 2
-                );
-
-                ctx.fill();
-            }
-
-            /////////////////////////////////////////////////////
-            // 银河
-            /////////////////////////////////////////////////////
-
+            // ==================== 银河部分（中等复杂度） ====================
             ctx.save();
-
             ctx.translate(cx, cy);
-
-            /////////////////////////////////////////////////////
-            // 倾斜银河
-            /////////////////////////////////////////////////////
-
             ctx.rotate(-0.32);
-
-            /////////////////////////////////////////////////////
-            // 银河整体旋转
-            /////////////////////////////////////////////////////
-
             ctx.rotate(rotation);
 
-            /////////////////////////////////////////////////////
-            // 蓝色星云主体
-            /////////////////////////////////////////////////////
-
-            for (let i = 0; i < 32; i++) {
-
-                const rr =
-                    GALAXY_RADIUS *
-                    (0.25 + i / 32);
-
-                ///////////////////////////////////////////////////
-                // 增强星云
-                ///////////////////////////////////////////////////
-
-                const alpha =
-                    0.05 *
-                    (1 - i / 32);
-
-                const g =
-                    ctx.createRadialGradient(
-                        0, 0, 0,
-                        0, 0, rr
-                    );
-
-                g.addColorStop(
-                    0,
-                    `rgba(
-                120,
-                180,
-                255,
-                ${alpha}
-            )`
-                );
-
-                g.addColorStop(
-                    0.5,
-                    `rgba(
-                50,
-                120,
-                255,
-                ${alpha * 0.8}
-            )`
-                );
-
-                g.addColorStop(
-                    1,
-                    `rgba(0,0,0,0)`
-                );
-
-                ctx.fillStyle = g;
-
-                ctx.beginPath();
-
-                ctx.ellipse(
-                    0,
-                    0,
-                    rr * 1.3,
-                    rr * 0.34,
-                    0,
-                    0,
-                    Math.PI * 2
-                );
-
-                ctx.fill();
-            }
-
-            /////////////////////////////////////////////////////
-            // 尘埃带
-            /////////////////////////////////////////////////////
-            ctx.globalCompositeOperation = "multiply";
-
-            for (const d of galaxyDust) {
-
-                const x =
-                    Math.cos(d.angle)
-                    * d.r;
-
-                const y =
-                    Math.sin(d.angle)
-                    * d.r * 0.34;
-
-                ctx.fillStyle =
-                    `rgba(
-                30,
-                20,
-                10,
-                ${d.alpha}
-            )`;
-
-                ctx.beginPath();
-
-                ctx.arc(
-                    x,
-                    y,
-                    d.size * 5,
-                    0,
-                    Math.PI * 2
-                );
-
-                ctx.fill();
-            }
-
-            /////////////////////////////////////////////////////
-            // 恒星层
-            /////////////////////////////////////////////////////
-
-            ctx.globalCompositeOperation =
-                "lighter";
-
-            for (const s of galaxyStars) {
-
-                const x =
-                    Math.cos(s.angle)
-                    * s.r;
-
-                const y =
-                    Math.sin(s.angle)
-                    * s.r * 0.34;
-
-                ///////////////////////////////////////////////////
-                // 闪烁
-                ///////////////////////////////////////////////////
-
-                const pulse =
-                    0.7 +
-                    Math.sin(
-                        time * 0.001
-                        + s.twinkle
-                    ) * 0.3;
-
-                ///////////////////////////////////////////////////
-                // 降低亮度
-                ///////////////////////////////////////////////////
-
-                const alpha =
-                    pulse *
-                    (
-                        0.12 +
-                        (1 - s.r / GALAXY_RADIUS)
-                        * 0.55
-                    );
-
-                ///////////////////////////////////////////////////
-                // 星体辉光（缩小）
-                ///////////////////////////////////////////////////
-
-                const glow =
-                    ctx.createRadialGradient(
-                        x, y, 0,
-                        x, y, s.size * 2.2
-                    );
-
-                glow.addColorStop(
-                    0,
-                    `rgba(
-                ${s.color[0]},
-                ${s.color[1]},
-                ${s.color[2]},
-                ${alpha}
-            )`
-                );
-
-                glow.addColorStop(
-                    1,
-                    `rgba(
-                ${s.color[0]},
-                ${s.color[1]},
-                ${s.color[2]},
-                0
-            )`
-                );
-
-                ctx.fillStyle = glow;
-
-                ctx.beginPath();
-
-                ctx.arc(
-                    x,
-                    y,
-                    s.size * 3.5,
-                    0,
-                    Math.PI * 2
-                );
-
-                ctx.fill();
-
-                ///////////////////////////////////////////////////
-                // 星核
-                ///////////////////////////////////////////////////
-
-                ctx.fillStyle =
-                    `rgba(255,255,255,${alpha})`;
-
-                ctx.beginPath();
-
-                ctx.arc(
-                    x,
-                    y,
-                    s.size,
-                    0,
-                    Math.PI * 2
-                );
-
-                ctx.fill();
-            }
-
-            /////////////////////////////////////////////////////
-            // 粉色星云团
-            /////////////////////////////////////////////////////
-
-            for (const n of pinkNebulas) {
-
-                const x =
-                    Math.cos(n.angle)
-                    * n.r;
-
-                const y =
-                    Math.sin(n.angle)
-                    * n.r * 0.34;
-
-                const neb =
-                    ctx.createRadialGradient(
-                        x, y, 0,
-                        x, y, n.size
-                    );
-
-                neb.addColorStop(
-                    0,
-                    `rgba(
-                255,
-                120,
-                180,
-                ${n.alpha}
-            )`
-                );
-
-                neb.addColorStop(
-                    1,
-                    `rgba(
-                255,
-                120,
-                180,
-                0
-            )`
-                );
-
-                ctx.fillStyle = neb;
-
-                ctx.beginPath();
-
-                ctx.arc(
-                    x,
-                    y,
-                    n.size,
-                    0,
-                    Math.PI * 2
-                );
-
-                ctx.fill();
-            }
-
-            /////////////////////////////////////////////////////
-            // 银河核心
-            /////////////////////////////////////////////////////
-
-            const core =
-                ctx.createRadialGradient(
-                    0, 0, 0,
-                    0, 0,
-                    GALAXY_RADIUS * 0.22
-                );
-
-            core.addColorStop(
-                0,
-                "rgba(255,255,255,1)"
-            );
-
-            core.addColorStop(
-                0.15,
-                "rgba(255,250,220,1)"
-            );
-
-            core.addColorStop(
-                0.35,
-                "rgba(255,235,120,0.95)"
-            );
-
-            core.addColorStop(
-                0.6,
-                "rgba(255,170,70,0.45)"
-            );
-
-            core.addColorStop(
-                1,
-                "rgba(255,120,30,0)"
-            );
-
-            ctx.fillStyle = core;
-
+            // 蓝色星云
+            const nebula = ctx.createRadialGradient(0, 0, 0, 0, 0, GALAXY_RADIUS * 1.3);
+            nebula.addColorStop(0, "rgba(100,160,255,0.18)");
+            nebula.addColorStop(1, "rgba(0,0,0,0)");
+            ctx.fillStyle = nebula;
             ctx.beginPath();
+            ctx.ellipse(0, 0, GALAXY_RADIUS * 1.35, GALAXY_RADIUS * 0.36, 0, 0, Math.PI * 2);
+            ctx.fill();
 
-            ctx.ellipse(
-                0,
-                0,
-                GALAXY_RADIUS * 0.22,
-                GALAXY_RADIUS * 0.09,
-                0,
-                0,
-                Math.PI * 2
-            );
-
+            // 银河核心
+            const core = ctx.createRadialGradient(0, 0, 0, 0, 0, GALAXY_RADIUS * 0.25);
+            core.addColorStop(0, "rgba(255,240,200,0.9)");
+            core.addColorStop(1, "rgba(255,180,100,0)");
+            ctx.fillStyle = core;
+            ctx.beginPath();
+            ctx.ellipse(0, 0, GALAXY_RADIUS * 0.25, GALAXY_RADIUS * 0.1, 0, 0, Math.PI * 2);
             ctx.fill();
 
             ctx.restore();
 
-            /////////////////////////////////////////////////////
-            // 暗角
-            /////////////////////////////////////////////////////
-            /////////////////////////////////////////////////////////
-            // 银河外围时钟
-            /////////////////////////////////////////////////////////
-            // 时钟闪现（2秒隐藏 + 1秒显示）
-            /////////////////////////////////////////////////////////
- const clockRadius = Math.min(w, h) * 0.39;
-
-            // 闪烁逻辑
+            // ==================== 时钟（可靠版本） ====================
+            const clockRadius = Math.min(w, h) * 0.39;
             const blinkCycle = 15000;
             const blinkTime = time % blinkCycle;
             let clockAlpha = 0;
 
             if (blinkTime < 12000) {
-                if (blinkTime < 800) {
-                    clockAlpha = blinkTime / 800;
-                } else if (blinkTime > 11200) {
-                    clockAlpha = 1 - (blinkTime - 11200) / 800;
-                } else {
-                    clockAlpha = 1;
-                }
+                if (blinkTime < 800) clockAlpha = blinkTime / 800;
+                else if (blinkTime > 11200) clockAlpha = 1 - (blinkTime - 11200) / 800;
+                else clockAlpha = 1;
             }
 
             if (clockAlpha > 0.03) {
                 ctx.save();
                 ctx.translate(cx, cy);
 
-                // 1. 外圈
-                ctx.strokeStyle = `rgba(120,180,255,${0.20 * clockAlpha})`;
-                ctx.lineWidth = 6;
-                ctx.shadowBlur = 15 * clockAlpha;
-                ctx.shadowColor = "#60a0ff";
-                ctx.setLineDash([10, 16]);
+                // 外圈
+                ctx.strokeStyle = `rgba(120,180,255,${0.25 * clockAlpha})`;
+                ctx.lineWidth = 7;
+                ctx.shadowBlur = 16 * clockAlpha;
+                ctx.shadowColor = "#70a8ff";
                 ctx.beginPath();
                 ctx.arc(0, 0, clockRadius, 0, Math.PI * 2);
                 ctx.stroke();
-                ctx.setLineDash([]);
 
-                // 2. 刻度（简化）
-                ctx.shadowBlur = 4 * clockAlpha;
-                for (let i = 0; i < 60; i++) {
-                    const a = (Math.PI * 2 * i / 60) - Math.PI / 2;
-                    const len = (i % 5 === 0) ? 28 : 14;
-                    ctx.strokeStyle = (i % 5 === 0) ?
-                        `rgba(255,255,255,${0.9 * clockAlpha})` :
-                        `rgba(180,220,255,${0.4 * clockAlpha})`;
-                    ctx.lineWidth = (i % 5 === 0) ? 3 : 1.5;
-
-                    ctx.beginPath();
-                    ctx.moveTo(Math.cos(a) * (clockRadius - len), Math.sin(a) * (clockRadius - len));
-                    ctx.lineTo(Math.cos(a) * clockRadius, Math.sin(a) * clockRadius);
-                    ctx.stroke();
-                }
-
-                // 3. 文字（使用最安全的写法）
+                // 12数字
                 ctx.textAlign = "center";
                 ctx.textBaseline = "middle";
                 ctx.shadowBlur = 10 * clockAlpha;
-
-                // 12数字
                 ctx.fillStyle = `rgba(255,255,255,${0.95 * clockAlpha})`;
                 ctx.font = `${Math.floor(clockRadius * 0.09)}px "-apple-system", sans-serif`;
                 for (let i = 1; i <= 12; i++) {
-                    const a = (Math.PI * 2 * i / 12) - Math.PI / 2;
-                    const r = clockRadius - 46;
-                    ctx.fillText(i.toString(), Math.cos(a) * r, Math.sin(a) * r);
+                    const a = Math.PI * 2 * i / 12 - Math.PI / 2;
+                    ctx.fillText(i.toString(), Math.cos(a) * (clockRadius - 46), Math.sin(a) * (clockRadius - 46));
                 }
 
                 // 时辰
@@ -803,19 +125,18 @@
                 ctx.fillStyle = `rgba(120,180,255,${0.85 * clockAlpha})`;
                 ctx.font = `${Math.floor(clockRadius * 0.058)}px "-apple-system", sans-serif`;
                 for (let i = 0; i < 12; i++) {
-                    const a = (Math.PI * 2 * i / 12) - Math.PI / 2;
-                    const r = clockRadius - 76;
-                    ctx.fillText(shichen[i], Math.cos(a) * r, Math.sin(a) * r);
+                    const a = Math.PI * 2 * i / 12 - Math.PI / 2;
+                    ctx.fillText(shichen[i], Math.cos(a) * (clockRadius - 76), Math.sin(a) * (clockRadius - 76));
                 }
 
                 // 春夏秋冬
-                ctx.shadowBlur = 16 * clockAlpha;
-                ctx.font = `${Math.floor(clockRadius * 0.088)}px "-apple-system", sans-serif`;
+                ctx.shadowBlur = 15 * clockAlpha;
+                ctx.font = `${Math.floor(clockRadius * 0.085)}px "-apple-system", sans-serif`;
                 const seasons = [
                     {t:"春", a:-Math.PI/2, c:"#80ffaa"},
-                    {t:"夏", a:0,         c:"#ffaa80"},
+                    {t:"夏", a:0, c:"#ffaa80"},
                     {t:"秋", a:Math.PI/2, c:"#ffdd80"},
-                    {t:"冬", a:Math.PI,   c:"#a0d0ff"}
+                    {t:"冬", a:Math.PI, c:"#a0d0ff"}
                 ];
                 for (let s of seasons) {
                     ctx.shadowColor = s.c;
@@ -824,277 +145,14 @@
                     ctx.fillText(s.t, Math.cos(s.a) * r, Math.sin(s.a) * r);
                 }
 
-                // 指针（简化版）
-                const now = new Date();
-                const sec = now.getSeconds() + now.getMilliseconds()/1000;
-                const min = now.getMinutes() + sec/60;
-                const hour = (now.getHours()%12) + min/60;
-
-                const drawHand = (angle, len, width, color) => {
-                    ctx.save();
-                    ctx.rotate(angle);
-                    ctx.strokeStyle = color;
-                    ctx.lineWidth = width;
-                    ctx.lineCap = "round";
-                    ctx.shadowBlur = 12 * clockAlpha;
-                    ctx.shadowColor = color;
-                    ctx.beginPath();
-                    ctx.moveTo(0, 8);
-                    ctx.lineTo(0, -len);
-                    ctx.stroke();
-                    ctx.restore();
-                };
-
-                drawHand(Math.PI*2*hour/12, clockRadius*0.40, 4, `rgba(255,220,160,${0.95*clockAlpha})`);
-                drawHand(Math.PI*2*min/60,  clockRadius*0.58, 2.5, `rgba(180,220,255,${0.95*clockAlpha})`);
-                drawHand(Math.PI*2*sec/60,  clockRadius*0.72, 1.5, `rgba(255,100,100,${0.95*clockAlpha})`);
-
-                // 中心
-                ctx.shadowBlur = 12;
-                ctx.shadowColor = "#ffffff";
-                ctx.fillStyle = `rgba(255,255,255,${clockAlpha})`;
-                ctx.beginPath();
-                ctx.arc(0, 0, 14, 0, Math.PI*2);
-                ctx.fill();
-
                 ctx.restore();
             }
-
-            /////////////////////////////////////////////////////
-            // 暗角
-            /////////////////////////////////////////////////////
-            const vignette = ctx.createRadialGradient(
-                cx, cy, Math.min(w, h)*0.25,
-                cx, cy, Math.max(w, h)*0.85
-            );
-            vignette.addColorStop(0, "rgba(0,0,0,0)");
-            vignette.addColorStop(1, "rgba(0,0,0,0.75)");
-            ctx.fillStyle = vignette;
-            ctx.fillRect(0, 0, w, h);
 
             requestAnimationFrame(draw);
         }
 
+        const GALAXY_RADIUS = Math.min(innerWidth, innerHeight) * 0.38;   // 全局定义
         requestAnimationFrame(draw);
-
     </script>
-
-    <!-- ==================== 角落装饰视频 ==================== -->
-    <div class="corner-gifs">
-        <!-- ==================== 四角GIF装饰代码 ==================== -->
-        <div class="corner-gifs">
-            <!-- 左上角 -->
-            <img src="./pic/ginkgo.gif" alt="" class="corner-gif tl">
-
-            <!-- 右上角 -->
-            <img src="./pic/ginkgob.gif" alt="" class="corner-gif tr">
-
-            <!-- 左下角 -->
-            <!-- <img src="./pic/ginkgo.gif" alt="" class="corner-gif bl"> -->
-
-            <!-- 右下角 -->
-            <!-- <img src="./pic/ginkgo.gif" alt="" class="corner-gif br"> -->
-        </div>
-        <style>
-            /* 四角GIF样式 */
-            .corner-gifs {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                pointer-events: none;
-                /* 不阻挡鼠标点击 */
-                z-index: 9999;
-                /* 根据需要调整层级 */
-                overflow: hidden;
-            }
-
-            .corner-gif {
-                position: absolute;
-                width: 10vw;
-                /* 或 20vw */
-                height: auto;
-                max-width: 200px;
-                min-width: 120px;
-
-                opacity: 0.8;
-                /* 调整透明度 0.4~0.8 之间效果最好 */
-                mix-blend-mode: screen;
-                /* 融合神器 */
-                /* mix-blend-mode: screen; */
-                /* 或者试试 screen（适合亮色GIF） */
-                /* mix-blend-mode: overlay; */
-                /* 叠加模式 */
-
-                filter: brightness(1.05) contrast(1.1);
-                /* 可微调亮度和对比度 */
-                pointer-events: none;
-            }
-
-            .corner-gif.tl {
-                top: 0;
-                left: 0;
-            }
-
-            .corner-gif.tr {
-                top: 0;
-                right: 0;
-            }
-
-            .corner-gif.bl {
-                bottom: 0;
-                left: 0;
-            }
-
-            .corner-gif.br {
-                bottom: 0;
-                right: 0;
-            }
-
-            /* 可选：增加一点内边距，避免紧贴屏幕边缘 */
-            .corner-gif.tl {
-                margin: 10px;
-            }
-
-            .corner-gif.tr {
-                margin: 10px;
-            }
-
-            .corner-gif.bl {
-                margin: 10px;
-            }
-
-            .corner-gif.br {
-                margin: 10px;
-            }
-        </style>
-
-        <!-- ==================== 梦幻上升光点 - 金黄色版本 ==================== -->
-        <script>
-            // =====================================================
-            // 梦幻上升金色光点（修改版）
-            // =====================================================
-            const risingOrbs = [];
-
-            class DreamyOrb {
-                constructor() {
-                    this.reset(true);
-                }
-
-                reset(first = false) {
-                    // 关键修改1：让光点主要出现在页面中间水平线上方
-                    this.x = Math.random() * innerWidth;
-
-                    if (first) {
-                        // 首次生成时分布在整个上半部分偏上
-                        this.y = innerHeight * 0.15 + Math.random() * innerHeight * 0.55;
-                    } else {
-                        // 后续生成从下方升起，但整体偏上
-                        this.y = innerHeight * 0.65 + Math.random() * innerHeight * 0.35;
-                    }
-
-                    this.radius = Math.random() * 2.8 + 1.1;
-                    this.speed = Math.random() * 0.72 + 0.42;     // 稍微加快一点上升感
-                    this.hSpeed = Math.random() * 0.85 - 0.42;
-                    this.phase = Math.random() * Math.PI * 2;
-
-                    // 关键修改2：改为金黄色调
-                    this.hue = 46 + Math.random() * 12;           // 金黄色范围 46~58
-                    this.opacityBase = Math.random() * 0.35 + 0.28;
-                }
-
-                update() {
-                    this.y -= this.speed;
-                    this.x += Math.sin(this.phase) * this.hSpeed;
-                    this.phase += 0.016;
-
-                    const pulse = Math.sin(this.phase * 1.65) * 0.5 + 0.5;
-                    this.opacity = this.opacityBase + pulse * 0.48;
-                    this.scale = 0.92 + pulse * 0.18;
-
-                    if (this.y < -50) this.reset();
-                }
-
-                draw() {
-                    const ctx = document.getElementById('c').getContext('2d');
-                    const r = this.radius * this.scale;
-
-                    ctx.save();
-
-                    // 最外层金色光晕
-                    ctx.shadowBlur = 28;
-                    ctx.shadowColor = `hsla(${this.hue}, 95%, 88%, ${this.opacity * 0.7})`;
-                    ctx.fillStyle = `hsla(${this.hue}, 90%, 92%, ${this.opacity * 0.55})`;
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, r * 2.5, 0, Math.PI * 2);
-                    ctx.fill();
-
-                    // 中层光晕
-                    ctx.shadowBlur = 14;
-                    ctx.fillStyle = `hsla(${this.hue}, 98%, 94%, ${this.opacity * 0.95})`;
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, r * 1.4, 0, Math.PI * 2);
-                    ctx.fill();
-
-                    // 核心亮点（更亮的金色）
-                    ctx.shadowBlur = 7;
-                    ctx.fillStyle = `hsla(52, 100%, 98%, ${this.opacity * 1.7})`;
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, r * 0.48, 0, Math.PI * 2);
-                    ctx.fill();
-
-                    ctx.restore();
-                }
-            }
-
-            // 初始化
-            function initOrbs() {
-                risingOrbs.length = 0;
-                for (let i = 0; i < 105; i++) {
-                    risingOrbs.push(new DreamyOrb());
-                }
-            }
-
-            // 动画循环
-            function animateOrbs() {
-                const canvas = document.getElementById('c');
-                if (!canvas) return;
-
-                for (const orb of risingOrbs) {
-                    orb.update();
-                    orb.draw();
-                }
-                requestAnimationFrame(animateOrbs);
-            }
-
-            // 启动
-            window.addEventListener('load', () => {
-                initOrbs();
-                animateOrbs();
-            });
-
-            // 窗口大小改变时重新适配
-            window.addEventListener('resize', () => {
-                initOrbs();
-            });
-        </script>
-
-        <script>
-            // 统一设置所有角落视频的播放速度
-            document.addEventListener('DOMContentLoaded', () => {
-                const videos = document.querySelectorAll('.corner-video');
-
-                videos.forEach(video => {
-                    video.playbackRate = 0.2;        // 改为 0.2 倍速度（慢5倍）
-
-                    // 确保视频加载后播放
-                    video.addEventListener('loadeddata', () => {
-                        video.play().catch(() => { });
-                    });
-                });
-            });
-        </script>
 </body>
-
 </html>
