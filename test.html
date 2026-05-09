@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Null2Live</title>
+    <title>Null2Live - 银河静止版</title>
     <style>
         html, body {
             margin: 0;
@@ -73,7 +73,7 @@
             return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
         }
 
-        // 背景星
+        // 背景星空
         for (let i = 0; i < 2200; i++) {
             bgStars.push({x: Math.random()*w, y: Math.random()*h, size: Math.random()*2, alpha: 0.2+Math.random()*0.8, twinkle: Math.random()*10});
         }
@@ -104,15 +104,13 @@
             pinkNebulas.push({r, angle, size: 10 + Math.random() * 25, alpha: 0.03 + Math.random() * 0.06});
         }
 
-        let rotation = 0;
         let last = performance.now();
 
         function draw(time) {
             const dt = (time - last) * 0.001;
             last = time;
-            rotation += dt * 0.008;
 
-            // ==================== 先画银河背景 ====================
+            // 背景
             const bg = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(w, h));
             bg.addColorStop(0, "#07111d");
             bg.addColorStop(0.4, "#02050b");
@@ -129,11 +127,10 @@
                 ctx.fill();
             }
 
-            // 银河本体
+            // ==================== 银河（关闭旋转） ====================
             ctx.save();
             ctx.translate(cx, cy);
-            ctx.rotate(-0.32);
-            ctx.rotate(rotation);
+            ctx.rotate(-0.32);        // 只保留倾斜，不旋转
 
             // 蓝色星云
             for (let i = 0; i < 32; i++) {
@@ -205,7 +202,7 @@
 
             ctx.restore();
 
-            // ==================== 最后画时钟（最重要） ====================
+            // ==================== 最后画时钟 ====================
             const clockRadius = Math.min(w, h) * 0.39;
             const clockAlpha = 0.95;
 
