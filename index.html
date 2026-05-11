@@ -118,9 +118,8 @@
             gCanvas.style.height = cCanvas.style.height = innerHeight + "px";
             cx = w / 2;
             cy = h / 2;
-            if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
-                cy = h / 2 - h * 0.06;
-            }
+            if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) { cy = h / 2 - h * 0.06; }
+            
         }
         window.addEventListener("resize", resize);
         resize();
@@ -144,11 +143,7 @@
         // 背景星空
         for (let i = 0; i < 2200; i++) {
             bgStars.push({
-                x: Math.random() * w,
-                y: Math.random() * h,
-                size: Math.random() * 2,
-                alpha: 0.2 + Math.random() * 0.8,
-                twinkle: Math.random() * 10
+                x: Math.random() * w, y: Math.random() * h, size: Math.random() * 2, alpha: 0.2 + Math.random() * 0.8, twinkle: Math.random() * 10
             });
         }
 
@@ -184,9 +179,10 @@
         class DreamyOrb {
             constructor() { this.reset(true); }
             reset(first = false) {
-                this.x = Math.random() * innerWidth;
-                this.y = first ? innerHeight * 0.15 + Math.random() * innerHeight * 0.55
-                    : innerHeight * 0.65 + Math.random() * innerHeight * 0.35;
+                //this.x = Math.random() * innerWidth;
+                //this.y = first ? innerHeight * 0.15 + Math.random() * innerHeight * 0.55 : innerHeight * 0.65 + Math.random() * innerHeight * 0.35;
+                this.x = Math.random() * w;                    // ← 改成设备像素 w
+                this.y = first ? h * 0.15 + Math.random() * h * 0.55 : h * 0.65 + Math.random() * h * 0.35;     // ← 改成 h
                 this.radius = Math.random() * 2.8 + 1.1;
                 this.speed = Math.random() * 0.72 + 0.42;
                 this.hSpeed = Math.random() * 0.85 - 0.42;
