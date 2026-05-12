@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>动态左右漂浮背景 + 可链接时钟按钮</title>
+<style>
+  body, html {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    font-family: sans-serif;
+  }
+
+  canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1; /* 背景层 */
+    width: 100%;
+    height: 100%;
+  }
+
+  .clock-container {
+    position: absolute;
+    border-radius: 50%;
+  }
+
+  .clock-btn {
+    position: absolute;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s;
+    text-decoration: none;
+    color: #000;
+    background-color: rgba(255, 200, 200, 0.8);
+    border: 2px solid #333;
+    text-align: center;
+  }
+
+  .clock-btn:hover {
+    transform: scale(1.1);
+    filter: brightness(1.2);
+  }
+</style>
+</head>
+<body>
+
+<canvas id="waveCanvas"></canvas>
+<div class="clock-container" id="clock"></div>
+
+<script>
+const canvas = document.getElementById('waveCanvas');
+const ctx = canvas.getContext('2d');
+const img = new Image();
+  img.src = './pic/lotus.jpg'; // 替换为你的 JPG 图片
+
+let width = window.innerWidth;
+let height = window.innerHeight;
+canvas.width = width;
+canvas.height = height;
+
+// -----------------------
+// 背景水平漂浮参数
+// -----------------------
+let offsetX = 0;
+const floatAmplitude = 20; // 水平漂移幅度（像素）
+const floatSpeed = 0.002; // 漂移速度
+let time = 0;
+
+function drawBackground() {
+  ctx.clearRect(0, 0, width, height);
+
+  // 计算水平偏移
+  offsetX = Math.sin(time) * floatAmplitude;
+
+  // 绘制 JPG 背景
+  ctx.drawImage(img, offsetX, 0, width, height);
+  ctx.drawImage(img, offsetX - width, 0, width, height); // 左侧循环
+
+  time += floatSpeed;
+  requestAnimationFrame(drawBackground);
+}
+
+img.onload = () => {
+  drawBackground();
+}
+
+// -----------------------
+// 时钟按钮配置
+// -----------------------
+const clockContainer = document.getElementById('clock');
+const btnConfig = [
+  {text: '1', link: 'https://www.com'},
+  {text: '2', link: 'https://www.google.com'},
+  {text: '3', link: 'https://www.com'},
+  {text: '4', link: 'https://n.cn'},
+  {text: '5', link: 'https://o.com'},
+  {text: '6', link: 'https://www.com'},
+  {text: '7', link: 'https://www.com'},
+  {text: '8', link: 'https://www.com'},
+  {text: '9', link: 'https://.com'},
+  {text: '10', link: 'https://github.com'},
+  {text: '11', link: 'https://.com'},
+  {text: '12', link: 'https://.com'}
+];
+
+const btnCount = btnConfig.length;
+const btnSizePercent = 0.08;
+const radiusPercent = 0.35;
+
+function renderClock() {
+  clockContainer.innerHTML = '';
+  width = window.innerWidth;
+  height = window.innerHeight;
+  const minSize = Math.min(width, height);
+  const radius = minSize * radiusPercent;
+  const btnSize = minSize * btnSizePercent;
+  const clockSize = 2 * radius + btnSize;
+
+  clockContainer.style.width = clockSize + 'px';
+  clockContainer.style.height = clockSize + 'px';
+  clockContainer.style.left = `${(width - clockSize)/2}px`;
+  clockContainer.style.top = `${(height - clockSize)/2}px`;
+
+  for (let i = 0; i < btnCount; i++) {
+    const config = btnConfig[i];
+    const btn = document.createElement('a');
+    btn.className = 'clock-btn';
+    btn.innerText = config.text;
+    btn.href = config.link;
+    btn.target = '_blank';
+
+    btn.style.width = btnSize + 'px';
+    btn.style.height = btnSize + 'px';
+    btn.style.borderRadius = btnSize / 2 + 'px';
+
+    const angle = (i - 3) * (360 / btnCount);
+    const rad = angle * Math.PI / 180;
+    const center = clockSize / 2;
+    const x = center + radius * Math.cos(rad) - btnSize / 2;
+    const y = center + radius * Math.sin(rad) - btnSize / 2;
+
+    btn.style.left = `${x}px`;
+    btn.style.top = `${y}px`;
+
+    clockContainer.appendChild(btn);
+  }
+}
+
+renderClock();
+window.addEventListener('resize', () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  renderClock();
+});
+
+</script>
+</body>
+</html>
