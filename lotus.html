@@ -169,7 +169,9 @@
         // -----------------------------
         // 异步加载视频 + 平滑淡入
         // -----------------------------
+        const enableVideo = false; // true：启用视频，false：关闭视频
         async function loadVideoAsync(url) {
+            if (!enableVideo) return; // 【新增】关闭视频直接返回
             try {
                 const response = await fetch(url);
                 const blob = await response.blob(); // 异步
@@ -195,7 +197,11 @@
             }
         }
 
-        loadVideoAsync(mp4Src);
+        // -----------------------------
+        // 异步加载视频 + 淡入（可关闭）
+        if (enableVideo) {
+            loadVideoAsync(mp4Src);
+        }
 
         // -----------------------------
         // 时钟按钮
