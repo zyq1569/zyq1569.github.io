@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Null2Live</title>
+    <title>NULL2live</title>
     <style>
         body,
         html {
@@ -21,10 +21,16 @@
             position: fixed;
             top: 0;
             left: 0;
-            z-index: -1;
             width: 100%;
             height: 100%;
             object-fit: cover;
+            z-index: -1;
+        }
+
+        video {
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            /* 视频淡入 */
         }
 
         .clock-container {
@@ -59,27 +65,34 @@
 <body>
 
     <canvas id="scrollCanvas"></canvas>
-    <video id="bgVideo" autoplay muted loop style="display:none;"></video>
+    <video id="bgVideo" autoplay muted loop playsinline webkit-playsinline></video>
     <div class="clock-container" id="clock"></div>
 
     <script>
-        // -----------------------
-        // 背景 JPG 配置
-        // -----------------------
+        // -----------------------------
+        // 配置
+        // -----------------------------
         const canvas = document.getElementById('scrollCanvas');
         const ctx = canvas.getContext('2d');
-        const img = new Image();
-        img.src = "./pic/lotus.jpg"; // 替换为你的 JPG 图片
+        const video = document.getElementById('bgVideo');
+
+        const jpgSrc = "./pic/lotus.jpg"; // 替换为你的 JPG 图片
+        const mp4Src = "./pic/lotus.mp4"; // 替换为你的 JPG 图片
+
+        const direction = 'none';  // 背景滚动方向
+        const scrollSpeed = 0.3;   // 背景滚动速度
+        const effect = 'wave';      // 'none' 或 'wave'
 
         let width = window.innerWidth;
         let height = window.innerHeight;
         canvas.width = width;
         canvas.height = height;
 
-        // 滚动设置
-        const direction = 'none';
-        const scrollSpeed = 0.3;
-        const effect = 'wave';
+        // -----------------------------
+        // JPG 背景滚动 + 波纹
+        // -----------------------------
+        const img = new Image();
+        img.src = jpgSrc;
 
         let offsetX = 0;
         let offsetY = 0;
@@ -90,7 +103,6 @@
             const imgWidth = width;
             const imgHeight = height;
 
-            // 偏移
             if (direction === 'left') { offsetX -= scrollSpeed; if (offsetX <= -imgWidth) offsetX += imgWidth; }
             else if (direction === 'right') { offsetX += scrollSpeed; if (offsetX >= imgWidth) offsetX -= imgWidth; }
             else if (direction === 'up') { offsetY -= scrollSpeed; if (offsetY <= -imgHeight) offsetY += imgHeight; }
@@ -154,21 +166,40 @@
 
         img.onload = () => { drawJPGBackground(); };
 
-        // -----------------------
-        // 视频背景配置
-        // -----------------------
-        const video = document.getElementById('bgVideo');
-        video.src = "./pic/lotus.mp4"; // 替换为你的 JPG 图片
+        // -----------------------------
+        // 异步加载视频 + 平滑淡入
+        // -----------------------------
+        async function loadVideoAsync(url) {
+            try {
+                const response = await fetch(url);
+                const blob = await response.blob(); // 异步
+                const videoURL = URL.createObjectURL(blob);
+                video.src = videoURL;
 
-        // 当视频加载完成后，显示视频，隐藏 JPG Canvas
-        video.addEventListener('canplaythrough', () => {
-            canvas.style.display = 'none';
-            video.style.display = 'block';
-        });
+                video.addEventListener('canplaythrough', () => {
+                    // 平滑淡入
+                    video.style.opacity = '1';
+                    // 隐藏 Canvas
+                    setTimeout(() => { canvas.style.display = 'none'; }, 1500); // 等待淡入完成
+                    // 尝试播放视频，兼容所有手机端
+                    video.play().catch(err => {
+                        console.log('自动播放失败，等待用户操作', err);
+                        // 用户首次点击页面后触发播放
+                        document.body.addEventListener('click', () => {
+                            video.play();
+                        }, { once: true });
+                    });
+                });
+            } catch (err) {
+                console.error('视频加载失败:', err);
+            }
+        }
 
-        // -----------------------
+        loadVideoAsync(mp4Src);
+
+        // -----------------------------
         // 时钟按钮
-        // -----------------------
+        // -----------------------------
         const clockContainer = document.getElementById('clock');
         const btnConfig = [
             { text: "1", link: "https://zyq1569.github.io/" },
