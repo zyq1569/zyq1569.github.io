@@ -169,33 +169,33 @@
         // -----------------------------
         // 异步加载视频 + 平滑淡入
         // -----------------------------
-        const enableVideo = false; // true：启用视频，false：关闭视频
-        async function loadVideoAsync(url) {
-            if (!enableVideo) return; // 【新增】关闭视频直接返回
-            try {
-                const response = await fetch(url);
-                const blob = await response.blob(); // 异步
-                const videoURL = URL.createObjectURL(blob);
-                video.src = videoURL;
+        // const enableVideo = false; // true：启用视频，false：关闭视频
+        // async function loadVideoAsync(url) {
+        //     if (!enableVideo) return; // 【新增】关闭视频直接返回
+        //     try {
+        //         const response = await fetch(url);
+        //         const blob = await response.blob(); // 异步
+        //         const videoURL = URL.createObjectURL(blob);
+        //         video.src = videoURL;
 
-                video.addEventListener('canplaythrough', () => {
-                    // 平滑淡入
-                    video.style.opacity = '1';
-                    // 隐藏 Canvas
-                    setTimeout(() => { canvas.style.display = 'none'; }, 1500); // 等待淡入完成
-                    // 尝试播放视频，兼容所有手机端
-                    video.play().catch(err => {
-                        console.log('自动播放失败，等待用户操作', err);
-                        // 用户首次点击页面后触发播放
-                        document.body.addEventListener('click', () => {
-                            video.play();
-                        }, { once: true });
-                    });
-                });
-            } catch (err) {
-                console.error('视频加载失败:', err);
-            }
-        }
+        //         video.addEventListener('canplaythrough', () => {
+        //             // 平滑淡入
+        //             video.style.opacity = '1';
+        //             // 隐藏 Canvas
+        //             setTimeout(() => { canvas.style.display = 'none'; }, 1500); // 等待淡入完成
+        //             // 尝试播放视频，兼容所有手机端
+        //             video.play().catch(err => {
+        //                 console.log('自动播放失败，等待用户操作', err);
+        //                 // 用户首次点击页面后触发播放
+        //                 document.body.addEventListener('click', () => {
+        //                     video.play();
+        //                 }, { once: true });
+        //             });
+        //         });
+        //     } catch (err) {
+        //         console.error('视频加载失败:', err);
+        //     }
+        // }
 
         // -----------------------------
         // 异步加载视频 + 淡入（可关闭）
