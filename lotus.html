@@ -1,9 +1,9 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Null2Live</title>
     <style>
         body,
@@ -13,22 +13,24 @@
             overflow: hidden;
             width: 100%;
             height: 100%;
-            position: relative;
             font-family: sans-serif;
         }
 
-        canvas {
+        canvas,
+        video {
             position: fixed;
             top: 0;
             left: 0;
             z-index: -1;
             width: 100%;
             height: 100%;
+            object-fit: cover;
         }
 
         .clock-container {
             position: absolute;
             border-radius: 50%;
+            z-index: 10;
         }
 
         .clock-btn {
@@ -55,16 +57,17 @@
 </head>
 
 <body>
+
     <canvas id="scrollCanvas"></canvas>
+    <video id="bgVideo" autoplay muted loop style="display:none;"></video>
     <div class="clock-container" id="clock"></div>
 
     <script>
         // -----------------------
-        // 背景配置
+        // 背景 JPG 配置
         // -----------------------
-        const canvas = document.getElementById("scrollCanvas");
-        const ctx = canvas.getContext("2d");
-
+        const canvas = document.getElementById('scrollCanvas');
+        const ctx = canvas.getContext('2d');
         const img = new Image();
         img.src = "./pic/lotus.jpg"; // 替换为你的 JPG 图片
 
@@ -73,55 +76,37 @@
         canvas.width = width;
         canvas.height = height;
 
-        // -----------------------
-        // 滚动与效果控制
-        // -----------------------
-        const direction = "none"; // 'left'/'right'/'up'/'down'
-        const scrollSpeed = 0.3; // 像素/帧
-        const effect = "wave"; // 'none' 普通滚动 / 'wave' 波纹效果
+        // 滚动设置
+        const direction = 'none';
+        const scrollSpeed = 0.3;
+        const effect = 'wave';
 
         let offsetX = 0;
         let offsetY = 0;
         let waveTime = 0;
 
-        function drawBackground() {
+        function drawJPGBackground() {
             ctx.clearRect(0, 0, width, height);
             const imgWidth = width;
             const imgHeight = height;
 
-            // -----------------------
-            // 更新偏移
-            // -----------------------
-            if (direction === "left") {
-                offsetX -= scrollSpeed;
-                if (offsetX <= -imgWidth) offsetX += imgWidth;
-            } else if (direction === "right") {
-                offsetX += scrollSpeed;
-                if (offsetX >= imgWidth) offsetX -= imgWidth;
-            } else if (direction === "up") {
-                offsetY -= scrollSpeed;
-                if (offsetY <= -imgHeight) offsetY += imgHeight;
-            } else if (direction === "down") {
-                offsetY += scrollSpeed;
-                if (offsetY >= imgHeight) offsetY -= imgHeight;
-            }
+            // 偏移
+            if (direction === 'left') { offsetX -= scrollSpeed; if (offsetX <= -imgWidth) offsetX += imgWidth; }
+            else if (direction === 'right') { offsetX += scrollSpeed; if (offsetX >= imgWidth) offsetX -= imgWidth; }
+            else if (direction === 'up') { offsetY -= scrollSpeed; if (offsetY <= -imgHeight) offsetY += imgHeight; }
+            else if (direction === 'down') { offsetY += scrollSpeed; if (offsetY >= imgHeight) offsetY -= imgHeight; }
 
-            // -----------------------
-            // 绘制带波纹效果
-            // -----------------------
-            if (effect === "wave") {
-                const amplitude = 5; // 波幅像素
-                const wavelength = 100; // 波长
+            if (effect === 'wave') {
+                const amplitude = 5;
+                const wavelength = 100;
                 waveTime += 0.05;
 
-                // 创建离屏 Canvas
-                const offCanvas = document.createElement("canvas");
+                const offCanvas = document.createElement('canvas');
                 offCanvas.width = width;
                 offCanvas.height = height;
-                const offCtx = offCanvas.getContext("2d");
+                const offCtx = offCanvas.getContext('2d');
 
-                // 先画普通滚动背景
-                if (direction === "left" || direction === "right") {
+                if (direction === 'left' || direction === 'right') {
                     offCtx.drawImage(img, offsetX, 0, imgWidth, imgHeight);
                     offCtx.drawImage(img, offsetX + imgWidth, 0, imgWidth, imgHeight);
                 } else {
@@ -129,13 +114,12 @@
                     offCtx.drawImage(img, 0, offsetY + imgHeight, imgWidth, imgHeight);
                 }
 
-                // 波纹处理
                 const imageData = offCtx.getImageData(0, 0, width, height);
                 const data = imageData.data;
                 const tempData = new Uint8ClampedArray(data);
 
                 for (let y = 0; y < height; y++) {
-                    const shift = Math.sin(y / wavelength + waveTime) * amplitude;
+                    const shift = Math.sin((y / wavelength) + waveTime) * amplitude;
                     for (let x = 0; x < width; x++) {
                         let newX = Math.floor(x + shift);
                         if (newX < 0) newX += width;
@@ -150,33 +134,42 @@
                 }
                 ctx.putImageData(imageData, 0, 0);
             } else {
-                // 普通滚动
-                if (direction === "left") {
+                if (direction === 'left') {
                     ctx.drawImage(img, offsetX, 0, imgWidth, imgHeight);
                     ctx.drawImage(img, offsetX + imgWidth, 0, imgWidth, imgHeight);
-                } else if (direction === "right") {
+                } else if (direction === 'right') {
                     ctx.drawImage(img, offsetX, 0, imgWidth, imgHeight);
                     ctx.drawImage(img, offsetX - imgWidth, 0, imgWidth, imgHeight);
-                } else if (direction === "up") {
+                } else if (direction === 'up') {
                     ctx.drawImage(img, 0, offsetY, imgWidth, imgHeight);
                     ctx.drawImage(img, 0, offsetY + imgHeight, imgWidth, imgHeight);
-                } else if (direction === "down") {
+                } else if (direction === 'down') {
                     ctx.drawImage(img, 0, offsetY, imgWidth, imgHeight);
                     ctx.drawImage(img, 0, offsetY - imgHeight, imgWidth, imgHeight);
                 }
             }
 
-            requestAnimationFrame(drawBackground);
+            requestAnimationFrame(drawJPGBackground);
         }
 
-        img.onload = () => {
-            drawBackground();
-        };
+        img.onload = () => { drawJPGBackground(); };
+
+        // -----------------------
+        // 视频背景配置
+        // -----------------------
+        const video = document.getElementById('bgVideo');
+        video.src = "./pic/lotus.mp4"; // 替换为你的 JPG 图片
+
+        // 当视频加载完成后，显示视频，隐藏 JPG Canvas
+        video.addEventListener('canplaythrough', () => {
+            canvas.style.display = 'none';
+            video.style.display = 'block';
+        });
 
         // -----------------------
         // 时钟按钮
         // -----------------------
-        const clockContainer = document.getElementById("clock");
+        const clockContainer = document.getElementById('clock');
         const btnConfig = [
             { text: "1", link: "https://zyq1569.github.io/" },
             { text: "2", link: "https://zyq1569.github.io/" },
@@ -189,7 +182,7 @@
             { text: "9", link: "https://zyq1569.github.io/" },
             { text: "10", link: "https://zyq1569.github.io/" },
             { text: "11", link: "https://zyq1569.github.io/" },
-            { text: "12", link: "https://zyq1569.github.io/" },
+            { text: "主页", link: "https://zyq1569.github.io/" },
         ];
 
         const btnCount = btnConfig.length;
@@ -197,7 +190,7 @@
         const radiusPercent = 0.35;
 
         function renderClock() {
-            clockContainer.innerHTML = "";
+            clockContainer.innerHTML = '';
             width = window.innerWidth;
             height = window.innerHeight;
             const minSize = Math.min(width, height);
@@ -205,38 +198,34 @@
             const btnSize = minSize * btnSizePercent;
             const clockSize = 2 * radius + btnSize;
 
-            clockContainer.style.width = clockSize + "px";
-            clockContainer.style.height = clockSize + "px";
+            clockContainer.style.width = clockSize + 'px';
+            clockContainer.style.height = clockSize + 'px';
             clockContainer.style.left = `${(width - clockSize) / 2}px`;
             clockContainer.style.top = `${(height - clockSize) / 2}px`;
 
             for (let i = 0; i < btnCount; i++) {
                 const config = btnConfig[i];
-                const btn = document.createElement("a");
-                btn.className = "clock-btn";
+                const btn = document.createElement('a');
+                btn.className = 'clock-btn';
                 btn.innerText = config.text;
                 btn.href = config.link;
-                btn.target = "_blank";
-
-                btn.style.width = btnSize + "px";
-                btn.style.height = btnSize + "px";
-                btn.style.borderRadius = btnSize / 2 + "px";
-
+                btn.target = '_blank';
+                btn.style.width = btnSize + 'px';
+                btn.style.height = btnSize + 'px';
+                btn.style.borderRadius = btnSize / 2 + 'px';
                 const angle = (i - 3) * (360 / btnCount);
-                const rad = (angle * Math.PI) / 180;
+                const rad = angle * Math.PI / 180;
                 const center = clockSize / 2;
                 const x = center + radius * Math.cos(rad) - btnSize / 2;
                 const y = center + radius * Math.sin(rad) - btnSize / 2;
-
                 btn.style.left = `${x}px`;
                 btn.style.top = `${y}px`;
-
                 clockContainer.appendChild(btn);
             }
         }
 
         renderClock();
-        window.addEventListener("resize", () => {
+        window.addEventListener('resize', () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
             renderClock();
