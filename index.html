@@ -96,7 +96,7 @@
         <a href="https://zyq1569.github.io/all" target="_blank">1.天.地.人</a>
     </div>
     <div class="bottom-link">
-        <a href="https://zyq1569.github.io/health" target="_blank">2.科技.AI</a>
+        <a href="https://zyq1569.github.io/health" target="_blank">2.技术.AI</a>
     </div>
 
     <canvas id="galaxy"></canvas>
@@ -179,8 +179,6 @@
         class DreamyOrb {
             constructor() { this.reset(true); }
             reset(first = false) {
-                //this.x = Math.random() * innerWidth;
-                //this.y = first ? innerHeight * 0.15 + Math.random() * innerHeight * 0.55 : innerHeight * 0.65 + Math.random() * innerHeight * 0.35;
                 this.x = Math.random() * w;  // ← 改成设备像素 w
                 // this.y = first ? h * 0.15 + Math.random() * h * 0.55 : h * 0.65 + Math.random() * h * 0.35;
                 // 关键修改：保证始终在页面中间水平线【以上】
@@ -245,6 +243,7 @@
             rotation += dt * 0.008;
 
             // ====================== 银河 Canvas ======================
+            //05.08 的最后版本星河最多!
             const bg = gCtx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(w, h));
             bg.addColorStop(0, "#07111d");
             bg.addColorStop(0.4, "#02050b");
