@@ -234,6 +234,7 @@
             clockContainer.style.left = `${(width - clockSize) / 2}px`;
             clockContainer.style.top = `${(height - clockSize) / 2}px`;
 
+
             for (let i = 0; i < btnCount; i++) {
                 const config = btnConfig[i];
                 const btn = document.createElement('a');
@@ -244,6 +245,11 @@
                 btn.style.width = btnSize + 'px';
                 btn.style.height = btnSize + 'px';
                 btn.style.borderRadius = btnSize / 2 + 'px';
+                // -----------------------------
+                // 新增：字体自适应
+                const fontSize = btnSize * 0.35; // 字体大小按按钮比例
+                btn.style.fontSize = fontSize + 'px';
+                btn.style.lineHeight = btnSize + 'px'; // 让文字垂直居中
                 const angle = (i - 3) * (360 / btnCount);
                 const rad = angle * Math.PI / 180;
                 const center = clockSize / 2;
