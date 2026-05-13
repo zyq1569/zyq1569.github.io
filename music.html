@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music.from.Heaven</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #121212;
+            color: #fff;
+        }
+
+        .audio-page {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* 主題區 */
+        .page-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            font-size: 18px;
+            color: #ccc;
+        }
+
+        /* 音頻推薦區 */
+        .audio-row-container {
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .audio-row-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .audio-row {
+            display: flex;
+            overflow-x: auto;
+            gap: 10px;
+            padding-bottom: 10px;
+            scroll-behavior: smooth;
+            scroll-snap-type: x mandatory;
+        }
+
+        .audio-row::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .audio-row::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+
+        .audio-item {
+            flex: 0 0 auto;
+            width: 200px;
+            background: #222;
+            padding: 10px;
+            cursor: pointer;
+            position: relative;
+            border-radius: 5px;
+            transition: transform 0.2s;
+            scroll-snap-align: start;
+        }
+
+        .audio-item:hover {
+            transform: scale(1.05);
+        }
+
+        .audio-item .item-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .audio-item .item-desc {
+            font-size: 12px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .audio-item .item-desc:hover::after {
+            content: attr(data-full);
+            position: absolute;
+            left: 0;
+            top: 60px;
+            background: #333;
+            color: #fff;
+            padding: 5px;
+            white-space: normal;
+            width: 200px;
+            z-index: 10;
+            border-radius: 5px;
+        }
+
+        /* 滑動提示 */
+        .scroll-hint {
+            position: absolute;
+            right: 10px;
+            top: 40%;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 6px;
+            font-size: 12px;
+            border-radius: 4px;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        /* 單獨播放頁面 */
+        #detail-page {
+            display: none;
+        }
+
+        .audio-player {
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 20px;
+        }
+
+        .audio-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .audio-description {
+            font-size: 16px;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 8px 12px;
+            background-color: #ff4500;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* 手機端優化 */
+        @media (max-width: 600px) {
+            .audio-item {
+                width: 90%;
+                min-width: 250px;
+            }
+
+            .page-header h1 {
+                font-size: 28px;
+            }
+
+            .page-header p {
+                font-size: 16px;
+            }
+
+            .audio-title {
+                font-size: 20px;
+            }
+
+            .audio-description {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 主頁 -->
+    <div id="main-page" class="audio-page">
+        <!-- 主題區 -->
+        <div class="page-header">
+            <h1>推薦音樂</h1>
+            <p>天音淨樂</p>
+        </div>
+
+        <!-- 推薦音頻區 -->
+        <div id="recommendation-container"></div>
+    </div>
+
+    <!-- 單獨播放頁面 -->
+    <div id="detail-page" class="audio-page">
+        <a class="back-btn" id="back-btn">返回</a>
+        <div class="audio-player">
+            <audio id="detail-audio" src="" controls controlsList="nodownload"></audio>
+        </div>
+        <div class="audio-title" id="detail-title"></div>
+        <div class="audio-description" id="detail-description"></div>
+    </div>
+
+    <script>
+        // 音頻數據
+        const categories = [
+            {
+                name: "推薦",
+                audios: [
+                    { src: "./resource/tianyi.mp3", title: "天音淨樂 1", description: "天音淨樂 1 的完整介紹內容。" },
+                    { src: "./resource/xiyuan.mp3", title: "天音淨樂 2", description: "天音淨樂 2 的完整介紹內容。" },
+                    { src: "./resource/dsg.mp3", title: "天音淨樂 3", description: "天音淨樂 3 的完整介紹內容。" }
+                ]
+            },
+            {
+                name: "最新",
+                audios: [
+                    { src: "./resource/tianyi.mp3", title: "天音淨樂 1", description: "天音淨樂 1 的完整介紹內容。" },
+                    { src: "./resource/xiyuan.mp3", title: "天音淨樂 2", description: "天音淨樂 2 的完整介紹內容。" },
+                    { src: "./resource/dsg.mp3", title: "天音淨樂 3", description: "天音淨樂 3 的完整介紹內容。" }
+                ]
+            }
+        ];
+
+        const recommendationContainer = document.getElementById("recommendation-container");
+        const mainPage = document.getElementById("main-page");
+        const detailPage = document.getElementById("detail-page");
+
+        // 生成音頻推薦列表
+        categories.forEach(category => {
+            const categoryDiv = document.createElement("div");
+            categoryDiv.className = "audio-row-container";
+
+            const title = document.createElement("div");
+            title.className = "audio-row-title";
+            title.innerText = category.name;
+
+            const row = document.createElement("div");
+            row.className = "audio-row";
+
+            // 滑動提示
+            const hint = document.createElement("div");
+            hint.className = "scroll-hint";
+            hint.innerText = "→ 滑動查看更多";
+            let hintShown = false;
+
+            row.addEventListener("scroll", () => {
+                if (!hintShown && row.scrollLeft > 0) {
+                    hint.style.opacity = 0;
+                    hintShown = true;
+                }
+            });
+
+            function updateScrollHint() {
+                if (row.scrollWidth > row.clientWidth && !hintShown) {
+                    hint.style.opacity = 1;
+                } else {
+                    hint.style.opacity = 0;
+                }
+            }
+
+            window.addEventListener("resize", updateScrollHint);
+            setTimeout(updateScrollHint, 100);
+
+            category.audios.forEach(audio => {
+                const item = document.createElement("div");
+                item.className = "audio-item";
+                item.innerHTML = `
+            <div class="item-title">${audio.title}</div>
+            <div class="item-desc" data-full="${audio.description}">${audio.description}</div>
+        `;
+
+                // 點擊進入播放頁
+                item.addEventListener("click", () => showDetailPage(audio));
+
+                row.appendChild(item);
+            });
+
+            categoryDiv.appendChild(title);
+            categoryDiv.appendChild(row);
+            categoryDiv.appendChild(hint);
+            recommendationContainer.appendChild(categoryDiv);
+        });
+
+        // 顯示單獨播放頁面
+        function showDetailPage(audio) {
+            // 暫停所有音頻
+            document.querySelectorAll("audio").forEach(v => {
+                v.pause();
+                v.currentTime = 0;
+            });
+
+            const detailAudio = document.getElementById("detail-audio");
+            detailAudio.src = audio.src;
+            detailAudio.pause();
+            detailAudio.currentTime = 0;
+            detailAudio.play();
+
+            document.getElementById("detail-title").innerText = audio.title;
+            document.getElementById("detail-description").innerText = audio.description;
+
+            mainPage.style.display = "none";
+            detailPage.style.display = "block";
+        }
+
+        // 返回主頁
+        document.getElementById("back-btn").addEventListener("click", () => {
+            const detailAudio = document.getElementById("detail-audio");
+            detailAudio.pause();
+            detailAudio.currentTime = 0;
+
+            detailPage.style.display = "none";
+            mainPage.style.display = "block";
+        });
+    </script>
+</body>
+
+</html>
