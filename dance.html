@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRUE.DANCE</title>
+    <style>
+        /* 全局樣式 */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #121212;
+            color: #fff;
+        }
+
+        .video-page {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* 主題區 */
+        .page-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            font-size: 18px;
+            color: #ccc;
+        }
+
+        /* 多行推薦區 */
+        .video-row-container {
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .video-row-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .video-row {
+            display: flex;
+            overflow-x: auto;
+            gap: 10px;
+            padding-bottom: 10px;
+            scroll-behavior: smooth;
+            scroll-snap-type: x mandatory;
+        }
+
+        .video-row::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .video-row::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+
+        .video-item {
+            flex: 0 0 auto;
+            width: 200px;
+            background: #222;
+            padding: 5px;
+            cursor: pointer;
+            position: relative;
+            border-radius: 5px;
+            transition: transform 0.2s;
+            scroll-snap-align: start;
+        }
+
+        .video-item:hover {
+            transform: scale(1.05);
+        }
+
+        .video-item video {
+            width: 100%;
+            height: 120px;
+            border-radius: 5px;
+            background: black;
+        }
+
+        .video-item .item-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .video-item .item-desc {
+            font-size: 12px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .video-item .item-desc:hover::after {
+            content: attr(data-full);
+            position: absolute;
+            left: 0;
+            top: 130px;
+            background: #333;
+            color: #fff;
+            padding: 5px;
+            white-space: normal;
+            width: 200px;
+            z-index: 10;
+            border-radius: 5px;
+        }
+
+        /* 滑動提示 */
+        .scroll-hint {
+            position: absolute;
+            right: 10px;
+            top: 40%;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 6px;
+            font-size: 12px;
+            border-radius: 4px;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        /* 單獨播放頁面 */
+        #detail-page {
+            display: none;
+        }
+
+        /* .video-player {
+            width: 100%;
+            height: 500px;
+            background: #000;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+        } */
+        /* 視頻容器 */
+        .video-player {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%;
+            /* 16:9 高寬比 (9/16 = 0.5625) */
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        /* 視頻本身 */
+        .video-player video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            /* 保持比例，避免拉伸 */
+        }
+
+        .video-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .video-description {
+            font-size: 16px;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 8px 12px;
+            background-color: #ff4500;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* 手機端優化 */
+        @media (max-width: 600px) {
+            .video-item {
+                width: 90%;
+                min-width: 250px;
+            }
+
+            .page-header h1 {
+                font-size: 28px;
+            }
+
+            .page-header p {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 多行推薦視頻頁面 -->
+    <div id="main-page" class="video-page">
+        <!-- 主題區 -->
+        <div class="page-header">
+            <h1>傳統舞蹈</h1>
+            <p>傳統舞蹈的精華:純潔.傳統神傳文化.能喚醒每個人靈性的一面.善良.慈悲.開啟智慧.</p>
+        </div>
+
+        <!-- 推薦視頻區 -->
+        <div id="recommendation-container"></div>
+    </div>
+
+    <!-- 單獨播放頁面 -->
+    <div id="detail-page" class="video-page">
+        <a class="back-btn" id="back-btn">返回</a>
+        <div class="video-player">
+            <video id="detail-video" src="" controls controlsList="nodownload"></video>
+        </div>
+        <div class="video-title" id="detail-title"></div>
+        <div class="video-description" id="detail-description"></div>
+    </div>
+
+    <script>
+        // 分類與視頻數據
+        const categories = [
+            {
+                name: "推薦",
+                videos: [
+                    { src: "./True/2020/2020SY.mp4", title: "2020 1", description: "2020 1 的完整介紹內容。" },
+                    { src: "./True/2020/2020SY.mp4", title: "2020 2", description: "2020 2 的完整介紹內容。" },
+                    { src: "./True/2020/2020SY.mp4", title: "2020 3", description: "2020 3 的完整介紹內容。" }
+                ]
+            },
+            {
+                name: "最新",
+                videos: [
+                    { src: "./True/2020/2020SY.mp4", title: "2020 1", description: "2020 1 的完整介紹內容。" },
+                    { src: "./True/2020/2020SY.mp4", title: "2020 2", description: "2020 2 的完整介紹內容。" },
+                    { src: "./True/2020/2020SY.mp4", title: "2020 3", description: "2020 3 的完整介紹內容。" }
+                ]
+            }
+            ,
+            {
+                name: "精選",
+                videos: [
+                    { src: "./True/2020/2020SY.mp4", title: "2020 1", description: "2020 1 的完整介紹內容。" },
+                    { src: "./True/2020/2020SY.mp4", title: "2020 2", description: "2020 2 的完整介紹內容。" },
+                    { src: "./True/2020/2020SY.mp4", title: "2020 3", description: "2020 3 的完整介紹內容。" }
+                ]
+            }
+        ];
+
+        const recommendationContainer = document.getElementById("recommendation-container");
+        const mainPage = document.getElementById("main-page");
+        const detailPage = document.getElementById("detail-page");
+
+        categories.forEach(category => {
+            const categoryDiv = document.createElement("div");
+            categoryDiv.className = "video-row-container";
+
+            const title = document.createElement("div");
+            title.className = "video-row-title";
+            title.innerText = category.name;
+
+            const row = document.createElement("div");
+            row.className = "video-row";
+
+            // 滑動提示
+            const hint = document.createElement("div");
+            hint.className = "scroll-hint";
+            hint.innerText = "→ 滑動查看更多";
+            let hintShown = false;
+
+            row.addEventListener("scroll", () => {
+                if (!hintShown && row.scrollLeft > 0) {
+                    hint.style.opacity = 0;
+                    hintShown = true;
+                }
+            });
+
+            // function pauseAllVideos() {
+            //     document.querySelectorAll("video").forEach(v => {
+            //         v.pause();
+            //         v.currentTime = 0;
+            //     });
+            // }
+
+            function updateScrollHint() {
+                if (row.scrollWidth > row.clientWidth && !hintShown) {
+                    hint.style.opacity = 1;
+                } else {
+                    hint.style.opacity = 0;
+                }
+            }
+
+            window.addEventListener("resize", updateScrollHint);
+            setTimeout(updateScrollHint, 100);
+
+            category.videos.forEach(video => {
+                const item = document.createElement("div");
+                item.className = "video-item";
+                item.innerHTML = `
+                                    <video src="${video.src}" muted></video>
+                                    <div class="item-title">${video.title}</div>
+                                    <div class="item-desc" data-full="${video.description}">${video.description}</div>
+                                `;
+
+                // 點擊進入播放頁
+                item.addEventListener("click", () => showDetailPage(video));
+
+                // 懸停自動播放（桌面端）
+                const videoEl = item.querySelector("video");
+                item.addEventListener("mouseenter", () => {
+                    videoEl.currentTime = 0;
+                    videoEl.play();
+                });
+                item.addEventListener("mouseleave", () => {
+                    videoEl.pause();
+                    videoEl.currentTime = 0;
+                });
+
+                row.appendChild(item);
+            });
+
+            categoryDiv.appendChild(title);
+            categoryDiv.appendChild(row);
+            categoryDiv.appendChild(hint);
+            recommendationContainer.appendChild(categoryDiv);
+        });
+
+        function showDetailPage(video) {
+            document.getElementById("detail-video").src = video.src;
+            document.getElementById("detail-title").innerText = video.title;
+            document.getElementById("detail-description").innerText = video.description;
+
+            mainPage.style.display = "none";
+            detailPage.style.display = "block";
+        }
+
+        document.getElementById("back-btn").addEventListener("click", () => {
+            // 暫停並重置視頻
+            const detailVideo = document.getElementById("detail-video");
+            detailVideo.pause();
+            detailVideo.currentTime = 0;
+            
+            detailPage.style.display = "none";
+            mainPage.style.display = "block";
+        });
+    </script>
+
+</body>
+
+</html>
