@@ -20,7 +20,6 @@
             padding: 20px;
         }
 
-        /* 主題區 */
         .page-header {
             text-align: center;
             margin-bottom: 30px;
@@ -37,7 +36,6 @@
             color: #ccc;
         }
 
-        /* 音頻推薦區 */
         .audio-row-container {
             margin-bottom: 30px;
             position: relative;
@@ -83,20 +81,20 @@
             transform: scale(1.05);
         }
 
-        .audio-item .item-title {
+        .item-title {
             font-size: 14px;
             font-weight: bold;
             margin-bottom: 5px;
         }
 
-        .audio-item .item-desc {
+        .item-desc {
             font-size: 12px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
-        .audio-item .item-desc:hover::after {
+        .item-desc:hover::after {
             content: attr(data-full);
             position: absolute;
             left: 0;
@@ -110,7 +108,6 @@
             border-radius: 5px;
         }
 
-        /* 滑動提示 */
         .scroll-hint {
             position: absolute;
             right: 10px;
@@ -123,7 +120,6 @@
             transition: opacity 0.3s;
         }
 
-        /* 單獨播放頁面 */
         #detail-page {
             display: none;
         }
@@ -157,7 +153,63 @@
             cursor: pointer;
         }
 
-        /* 手機端優化 */
+        /* 播放列表小窗體 */
+        #playlist {
+            background: #1c1c1c;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        #playlist h3 {
+            margin: 5px 0 10px 0;
+        }
+
+        .playlist-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px;
+            border-bottom: 1px solid #333;
+            transition: background 0.2s;
+        }
+
+        .playlist-item.active {
+            background-color: #ff4500;
+        }
+
+        .playlist-item span {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .playlist-item button {
+            margin-left: 5px;
+            padding: 2px 5px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            background: #ff4500;
+            color: white;
+        }
+
+        .playlist-controls {
+            margin-top: 10px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .playlist-controls button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background: #ff4500;
+            color: white;
+        }
+
         @media (max-width: 600px) {
             .audio-item {
                 width: 90%;
@@ -184,13 +236,23 @@
 </head>
 
 <body>
-
     <!-- 主頁 -->
     <div id="main-page" class="audio-page">
-        <!-- 主題區 -->
         <div class="page-header">
             <h1>推薦天國的音樂</h1>
             <p>天音淨樂:所有音樂來源於[天音網]</p>
+        </div>
+
+        <!-- 播放列表小窗體 -->
+        <div id="playlist">
+            <h3>播放列表</h3>
+            <div id="playlist-items"></div>
+            <div class="playlist-controls">
+                <button id="prev-btn">上一首</button>
+                <button id="play-btn">播放/暫停</button>
+                <button id="next-btn">下一首</button>
+                <button id="mode-btn">模式: 順序</button>
+            </div>
         </div>
 
         <!-- 推薦音頻區 -->
@@ -208,7 +270,6 @@
     </div>
 
     <script>
-        // 音頻數據
         const categories = [
             {
                 name: "推薦",
@@ -241,6 +302,104 @@
         const recommendationContainer = document.getElementById("recommendation-container");
         const mainPage = document.getElementById("main-page");
         const detailPage = document.getElementById("detail-page");
+        const detailAudio = document.getElementById("detail-audio");
+
+        // 播放列表管理
+        const playlistItemsDiv = document.getElementById("playlist-items");
+        let playlist = [];
+        let currentIndex = 0;
+        let playMode = "順序";
+
+        function renderPlaylist() {
+            playlistItemsDiv.innerHTML = "";
+            playlist.forEach((audio, index) => {
+                const itemDiv = document.createElement("div");
+                itemDiv.className = "playlist-item";
+                if (index === currentIndex) itemDiv.classList.add("active");
+                itemDiv.innerHTML = `
+                    <span>${audio.title}</span>
+                    <div>
+                        <button data-action="up" data-index="${index}">↑</button>
+                        <button data-action="down" data-index="${index}">↓</button>
+                        <button data-action="remove" data-index="${index}">移除</button>
+                    </div>
+                `;
+                playlistItemsDiv.appendChild(itemDiv);
+
+                itemDiv.querySelectorAll("button").forEach(btn => {
+                    btn.addEventListener("click", (e) => {
+                        e.stopPropagation();
+                        const idx = parseInt(e.target.dataset.index);
+                        const action = e.target.dataset.action;
+                        if (action === "up" && idx > 0) {
+                            [playlist[idx - 1], playlist[idx]] = [playlist[idx], playlist[idx - 1]];
+                            if (currentIndex === idx) currentIndex = idx - 1;
+                            else if (currentIndex === idx - 1) currentIndex = idx;
+                        } else if (action === "down" && idx < playlist.length - 1) {
+                            [playlist[idx + 1], playlist[idx]] = [playlist[idx], playlist[idx + 1]];
+                            if (currentIndex === idx) currentIndex = idx + 1;
+                            else if (currentIndex === idx + 1) currentIndex = idx;
+                        } else if (action === "remove") {
+                            playlist.splice(idx, 1);
+                            if (currentIndex >= playlist.length) currentIndex = playlist.length - 1;
+                        }
+                        renderPlaylist();
+                    });
+                });
+
+                // 點擊切換播放
+                itemDiv.addEventListener("click", () => {
+                    currentIndex = index;
+                    playCurrent();
+                    renderPlaylist();
+                });
+            });
+        }
+
+        function playCurrent() {
+            if (!playlist[currentIndex]) return;
+            detailAudio.src = playlist[currentIndex].src;
+            detailAudio.play();
+            renderPlaylist();
+        }
+
+        document.getElementById("play-btn").addEventListener("click", () => {
+            if (detailAudio.paused) detailAudio.play();
+            else detailAudio.pause();
+        });
+
+        document.getElementById("next-btn").addEventListener("click", () => {
+            if (!playlist.length) return;
+            if (playMode === "隨機") {
+                currentIndex = Math.floor(Math.random() * playlist.length);
+            } else {
+                currentIndex = (currentIndex + 1) % playlist.length;
+            }
+            playCurrent();
+        });
+
+        document.getElementById("prev-btn").addEventListener("click", () => {
+            if (!playlist.length) return;
+            if (playMode === "隨機") {
+                currentIndex = Math.floor(Math.random() * playlist.length);
+            } else {
+                currentIndex = (currentIndex - 1 + playlist.length) % playlist.length;
+            }
+            playCurrent();
+        });
+
+        document.getElementById("mode-btn").addEventListener("click", () => {
+            if (playMode === "順序") playMode = "隨機";
+            else if (playMode === "隨機") playMode = "循環";
+            else playMode = "順序";
+            document.getElementById("mode-btn").innerText = `模式: ${playMode}`;
+        });
+
+        detailAudio.addEventListener("ended", () => {
+            if (!playlist.length) return;
+            if (playMode === "循環") playCurrent();
+            else document.getElementById("next-btn").click();
+        });
 
         // 生成音頻推薦列表
         categories.forEach(category => {
@@ -254,25 +413,18 @@
             const row = document.createElement("div");
             row.className = "audio-row";
 
-            // 滑動提示
             const hint = document.createElement("div");
             hint.className = "scroll-hint";
             hint.innerText = "→ 滑動查看更多";
             let hintShown = false;
 
             row.addEventListener("scroll", () => {
-                if (!hintShown && row.scrollLeft > 0) {
-                    hint.style.opacity = 0;
-                    hintShown = true;
-                }
+                if (!hintShown && row.scrollLeft > 0) hint.style.opacity = 0, hintShown = true;
             });
 
             function updateScrollHint() {
-                if (row.scrollWidth > row.clientWidth && !hintShown) {
-                    hint.style.opacity = 1;
-                } else {
-                    hint.style.opacity = 0;
-                }
+                if (row.scrollWidth > row.clientWidth && !hintShown) hint.style.opacity = 1;
+                else hint.style.opacity = 0;
             }
 
             window.addEventListener("resize", updateScrollHint);
@@ -282,12 +434,23 @@
                 const item = document.createElement("div");
                 item.className = "audio-item";
                 item.innerHTML = `
-            <div class="item-title">${audio.title}</div>
-            <div class="item-desc" data-full="${audio.description}">${audio.description}</div>
-        `;
+                    <div class="item-title">${audio.title}</div>
+                    <div class="item-desc" data-full="${audio.description}">${audio.description}</div>
+                    <button class="add-to-playlist">+</button>
+                `;
 
-                // 點擊進入播放頁
-                item.addEventListener("click", () => showDetailPage(audio));
+                // 單擊播放
+                item.addEventListener("click", (e) => {
+                    if (e.target.classList.contains("add-to-playlist")) return;
+                    showDetailPage(audio);
+                });
+
+                // 加入播放列表按鈕
+                item.querySelector(".add-to-playlist").addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    playlist.push(audio);
+                    renderPlaylist();
+                });
 
                 row.appendChild(item);
             });
@@ -298,37 +461,22 @@
             recommendationContainer.appendChild(categoryDiv);
         });
 
-        // 顯示單獨播放頁面
         function showDetailPage(audio) {
-            // 暫停所有音頻
-            document.querySelectorAll("audio").forEach(v => {
-                v.pause();
-                v.currentTime = 0;
-            });
-
-            const detailAudio = document.getElementById("detail-audio");
+            document.querySelectorAll("audio").forEach(v => { v.pause(); v.currentTime = 0; });
             detailAudio.src = audio.src;
-            detailAudio.pause();
-            detailAudio.currentTime = 0;
             detailAudio.play();
-
             document.getElementById("detail-title").innerText = audio.title;
             document.getElementById("detail-description").innerText = audio.description;
-
             mainPage.style.display = "none";
             detailPage.style.display = "block";
         }
 
-        // 返回主頁
         document.getElementById("back-btn").addEventListener("click", () => {
-            const detailAudio = document.getElementById("detail-audio");
             detailAudio.pause();
             detailAudio.currentTime = 0;
-
             detailPage.style.display = "none";
             mainPage.style.display = "block";
         });
     </script>
 </body>
-
 </html>
