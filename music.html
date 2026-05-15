@@ -245,6 +245,24 @@
 
         <!-- 播放列表小窗體 -->
         <div id="playlist">
+            <!-- <!– 新增播放控制區，包括進度條、速度、下載 –> -->
+            <div id="playlist-player">
+                <!-- 不預先設定 src -->
+                <audio id="playlist-audio" controls></audio>
+                <div style="display:flex; justify-content: space-between; align-items:center; margin-top:5px;">
+                    <label>速度:
+                        <select id="speed-select">
+                            <option value="0.5">0.5x</option>
+                            <option value="0.75">0.75x</option>
+                            <option value="1" selected>1x</option>
+                            <option value="1.25">1.25x</option>
+                            <option value="1.5">1.5x</option>
+                            <option value="2">2x</option>
+                        </select>
+                    </label>
+                    <a id="download-btn" href="#" download>下載</a>
+                </div>
+            </div>
             <h3>播放列表</h3>
             <div id="playlist-items"></div>
             <div class="playlist-controls">
@@ -297,6 +315,22 @@
                     { src: "./resource/mp3/13.mp3", title: "天音淨樂 13", description: "天音淨樂 尊容" }
                 ]
             }
+            // {
+            //     name: "推薦",
+            //     audios: [
+            //         { src: "./resource/tianyi.mp3", title: "天音淨樂 1", description: "1" },
+            //         { src: "./resource/xiyuan.mp3", title: "天音淨樂 2", description: "2" },
+            //         { src: "./resource/dsg.mp3", title: "天音淨樂 3", description: "3" }
+            //     ]
+            // },
+            // {
+            //     name: "最新",
+            //     audios: Array.from({ length: 13 }, (_, i) => ({
+            //         src: `./resource/mp3/${String(i + 1).padStart(2, "0")}.mp3`,
+            //         title: `${i + 1}`,
+            //         description: `${i + 1}`
+            //     }))
+            // }
         ];
 
         const recommendationContainer = document.getElementById("recommendation-container");
@@ -477,6 +511,41 @@
             detailPage.style.display = "none";
             mainPage.style.display = "block";
         });
+
+        // <!– 新增 playlist-audio 變數 –>
+        const playlistAudio = document.getElementById("playlist-audio");
+        const speedSelect = document.getElementById("speed-select");
+        const downloadBtn = document.getElementById("download-btn");
+
+        // 播放列表點擊
+        function playSelected(index) {
+            currentIndex = index;
+            playlistAudio.src = playlist[currentIndex].src;
+            downloadBtn.href = playlist[currentIndex].src;
+
+            // 用戶點擊觸發播放
+            playlistAudio.play().catch(() => {
+                console.log("瀏覽器阻止自動播放，需用戶再次點擊播放");
+            });
+            renderPlaylist();
+        }
+
+        // 播放/暫停按鈕
+        document.getElementById("play-btn").addEventListener("click", () => {
+            if (!playlistAudio.src) {
+                if (playlist.length === 0) return;
+                playSelected(0);
+            } else {
+                if (playlistAudio.paused) playlistAudio.play().catch(() => { });
+                else playlistAudio.pause();
+            }
+        });
+
+        // 控制速度
+        speedSelect.addEventListener("change", () => {
+            playlistAudio.playbackRate = parseFloat(speedSelect.value);
+        });
     </script>
 </body>
+
 </html>
