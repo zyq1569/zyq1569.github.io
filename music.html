@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Music.from.Heaven</title>
+    <title>Music from Heaven</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -224,6 +224,7 @@
             color: #fff;
             text-align: center;
             text-decoration: none;
+            font-size: clamp(12px, 2vw, 16px);
         }
 
         /* 音頻推薦手機適配 */
@@ -276,16 +277,15 @@
         <div class="audio-description" id="detail-description"></div>
     </div>
 
-    <!-- 固定播放控制 -->
     <div id="fixed-player">
         <input type="range" id="progress-bar" value="0" min="0" max="100" />
         <div id="player-controls">
             <button id="prev-btn">上一首</button>
-            <button id="play-btn">播放/暫停</button>
+            <button id="play-btn">播放</button>
             <button id="next-btn">下一首</button>
-            <button id="mode-btn">模式:順序</button>
-            <button id="clear-btn">清空列表</button>
-            <label>速度:
+            <button id="mode-btn">:順序</button>
+            <button id="clear-btn">清空</button>
+            <label>:
                 <select id="speed-select">
                     <option value="0.5">0.5x</option>
                     <option value="0.75">0.75x</option>
@@ -301,7 +301,7 @@
 
     <script>
         const categories = [
-            {
+                        {
                 name: "推薦",
                 audios: [
                     { src: "./resource/tianyi.mp3", title: "天音淨樂 1", description: "天音淨樂 1 天意" },
@@ -330,9 +330,9 @@
             // {
             //     name: "推薦",
             //     audios: [
-            //         { src: "./resource/tianyi.mp3", title: "天音淨樂 1", description: "1" },
-            //         { src: "./resource/xiyuan.mp3", title: "天音淨樂 2", description: "2" },
-            //         { src: "./resource/dsg.mp3", title: "天音淨樂 3", description: "3" }
+            //         { src: "./resource/tianyi.mp3", title: "天音淨樂1", description: "1" },
+            //         { src: "./resource/xiyuan.mp3", title: "天音淨樂2", description: "2" },
+            //         { src: "./resource/dsg.mp3", title: "天音淨樂3", description: "3" }
             //     ]
             // },
             // {
@@ -343,44 +343,21 @@
             //         description: `${i + 1}`
             //     }))
             // }
-            // {
-            //     name: "推薦",
-            //     audios: [
-            //         {
-            //             src: "./resource/tianyi.mp3",
-            //             title: "天音淨樂1",
-            //             description: "1",
-            //         },
-            //         {
-            //             src: "./resource/xiyuan.mp3",
-            //             title: "天音淨樂2",
-            //             description: "2",
-            //         },
-            //         { src: "./resource/dsg.mp3", title: "天音淨樂3", description: "3" },
-            //     ],
-            // },
-            // {
-            //     name: "最新",
-            //     audios: Array.from({ length: 13 }, (_, i) => ({
-            //         src: `./resource/mp3/${String(i + 1).padStart(2, "0")}.mp3`,
-            //         title: `${i + 1}`,
-            //         description: `${i + 1}`,
-            //     })),
-            // },
         ];
 
         const mainPage = document.getElementById("main-page");
         const detailPage = document.getElementById("detail-page");
         const detailAudio = document.getElementById("detail-audio");
-
         const playlistItemsDiv = document.getElementById("playlist-items");
+
         const playlistAudio = document.createElement("audio");
         playlistAudio.style.display = "none";
         document.body.appendChild(playlistAudio);
 
-        const speedSelect = document.getElementById("speed-select");
+        const playBtn = document.getElementById("play-btn");
         const downloadBtn = document.getElementById("download-btn");
         const progressBar = document.getElementById("progress-bar");
+        const speedSelect = document.getElementById("speed-select");
 
         let playlist = [];
         let currentIndex = 0;
@@ -399,26 +376,14 @@
                 <button data-action="remove" data-index="${index}">移除</button>
             </div>`;
                 div.addEventListener("click", () => playSelected(index));
-                div.querySelectorAll("button").forEach((btn) => {
-                    btn.addEventListener("click", (e) => {
+                div.querySelectorAll("button").forEach(btn => {
+                    btn.addEventListener("click", e => {
                         e.stopPropagation();
                         const idx = +e.target.dataset.index;
                         const action = e.target.dataset.action;
-                        if (action === "up" && idx > 0)
-                            (([playlist[idx - 1], playlist[idx]] = [
-                                playlist[idx],
-                                playlist[idx - 1],
-                            ]),
-                                adjustCurrent(idx, "up"));
-                        else if (action === "down" && idx < playlist.length - 1)
-                            (([playlist[idx + 1], playlist[idx]] = [
-                                playlist[idx],
-                                playlist[idx + 1],
-                            ]),
-                                adjustCurrent(idx, "down"));
-                        else if (action === "remove")
-                            (playlist.splice(idx, 1),
-                                (currentIndex = Math.min(currentIndex, playlist.length - 1)));
+                        if (action === "up" && idx > 0) ([playlist[idx - 1], playlist[idx]] = [playlist[idx], playlist[idx - 1]], adjustCurrent(idx, "up"));
+                        else if (action === "down" && idx < playlist.length - 1) ([playlist[idx + 1], playlist[idx]] = [playlist[idx], playlist[idx + 1]], adjustCurrent(idx, "down"));
+                        else if (action === "remove") playlist.splice(idx, 1), currentIndex = Math.min(currentIndex, playlist.length - 1);
                         renderPlaylist();
                     });
                 });
@@ -444,46 +409,38 @@
 
         function addToPlaylist(audio) {
             playlist.push(audio);
+            currentIndex = playlist.length - 1; // 保證播放按鈕始終有效
+            playlistAudio.src = playlist[currentIndex].src;
+            downloadBtn.href = playlist[currentIndex].src;
             renderPlaylist();
-            if (!playlistAudio.src) {
-                currentIndex = playlist.length - 1;
-                playlistAudio.src = playlist[currentIndex].src;
-                downloadBtn.href = playlist[currentIndex].src;
-            }
         }
 
-        document.getElementById("play-btn").addEventListener("click", () => {
-            if (playlist.length === 0) return;
-            if (playlistAudio.src !== playlist[currentIndex].src) {
-                playlistAudio.src = playlist[currentIndex].src;
-                downloadBtn.href = playlist[currentIndex].src;
-            }
-            playlistAudio.paused
-                ? playlistAudio.play().catch(() => { })
-                : playlistAudio.pause();
+        playBtn.addEventListener("click", () => {
+            if (!playlist.length) return;
+            if (playlistAudio.paused) playlistAudio.play().catch(() => { });
+            else playlistAudio.pause();
         });
+
+        playlistAudio.addEventListener("play", () => playBtn.innerText = "暫停");
+        playlistAudio.addEventListener("pause", () => playBtn.innerText = "播放");
 
         document.getElementById("next-btn").addEventListener("click", () => {
             if (!playlist.length) return;
-            if (playMode === "隨機")
-                currentIndex = Math.floor(Math.random() * playlist.length);
+            if (playMode === "隨機") currentIndex = Math.floor(Math.random() * playlist.length);
             else currentIndex = (currentIndex + 1) % playlist.length;
             playSelected(currentIndex);
         });
 
         document.getElementById("prev-btn").addEventListener("click", () => {
             if (!playlist.length) return;
-            if (playMode === "隨機")
-                currentIndex = Math.floor(Math.random() * playlist.length);
-            else
-                currentIndex = (currentIndex - 1 + playlist.length) % playlist.length;
+            if (playMode === "隨機") currentIndex = Math.floor(Math.random() * playlist.length);
+            else currentIndex = (currentIndex - 1 + playlist.length) % playlist.length;
             playSelected(currentIndex);
         });
 
         document.getElementById("mode-btn").addEventListener("click", () => {
-            playMode =
-                playMode === "順序" ? "隨機" : playMode === "隨機" ? "循環" : "順序";
-            document.getElementById("mode-btn").innerText = `模式:${playMode}`;
+            playMode = playMode === "順序" ? "隨機" : playMode === "隨機" ? "循環" : "順序";
+            document.getElementById("mode-btn").innerText = `:${playMode}`;
         });
 
         document.getElementById("clear-btn").addEventListener("click", () => {
@@ -501,27 +458,18 @@
             else document.getElementById("next-btn").click();
         });
 
-        speedSelect.addEventListener(
-            "change",
-            () => (playlistAudio.playbackRate = parseFloat(speedSelect.value)),
-        );
+        speedSelect.addEventListener("change", () => playlistAudio.playbackRate = parseFloat(speedSelect.value));
 
         playlistAudio.addEventListener("timeupdate", () => {
-            if (playlistAudio.duration)
-                progressBar.value =
-                    (playlistAudio.currentTime / playlistAudio.duration) * 100;
+            if (playlistAudio.duration) progressBar.value = (playlistAudio.currentTime / playlistAudio.duration) * 100;
         });
 
         progressBar.addEventListener("input", () => {
-            if (playlistAudio.duration)
-                playlistAudio.currentTime =
-                    (progressBar.value / 100) * playlistAudio.duration;
+            if (playlistAudio.duration) playlistAudio.currentTime = (progressBar.value / 100) * playlistAudio.duration;
         });
 
-        const recommendationContainer = document.getElementById(
-            "recommendation-container",
-        );
-        categories.forEach((category) => {
+        const recommendationContainer = document.getElementById("recommendation-container");
+        categories.forEach(category => {
             const container = document.createElement("div");
             container.className = "audio-row-container";
 
@@ -531,35 +479,25 @@
             titleSpan.innerText = category.name;
             const selectAllBtn = document.createElement("button");
             selectAllBtn.innerText = "全選";
-            selectAllBtn.style.background = "#ff4500";
-            selectAllBtn.style.color = "#fff";
-            selectAllBtn.style.border = "none";
-            selectAllBtn.style.borderRadius = "3px";
-            selectAllBtn.style.cursor = "pointer";
-            selectAllBtn.addEventListener("click", () => {
-                category.audios.forEach((a) => addToPlaylist(a));
-            });
+            selectAllBtn.addEventListener("click", () => category.audios.forEach(a => addToPlaylist(a)));
             titleBar.appendChild(titleSpan);
             titleBar.appendChild(selectAllBtn);
 
             const row = document.createElement("div");
             row.className = "audio-row";
-            category.audios.forEach((audio) => {
+            category.audios.forEach(audio => {
                 const item = document.createElement("div");
                 item.className = "audio-item";
                 item.innerHTML = `<div class="item-title">${audio.title}</div>
-        <div class="item-desc" data-full="${audio.description}">${audio.description}</div>
-        <button class="add-to-playlist">+</button>`;
-                item.addEventListener("click", (e) => {
-                    if (!e.target.classList.contains("add-to-playlist"))
-                        showDetailPage(audio);
+                    <div class="item-desc" data-full="${audio.description}">${audio.description}</div>
+                    <button class="add-to-playlist">+</button>`;
+                item.addEventListener("click", e => {
+                    if (!e.target.classList.contains("add-to-playlist")) showDetailPage(audio);
                 });
-                item
-                    .querySelector(".add-to-playlist")
-                    .addEventListener("click", (e) => {
-                        e.stopPropagation();
-                        addToPlaylist(audio);
-                    });
+                item.querySelector(".add-to-playlist").addEventListener("click", e => {
+                    e.stopPropagation();
+                    addToPlaylist(audio);
+                });
                 row.appendChild(item);
             });
 
@@ -569,12 +507,11 @@
         });
 
         function showDetailPage(audio) {
-            document.querySelectorAll("audio").forEach((a) => a.pause());
+            document.querySelectorAll("audio").forEach(a => a.pause());
             detailAudio.src = audio.src;
             detailAudio.play().catch(() => { });
             document.getElementById("detail-title").innerText = audio.title;
-            document.getElementById("detail-description").innerText =
-                audio.description;
+            document.getElementById("detail-description").innerText = audio.description;
             mainPage.style.display = "none";
             detailPage.style.display = "block";
         }
