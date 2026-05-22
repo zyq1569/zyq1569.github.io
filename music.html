@@ -23,6 +23,26 @@
         .page-header {
             text-align: center;
             margin-bottom: 30px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 新增：左上角主頁按鈕樣式 */
+        .home-btn {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 8px 16px;
+            background-color: #ff4500;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
         }
 
         .page-header h1 {
@@ -254,7 +274,7 @@
             #player-controls {
                 gap: 3px;
             }
-
+            
             #player-controls button,
             #player-controls select,
             #player-controls a {
@@ -267,9 +287,13 @@
 
 <body>
     <div id="main-page" class="audio-page">
+        <!-- 修改重點：新增主頁按鈕 -->
         <div class="page-header">
-            <h1>推薦天國的音樂</h1>
-            <p>天音淨樂:所有音樂來源於[天音網]</p>
+            <a href="https://zyq1569.github.io/" class="home-btn">主頁</a>
+            <div>
+                <h1>推薦天國的音樂</h1>
+                <p>天音淨樂:所有音樂來源於[天音網]</p>
+            </div>
         </div>
 
         <div id="playlist">
@@ -356,7 +380,6 @@
             //     }))
             // }
         ];
-
         const mainPage = document.getElementById("main-page");
         const detailPage = document.getElementById("detail-page");
         const detailAudio = document.getElementById("detail-audio");
@@ -428,7 +451,7 @@
 
         function addToPlaylist(audio) {
             playlist.push(audio);
-            currentIndex = 0;                    // ← 修改重點：添加後默認播放第一首
+            currentIndex = 0;
             if (playlist.length > 0) {
                 playlistAudio.src = playlist[0].src;
                 downloadBtn.href = playlist[0].src;
