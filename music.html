@@ -20,22 +20,19 @@
             padding: 20px;
         }
 
-        .page-header {
+       .page-header {
             text-align: center;
             margin-bottom: 30px;
             position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            padding-top: 50px; 
         }
 
-        /* 新增：左上角主頁按鈕樣式 */
+ /* 修改重點：左上角頂點位置 */
         .home-btn {
             position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            padding: 8px 16px;
+            left: 20px;
+            top: 20px;
+            padding: 8px 18px;
             background-color: #ff4500;
             color: white;
             text-decoration: none;
@@ -43,6 +40,7 @@
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
+            z-index: 10;
         }
 
         .page-header h1 {
