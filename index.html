@@ -570,22 +570,23 @@
             });
         </script> -->
     </div>
-    <script>
-    // ==================== 時辰 + 年份天干地支 + 月 + 星期（單行版） ====================
+  <script>
+    // ==================== 時辰 + 年份天干地支 + 月 + 星期（單行版 + 手機獨立位置） ====================
     (function() {
         // ==================== 可自訂參數 ====================
         const config = {
             fontFamily: '"Microsoft YaHei", "黑體", Arial, sans-serif', 
-            color: '#ffcc00',           
-            background: 'rgba(0,0,0,0.78)', 
             // 電腦端設定
-            fontSizeDesktop: '12px',
+            fontSizeDesktop: '18px',
             topDesktop: '20px',
-            leftDesktop: '20px',           
+            leftDesktop: '20px',
             // 手機端設定（獨立調整）
             fontSizeMobile: '7px',
-            topMobile: '0px',     // ← 手機端距離頂部
-            leftMobile: '05px'    // ← 手機端距離左側
+            topMobile: '3px',     // ← 手機端距離頂部
+            leftMobile: '3px',    // ← 手機端距離左側
+            
+            color: '#ffcc00',           
+            background: 'rgba(0,0,0,0.78)'
         };
         // ====================================================
 
@@ -606,38 +607,58 @@
             return dizhi[Math.floor((h + 1) % 24 / 2)];
         }
 
+        function isMobile() {
+            return window.innerWidth < 768 || /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+
         // 創建容器
         const widget = document.createElement('div');
         widget.id = 'shichen-widget';
-        widget.style.cssText = `
-            position: fixed; 
-            left: ${config.left}; 
-            top: ${config.top}; 
-            z-index: 99999;
-            background: ${config.background}; 
-            color: ${config.color}; 
-            font-size: ${config.fontSize};
-            font-family: ${config.fontFamily};
-            font-weight: bold; 
-            padding: 10px 20px; 
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            user-select: none;
-            pointer-events: none;
-            white-space: nowrap;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        `;
+        
+        // 應用樣式（支援手機獨立設定）
+        function applyStyles() {
+            const isMob = isMobile();
+            
+            const fontSize = isMob ? config.fontSizeMobile : config.fontSizeDesktop;
+            const topPos  = isMob ? config.topMobile : config.topDesktop;
+            const leftPos = isMob ? config.leftMobile : config.leftDesktop;
+
+            widget.style.cssText = `
+                position: fixed; 
+                left: ${leftPos}; 
+                top: ${topPos}; 
+                z-index: 99999;
+                background: ${config.background}; 
+                color: ${config.color}; 
+                font-size: ${fontSize};
+                font-family: ${config.fontFamily};
+                font-weight: bold; 
+                padding: 9px 16px; 
+                border-radius: 8px;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+                user-select: none;
+                pointer-events: none;
+                white-space: nowrap;
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+            `;
+        }
+
         document.body.appendChild(widget);
+        applyStyles();
+
+        // 視窗大小改變時重新適配
+        window.addEventListener('resize', applyStyles);
 
         function updateWidget() {
             const now = new Date();
             const year = now.getFullYear();
-            const month = now.getMonth() + 1;           // 月份 1-12
-            const dayOfWeek = weekdays[now.getDay()];   // 星期
+            const month = now.getMonth() + 1;
+            const dayOfWeek = weekdays[now.getDay()];
             const ganzhi = getGanzhiYear(year);
             const shichen = getCurrentShichen();
+
             widget.textContent = `${year}${ganzhi}${month}月${dayOfWeek}${shichen}時`;
         }
 
