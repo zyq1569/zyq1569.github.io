@@ -207,16 +207,16 @@
         #player-controls {
             display: flex;
             justify-content: space-between;
-            flex-wrap: wrap;
             gap: 5px;
+            /* 移除 flex-wrap，讓按鈕保持同一行 */
         }
 
         #player-controls button,
         #player-controls select,
         #player-controls a {
             flex: 1;
-            min-width: 60px;
-            padding: 5px;
+            min-width: 50px;
+            padding: 6px 4px;
             border: none;
             border-radius: 3px;
             cursor: pointer;
@@ -224,7 +224,7 @@
             color: #fff;
             text-align: center;
             text-decoration: none;
-            font-size: clamp(12px, 2vw, 16px);
+            font-size: clamp(12px, 2vw, 15px);
         }
 
         /* 音頻推薦手機適配 */
@@ -248,6 +248,18 @@
 
             .audio-description {
                 font-size: 14px;
+            }
+
+            /* 手機端進一步壓縮按鈕間距 */
+            #player-controls {
+                gap: 3px;
+            }
+
+            #player-controls button,
+            #player-controls select,
+            #player-controls a {
+                padding: 5px 3px;
+                font-size: 13px;
             }
         }
     </style>
@@ -301,7 +313,7 @@
 
     <script>
         const categories = [
-                        {
+            {
                 name: "推薦",
                 audios: [
                     { src: "./resource/tianyi.mp3", title: "天音淨樂 1", description: "天音淨樂 1 天意" },
@@ -370,20 +382,27 @@
                 div.className = "playlist-item";
                 if (index === currentIndex) div.classList.add("active");
                 div.innerHTML = `<span>${audio.title}</span>
-            <div>
-                <button data-action="up" data-index="${index}">↑</button>
-                <button data-action="down" data-index="${index}">↓</button>
-                <button data-action="remove" data-index="${index}">移除</button>
-            </div>`;
+                    <div>
+                        <button data-action="up" data-index="${index}">↑</button>
+                        <button data-action="down" data-index="${index}">↓</button>
+                        <button data-action="remove" data-index="${index}">移除</button>
+                    </div>`;
                 div.addEventListener("click", () => playSelected(index));
                 div.querySelectorAll("button").forEach(btn => {
                     btn.addEventListener("click", e => {
                         e.stopPropagation();
                         const idx = +e.target.dataset.index;
                         const action = e.target.dataset.action;
-                        if (action === "up" && idx > 0) ([playlist[idx - 1], playlist[idx]] = [playlist[idx], playlist[idx - 1]], adjustCurrent(idx, "up"));
-                        else if (action === "down" && idx < playlist.length - 1) ([playlist[idx + 1], playlist[idx]] = [playlist[idx], playlist[idx + 1]], adjustCurrent(idx, "down"));
-                        else if (action === "remove") playlist.splice(idx, 1), currentIndex = Math.min(currentIndex, playlist.length - 1);
+                        if (action === "up" && idx > 0) {
+                            [playlist[idx - 1], playlist[idx]] = [playlist[idx], playlist[idx - 1]];
+                            adjustCurrent(idx, "up");
+                        } else if (action === "down" && idx < playlist.length - 1) {
+                            [playlist[idx + 1], playlist[idx]] = [playlist[idx], playlist[idx + 1]];
+                            adjustCurrent(idx, "down");
+                        } else if (action === "remove") {
+                            playlist.splice(idx, 1);
+                            currentIndex = Math.min(currentIndex, playlist.length - 1);
+                        }
                         renderPlaylist();
                     });
                 });
@@ -409,9 +428,11 @@
 
         function addToPlaylist(audio) {
             playlist.push(audio);
-            currentIndex = playlist.length - 1; // 保證播放按鈕始終有效
-            playlistAudio.src = playlist[currentIndex].src;
-            downloadBtn.href = playlist[currentIndex].src;
+            currentIndex = 0;                    // ← 修改重點：添加後默認播放第一首
+            if (playlist.length > 0) {
+                playlistAudio.src = playlist[0].src;
+                downloadBtn.href = playlist[0].src;
+            }
             renderPlaylist();
         }
 
