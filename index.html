@@ -576,12 +576,16 @@
         // ==================== 可自訂參數 ====================
         const config = {
             fontFamily: '"Microsoft YaHei", "黑體", Arial, sans-serif', 
-            fontSizeDesktop: '12px',          // 電腦端字體大小
-            fontSizeMobile:'7px',      // 手機端字體大小（可自行調整）
             color: '#ffcc00',           
             background: 'rgba(0,0,0,0.78)', 
-            top: '3px',                
-            left: '3px'                
+            // 電腦端設定
+            fontSizeDesktop: '12px',
+            topDesktop: '20px',
+            leftDesktop: '20px',           
+            // 手機端設定（獨立調整）
+            fontSizeMobile: '7px',
+            topMobile: '0px',     // ← 手機端距離頂部
+            leftMobile: '05px'    // ← 手機端距離左側
         };
         // ====================================================
 
