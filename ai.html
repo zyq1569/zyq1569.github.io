@@ -24,9 +24,20 @@
     <!-- <title>MP3 Player</title> -->
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background: #f0f0f0;
-            padding: 20px;
+            background-image:
+                linear-gradient(to bottom,
+                    rgba(10, 10, 10, 0.88),
+                    rgba(120, 120, 120, 0.25),
+                    rgba(255, 255, 255, 0.08)),
+                url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1920&auto=format&fit=crop");
+
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+
+            animation: bgMove 40s ease-in-out infinite alternate;
+
+            position: relative;
         }
 
         #player {
