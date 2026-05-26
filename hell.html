@@ -26,6 +26,15 @@ html,body{
    背景
 ========================= */
 body{
+/* 手機端 */
+    #background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    }
 
     background-image:
     linear-gradient(
@@ -292,12 +301,33 @@ body::before{
         opacity:0;
     }
 }
+/* 手機端 */
+@media (max-width: 768px) {
+    .top-buttons {
+        top: 20px;
+        gap: 6px;
+    }
+    
+    .top-buttons button {
+        padding: 13px 22px;
+        font-size: 15px;
+    }
+    
+    .title h1 {
+        font-size: 52px;
+    }
+    
+    .title p {
+        font-size: 20px;
+    }
+}
 
 </style>
 </head>
 
 <body>
-
+    <!-- 修正重點：獨立背景層 -->
+    <div id="background"></div>
 <!-- 火焰光暈 -->
 <div class="fire-glow"></div>
 
