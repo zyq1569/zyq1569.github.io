@@ -1,432 +1,289 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
-
+<html lang="zh">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-
-    <title>Day</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&display=swap" rel="stylesheet">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AI.NO.HOPE</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
+
+        :root {
+            --font-size-desktop: 1.12rem;
+            --font-size-mobile: 1.02rem;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
-
-        :root {
-            /* ============== 背景亮度控制參數 ============== */
-            --bg-darkness: 0.28;
-            /* 主要黑暗度 (調小 = 更亮，建議範圍 0.3 ~ 0.65) */
-            --gradient-top: rgba(20, 20, 35, var(--bg-darkness));
-            --gradient-bottom: rgba(40, 40, 70, 0.38);
-            /* 底部漸層透明度 */
-            /* ============================================ */
-        }
-
-        html,
-        body {
-            height: 100%;
+        body, html {
+            height: 100vh;
+            height: 100dvh;
             overflow: hidden;
-            /* 徹底禁用滾動 */
-            overscroll-behavior: none;
-            /* 禁用邊緣彈跳 */
-            touch-action: none;
-            /* 禁用手機觸控滑動 */
-        }
-
-        body {
             background: #000;
-            color: #fff;
-            font-family: 'Cinzel', serif;
-            padding-top: 235px;
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
+            font-family: 'Noto Sans TC', system-ui, sans-serif;
+            color: #eee;
         }
 
-        /* 背景圖 - 可控亮度 */
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            background:
-                linear-gradient(to bottom, var(--gradient-top), var(--gradient-bottom)),
-                url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1920&auto=format&fit=crop");
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            z-index: -2;
-        }
-
-        /* 光照效果 */
-        .lightBeam {
-            position: fixed;
-            top: -30%;
-            left: 10%;
-            width: 420px;
-            height: 160%;
-            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.42), transparent);
-            filter: blur(50px);
-            transform: rotate(12deg);
-            animation: beamMove 14s infinite alternate ease-in-out;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        @keyframes beamMove {
-            from {
-                left: 5%;
-            }
-
-            to {
-                left: 62%;
-            }
-        }
-
-        /* 頂部控制區 */
-        .top-control {
+        /* 背景圖 - 完整拉伸填充 */
+        #background {
             position: fixed;
             top: 0;
             left: 0;
-            z-index: 10000;
-            background: rgba(0, 0, 0, 0.22);
-            backdrop-filter: blur(10px);
-            padding: 14px 16px;
-            width: 100%;
-            max-width: 360px;
-            border-bottom-right-radius: 16px;
-        }
-
-        .nav a {
-            text-decoration: none;
-            padding: 11px 16px;
-            border-radius: 10px;
-            color: #fff;
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            gap: 11px;
-            margin-bottom: 7px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .nav a:hover {
-            background: rgba(255, 170, 70, 0.45);
-            transform: translateX(10px);
-        }
-
-        /* MP3 播放器 */
-        .music-player {
-            background: rgba(0, 0, 0, 0.28);
-            border-radius: 10px;
-            padding: 11px 13px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-        }
-
-        /* 主要內容區域 */
-        .main-page,
-        .content-page {
-            position: relative;
-            z-index: 2;
-            min-height: calc(100vh - 235px);
-        }
-
-        /* 主頁面 */
-        .main-page {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-            padding: 80px 20px;
-        }
-
-        /* 內容展示區 */
-        #contentContainer {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: #000;
-            z-index: 20000;
-        }
-
-        #contentContainer iframe {
             width: 100%;
             height: 100%;
-            border: none;
+            background: url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1920&auto=format&fit=crop') center center / cover no-repeat;
+            filter: brightness(1.0) contrast(1.0);
+            z-index: 1;
         }
 
-        /* 右上角關閉按鈕 */
-        .closeBtn {
+        /* 自動移動光束 */
+        .lightBeam {
             position: fixed;
-            top: 18px;
-            right: 20px;
-            z-index: 21000;
-            padding: 12px 26px;
-            background: #c00;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            display: none;
+            top: -35%;
+            left: 8%;
+            width: 380px;
+            height: 180%;
+            background: linear-gradient(to bottom, 
+                rgba(255, 255, 255, 0.78),
+                rgba(180, 220, 255, 0.48),
+                transparent);
+            filter: blur(58px);
+            transform: rotate(15deg);
+            animation: beamMove 16s infinite alternate ease-in-out;
+            z-index: 3;
+            pointer-events: none;
+            opacity: 0.68;
         }
 
-        .closeBtn:hover {
-            background: #f00;
-            transform: scale(1.05);
+        @keyframes beamMove {
+            from { left: 3%; transform: rotate(12deg); }
+            to   { left: 68%; transform: rotate(22deg); }
         }
 
-        /* 星空粒子 */
-        .star {
+        canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+        }
 
+        .content {
+            position: relative;
+            z-index: 10;
+            height: 100dvh;
+            display: flex;
+            align-items: center;
+            padding: 0 5vw;
+            padding-top: env(safe-area-inset-top);
+        }
+
+        .title {
+            font-size: 2.85rem;
+            font-weight: 700;
+            margin-bottom: 2.4rem;
+            letter-spacing: 5px;
+            background: linear-gradient(90deg, #a0d8ff, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 25px rgba(160, 216, 255, 0.6);
+        }
+
+        /* 完全透明導航 */
+        nav {
+            background: transparent;
+            padding: 1.8rem 0;
+        }
+
+        .nav-link {
+            display: block;
+            color: #e0e0e0;
+            text-decoration: none;
+            font-size: var(--font-size-desktop);
+            font-weight: 500;
+            padding: 13px 0;
+            transition: all 0.35s ease;
+            white-space: nowrap;
+            position: relative;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+        }
+
+        .nav-link:hover {
+            color: #ffffff;
+            padding-left: 16px;
+            text-shadow: 0 0 20px rgba(160, 220, 255, 0.95);
+        }
+
+        .nav-link::before {
+            content: '';
             position: absolute;
-
+            left: -8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 5px;
+            height: 5px;
+            background: #a0d8ff;
             border-radius: 50%;
-
-            background: #fff;
-
-            animation: twinkle infinite alternate;
+            opacity: 0;
+            transition: 0.35s;
         }
 
-        @keyframes twinkle {
-
-            from {
-                opacity: 0.2;
-            }
-
-            to {
-                opacity: 1;
-            }
+        .nav-link:hover::before {
+            opacity: 1;
+            width: 9px;
+            height: 9px;
         }
 
-        /* 手機端微調 */
+        /* ==================== 手機端 ==================== */
         @media (max-width: 768px) {
-            body {
-                padding-top: 235px;
+            #background {
+                background-position: center 25%;
             }
 
-            .top-control {
-                max-width: 30%;
+            .content {
+                align-items: flex-start;
+                padding-top: calc(15vh + env(safe-area-inset-top));
+                padding-bottom: env(safe-area-inset-bottom);
             }
 
-            :root {
-                --nav-item-height: 30px;
+            .title {
+                font-size: 2.2rem;
+                margin-bottom: 1.8rem;
             }
 
-            /* 手機端可在此單獨調整 */
+            nav {
+                padding: 1.2rem 0;
+            }
+
+            .nav-link {
+                font-size: var(--font-size-mobile);
+                padding: 12px 0;
+            }
+
+            .lightBeam {
+                width: 260px;
+                filter: blur(48px);
+                top: -42%;
+            }
         }
     </style>
 </head>
-
 <body>
-
+    <div id="background"></div>
     <div class="lightBeam"></div>
+    <canvas id="stars"></canvas>
+    <canvas id="flashlight"></canvas>
 
-    <!-- 頂部控制區 -->
-    <div class="top-control">
-        <div class="nav" id="custom-nav"></div>
-
-        <!-- MP3 播放器 -->
-        <div class="music-player">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-                <span id="song-title"
-                    style="flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">未選擇歌曲</span>
-                <div style="display:flex;gap:10px;">
-                    <button id="prev-btn">上</button>
-                    <button id="play-btn">▶</button>
-                    <button id="next-btn">下</button>
-                    <button id="shuffle-btn">🔀</button>
-                    <button id="repeat-btn">🔁</button>
-                    <a id="download-btn" href="#" download>⬇</a>
-                </div>
-            </div>
-
-            <div id="progress-container"
-                style="height:4px;background:rgba(255,255,255,0.22);border-radius:2px;cursor:pointer;margin:8px 0;">
-                <div id="progress" style="height:100%;background:linear-gradient(to right,#ffaa00,#ffdd88);width:0%;">
-                </div>
-            </div>
-
-            <div style="display:flex;justify-content:space-between;font-size:12.5px;">
-                <span id="current-time">0:00</span>
-                <span id="duration">0:00</span>
-            </div>
-
-            <select id="playlist-select"
-                style="margin-top:8px;width:100%;background:rgba(30,30,30,0.7);color:#fff;border:none;border-radius:6px;padding:6px;">
-            </select>
+    <div class="content">
+        <div>
+            <p1>fgvpn17.apk安卓手机fg805p.zip电脑</p1>
+            <nav>
+                <a href="https://www.ganjingworld.com/zh-CN" class="nav-link">🏠干净世界</a>
+                <a href="https://chat.openai.com/" class="nav-link">📝ChatGPT(免注册试用)</a>
+                <a href="https://aistudio.google.com/prompts/new_chat" class="nav-link">📝google-Gemini-AI</a>
+                <a href="https://x.com/i/grok" class="nav-link">📝X-grok</a>
+                <a href="https://github.com/freegate-release/website" class="nav-link">📬网络工具I</a>
+                <a href="https://sourceforge.net/projects/health1212/files/Tools/OS%20Software/windows%20tools/fg805p.7z/download" class="nav-link">📬備用地址I</a>
+            <!-- <h1 class="title">星辰导航</h1>
+            <nav>
+                <a href="#" class="nav-link">🏠 首页</a>
+                <a href="#" class="nav-link">📝 博客</a>
+                <a href="#" class="nav-link">📸 相册</a>
+                <a href="#" class="nav-link">📂 项目</a>
+                <a href="#" class="nav-link">📖 关于我</a>
+                <a href="#" class="nav-link">📬 联系</a> -->
+            </nav>
         </div>
     </div>
 
-    <!-- 主頁面 -->
-    <div class="main-page" id="mainPage">
-        <p style="font-size:12px;letter-spacing:6px;margin-bottom:20px;text-shadow:0 0 30px rgba(255,255,255,0.75);">
-            fgvpn17.apk安卓手机端 fg805p.zip电脑端</p>
-        <p style="font-size:21px;">AI...No hope!</p>
-    </div>
-
-    <!-- 內容展示容器 -->
-    <div id="contentContainer">
-        <button class="closeBtn" onclick="closeContent()">✕ 關閉返回</button>
-        <iframe id="pageFrame"></iframe>
-    </div>
-
     <script>
-        // ====================== 導航 ======================
-        // 感恩！🎉🎆
-        // 0:干净世界  <a href="https://www.ganjingworld.com/zh-CN" target="_blank">进入</a> https://www.njingworld.com/
-        // 1.ChatGPT (可以免注册直接试用)： <a href="https://chat.openai.com/" target="_blank">链接进入</a>  https://chat.openai.com/
-        // 2.google-Gemini的AI   <a href="https://aistudio.google.com/prompts/new_chat" target="_blank">链接进入</a> https://aistudio.google.com/prompts/new_chat
-        // 3.马斯克的X的AI。     <a href="https://x.com/i/grok" target=_blank>链接进入</a> https://x.com/i/grok
-        // 4.需要的网络工具-->fgvpn17.apk安卓手机端  fg805p.zip电脑端
-        // <a href=" https://github.com/freegate-release/website" target="_blank">最新下载(使用中建议关闭其它软件)</a>
-        // <a href=" https://github.com/freegate-release/website/tree/gh-pages/files" target="_blank">历史版本下载链接</a>
-        // https://github.com/freegate-release/website/tree/gh-pages/files     https://git.io/vFUxz       
-        // 备用下载地址：
-        // <a href="https://sourceforge.net/projects/health1212/files/Tools/OS%20Software/windows%20tools/fg805p.7z/download" target="_blank">fg805p.7z</a>
-        // https://sourceforge.net/projects/health1212/files/Tools/OS%20Software/windows%20tools/
-        // <a href="https://sourceforge.net/projects/health1212/files/Tools/OS%20Software/windows%20tools/fgvpn_1.7.apk/download" target="_blank">fgvpn_1.7.apk</a>
-        // https://sourceforge.net/projects/health1212/files/Tools/OS%20Software/windows%20tools/   
+        // 星空粒子
+        const starsCanvas = document.getElementById('stars');
+        const starsCtx = starsCanvas.getContext('2d');
+        let stars = [];
 
-        const navItems = [
-            { icon: "✨", text: "干净世界", href: "https://www.ganjingworld.com/zh-CN" },
-            { icon: "🔥", text: "ChatGPT免注册试用", href: "https://chat.openai.com/" },
-            { icon: "🌫️", text: "google-Gemini", href: "https://aistudio.google.com/prompts/new_chat" },
-            { icon: "📖", text: "馬斯克X.AI", href: "https://x.com/i/grok" },
-            { icon: "📜", text: "网络工具", href: "https://github.com/freegate-release/website" },
-            { icon: "📜", text: "備用地址", href: "https://sourceforge.net/projects/health1212/files/Tools/OS%20Software/windows%20tools/fg805p.7z/download" }
-        ];
-
-        const navContainer = document.getElementById('custom-nav');
-        navItems.forEach(item => {
-            const a = document.createElement('a');
-            a.innerHTML = `<span style="font-size:19px;">${item.icon}</span> ${item.text}`;
-            a.onclick = () => window.open(item.href, '_blank');   // 新分頁打開 showContent(item.href);
-            navContainer.appendChild(a);
-        });
-
-        function showContent(url) {
-            document.getElementById('mainPage').style.display = 'none';
-            document.getElementById('contentContainer').style.display = 'block';
-            document.querySelector('.closeBtn').style.display = 'block';
-            document.getElementById('pageFrame').src = url;
-        }
-
-        function closeContent() {
-            document.getElementById('mainPage').style.display = 'block';
-            document.getElementById('contentContainer').style.display = 'none';
-            document.querySelector('.closeBtn').style.display = 'none';
-            document.getElementById('pageFrame').src = '';
-        }
-
-        // ====================== MP3 播放器 ======================
-        const playlist = [
-            { title: "天音 1", src: "resource/dsg.mp3" },
-            { title: "天音 2", src: "resource/tianyi.mp3" },
-            { title: "天音 3", src: "resource/xiyuan.mp3" },
-            { title: "天音 4", src: "resource/tsdyl.mp3" }
-            // {title: "但丁．神曲 - 地獄序曲", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"},
-            // {title: "煉獄之風", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"},
-            // {title: "天堂聖詠", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"}
-        ];
-
-        let currentIndex = 0;
-        let isPlaying = false;
-        const audio = new Audio();
-
-        const songTitleEl = document.getElementById('song-title');
-        const playBtn = document.getElementById('play-btn');
-        const prevBtn = document.getElementById('prev-btn');
-        const nextBtn = document.getElementById('next-btn');
-        const progressBar = document.getElementById('progress');
-        const currentTimeEl = document.getElementById('current-time');
-        const durationEl = document.getElementById('duration');
-        const playlistSelect = document.getElementById('playlist-select');
-        const downloadBtn = document.getElementById('download-btn');
-
-        playlist.forEach((song, i) => {
-            const opt = document.createElement('option');
-            opt.value = i;
-            opt.textContent = song.title;
-            playlistSelect.appendChild(opt);
-        });
-
-        function loadSong(index) {
-            const wasPlaying = isPlaying;           // 記錄切換前的播放狀態
-            currentIndex = index;
-            audio.src = playlist[index].src;
-            songTitleEl.textContent = playlist[index].title;
-            playlistSelect.value = index;
-            downloadBtn.href = playlist[index].src;
-            downloadBtn.download = playlist[index].title + ".mp3";
-            // 重點修正：如果原本正在播放，則自動播放新歌曲
-            if (wasPlaying) {
-                audio.play();
+        class Star {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * starsCanvas.width;
+                this.y = Math.random() * starsCanvas.height;
+                this.size = Math.random() * 2.1 + 0.6;
+                this.speed = Math.random() * 0.018 + 0.008;
+                this.opacity = Math.random() * 0.6 + 0.4;
+                this.breath = Math.random() * Math.PI * 2;
+            }
+            update() {
+                this.breath += this.speed;
+                this.opacity = 0.4 + Math.sin(this.breath) * 0.55;
+            }
+            draw() {
+                starsCtx.save();
+                starsCtx.globalAlpha = this.opacity;
+                starsCtx.fillStyle = '#fff';
+                starsCtx.shadowBlur = 9;
+                starsCtx.shadowColor = '#a0d8ff';
+                starsCtx.fillRect(this.x, this.y, this.size, this.size);
+                starsCtx.restore();
             }
         }
 
-        playBtn.addEventListener('click', () => {
-            if (!audio.src) loadSong(0);
-            isPlaying = !isPlaying;
-            isPlaying ? audio.play() : audio.pause();
-            playBtn.textContent = isPlaying ? '❚❚' : '▶';
+        function resize() {
+            starsCanvas.width = window.innerWidth;
+            starsCanvas.height = window.innerHeight;
+            const count = Math.floor(window.innerWidth * window.innerHeight / 7800);
+            stars = [];
+            for (let i = 0; i < count; i++) stars.push(new Star());
+        }
+
+        function animateStars() {
+            starsCtx.clearRect(0, 0, starsCanvas.width, starsCanvas.height);
+            stars.forEach(s => { s.update(); s.draw(); });
+            requestAnimationFrame(animateStars);
+        }
+
+        // 手電筒
+        const flashCanvas = document.getElementById('flashlight');
+        const flashCtx = flashCanvas.getContext('2d');
+        let mouseX = window.innerWidth * 0.35;
+        let mouseY = window.innerHeight * 0.45;
+
+        function resizeFlash() {
+            flashCanvas.width = window.innerWidth;
+            flashCanvas.height = window.innerHeight;
+        }
+
+        function drawFlash() {
+            flashCtx.clearRect(0, 0, flashCanvas.width, flashCanvas.height);
+            const g = flashCtx.createRadialGradient(mouseX, mouseY, 85, mouseX, mouseY, 520);
+            g.addColorStop(0, 'rgba(255,245,220,0.15)');
+            g.addColorStop(1, 'rgba(160,210,255,0)');
+            flashCtx.fillStyle = g;
+            flashCtx.fillRect(0, 0, flashCanvas.width, flashCanvas.height);
+        }
+
+        window.addEventListener('resize', () => {
+            resize();
+            resizeFlash();
         });
 
-        prevBtn.addEventListener('click', () => loadSong((currentIndex - 1 + playlist.length) % playlist.length));
-        nextBtn.addEventListener('click', () => loadSong((currentIndex + 1) % playlist.length));
-
-        playlistSelect.addEventListener('change', e => loadSong(parseInt(e.target.value)));
-
-        audio.addEventListener('timeupdate', () => {
-            if (audio.duration) {
-                progressBar.style.width = (audio.currentTime / audio.duration * 100) + '%';
-                currentTimeEl.textContent = `${Math.floor(audio.currentTime / 60)}:${(Math.floor(audio.currentTime % 60) + '').padStart(2, '0')}`;
-                durationEl.textContent = `${Math.floor(audio.duration / 60)}:${(Math.floor(audio.duration % 60) + '').padStart(2, '0')}`;
+        window.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+        window.addEventListener('touchmove', e => {
+            if (e.touches[0]) {
+                mouseX = e.touches[0].clientX;
+                mouseY = e.touches[0].clientY;
             }
         });
 
-        document.getElementById('progress-container').addEventListener('click', e => {
-            const rect = e.currentTarget.getBoundingClientRect();
-            audio.currentTime = (e.clientX - rect.left) / rect.width * audio.duration;
-        });
-
-        audio.addEventListener('ended', () => loadSong((currentIndex + 1) % playlist.length));
-
-        /* =========================================
-           星空粒子
-        ========================================= */
-
-        for (let i = 0; i < 160; i++) {
-
-            let s = document.createElement("div");
-
-            s.className = "star";
-
-            let size = Math.random() * 3 + 1;
-
-            s.style.width = size + "px";
-            s.style.height = size + "px";
-
-            s.style.left = Math.random() * 100 + "vw";
-            s.style.top = Math.random() * 300 + "vh";
-
-            s.style.animationDuration =
-                (1 + Math.random() * 4) + "s";
-
-            s.style.opacity = Math.random();
-
-            document.body.appendChild(s);
-        }
+        window.onload = () => {
+            resize();
+            resizeFlash();
+            animateStars();
+            setInterval(drawFlash, 16);
+        };
     </script>
 </body>
-
 </html>
