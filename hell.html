@@ -293,7 +293,7 @@
 
     <!-- iframe -->
     <div id="iframeContainer">
-      <button class="closeBtn" onclick="closeFrame()">關閉</button>
+      <!-- <button class="closeBtn" onclick="closeFrame()">關閉</button> -->
 
       <iframe id="pageFrame"></iframe>
     </div>
@@ -303,9 +303,9 @@
            在頁面內打開網址
         ========================= */
       function openInside(url) {
-        document.getElementById("iframeContainer").style.display = "block";
-
-        document.getElementById("pageFrame").src = url;
+       // document.getElementById("iframeContainer").style.display = "block";
+       // document.getElementById("pageFrame").src = url;
+        window.location.href = url;
       }
 
       /* =========================
