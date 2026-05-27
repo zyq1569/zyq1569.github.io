@@ -155,7 +155,7 @@
         }
 
         .content-box {
-            width: min(400px, 100%);
+            width: min(410px, 100%);
             background: rgba(255, 255, 255, 0);
             backdrop-filter: blur(12px);
             border-radius: 24px;
@@ -174,6 +174,248 @@
             line-height: 1.8;
         }
 
+        /* .holy-line {
+            border: none;
+            height: 1px;
+            width: 80%;
+            margin: 10px auto;
+            background: linear-gradient(to right,
+                    transparent,
+                    rgba(255, 255, 255, 0.8),
+                    transparent);
+            box-shadow:
+                0 0 10px rgba(255, 255, 255, 0.4);
+        } */
+        /* -------------------------======================== */
+        /* 神聖分割線容器 */
+
+        .holy-wrapper {
+
+            position: relative;
+
+            width: 80%;
+
+            margin: 10px auto;
+
+            height: 10px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            overflow: hidden;
+        }
+
+        /* ========================= */
+        /* 金色聖光主線 */
+        /* ========================= */
+        .holy-line {
+
+            position: relative;
+
+            width: 100%;
+            height: 2px;
+
+            border-radius: 999px;
+
+            background:
+                linear-gradient(to right,
+                    transparent,
+                    rgba(255, 230, 150, 0.2),
+                    rgba(255, 240, 180, 1),
+                    rgba(255, 220, 120, 0.9),
+                    rgba(255, 240, 180, 1),
+                    rgba(255, 230, 150, 0.2),
+                    transparent);
+
+            box-shadow:
+                0 0 8px rgba(255, 220, 120, 0.5),
+                0 0 20px rgba(255, 210, 100, 0.4),
+                0 0 40px rgba(255, 190, 80, 0.25);
+
+            animation:
+                holyBreath 4s ease-in-out infinite;
+        }
+
+        /* ========================= */
+        /* 左右流光 */
+        /* ========================= */
+        .holy-line::before {
+
+            content: "";
+
+            position: absolute;
+
+            top: -4px;
+            left: -20%;
+
+            width: 20%;
+            height: 10px;
+
+            background:
+                linear-gradient(to right,
+                    transparent,
+                    rgba(255, 255, 255, 0.95),
+                    transparent);
+
+            filter: blur(4px);
+
+            animation: flowLight 3s linear infinite;
+        }
+
+        /* 流光動畫 */
+        @keyframes flowLight {
+
+            0% {
+                left: -25%;
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                left: 120%;
+                opacity: 0;
+            }
+        }
+
+        /* ========================= */
+        /* 呼吸聖光 */
+        /* ========================= */
+        @keyframes holyBreath {
+
+            0%,
+            100% {
+
+                opacity: 0.55;
+
+                transform: scaleX(0.96);
+
+                box-shadow:
+                    0 0 6px rgba(255, 220, 120, 0.3),
+                    0 0 14px rgba(255, 210, 100, 0.25),
+                    0 0 28px rgba(255, 190, 80, 0.15);
+            }
+
+            50% {
+
+                opacity: 1;
+
+                transform: scaleX(1);
+
+                box-shadow:
+                    0 0 12px rgba(255, 230, 150, 0.8),
+                    0 0 30px rgba(255, 220, 120, 0.6),
+                    0 0 55px rgba(255, 190, 80, 0.35);
+            }
+        }
+
+        /* ========================= */
+        /* 神聖粒子 */
+        /* ========================= */
+        .particle {
+
+            position: absolute;
+
+            width: 4px;
+            height: 4px;
+
+            border-radius: 50%;
+
+            background: rgba(255, 240, 180, 0.95);
+
+            box-shadow:
+                0 0 8px rgba(255, 240, 180, 0.8),
+                0 0 18px rgba(255, 220, 120, 0.6);
+
+            animation: floatParticle linear infinite;
+        }
+
+        /* 每個粒子不同位置 */
+        .p1 {
+            left: 12%;
+            animation-duration: 4s;
+            animation-delay: 0s;
+        }
+
+        .p2 {
+            left: 35%;
+            animation-duration: 5s;
+            animation-delay: 1s;
+        }
+
+        .p3 {
+            left: 62%;
+            animation-duration: 4.5s;
+            animation-delay: 2s;
+        }
+
+        .p4 {
+            left: 82%;
+            animation-duration: 5.5s;
+            animation-delay: 0.5s;
+        }
+
+        /* 粒子漂浮 */
+        @keyframes floatParticle {
+
+            0% {
+
+                transform:
+                    translateY(12px) scale(0.6);
+
+                opacity: 0;
+            }
+
+            20% {
+                opacity: 1;
+            }
+
+            80% {
+                opacity: 1;
+            }
+
+            100% {
+
+                transform:
+                    translateY(-16px) scale(1.4);
+
+                opacity: 0;
+            }
+        }
+
+        /* ========================= */
+        /* 手機端 */
+        /* ========================= */
+        @media (max-width:768px) {
+
+            .holy-wrapper {
+
+                width: 88%;
+
+                margin: 36px auto;
+
+                height: 30px;
+            }
+
+            .holy-line {
+                height: 1.5px;
+            }
+
+            .particle {
+
+                width: 3px;
+                height: 3px;
+            }
+        }
+
+        /* -----------------------------========================= -----------------------------*/
         /* ========================= */
         /* 手機端適配 */
         /* ========================= */
@@ -191,8 +433,8 @@
 
             /* 保持和桌面一樣的豎向導航 */
             .sidebar {
-                width: 120px;
-                min-width: 120px;
+                width: 110px;
+                min-width: 110px;
 
                 padding: 12px 8px;
             }
@@ -237,6 +479,8 @@
 </head>
 
 <body>
+
+
     <!-- 背景 shitaotv-------@gmail.com -->
     <div class="bg"></div>
 
@@ -258,18 +502,12 @@
             <ul class="book-list">
                 <li><a href="https://ctext.org/fengshen-yanyi/zh">📖封神演義</a></li>
                 <li><a href="https://ctext.org/xiyouji/zh">📖西遊記</a></li>
-                <li><a href="https://ctext.org/wiki.pl?if=gb&chapter=36344">📖圍爐夜話</a>
-                <li><a href="https://ctext.org/kangxi-zidian/zh">📖康熙字典</a>
-                </li>
-                <li>
-                    <a href="https://mysoundwise.com/soundcasts/1583368037532s">📖封神演義.推薦</a>
-                </li>
-                <li>
-                    <a href="https://www.ganjingworld.com/playlist/1hqjpmbsoqo5QQu4cGzfGc211c0p">📖封神演義.推薦</a>
-                </li>
-                <li>
-                    <a href="https://www.ganjingworld.com/playlist/1h2dvmj4a235d8CkZGs3g931h00p">📖西遊記.推薦</a>
-                </li>
+                <li><a href="https://ctext.org/wiki.pl?if=gb&chapter=36344">📖圍爐夜話</a></li>
+                <li><a href="https://ctext.org/kangxi-zidian/zh">📖康熙字典</a></li>
+                <li> <a href="https://mysoundwise.com/soundcasts/1583368037532s">📖封神演義.推薦</a> </li>
+                <li><a href="https://www.ganjingworld.com/playlist/1hqjpmbsoqo5QQu4cGzfGc211c0p">📖封神演義.推薦</a> </li>
+                <li><a href="https://www.ganjingworld.com/playlist/1h2dvmj4a235d8CkZGs3g931h00p">📖西遊記.推薦</a></li>
+                <li><a href="https://zyq1569.github.io/">🏠HOME</a></li>
                 <!-- https://www.gushiwen.cn/ -->
             </ul>
         </aside>
@@ -281,7 +519,19 @@
                 <p>
                     紅塵可怕名利情.因果報應陷輪迴<br />
                     苦在迷中身不知.返本歸真唯正途<br />
-                                  人生本是西遊記<br />
+                    人生本是西遊記.奈何迷在常人中<br />
+                </p>
+                <!-- <hr class="holy-line"> -->
+                <div class="holy-wrapper">
+                    <!-- 漂浮粒子 -->
+                    <span class="particle p1"></span>
+                    <span class="particle p2"></span>
+                    <span class="particle p3"></span>
+                    <span class="particle p4"></span>
+                    <!-- 金色聖光分割線 -->
+                    <div class="holy-line"></div>
+                </div>
+                <p>
                     一體真如轉落塵.合和四相復修身<br />
                     五行論色空還寂.百怪虛名總莫論<br />
                     正果旃檀歸大覺.完成品職脫沉淪<br />
