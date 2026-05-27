@@ -1,52 +1,289 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh">
 <head>
-  <meta charset="UTF-8">
-  <title>Temp</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-    }
-    .row {
-      margin-bottom: 20px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AI.NO.HOPE</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
+
+        :root {
+            --font-size-desktop: 1.12rem;
+            --font-size-mobile: 1.02rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100vh;
+            height: 100dvh;
+            overflow: hidden;
+            background: #000;
+            font-family: 'Noto Sans TC', system-ui, sans-serif;
+            color: #eee;
+        }
+
+        /* 背景圖 - 完整拉伸填充 */
+        #background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1920&auto=format&fit=crop') center center / cover no-repeat;
+            filter: brightness(1.0) contrast(1.0);
+            z-index: 1;
+        }
+
+        /* 自動移動光束 */
+        .lightBeam {
+            position: fixed;
+            top: -35%;
+            left: 8%;
+            width: 380px;
+            height: 180%;
+            background: linear-gradient(to bottom, 
+                rgba(255, 255, 255, 0.78),
+                rgba(180, 220, 255, 0.48),
+                transparent);
+            filter: blur(58px);
+            transform: rotate(15deg);
+            animation: beamMove 16s infinite alternate ease-in-out;
+            z-index: 3;
+            pointer-events: none;
+            opacity: 0.68;
+        }
+
+        @keyframes beamMove {
+            from { left: 3%; transform: rotate(12deg); }
+            to   { left: 68%; transform: rotate(22deg); }
+        }
+
+        canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .content {
+            position: relative;
+            z-index: 10;
+            height: 100dvh;
+            display: flex;
+            align-items: center;
+            padding: 0 5vw;
+            padding-top: env(safe-area-inset-top);
+        }
+
+        .title {
+            font-size: 2.85rem;
+            font-weight: 700;
+            margin-bottom: 2.4rem;
+            letter-spacing: 5px;
+            background: linear-gradient(90deg, #a0d8ff, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 25px rgba(160, 216, 255, 0.6);
+        }
+
+        /* 完全透明導航 */
+        nav {
+            background: transparent;
+            padding: 1.8rem 0;
+        }
+
+        .nav-link {
+            display: block;
+            color: #e0e0e0;
+            text-decoration: none;
+            font-size: var(--font-size-desktop);
+            font-weight: 500;
+            padding: 13px 0;
+            transition: all 0.35s ease;
+            white-space: nowrap;
+            position: relative;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+        }
+
+        .nav-link:hover {
+            color: #ffffff;
+            padding-left: 16px;
+            text-shadow: 0 0 20px rgba(160, 220, 255, 0.95);
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            left: -8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 5px;
+            height: 5px;
+            background: #a0d8ff;
+            border-radius: 50%;
+            opacity: 0;
+            transition: 0.35s;
+        }
+
+        .nav-link:hover::before {
+            opacity: 1;
+            width: 9px;
+            height: 9px;
+        }
+
+        /* ==================== 手機端 ==================== */
+        @media (max-width: 768px) {
+            #background {
+                background-position: center 25%;
+            }
+
+            .content {
+                align-items: flex-start;
+                padding-top: calc(15vh + env(safe-area-inset-top));
+                padding-bottom: env(safe-area-inset-bottom);
+            }
+
+            .title {
+                font-size: 2.2rem;
+                margin-bottom: 1.8rem;
+            }
+
+            nav {
+                padding: 1.2rem 0;
+            }
+
+            .nav-link {
+                font-size: var(--font-size-mobile);
+                padding: 12px 0;
+            }
+
+            .lightBeam {
+                width: 260px;
+                filter: blur(48px);
+                top: -42%;
+            }
+        }
+    </style>
 </head>
 <body>
+    <div id="background"></div>
+    <div class="lightBeam"></div>
+    <canvas id="stars"></canvas>
+    <canvas id="flashlight"></canvas>
 
-<div class="row">
-    <a href="https://github.com/freegate-release/website/blob/gh-pages/files/fg801p.zip" download>FreeVPN 在电脑端下载</a>
-</div>
+    <div class="content">
+        <div>
+            <p1>fgvpn17.apk安卓手机fg805p.zip电脑</p1>
+            <nav>
+                <a href="https://www.ganjingworld.com/zh-CN" class="nav-link">🏠干净世界</a>
+                <a href="https://chat.openai.com/" class="nav-link">📝ChatGPT(免注册试用)</a>
+                <a href="https://aistudio.google.com/prompts/new_chat" class="nav-link">📝google-Gemini-AI</a>
+                <a href="https://x.com/i/grok" class="nav-link">📝X-grok</a>
+                <a href="https://github.com/freegate-release/website" class="nav-link">📬网络工具I</a>
+                <a href="https://sourceforge.net/projects/health1212/files/Tools/OS%20Software/windows%20tools/fg805p.7z/download" class="nav-link">📬備用地址I</a>
+            <!-- <h1 class="title">星辰导航</h1>
+            <nav>
+                <a href="#" class="nav-link">🏠 首页</a>
+                <a href="#" class="nav-link">📝 博客</a>
+                <a href="#" class="nav-link">📸 相册</a>
+                <a href="#" class="nav-link">📂 项目</a>
+                <a href="#" class="nav-link">📖 关于我</a>
+                <a href="#" class="nav-link">📬 联系</a> -->
+            </nav>
+        </div>
+    </div>
 
-<div class="row">
-    <a href="https://github.com/freegate-release/website/blob/gh-pages/files" download>FreeVPN 网址[PC端打开 找相对比较新的版本zip下载] ：https://github.com/freegate-release/website/blob/gh-pages/files</a>
-</div>
+    <script>
+        // 星空粒子
+        const starsCanvas = document.getElementById('stars');
+        const starsCtx = starsCanvas.getContext('2d');
+        let stars = [];
 
-<div class="row">
-    <label for="audioPlayer">shitao</label><br>
-    <audio controls>
-        <source src="resource/shitao.mp4a" type="audio/mpeg">
-        您的浏览器不支持 audio 元素。
-    </audio>
-</div>
-<div class="row">
-    <label for="audioPlayer">新西游记 解说1</label><br>
-    <audio controls>
-        <source src="resource/xyj.mp3" type="audio/mpeg">
-        您的浏览器不支持 audio 元素。
-    </audio>
-</div>
-<div class="row">
-    <label for="audioPlayer">新西游记 解说2</label><br>
-    <audio controls>
-        <source src="resource/xyj2.mp3" type="audio/mpeg">
-        您的浏览器不支持 audio 元素。
-    </audio>
-</div>
-<div class="row"></div>
-<a href=" https://www.youtube.com/watch?v=o7WIW_qHXMo" target="_blank">西游记 其它</a>
-https://www.youtube.com/watch?v=o7WIW_qHXMo
-</div>
+        class Star {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * starsCanvas.width;
+                this.y = Math.random() * starsCanvas.height;
+                this.size = Math.random() * 2.1 + 0.6;
+                this.speed = Math.random() * 0.018 + 0.008;
+                this.opacity = Math.random() * 0.6 + 0.4;
+                this.breath = Math.random() * Math.PI * 2;
+            }
+            update() {
+                this.breath += this.speed;
+                this.opacity = 0.4 + Math.sin(this.breath) * 0.55;
+            }
+            draw() {
+                starsCtx.save();
+                starsCtx.globalAlpha = this.opacity;
+                starsCtx.fillStyle = '#fff';
+                starsCtx.shadowBlur = 9;
+                starsCtx.shadowColor = '#a0d8ff';
+                starsCtx.fillRect(this.x, this.y, this.size, this.size);
+                starsCtx.restore();
+            }
+        }
+
+        function resize() {
+            starsCanvas.width = window.innerWidth;
+            starsCanvas.height = window.innerHeight;
+            const count = Math.floor(window.innerWidth * window.innerHeight / 7800);
+            stars = [];
+            for (let i = 0; i < count; i++) stars.push(new Star());
+        }
+
+        function animateStars() {
+            starsCtx.clearRect(0, 0, starsCanvas.width, starsCanvas.height);
+            stars.forEach(s => { s.update(); s.draw(); });
+            requestAnimationFrame(animateStars);
+        }
+
+        // 手電筒
+        const flashCanvas = document.getElementById('flashlight');
+        const flashCtx = flashCanvas.getContext('2d');
+        let mouseX = window.innerWidth * 0.35;
+        let mouseY = window.innerHeight * 0.45;
+
+        function resizeFlash() {
+            flashCanvas.width = window.innerWidth;
+            flashCanvas.height = window.innerHeight;
+        }
+
+        function drawFlash() {
+            flashCtx.clearRect(0, 0, flashCanvas.width, flashCanvas.height);
+            const g = flashCtx.createRadialGradient(mouseX, mouseY, 85, mouseX, mouseY, 520);
+            g.addColorStop(0, 'rgba(255,245,220,0.15)');
+            g.addColorStop(1, 'rgba(160,210,255,0)');
+            flashCtx.fillStyle = g;
+            flashCtx.fillRect(0, 0, flashCanvas.width, flashCanvas.height);
+        }
+
+        window.addEventListener('resize', () => {
+            resize();
+            resizeFlash();
+        });
+
+        window.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+        window.addEventListener('touchmove', e => {
+            if (e.touches[0]) {
+                mouseX = e.touches[0].clientX;
+                mouseY = e.touches[0].clientY;
+            }
+        });
+
+        window.onload = () => {
+            resize();
+            resizeFlash();
+            animateStars();
+            setInterval(drawFlash, 16);
+        };
+    </script>
 </body>
 </html>
