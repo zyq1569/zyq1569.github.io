@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>奇聞</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans TC', system-ui, sans-serif;
+            background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.85)), url('https://picsum.photos/id/1015/1920/1080') center/cover fixed;
+            color: #e0f2fe;
+            min-height: 100vh;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #fff, 0 0 15px #a5b4fc;
+            animation: twinkle 4s infinite alternate ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0% {
+                opacity: 0.4;
+                transform: scale(0.8);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+
+        .article-card {
+            transition: all 0.4s;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+        }
+
+        .article-card:hover {
+            transform: translateY(-12px);
+        }
+    </style>
+</head>
+
+<body class="relative">
+    <!-- ==================== 左上角即時透明時鐘 ==================== -->
+    <div id="realtime-clock"
+        class="fixed top-6 left-6 z-50 flex items-center gap-2.5 text-white/90 text-sm font-medium backdrop-blur-none pointer-events-none">
+        <i class="fa-solid fa-clock text-indigo-300 text-base"></i>
+        <span id="clock-time" class="tracking-wider"></span>
+    </div>
+
+    <div class="stars" id="stars"></div>
+
+    <div class="relative z-10">
+        <header class="border-b border-white/10 bg-black/40 backdrop-blur-md sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-moon text-3xl text-indigo-400"></i>
+                    <h1 class="text-3xl font-bold">奇聞記事</h1>
+                </div>
+                <input id="searchInput" type="text" placeholder="搜尋文章..."
+                    class="w-96 bg-slate-900/70 border border-slate-600 rounded-2xl px-5 py-3 focus:outline-none focus:border-indigo-400"
+                    onkeyup="filterArticles()">
+            </div>
+        </header>
+
+        <main class="max-w-7xl mx-auto px-6 py-10">
+            <h2 class="text-4xl font-semibold mb-8">最新文章</h2>
+            <div id="articlesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+        </main>
+    </div>
+
+    <script>
+        let articles = [];
+        async function loadArticles() {
+            try {
+                const res = await fetch('leg.json');
+                const data = await res.json();
+                articles = data.articles;
+                renderArticles(articles);
+            } catch (e) {
+                console.error("載入文章失敗", e);
+            }
+        }
+
+        function createStars() {
+            const container = document.getElementById('stars');
+            for (let i = 0; i < 150; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                const size = Math.random() * 3 + 1;
+                star.style.width = star.style.height = `${size}px`;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.animationDelay = `-${Math.random() * 4}s`;
+                container.appendChild(star);
+            }
+        }
+
+        function renderArticles(data) {
+            const container = document.getElementById('articlesContainer');
+            container.innerHTML = '';
+            data.forEach(article => {
+                const card = `
+                <div onclick="goToArticle(${article.id})" class="article-card rounded-3xl overflow-hidden cursor-pointer group">
+                    <img src="${article.image}" class="w-full h-56 object-cover transition-transform group-hover:scale-105">
+                    <div class="p-6">
+                        <div class="flex justify-between text-xs mb-3 text-slate-400">
+                            <span>${article.date}</span>
+                            <span>${article.readTime}</span>
+                        </div>
+                        <h3 class="font-semibold text-xl mb-3 line-clamp-2">${article.title}</h3>
+                        <p class="text-slate-400 text-sm line-clamp-3">${article.excerpt}</p>
+                    </div>
+                </div>`;
+                container.innerHTML += card;
+            });
+        }
+
+        function filterArticles() {
+            const term = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = articles.filter(a =>
+                a.title.toLowerCase().includes(term) || a.excerpt.toLowerCase().includes(term)
+            );
+            renderArticles(filtered.length ? filtered : articles);
+        }
+
+        function goToArticle(id) {
+            window.location.href = `leg.html?id=${id}`;
+        }
+
+        // 左上角完全透明即時時間
+        function updateRealTimeClock() {
+            const clockEl = document.getElementById('clock-time');
+
+            function pad(num) {
+                return String(num).padStart(2, '0');
+            }
+
+            setInterval(() => {
+                const now = new Date();
+
+                const year = now.getFullYear();
+                const month = pad(now.getMonth() + 1);
+                const date = pad(now.getDate());
+                const weekDays = ['日', '一', '二', '三', '四', '五', '六'];
+                const week = weekDays[now.getDay()];
+
+                const hours = pad(now.getHours());
+                const minutes = pad(now.getMinutes());
+                const seconds = pad(now.getSeconds());
+
+                const timeString = `${year}年${month}月${date}日 星期${week} ${hours}:${minutes}:${seconds}`;
+
+                clockEl.textContent = timeString;
+            }, 1000);
+        }
+        //---------------
+        window.onload = () => {
+            createStars();
+            loadArticles();
+            updateRealTimeClock();
+        };
+    </script>
+</body>
+
+</html>
