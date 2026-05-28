@@ -1,46 +1,68 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-TW">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>星辰記事</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
-        
+        @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap");
+
         body {
-            font-family: 'Noto Sans TC', system-ui, sans-serif;
-            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.9)), 
-                        url('https://picsum.photos/id/1015/1920/1080') center/cover fixed;
+            font-family: "Noto Sans TC", system-ui, sans-serif;
+            background:
+                linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.9)),
+                url("https://picsum.photos/id/1015/1920/1080") center/cover fixed;
             color: #e0f2fe;
             min-height: 100vh;
         }
-            /* 重要：控制段落首行縮排 4 個字元 */
-    #articleContent p {
-        text-indent: 2em;           /* 推薦寫法，相當於約4個中文空格 */
-        margin-bottom: 1.2em;
-        line-height: 1.3;
-    }
-    /* h2 標題居中 + 美化 */
-    #articleContent h2 {
-        text-align: center;           /* 居中顯示 */
-        margin: 2.5em 0 1.2em 0;
-        font-size: 1.85rem;
-        color: #c4d0ff;
-        font-weight: 100;
-        position: relative;
-    }
-        .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
-        .star { 
-            position: absolute; 
-            background: white; 
-            border-radius: 50%; 
-            animation: twinkle 5s infinite alternate; 
+
+        /* 重要：控制段落首行縮排 4 個字元 */
+        #articleContent p {
+            text-indent: 2em;
+            /* 推薦寫法，相當於約4個中文空格 */
+            margin-bottom: 1.2em;
+            line-height: 1.2;
         }
-        @keyframes twinkle { 
-            0% { opacity: 0.5; } 
-            100% { opacity: 1; } 
+
+        /* h2 標題居中 + 美化 */
+        #articleContent h2 {
+            text-align: center;
+            /* 居中顯示 */
+            margin: 1em 0 1.2em 0;
+            font-size: 1.85rem;
+            color: #c4d0ff;
+            font-weight: 90;
+            position: relative;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 5s infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% {
+                opacity: 0.5;
+            }
+
+            100% {
+                opacity: 1;
+            }
         }
 
         /* 即時時間 - 左上角透明 */
@@ -59,6 +81,7 @@
         }
     </style>
 </head>
+
 <body class="relative">
     <div class="stars" id="stars"></div>
 
@@ -70,18 +93,17 @@
 
     <div class="relative z-10 max-w-4xl mx-auto px-6 py-8">
         <!-- 返回按鈕 -->
-        <button onclick="goBack()" 
-                class="flex items-center gap-2 text-slate-300 hover:text-white mb-8 transition-colors">
+        <button onclick="goBack()"
+            class="flex items-center gap-2 text-slate-300 hover:text-white mb-8 transition-colors">
             <i class="fa-solid fa-arrow-left"></i>
-            <span>返回文章列表</span>
+            <span>返回</span>
         </button>
 
         <!-- 文章內容 -->
         <article class="bg-slate-950/70 backdrop-blur-xl rounded-3xl p-8 md:p-12">
             <div id="articleHeader"></div>
-            
-            <div id="articleContent" class="prose prose-invert max-w-none text-slate-200 leading-relaxed text-lg">
-            </div>
+
+            <div id="articleContent" class="prose prose-invert max-w-none text-slate-200 leading-relaxed text-lg"></div>
 
             <!-- 已閱讀時間 -->
             <div class="mt-12 pt-8 border-t border-white/10 flex justify-between items-center text-sm text-slate-400">
@@ -97,32 +119,32 @@
     <script>
         // 生成星星
         function createStars() {
-            const container = document.getElementById('stars');
+            const container = document.getElementById("stars");
             for (let i = 0; i < 180; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
+                const star = document.createElement("div");
+                star.className = "star";
                 const size = Math.random() * 3.5 + 1;
                 star.style.width = star.style.height = `${size}px`;
-                star.style.left = `${Math.random()*100}%`;
-                star.style.top = `${Math.random()*100}%`;
-                star.style.animationDelay = `-${Math.random()*6}s`;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.animationDelay = `-${Math.random() * 6}s`;
                 container.appendChild(star);
             }
         }
 
         // 即時時間顯示（左上角）
         function updateRealTime() {
-            const clockEl = document.getElementById('clock-time');
+            const clockEl = document.getElementById("clock-time");
             setInterval(() => {
                 const now = new Date();
                 const year = now.getFullYear();
-                const month = String(now.getMonth() + 1).padStart(2, '0');
-                const date = String(now.getDate()).padStart(2, '0');
-                const weekDays = ['日','一','二','三','四','五','六'];
+                const month = String(now.getMonth() + 1).padStart(2, "0");
+                const date = String(now.getDate()).padStart(2, "0");
+                const weekDays = ["日", "一", "二", "三", "四", "五", "六"];
                 const week = weekDays[now.getDay()];
-                const hours = String(now.getHours()).padStart(2, '0');
-                const minutes = String(now.getMinutes()).padStart(2, '0');
-                const seconds = String(now.getSeconds()).padStart(2, '0');
+                const hours = String(now.getHours()).padStart(2, "0");
+                const minutes = String(now.getMinutes()).padStart(2, "0");
+                const seconds = String(now.getSeconds()).padStart(2, "0");
 
                 clockEl.textContent = `${year}年${month}月${date}日 星期${week} ${hours}:${minutes}:${seconds}`;
             }, 1000);
@@ -131,15 +153,15 @@
         // 載入文章
         async function loadArticle() {
             const params = new URLSearchParams(window.location.search);
-            const id = parseInt(params.get('id'));
-            
+            const id = parseInt(params.get("id"));
+
             try {
-                const res = await fetch('leg.json');
+                const res = await fetch("leg.json");
                 const data = await res.json();
-                const article = data.articles.find(a => a.id === id);
-                
+                const article = data.articles.find((a) => a.id === id);
+
                 if (article) {
-                    document.getElementById('articleHeader').innerHTML = `
+                    document.getElementById("articleHeader").innerHTML = `
                         <img src="${article.image}" class="w-full h-80 object-cover rounded-2xl mb-8">
                         <h1 class="text-4xl font-bold leading-tight mb-4">${article.title}</h1>
                         <div class="flex gap-6 text-slate-400 mb-10">
@@ -148,8 +170,9 @@
                             <span class="text-indigo-400">${article.category}</span>
                         </div>
                     `;
-                    document.getElementById('articleContent').innerHTML = article.content || '<p>文章內容載入中...</p>';
-                    document.getElementById('publishDate').textContent = article.date;
+                    document.getElementById("articleContent").innerHTML =
+                        article.content || "<p>文章內容載入中...</p>";
+                    document.getElementById("publishDate").textContent = article.date;
                 }
             } catch (e) {
                 console.error("載入文章失敗", e);
@@ -161,21 +184,22 @@
         function startReadingTimer() {
             setInterval(() => {
                 minutesRead++;
-                document.getElementById('readTime').textContent = minutesRead;
+                document.getElementById("readTime").textContent = minutesRead;
             }, 60000); // 每 60 秒增加 1 分鐘
         }
 
         function goBack() {
-            window.location.href = 'papers.html';
+            window.location.href = "papers.html";
         }
 
         // 初始化
         window.onload = () => {
             createStars();
-            updateRealTime();      // 即時時間
+            updateRealTime(); // 即時時間
             loadArticle();
-            startReadingTimer();   // 已閱讀時間
+            startReadingTimer(); // 已閱讀時間
         };
     </script>
 </body>
+
 </html>
