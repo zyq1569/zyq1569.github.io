@@ -61,35 +61,46 @@
 
 <body class="relative">
     <!-- ==================== 左上角即時透明時鐘 ==================== -->
-    <div id="realtime-clock"
-        class="fixed top-6 left-6 z-50 flex items-center gap-2.5 text-white/90 text-sm font-medium backdrop-blur-none pointer-events-none">
-        <i class="fa-solid fa-clock text-indigo-300 text-base"></i>
+<div id="realtime-clock" 
+     class="fixed top-3 left-4 z-50 flex flex-col items-start text-white/90 text-xs font-medium pointer-events-none leading-tight">
+    <div class="flex items-center gap-1.5">
+        <i class="fa-solid fa-clock text-indigo-300 text-sm"></i>
         <span id="clock-time" class="tracking-wider"></span>
     </div>
+</div>
 
     <div class="stars" id="stars"></div>
 
     <div class="relative z-10">
-        <header class="border-b border-white/10 bg-black/40 backdrop-blur-md sticky top-0 z-50">
-            <div class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
-                <div class="flex items-center gap-3">
-                    <i class="fa-solid fa-moon text-3xl text-indigo-400"></i>
-                    <h1 class="text-3xl font-bold">奇聞記事</h1>
-                </div>
-                <input id="searchInput" type="text" placeholder="搜尋文章..."
-                    class="w-96 bg-slate-900/70 border border-slate-600 rounded-2xl px-5 py-3 focus:outline-none focus:border-indigo-400"
-                    onkeyup="filterArticles()">
+<header class="border-b border-white/10 bg-black/40 backdrop-blur-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4">
+        <div class="flex items-center justify-between gap-4">
 
-                <!-- 右頂角 Home 按鈕 -->
-                <a href="../lotus.html"
-                    class="fixed top-5 right-6 flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/20 rounded-2xl text-sm font-medium transition-all hover:border-indigo-400 hover:scale-105 z-50">
-                    <i class="fa-solid fa-house"></i>
-                    <span>Home</span>
+            <!-- 左側：Logo + Home -->
+            <div class="flex items-center gap-3">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-moon text-2xl md:text-3xl text-indigo-400"></i>
+                    <h1 class="text-2xl md:text-3xl font-bold">奇聞記事</h1>
+                </div>
+
+                <!-- Home 按鈕 - 手機端變小 -->
+                <a href="../lotus.html" 
+                   class="flex items-center gap-1.5 px-3 py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl text-sm font-medium transition-all hover:border-indigo-400">
+                    <i class="fa-solid fa-house text-base"></i>
+                    <span class="hidden sm:inline">Home</span>
                 </a>
             </div>
-            <!-- 右上角 Home 連結 -->
 
-        </header>
+            <!-- 搜尋框 - 手機端自動縮小 -->
+            <div class="flex-1 max-w-xs sm:max-w-md">
+                <input id="searchInput" type="text" placeholder="搜尋文章..."
+                       class="w-full bg-slate-900/70 border border-slate-600 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-400"
+                       onkeyup="filterArticles()">
+            </div>
+
+        </div>
+    </div>
+</header>
 
         <main class="max-w-7xl mx-auto px-6 py-10">
             <h2 class="text-4xl font-semibold mb-8">最新文章</h2>
