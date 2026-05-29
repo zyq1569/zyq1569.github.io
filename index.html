@@ -667,6 +667,40 @@
         setInterval(updateWidget, 60000);
     })();
 </script>
+
+
+<script>
+(function() {
+  // 記錄頁面打開時間
+  const startTime = Date.now();
+
+  // 結束前發送資料
+  function sendAnalytics() {
+    const duration = Math.floor((Date.now() - startTime) / 1000); // 秒
+
+    fetch('https://view.zyq1569.workers.dev/track', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        path: window.location.pathname,
+        duration: duration,
+        referer: document.referrer,
+        user_agent: navigator.userAgent
+      })
+    }).catch(err => {
+      // 失敗就不管，避免影響頁面
+      console.log('Analytics error:', err);
+    });
+  }
+
+  // 當頁面關閉或刷新時觸發
+  window.addEventListener('beforeunload', sendAnalytics);
+
+  // 如果想要更精確，還可以每隔幾秒 ping 一次
+})();
+</script>
 </body>
 
 </html>
