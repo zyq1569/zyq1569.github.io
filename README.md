@@ -51,7 +51,7 @@ Here are some ideas to get you started:
 ![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=all2null&layout=compact&theme=radical)
 
 ### 👀 訪客統計
-![Profile Views](https://all2null-counter.zyq1569.workers.dev/?page=profile&label=Profile%20Views&color=0e75b6&style=flat-square)
+![Profile Views](https://zyq1569-counter.zyq1569.workers.dev/?page=profile&label=Profile%20Views&color=0e75b6&style=flat-square)
 
 <!-- 如果你有多個專案想分別統計，可以這樣加 -->
 <!-- ![Project ABC](https://all2null-counter.你的子域名.workers.dev/?page=project-abc&label=Project%20ABC&color=brightgreen) -->
