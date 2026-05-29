@@ -570,60 +570,60 @@
             });
         </script> -->
     </div>
-  <script>
-    // ==================== 時辰 + 年份天干地支 + 月 + 星期（單行版 + 手機獨立位置） ====================
-    (function() {
-        // ==================== 可自訂參數 ====================
-        const config = {
-            fontFamily: '"Microsoft YaHei", "黑體", Arial, sans-serif', 
-            // 電腦端設定
-            fontSizeDesktop: '18px',
-            topDesktop: '20px',
-            leftDesktop: '20px',
-            // 手機端設定（獨立調整）
-            fontSizeMobile: '7px',
-            topMobile: '3px',     // ← 手機端距離頂部
-            leftMobile: '3px',    // ← 手機端距離左側
-            
-            color: '#ffcc00',           
-            background: 'rgba(0,0,0,0.3)'
-        };
-        // ====================================================
+    <script>
+        // ==================== 時辰 + 年份天干地支 + 月 + 星期（單行版 + 手機獨立位置） ====================
+        (function () {
+            // ==================== 可自訂參數 ====================
+            const config = {
+                fontFamily: '"Microsoft YaHei", "黑體", Arial, sans-serif',
+                // 電腦端設定
+                fontSizeDesktop: '18px',
+                topDesktop: '20px',
+                leftDesktop: '20px',
+                // 手機端設定（獨立調整）
+                fontSizeMobile: '7px',
+                topMobile: '3px',     // ← 手機端距離頂部
+                leftMobile: '3px',    // ← 手機端距離左側
 
-        const tiangan = ["甲","乙","丙","丁","戊","己","庚","辛","壬","癸"];
-        const dizhi = ["子","丑","寅","卯","辰","巳","午","未","申","酉","戌","亥"];
-        const weekdays = ["星期日","星期一","星期二","星期三","星期四","星期五","星期六"];
+                color: '#ffcc00',
+                background: 'rgba(0,0,0,0.3)'
+            };
+            // ====================================================
 
-        function getGanzhiYear(year) {
-            const offset = (year - 3) % 60;
-            const gan = tiangan[offset % 10];
-            const zhi = dizhi[offset % 12];
-            return gan + zhi + "年";
-        }
+            const tiangan = ["甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸"];
+            const dizhi = ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"];
+            const weekdays = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
 
-        function getCurrentShichen() {
-            let h = new Date().getHours();
-            if (h === 23 || h === 0) return "子";
-            return dizhi[Math.floor((h + 1) % 24 / 2)];
-        }
+            function getGanzhiYear(year) {
+                const offset = (year - 3) % 60;
+                const gan = tiangan[offset % 10];
+                const zhi = dizhi[offset % 12];
+                return gan + zhi + "年";
+            }
 
-        function isMobile() {
-            return window.innerWidth < 768 || /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        }
+            function getCurrentShichen() {
+                let h = new Date().getHours();
+                if (h === 23 || h === 0) return "子";
+                return dizhi[Math.floor((h + 1) % 24 / 2)];
+            }
 
-        // 創建容器
-        const widget = document.createElement('div');
-        widget.id = 'shichen-widget';
-        
-        // 應用樣式（支援手機獨立設定）
-        function applyStyles() {
-            const isMob = isMobile();
-            
-            const fontSize = isMob ? config.fontSizeMobile : config.fontSizeDesktop;
-            const topPos  = isMob ? config.topMobile : config.topDesktop;
-            const leftPos = isMob ? config.leftMobile : config.leftDesktop;
+            function isMobile() {
+                return window.innerWidth < 768 || /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            }
 
-            widget.style.cssText = `
+            // 創建容器
+            const widget = document.createElement('div');
+            widget.id = 'shichen-widget';
+
+            // 應用樣式（支援手機獨立設定）
+            function applyStyles() {
+                const isMob = isMobile();
+
+                const fontSize = isMob ? config.fontSizeMobile : config.fontSizeDesktop;
+                const topPos = isMob ? config.topMobile : config.topDesktop;
+                const leftPos = isMob ? config.leftMobile : config.leftDesktop;
+
+                widget.style.cssText = `
                 position: fixed; 
                 left: ${leftPos}; 
                 top: ${topPos}; 
@@ -643,61 +643,73 @@
                 align-items: center;
                 gap: 8px;
             `;
+            }
+
+            document.body.appendChild(widget);
+            applyStyles();
+
+            // 視窗大小改變時重新適配
+            window.addEventListener('resize', applyStyles);
+
+            function updateWidget() {
+                const now = new Date();
+                const year = now.getFullYear();
+                const month = now.getMonth() + 1;
+                const dayOfWeek = weekdays[now.getDay()];
+                const ganzhi = getGanzhiYear(year);
+                const shichen = getCurrentShichen();
+
+                widget.textContent = `${year}${ganzhi}${month}月${dayOfWeek}${shichen}時`;
+            }
+
+            // 初次執行 + 每分鐘更新
+            updateWidget();
+            setInterval(updateWidget, 60000);
+        })();
+    </script>
+
+
+    <script>
+        function getSessionId() {
+            let sid = localStorage.getItem("sid");
+            if (!sid) {
+                sid = crypto.randomUUID();
+                localStorage.setItem("sid", sid);
+            }
+            return sid;
         }
+        (function () {
 
-        document.body.appendChild(widget);
-        applyStyles();
+            const session_id = getSession();
 
-        // 視窗大小改變時重新適配
-        window.addEventListener('resize', applyStyles);
+            const start = Date.now();
 
-        function updateWidget() {
-            const now = new Date();
-            const year = now.getFullYear();
-            const month = now.getMonth() + 1;
-            const dayOfWeek = weekdays[now.getDay()];
-            const ganzhi = getGanzhiYear(year);
-            const shichen = getCurrentShichen();
+            function getSession() {
+                let s = localStorage.getItem("sid");
+                if (!s) {
+                    s = crypto.randomUUID();
+                    localStorage.setItem("sid", s);
+                }
+                return s;
+            }
 
-            widget.textContent = `${year}${ganzhi}${month}月${dayOfWeek}${shichen}時`;
-        }
+            function send() {
+                fetch("https://view.zyq1569.workers.dev/collect", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        type: "pageview",
+                        path: location.pathname,
+                        session_id,
+                        duration: Math.floor((Date.now() - start) / 1000)
+                    })
+                });
+            }
 
-        // 初次執行 + 每分鐘更新
-        updateWidget();
-        setInterval(updateWidget, 60000);
-    })();
-</script>
+            window.addEventListener("beforeunload", send);
 
-
-<script>
-(function() {
-
-  const startTime = Date.now();
-  let sent = false;
-
-  function sendAnalytics() {
-    if (sent) return;
-    sent = true;
-
-    const duration = Math.floor((Date.now() - startTime) / 1000);
-
-    fetch('https://view.zyq1569.workers.dev/track', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        path: window.location.pathname,
-        duration,
-        referer: document.referrer,
-        user_agent: navigator.userAgent
-      })
-    });
-  }
-
-  // 離開頁面才送
-  window.addEventListener("beforeunload", sendAnalytics);
-
-})();
-</script>
+        })();
+    </script>
 
 </body>
 
