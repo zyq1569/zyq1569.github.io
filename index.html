@@ -670,44 +670,25 @@
 
 
     <script>
-        function getSessionId() {
-            let sid = localStorage.getItem("sid");
-            if (!sid) {
-                sid = crypto.randomUUID();
-                localStorage.setItem("sid", sid);
-            }
-            return sid;
-        }
         (function () {
+            const session_id = localStorage.getItem("sid") || crypto.randomUUID();
+            localStorage.setItem("sid", session_id);
 
-            const session_id = getSession();
-
-            const start = Date.now();
-
-            function getSession() {
-                let s = localStorage.getItem("sid");
-                if (!s) {
-                    s = crypto.randomUUID();
-                    localStorage.setItem("sid", s);
-                }
-                return s;
-            }
-
-            function send() {
+            const startTime = Date.now();
+            function sendAnalytics() {
                 fetch("https://view.zyq1569.workers.dev/collect", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
                         type: "pageview",
-                        path: location.pathname,
+                        path: window.location.pathname,
                         session_id,
-                        duration: Math.floor((Date.now() - start) / 1000)
+                        duration: Math.floor((Date.now() - startTime) / 1000)
                     })
-                });
+                }).catch(() => { });
             }
 
-            window.addEventListener("beforeunload", send);
-
+            window.addEventListener("beforeunload", sendAnalytics);
         })();
     </script>
 
