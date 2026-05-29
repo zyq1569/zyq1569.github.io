@@ -1,65 +1,77 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Analytics Dashboard v2</title>
+<title>Analytics-v2</title>
 <style>
-  body { font-family: sans-serif; padding: 20px; max-width: 800px; margin: auto; }
-  h1 { text-align: center; }
-  .card { display: inline-block; width: 180px; padding: 10px; margin: 10px; border: 1px solid #ddd; border-radius: 8px; text-align: center; }
-  table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-  th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-  th { background: #f0f0f0; }
+  body { font-family: Arial, sans-serif; margin: 40px; background:#f9f9f9; color:#333; }
+  h1 { font-size: 24px; }
+  .metrics { display:flex; gap:20px; margin-bottom:30px; }
+  .metric { background:#fff; padding:20px; border-radius:8px; box-shadow:0 0 5px rgba(0,0,0,0.1); flex:1; text-align:center; }
+  table { width:100%; border-collapse: collapse; background:#fff; border-radius:8px; overflow:hidden; box-shadow:0 0 5px rgba(0,0,0,0.1); }
+  th, td { padding:12px; border-bottom:1px solid #eee; text-align:left; }
+  th { background:#f0f0f0; }
 </style>
 </head>
 <body>
-
 <h1>Analytics Dashboard v2</h1>
 
-<div id="cards">
-  <div class="card">PV: <span id="pv">0</span></div>
-  <div class="card">UV: <span id="uv">0</span></div>
-  <div class="card">Avg Duration: <span id="avgDuration">0</span>s</div>
-  <div class="card">Today PV: <span id="todayPV">0</span></div>
+<div class="metrics">
+  <div class="metric">PV: <span id="pv">0</span></div>
+  <div class="metric">UV: <span id="uv">0</span></div>
+  <div class="metric">Avg Duration: <span id="avgDuration">0</span>s</div>
+  <div class="metric">Today PV: <span id="todayPV">0</span></div>
 </div>
 
 <h2>Top Pages</h2>
 <table>
   <thead>
-    <tr><th>Path</th><th>Count</th></tr>
+    <tr>
+      <th>Path</th>
+      <th>Count</th>
+    </tr>
   </thead>
-  <tbody id="topPages"></tbody>
+  <tbody id="topPages">
+    <tr><td colspan="2">Loading...</td></tr>
+  </tbody>
 </table>
 
 <script>
-async function loadStats() {
-  try {
-    const res = await fetch('https://view.zyq1569.workers.dev/stats');
-    const data = await res.json();
+async function fetchStats() {
+    try {
+        const res = await fetch('https://view.zyq1569.workers.dev/stats');
+        const data = await res.json();
 
-    document.getElementById('pv').textContent = data.pv;
-    document.getElementById('uv').textContent = data.uv;
-    document.getElementById('avgDuration').textContent = data.avgDuration;
-    document.getElementById('todayPV').textContent = data.todayPV;
+        // 更新指標
+        document.getElementById('pv').textContent = data.pv;
+        document.getElementById('uv').textContent = data.uv;
+        document.getElementById('avgDuration').textContent = data.avgDuration;
+        document.getElementById('todayPV').textContent = data.todayPV;
 
-    const tbody = document.getElementById('topPages');
-    tbody.innerHTML = '';
-    data.topPages.forEach(page => {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `<td>${page.path}</td><td>${page.count}</td>`;
-      tbody.appendChild(tr);
-    });
-  } catch (err) {
-    console.error('Failed to load stats', err);
-  }
+        // 更新 Top Pages
+        const tbody = document.getElementById('topPages');
+        tbody.innerHTML = '';
+        if(data.topPages.length === 0){
+            tbody.innerHTML = '<tr><td colspan="2">No data</td></tr>';
+        } else {
+            data.topPages.forEach(page => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td>${page.path}</td><td>${page.count}</td>`;
+                tbody.appendChild(tr);
+            });
+        }
+
+    } catch (err) {
+        console.error('Error fetching stats:', err);
+        document.getElementById('topPages').innerHTML = '<tr><td colspan="2">Error loading data</td></tr>';
+    }
 }
 
-// 首次載入
-loadStats();
+// 初次載入
+fetchStats();
 
-// 可選：每分鐘刷新一次
-setInterval(loadStats, 60000);
+// 可選：每 10 秒自動刷新
+setInterval(fetchStats, 10000);
 </script>
-
 </body>
 </html>
