@@ -1,98 +1,116 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8">
-  <title>Analytics Dashboard</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
-    body { font-family: Arial; margin: 20px; background: #f5f5f5; }
-    h1 { margin-bottom: 20px; }
-    .box { background: white; padding: 15px; margin-bottom: 20px; }
-    table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-    th, td { padding: 8px; border-bottom: 1px solid #ddd; font-size: 14px; }
-    th { background: #333; color: white; }
-  </style>
+<meta charset="UTF-8">
+<title>📊 Mini Analytics Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+  body { font-family: Arial, sans-serif; margin: 20px; }
+  h1 { text-align: center; }
+  #charts { display: flex; flex-wrap: wrap; gap: 30px; justify-content: center; }
+  canvas { background: #f8f8f8; border: 1px solid #ddd; padding: 10px; border-radius: 5px; }
+  pre { background: #eee; padding: 10px; border-radius: 5px; overflow-x: auto; }
+</style>
 </head>
 <body>
 
-<h1>📊 Analytics Dashboard</h1>
-
-<div class="box">
-  <button onclick="loadData()">刷新數據</button>
+<h1>📊 Mini Analytics Dashboard</h1>
+<div id="charts">
+  <canvas id="pvuvChart" width="400" height="200"></canvas>
+  <canvas id="countryChart" width="400" height="200"></canvas>
+  <canvas id="durationChart" width="400" height="200"></canvas>
 </div>
 
-<div class="box">
-  <canvas id="trendChart" height="100"></canvas>
-</div>
-
-<div class="box">
-  <h3>熱門頁面</h3>
-  <table>
-    <thead>
-      <tr><th>頁面</th><th>PV</th><th>UV</th></tr>
-    </thead>
-    <tbody id="hotPages"></tbody>
-  </table>
-</div>
+<h2>🔥 熱門頁面</h2>
+<pre id="popular"></pre>
 
 <script>
-const API = "https://view.zyq1569.workers.dev/stats";
-
-async function loadData() {
-  const res = await fetch(API);
+async function fetchData() {
+  const res = await fetch("https://view.zyq1569.workers.dev/stats");
   const data = await res.json();
-
-  // --- PV / UV 趨勢圖 ---
-  const trendMap = {}; // date => {pv, uv_set}
-  const pageMap = {}; // page => {pv, uv_set}
-
-  data.forEach(row => {
-    const date = row.date_only;
-    trendMap[date] = trendMap[date] || { pv:0, uv_set: new Set() };
-    trendMap[date].pv +=1;
-    trendMap[date].uv_set.add(row.ip);
-
-    pageMap[row.path] = pageMap[row.path] || { pv:0, uv_set:new Set() };
-    pageMap[row.path].pv +=1;
-    pageMap[row.path].uv_set.add(row.ip);
-  });
-
-  // 日期排序
-  const dates = Object.keys(trendMap).sort();
-  const pvData = dates.map(d => trendMap[d].pv);
-  const uvData = dates.map(d => trendMap[d].uv_set.size);
-
-  // --- 更新趨勢圖 ---
-  const ctx = document.getElementById('trendChart').getContext('2d');
-  if(window.trendChart) window.trendChart.destroy();
-  window.trendChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: dates,
-      datasets: [
-        { label:'PV', data: pvData, borderColor:'blue', fill:false },
-        { label:'UV', data: uvData, borderColor:'green', fill:false }
-      ]
-    },
-    options: { responsive:true }
-  });
-
-  // --- 熱門頁面 ---
-  const hotPagesArr = Object.entries(pageMap)
-    .sort((a,b)=> b[1].pv - a[1].pv )
-    .slice(0, 10); // 前10
-
-  const tbody = document.getElementById("hotPages");
-  tbody.innerHTML = "";
-  hotPagesArr.forEach(([page, info])=>{
-    const tr = document.createElement("tr");
-    tr.innerHTML = `<td>${page}</td><td>${info.pv}</td><td>${info.uv_set.size}</td>`;
-    tbody.appendChild(tr);
-  });
-
+  return data;
 }
 
-loadData();
+function computeStats(data) {
+  const pv = data.length;
+  const uvSet = new Set(data.map(d => d.ip));
+  const uv = uvSet.size;
+
+  // 國家分佈
+  const countries = {};
+  data.forEach(d => { 
+    countries[d.country] = (countries[d.country] || 0) + 1;
+  });
+
+  // 平均停留時間（秒）
+  const durations = data.map(d => d.duration || 0);
+  const avgDuration = durations.length ? Math.round(durations.reduce((a,b)=>a+b,0)/durations.length) : 0;
+
+  // 熱門頁面
+  const pages = {};
+  data.forEach(d => { pages[d.path] = (pages[d.path]||0)+1; });
+  const popular = Object.entries(pages).sort((a,b)=>b[1]-a[1]);
+
+  return { pv, uv, countries, avgDuration, popular };
+}
+
+function renderCharts(stats) {
+  const ctx1 = document.getElementById('pvuvChart').getContext('2d');
+  new Chart(ctx1, {
+    type: 'bar',
+    data: {
+      labels: ['PV', 'UV'],
+      datasets: [{
+        label: '訪問統計',
+        data: [stats.pv, stats.uv],
+        backgroundColor: ['#4caf50','#2196f3']
+      }]
+    }
+  });
+
+  const ctx2 = document.getElementById('countryChart').getContext('2d');
+  new Chart(ctx2, {
+    type: 'pie',
+    data: {
+      labels: Object.keys(stats.countries),
+      datasets: [{
+        label: '國家分佈',
+        data: Object.values(stats.countries),
+        backgroundColor: ['#f44336','#ff9800','#9c27b0','#3f51b5','#00bcd4','#8bc34a']
+      }]
+    }
+  });
+
+  const ctx3 = document.getElementById('durationChart').getContext('2d');
+  new Chart(ctx3, {
+    type: 'line',
+    data: {
+      labels: stats.popular.map(p=>p[0]),
+      datasets: [{
+        label: '頁面停留時間 (平均秒)',
+        data: stats.popular.map(p=>{
+          const filtered = data.filter(d=>d.path===p[0]);
+          const avg = filtered.reduce((a,b)=>a+b.duration,0)/filtered.length;
+          return Math.round(avg);
+        }),
+        borderColor: '#ff5722',
+        fill: false
+      }]
+    }
+  });
+
+  document.getElementById('popular').innerText = stats.popular.map(p=>`${p[0]}: ${p[1]} 次`).join('\n');
+}
+
+let data;
+
+async function init() {
+  data = await fetchData();
+  const stats = computeStats(data);
+  renderCharts(stats);
+}
+
+init();
 </script>
 
 </body>
