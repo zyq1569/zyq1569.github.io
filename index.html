@@ -671,12 +671,13 @@
 
 <script>
 (function() {
-  // 記錄頁面打開時間
+
+  // 記錄進入頁面時間
   const startTime = Date.now();
 
-  // 結束前發送資料
+  // 發送 analytics
   function sendAnalytics() {
-    const duration = Math.floor((Date.now() - startTime) / 1000); // 秒
+    const duration = Math.floor((Date.now() - startTime) / 1000);
 
     fetch('https://view.zyq1569.workers.dev/track', {
       method: 'POST',
@@ -689,18 +690,20 @@
         referer: document.referrer,
         user_agent: navigator.userAgent
       })
-    }).catch(err => {
-      // 失敗就不管，避免影響頁面
-      console.log('Analytics error:', err);
-    });
+    }).catch(() => {});
   }
 
-  // 當頁面關閉或刷新時觸發
+  // 離開頁面時觸發（關閉/刷新）
   window.addEventListener('beforeunload', sendAnalytics);
 
-  // 如果想要更精確，還可以每隔幾秒 ping 一次
+  // 👉 可選：頁面停留時也定時上報（更準）
+  setInterval(() => {
+    sendAnalytics();
+  }, 15000); // 每15秒記錄一次
+
 })();
 </script>
+
 </body>
 
 </html>
