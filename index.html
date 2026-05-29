@@ -672,34 +672,29 @@
 <script>
 (function() {
 
-  // 記錄進入頁面時間
   const startTime = Date.now();
+  let sent = false;
 
-  // 發送 analytics
   function sendAnalytics() {
+    if (sent) return;
+    sent = true;
+
     const duration = Math.floor((Date.now() - startTime) / 1000);
 
     fetch('https://view.zyq1569.workers.dev/track', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         path: window.location.pathname,
-        duration: duration,
+        duration,
         referer: document.referrer,
         user_agent: navigator.userAgent
       })
-    }).catch(() => {});
+    });
   }
 
-  // 離開頁面時觸發（關閉/刷新）
-  window.addEventListener('beforeunload', sendAnalytics);
-
-  // 👉 可選：頁面停留時也定時上報（更準）
-  setInterval(() => {
-    sendAnalytics();
-  }, 15000); // 每15秒記錄一次
+  // 離開頁面才送
+  window.addEventListener("beforeunload", sendAnalytics);
 
 })();
 </script>

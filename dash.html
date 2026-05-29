@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Analytics Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: Arial; margin: 20px; background: #f5f5f5; }
+    h1 { margin-bottom: 20px; }
+    .box { background: white; padding: 15px; margin-bottom: 20px; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+    th, td { padding: 8px; border-bottom: 1px solid #ddd; font-size: 14px; }
+    th { background: #333; color: white; }
+  </style>
+</head>
+<body>
+
+<h1>📊 Analytics Dashboard</h1>
+
+<div class="box">
+  <button onclick="loadData()">刷新數據</button>
+</div>
+
+<div class="box">
+  <canvas id="trendChart" height="100"></canvas>
+</div>
+
+<div class="box">
+  <h3>熱門頁面</h3>
+  <table>
+    <thead>
+      <tr><th>頁面</th><th>PV</th><th>UV</th></tr>
+    </thead>
+    <tbody id="hotPages"></tbody>
+  </table>
+</div>
+
+<script>
+const API = "https://view.zyq1569.workers.dev/stats";
+
+async function loadData() {
+  const res = await fetch(API);
+  const data = await res.json();
+
+  // --- PV / UV 趨勢圖 ---
+  const trendMap = {}; // date => {pv, uv_set}
+  const pageMap = {}; // page => {pv, uv_set}
+
+  data.forEach(row => {
+    const date = row.date_only;
+    trendMap[date] = trendMap[date] || { pv:0, uv_set: new Set() };
+    trendMap[date].pv +=1;
+    trendMap[date].uv_set.add(row.ip);
+
+    pageMap[row.path] = pageMap[row.path] || { pv:0, uv_set:new Set() };
+    pageMap[row.path].pv +=1;
+    pageMap[row.path].uv_set.add(row.ip);
+  });
+
+  // 日期排序
+  const dates = Object.keys(trendMap).sort();
+  const pvData = dates.map(d => trendMap[d].pv);
+  const uvData = dates.map(d => trendMap[d].uv_set.size);
+
+  // --- 更新趨勢圖 ---
+  const ctx = document.getElementById('trendChart').getContext('2d');
+  if(window.trendChart) window.trendChart.destroy();
+  window.trendChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: dates,
+      datasets: [
+        { label:'PV', data: pvData, borderColor:'blue', fill:false },
+        { label:'UV', data: uvData, borderColor:'green', fill:false }
+      ]
+    },
+    options: { responsive:true }
+  });
+
+  // --- 熱門頁面 ---
+  const hotPagesArr = Object.entries(pageMap)
+    .sort((a,b)=> b[1].pv - a[1].pv )
+    .slice(0, 10); // 前10
+
+  const tbody = document.getElementById("hotPages");
+  tbody.innerHTML = "";
+  hotPagesArr.forEach(([page, info])=>{
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${page}</td><td>${info.pv}</td><td>${info.uv_set.size}</td>`;
+    tbody.appendChild(tr);
+  });
+
+}
+
+loadData();
+</script>
+
+</body>
+</html>
