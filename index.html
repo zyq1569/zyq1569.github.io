@@ -669,28 +669,36 @@
     </script>
 
 
-    <script>
-        (function () {
-            const session_id = localStorage.getItem("sid") || crypto.randomUUID();
-            localStorage.setItem("sid", session_id);
+<script>
+(function(){
 
-            const startTime = Date.now();
-            function sendAnalytics() {
-                fetch("https://view.zyq1569.workers.dev/collect", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        type: "pageview",
-                        path: window.location.pathname,
-                        session_id,
-                        duration: Math.floor((Date.now() - startTime) / 1000)
-                    })
-                }).catch(() => { });
-            }
+    const session_id =
+        localStorage.getItem("sid")
+        || crypto.randomUUID();
 
-            window.addEventListener("beforeunload", sendAnalytics);
-        })();
-    </script>
+    localStorage.setItem(
+        "sid",
+        session_id
+    );
+
+    fetch(
+        "https://view.zyq1569.workers.dev/collect",
+        {
+            method:"POST",
+            keepalive:true,
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({
+                type:"pageview",
+                path:location.pathname,
+                session_id
+            })
+        }
+    );
+
+})();
+</script>
 
 </body>
 

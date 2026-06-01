@@ -2,76 +2,153 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Analytics-v2</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Analytics Dashboard</title>
+
 <style>
-  body { font-family: Arial, sans-serif; margin: 40px; background:#f9f9f9; color:#333; }
-  h1 { font-size: 24px; }
-  .metrics { display:flex; gap:20px; margin-bottom:30px; }
-  .metric { background:#fff; padding:20px; border-radius:8px; box-shadow:0 0 5px rgba(0,0,0,0.1); flex:1; text-align:center; }
-  table { width:100%; border-collapse: collapse; background:#fff; border-radius:8px; overflow:hidden; box-shadow:0 0 5px rgba(0,0,0,0.1); }
-  th, td { padding:12px; border-bottom:1px solid #eee; text-align:left; }
-  th { background:#f0f0f0; }
+body{font-family:Arial;margin:20px;background:#f5f5f5}
+h1{text-align:center;margin-bottom:20px}
+
+.metrics{display:flex;gap:15px;margin-bottom:25px}
+.metric{flex:1;background:#fff;padding:15px;border-radius:10px;text-align:center;box-shadow:0 2px 5px rgba(0,0,0,.1)}
+.metric-value{font-size:26px;font-weight:bold}
+
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden}
+th{background:#1976d2;color:#fff;padding:10px}
+td{padding:10px;border-bottom:1px solid #eee}
+
+.status{margin-top:10px;color:#666}
+button{padding:8px 12px;background:#1976d2;color:#fff;border:none;border-radius:6px;cursor:pointer}
+button:hover{background:#1565c0}
 </style>
 </head>
+
 <body>
-<h1>Analytics Dashboard v2</h1>
+
+<h1>Analytics Dashboard</h1>
 
 <div class="metrics">
-  <div class="metric">PV: <span id="pv">0</span></div>
-  <div class="metric">UV: <span id="uv">0</span></div>
-  <div class="metric">Avg Duration: <span id="avgDuration">0</span>s</div>
-  <div class="metric">Today PV: <span id="todayPV">0</span></div>
+  <div class="metric">PV<div class="metric-value" id="pv">0</div></div>
+  <div class="metric">UV<div class="metric-value" id="uv">0</div></div>
+  <div class="metric">Avg<div class="metric-value" id="avgDuration">0s</div></div>
+  <div class="metric">Today<div class="metric-value" id="todayPV">0</div></div>
 </div>
 
-<h2>Top Pages</h2>
+<button onclick="fetchStats()">Refresh</button>
+
+<h2>Visitor Details</h2>
+
 <table>
-  <thead>
-    <tr>
-      <th>Path</th>
-      <th>Count</th>
-    </tr>
-  </thead>
-  <tbody id="topPages">
-    <tr><td colspan="2">Loading...</td></tr>
-  </tbody>
+<thead>
+<tr>
+  <th>Page</th>
+  <th>IP</th>
+  <th>Region</th>
+  <th>Visits</th>
+  <th>Duration(s)</th>
+  <th>Last Visit</th>
+</tr>
+</thead>
+
+<tbody id="pageStats">
+<tr><td colspan="6">Loading...</td></tr>
+</tbody>
 </table>
 
+<div class="status" id="status">Loading...</div>
+
 <script>
-async function fetchStats() {
+
+const API = "https://view.zyq1569.workers.dev/stats";
+
+// 🌍 GeoIP 本地表
+let geoMap = {};
+
+// 1️⃣ 載入 GeoIP JSON
+async function loadGeo() {
     try {
-        const res = await fetch('https://view.zyq1569.workers.dev/stats');
-        const data = await res.json();
-
-        // 更新指標
-        document.getElementById('pv').textContent = data.pv;
-        document.getElementById('uv').textContent = data.uv;
-        document.getElementById('avgDuration').textContent = data.avgDuration;
-        document.getElementById('todayPV').textContent = data.todayPV;
-
-        // 更新 Top Pages
-        const tbody = document.getElementById('topPages');
-        tbody.innerHTML = '';
-        if(data.topPages.length === 0){
-            tbody.innerHTML = '<tr><td colspan="2">No data</td></tr>';
-        } else {
-            data.topPages.forEach(page => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `<td>${page.path}</td><td>${page.count}</td>`;
-                tbody.appendChild(tr);
-            });
-        }
-
-    } catch (err) {
-        console.error('Error fetching stats:', err);
-        document.getElementById('topPages').innerHTML = '<tr><td colspan="2">Error loading data</td></tr>';
+        const res = await fetch("https://raw.githubusercontent.com/sapics/ip-location-db/master/geo-whois-asn-country/geo-whois-asn-country.json");
+        geoMap = await res.json();
+        console.log("Geo loaded:", Object.keys(geoMap).length);
+    } catch (e) {
+        console.warn("Geo load failed", e);
     }
 }
 
-// 初次載入
-fetchStats();
+// 2️⃣ 查地區
+function getRegion(ip, cfCountry, cfCity) {
 
-// 可選：每 10 秒自動刷新
-setInterval(fetchStats, 10000);
+    if (cfCountry || cfCity) {
+        return (cfCountry || "") + (cfCity ? " / " + cfCity : "");
+    }
+
+    const geo = geoMap[ip];
+    if (geo) {
+        return geo.country || "Unknown";
+    }
+
+    return ip || "Unknown";
+}
+
+// 3️⃣ 拉統計
+async function fetchStats() {
+    try {
+
+        document.getElementById("status").innerText = "Loading...";
+
+        const res = await fetch(API);
+        const data = await res.json();
+
+        // metrics
+        document.getElementById("pv").innerText = data.pv || 0;
+        document.getElementById("uv").innerText = data.uv || 0;
+        document.getElementById("avgDuration").innerText = (data.avgDuration || 0) + "s";
+        document.getElementById("todayPV").innerText = data.todayPV || 0;
+
+        // table
+        const tbody = document.getElementById("pageStats");
+        tbody.innerHTML = "";
+
+        if (!data.pages || data.pages.length === 0) {
+            tbody.innerHTML = "<tr><td colspan='6'>No data</td></tr>";
+            return;
+        }
+
+        data.pages.forEach(p => {
+
+            const region = getRegion(p.ip, p.country, p.city);
+
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td>${p.path}</td>
+                <td>${p.ip}</td>
+                <td>${region}</td>
+                <td>${p.count}</td>
+                <td>${p.totalDuration}</td>
+                <td>${p.lastVisit}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+        document.getElementById("status").innerText =
+            "Last update: " + new Date().toLocaleString();
+
+    } catch (e) {
+        console.error(e);
+        document.getElementById("status").innerText = "Error loading data";
+    }
+}
+
+// init
+(async function(){
+    await loadGeo();     // 先載入 Geo 表
+    await fetchStats();  // 再載入數據
+
+    // 10 秒刷新
+    setInterval(fetchStats, 10000);
+})();
+
 </script>
+
 </body>
 </html>
