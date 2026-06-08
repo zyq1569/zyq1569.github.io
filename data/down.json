@@ -54,6 +54,12 @@
         "url": "https://sourceforge.net/projects/health1212/files/Tools/OS%20Software/MAC/DEV/Dev_Tools/"
     },
     {
+        "name": "超聲3D數據",
+        "desc": "US_3D_data.7z",
+        "time": "2025-05-15 18:00:00",
+        "url": "https://sourceforge.net/projects/health1212/files/Test_Dicom_Data/"
+    },
+    {
         "name": "qt-opensource-windows-x86-5.12.12.exe",
         "desc": "qt-opensource-windows",
         "time": "2025-04-15 18:00:00",
