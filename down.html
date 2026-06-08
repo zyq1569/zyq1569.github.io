@@ -1,138 +1,564 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
+<html lang="zh-TW">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-    <meta name="format-detection" content="email=no" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="format-detection" content="telephone=no" />
-    <meta name="renderer" content="webkit">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="Amaze UI" />
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
-    <title>[S]bitter2live/</title>
-    <link rel="shortcut icon" href="resource/images/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="assets/css/typo.css">
-    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/css/index.css">
-    <script>
-        function loading() {
-            document.getElementsByClassName('avatar')[0].style.display = 'block';
-            document.getElementsByClassName('loading')[0].style.display = 'none';
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Down</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-    </script>
+
+        body {
+            background: #f5f7fa;
+            font-family: "Microsoft JhengHei", Arial, sans-serif;
+        }
+
+        /* 頂部 */
+
+        .header {
+            background: linear-gradient(135deg, #1677ff, #4096ff);
+            color: #fff;
+            padding: 20px 30px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+
+            box-shadow: 0 2px 10px rgba(0, 0, 0, .15);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .top-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .top-right input {
+            width: 250px;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+        }
+
+        .top-right select {
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+        }
+
+        .home-btn {
+            background: #52c41a;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: .3s;
+        }
+
+        .home-btn:hover {
+            background: #73d13d;
+        }
+
+        /* 主體 */
+
+        .container {
+            max-width: 1400px;
+            margin: auto;
+            padding: 30px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        /* 卡片 */
+
+        .cards {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fill, minmax(260px, 1fr));
+
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 18px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, .08);
+
+            transition: .3s;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, .15);
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .card-title a {
+            color: #1677ff;
+            text-decoration: none;
+        }
+
+        .card-title a:hover {
+            text-decoration: underline;
+        }
+
+        .card-desc {
+            color: #666;
+            line-height: 1.6;
+            min-height: 60px;
+        }
+
+        .card-time {
+            margin-top: 15px;
+            color: #999;
+            font-size: 13px;
+        }
+
+        .download-btn {
+            display: inline-block;
+            margin-top: 15px;
+
+            background: #1677ff;
+            color: white;
+            text-decoration: none;
+
+            padding: 8px 15px;
+            border-radius: 6px;
+        }
+
+        .download-btn:hover {
+            background: #4096ff;
+        }
+
+        /* 分頁 */
+
+        .pagination {
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .pagination button {
+            border: none;
+            background: #1677ff;
+            color: white;
+
+            padding: 8px 14px;
+            margin: 0 4px;
+
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .pagination button.active {
+            background: #52c41a;
+        }
+
+        .pagination button:hover {
+            opacity: .9;
+        }
+
+        /* 空資料 */
+
+        .empty {
+            text-align: center;
+            color: #999;
+            padding: 30px;
+        }
+
+        /* 響應式 */
+
+        @media(max-width:768px) {
+
+            .header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .top-right {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .top-right input {
+                width: 100%;
+            }
+
+        }
+    </style>
 </head>
 
 <body>
 
-    <header class="header"></header>
+    <!-- 頂部 -->
 
-    <p>
-        <PRE> 
-        【01】starviewer Pacs影像阅片工具(需要vc2017运行环境包)
-        <a href="https://sourceforge.net/projects/health1212/files/Test_person/" target="_blank">链接</a>
-        https://sourceforge.net/projects/health1212/files/Test_person
-      
-        【02】DicomMetadata 查看dicom信息工具(需要vc2017运行环境包)
-        <a href="https://sourceforge.net/projects/health1212/files/Tools/HealthApp/" target="_blank">链接</a>
-        https://sourceforge.net/projects/health1212/files/Tools/HealthApp/DicomMetadata.7z
+    <div class="header">
 
-        【03】TestITKimage        
-        <a href="https://github.com/zyq1569/HealthApp/releases/tag/v1.0.0.1.1.1" target="_blank">相关下载位置 github</a>
-        https://github.com/zyq1569/HealthApp/releases/tag/v1.0.0.1.1.1
-        <a href="https://github.com/zyq1569/HealthApp/releases/download/v1.0.0.1.1.1/VC_redist.x64.exe" target="_blank">VC2017环境运行包下载位置 github</a>
-        https://github.com/zyq1569/HealthApp/releases/download/v1.0.0.1.1.1/VC_redist.x64.exe
+        <div class="logo">
+            📦 下載中心
+        </div>
 
-        <a href="https://github.com/zyq1569/HealthApp/tree/master/Tools/TestITKImage3D" target="_blank">代码位置 github</a>
-        https://github.com/zyq1569/HealthApp/tree/master/Tools/TestITKImage3D
+        <div class="top-right">
 
-        <a href="https://sourceforge.net/projects/health1212/files/Tools/HealthApp/" target="_blank">应用下载位置2 sourceforge</a>
-        https://sourceforge.net/projects/health1212/files/Tools/HealthApp/TestITKimage.7z
+            <input type="text" id="search" placeholder="搜尋 名稱 / 說明 / 時間">
 
-        【04】MPR-3D-20241231        
-        <a href="https://sourceforge.net/projects/health1212/files/Tools/HealthApp/" target="_blank">应用下载位置 sourceforge</a>
-        https://sourceforge.net/projects/health1212/files/Tools/HealthApp/MPR-3D-20241231.7z/download
+            <select id="sortType">
+                <option value="time">依時間排序</option>
+                <option value="name">依名稱排序</option>
+                <option value="desc">依說明排序</option>
+            </select>
 
-        【05】CPR_TEST.7z-20251002     应用及代码  
-        <a href="https://sourceforge.net/projects/health1212/files/Tools/HealthApp/" target="_blank">应用下载位置 sourceforge</a>
-        https://sourceforge.net/projects/health1212/files/Tools/HealthApp/CPR_TEST.7z/download
+            <!-- 返回主頁按鈕 -->
+            <button class="home-btn" onclick="goHome()">
+                返回主頁
+            </button>
 
-        【06】网上资源收集@科学/上网 
-        <a href="https://zyq1569.github.io/2025.html" target="_blank">链接</a>
-        https://zyq1569.github.io/2025.html
-        </PRE>     
-    </p>
-    <p>
-        -----------------------------------
-    </p>
- 
-    <footer class="footer">
-        <p>© 2024 bitter2live.
-            <time>2024年05月3日</time>.
-        </p>
-    </footer>
+        </div>
 
-    <!-- 侧栏 -->
-    <aside>
-        <ul>
-            <!-- <li>
-                <a href="https://zyq1569.github.io" target="_blank">主页</a>
-            </li> -->
-            <li>
-                <a href="https://zyq1569.github.io/null.html" target="_blank">14条语录</a>
-                <a href="https://www.nderf.org/Chinese/index.htm" target="_blank">瀕死體驗</a>
-            </li>
-        </ul>
-    </aside>
+    </div>
 
-    <script src="./assets/js/index.js"></script>
+    <div class="container">
+
+        <!-- 最新下載 -->
+
+        <div class="section">
+
+            <div class="section-title">
+                🔥 最新下載（最近5筆）
+            </div>
+
+            <div id="latestList" class="cards"></div>
+
+        </div>
+
+        <!-- 歷史下載 -->
+
+        <div class="section">
+
+            <div class="section-title">
+                📚 歷史下載
+            </div>
+
+            <div id="historyList" class="cards"></div>
+
+            <div id="pagination" class="pagination"></div>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        let allData = [];
+
+        const pageSize = 5;
+
+        let currentPage = 1;
+
+        /* 載入 JSON */
+
+        async function loadData() {
+
+            try {
+
+                const response = await fetch(
+                    "./data/down.json?t=" + Date.now()
+                );
+
+                allData = await response.json();
+
+                render();
+
+            } catch (err) {
+
+                console.error(err);
+
+            }
+
+        }
+
+        /* 建立卡片 */
+
+        function createCard(item) {
+
+            return `
+    <div class="card">
+
+        <div class="card-title">
+            <a href="${item.url}"
+               target="_blank">
+               ${item.name}
+            </a>
+        </div>
+
+        <div class="card-desc">
+            ${item.desc}
+        </div>
+
+        <div class="card-time">
+            ${item.time}
+        </div>
+
+        <a class="download-btn"
+           href="${item.url}"
+           target="_blank">
+           立即下載
+        </a>
+
+    </div>
+    `;
+
+        }
+
+        /* 渲染 */
+
+        function render() {
+
+            const keyword =
+                document.getElementById("search")
+                    .value
+                    .toLowerCase();
+
+            const sortType =
+                document.getElementById("sortType")
+                    .value;
+
+            let data = [...allData];
+
+            /* 搜尋 */
+
+            data = data.filter(item => {
+
+                return (
+
+                    item.name.toLowerCase()
+                        .includes(keyword)
+
+                    ||
+
+                    item.desc.toLowerCase()
+                        .includes(keyword)
+
+                    ||
+
+                    item.time.toLowerCase()
+                        .includes(keyword)
+
+                );
+
+            });
+
+            /* 排序 */
+
+            if (sortType === "time") {
+
+                data.sort((a, b) =>
+
+                    new Date(b.time)
+                    -
+                    new Date(a.time)
+
+                );
+
+            }
+            else if (sortType === "name") {
+
+                data.sort((a, b) =>
+
+                    a.name.localeCompare(b.name)
+
+                );
+
+            }
+            else {
+
+                data.sort((a, b) =>
+
+                    a.desc.localeCompare(b.desc)
+
+                );
+
+            }
+
+            /* 最新5筆 */
+
+            const latest =
+                [...data]
+                    .sort((a, b) =>
+                        new Date(b.time)
+                        -
+                        new Date(a.time)
+                    )
+                    .slice(0, 5);
+
+            document.getElementById(
+                "latestList"
+            ).innerHTML =
+
+                latest.length
+                    ?
+                    latest.map(createCard).join("")
+                    :
+                    '<div class="empty">無資料</div>';
+
+            /* 歷史資料 */
+
+            const latestUrls =
+                latest.map(v => v.url);
+
+            const history =
+                data.filter(
+                    v => !latestUrls.includes(v.url)
+                );
+
+            renderHistory(history);
+
+        }
+
+        /* 歷史分頁 */
+
+        function renderHistory(history) {
+
+            const totalPages =
+                Math.ceil(
+                    history.length / pageSize
+                );
+
+            if (currentPage > totalPages) {
+                currentPage = 1;
+            }
+
+            const start =
+                (currentPage - 1) * pageSize;
+
+            const pageData =
+                history.slice(
+                    start,
+                    start + pageSize
+                );
+
+            document.getElementById(
+                "historyList"
+            ).innerHTML =
+
+                pageData.length
+                    ?
+                    pageData.map(createCard).join("")
+                    :
+                    '<div class="empty">無資料</div>';
+
+            let html = "";
+
+            for (let i = 1; i <= totalPages; i++) {
+
+                html += `
+        <button
+            class="${i === currentPage
+                        ? 'active'
+                        : ''
+                    }"
+            onclick="changePage(${i})">
+            ${i}
+        </button>
+        `;
+
+            }
+
+            document.getElementById(
+                "pagination"
+            ).innerHTML = html;
+
+        }
+
+        /* 切頁 */
+
+        function changePage(page) {
+
+            currentPage = page;
+
+            render();
+
+        }
+
+        /* 搜尋 */
+
+        document
+            .getElementById("search")
+            .addEventListener("input", () => {
+
+                currentPage = 1;
+
+                render();
+
+            });
+
+        /* 排序 */
+
+        document
+            .getElementById("sortType")
+            .addEventListener("change", () => {
+
+                currentPage = 1;
+
+                render();
+
+            });
+
+        /* 返回主頁 */
+
+        function goHome() {
+
+            /*
+              修改成你的主頁地址
+            */
+
+            window.location.href =
+                "https://zyq1569.github.io";
+
+        }
+
+        /* 初始化 */
+
+        loadData();
+
+        /* 自動刷新 */
+
+        setInterval(() => {
+
+            loadData();
+
+        }, 60000);
+
+    </script>
+
 </body>
-<!--考虑参考,展示收藏的pdf https://viewerjs.org/ -->
-
-
-<!-- Organizationally Derived UID
-A UID may be formed using a registered root (see Annex C) and an organization specific suffix. The manner in which the suffix of such an organizationally derived UID is defined is not constrained by the DICOM Standard. Only the guarantee of its uniqueness by the defining organization is required by DICOM.
-
-The following example presents a particular choice made by a specific organization in defining its suffix to guarantee uniqueness of a SOP Instance UID.
-
-  "1.2.840.xxxxx.3.152.235.2.12.187636473"
-   \___________/ \______________________/
-       root     .         suffix
-In this example, the root is:
-
-1 Identifies ISO
-
-2 Identifies ANSI Member Body
-
-840 Country code of a specific Member Body (U.S. for ANSI)
-
-xxxxx Identifies a specific Organization.(assigned by ANSI)
-
-In this example the first two components of the suffix relate to the identification of the device:
-
-3 Manufacturer defined device type
-
-152 Manufacturer defined serial number
-
-The remaining four components of the suffix relate to the identification of the image:
-
-235 Study number
-
-2 Series number
-
-12 Image number
-
-187636473 Encoded date and time stamp of image acquisition
-
-In this example, the organization has chosen these components to guarantee uniqueness. Other organizations may choose an entirely different series of components to uniquely identify its images. For example it may have been perfectly valid to omit the Study Number, Series Number and Image Number if the time stamp had a sufficient precision to ensure that no two images might have the same date and time stamp.
-
-Because of the flexibility allowed by the DICOM Standard in creating organizationally derived UIDs, implementations should not depend on any assumed structure of UIDs and should not attempt to parse UIDs to extract the semantics of some of its components.
- -->
 
 </html>
