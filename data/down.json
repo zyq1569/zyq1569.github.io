@@ -48,15 +48,15 @@
         "url": "https://github.com/freegate-release/website"
     },
     {
-        "name": "更新中",
-        "desc": "更新中",
+        "name": "MacOS開發工具",
+        "desc": "Xcode_15.2.xip",
         "time": "2025-05-15 18:00:00",
-        "url": "https://zyq1569.github.io"
+        "url": "https://sourceforge.net/projects/health1212/files/Tools/OS%20Software/MAC/DEV/Dev_Tools/"
     },
     {
-        "name": "更新中",
-        "desc": "更新中",
+        "name": "qt-opensource-windows-x86-5.12.12.exe",
+        "desc": "qt-opensource-windows",
         "time": "2025-04-15 18:00:00",
-        "url": "https://zyq1569.github.io"
+        "url": "https://sourceforge.net/projects/health1212/files/Tools/OS%20Software/windows%20tools/DEV/"
     }
 ]
