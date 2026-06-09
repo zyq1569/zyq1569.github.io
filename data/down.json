@@ -3,66 +3,77 @@
         "name": "starviewer Pacs影像阅片工具",
         "desc": "starviewer Pacs影像阅片工具(需要vc2017运行环境包)",
         "time": "2025-06-01 10:30:00",
+        "category": "工具",
         "url": "https://sourceforge.net/projects/health1212/files/Test_person/"
     },
     {
         "name": "DicomMetadata",
         "desc": "查看dicom信息工具",
         "time": "2025-05-20 09:00:00",
+        "category": "工具",
         "url": "https://sourceforge.net/projects/health1212/files/Tools/HealthApp/"
     },
     {
         "name": "TestITKimage",
         "desc": "三維展示Demo_01",
         "time": "2025-05-15 18:00:00",
+        "category": "工具",
         "url": "https://github.com/zyq1569/HealthApp/releases/tag/v1.0.0.1.1.1"
     },
-	    {
+	{
         "name": "TestITKImage3D",
         "desc": "三維展示Demo_02",
         "time": "2025-06-01 10:30:00",
+                "category": "工具",
         "url": "https://github.com/zyq1569/HealthApp/tree/master/Tools/TestITKImage3D"
     },
     {
         "name": "MPR-3D-20241231.7z",
         "desc": "Dicom MPR-3D",
         "time": "2025-05-20 09:00:00",
+        "category": "工具",
         "url": "https://sourceforge.net/projects/health1212/files/Tools/HealthApp/"
     },
     {
         "name": "CPR_TEST.7z",
         "desc": "Dicom 影像CPR Demo",
         "time": "2025-05-15 18:00:00",
+        "category": "工具",
         "url": "https://sourceforge.net/projects/health1212/files/Tools/HealthApp/"
     },
 	{
         "name": "win10 _X64_home_2022-05-25_MinGW.7z",
         "desc": "open office word win10 _X64_home_2022-05-25_MinGW.7z",
         "time": "2025-06-01 10:30:00",
+        "category": "文件",
         "url": "https://sourceforge.net/projects/health1212/files/Tools/open%20office/"
     },
     {
         "name": "fg805p.7z",
         "desc": "科學網絡",
         "time": "2025-05-20 09:00:00",
+        "category": "工具",
         "url": "https://github.com/freegate-release/website"
     },
     {
         "name": "MacOS開發工具",
         "desc": "Xcode_15.2.xip",
         "time": "2025-05-15 18:00:00",
+        "category": "開發",
         "url": "https://sourceforge.net/projects/health1212/files/Tools/OS%20Software/MAC/DEV/Dev_Tools/"
     },
     {
         "name": "超聲3D數據",
         "desc": "US_3D_data.7z",
         "time": "2026-06-01 18:00:00",
+        "category": "數據",
         "url": "https://sourceforge.net/projects/health1212/files/Test_Dicom_Data/"
     },
     {
         "name": "qt-opensource-windows-x86-5.12.12.exe",
         "desc": "qt-opensource-windows",
         "time": "2025-04-15 18:00:00",
+        "category": "開發",
         "url": "https://sourceforge.net/projects/health1212/files/Tools/OS%20Software/windows%20tools/DEV/"
     }
 ]
