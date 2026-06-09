@@ -45,8 +45,22 @@
         "name": "win10 _X64_home_2022-05-25_MinGW.7z",
         "desc": "open office word win10 _X64_home_2022-05-25_MinGW.7z",
         "time": "2025-06-01 10:30:00",
-        "category": "文件",
+        "category": "工具",
         "url": "https://sourceforge.net/projects/health1212/files/Tools/open%20office/"
+    },
+    {
+        "name": "tiny10 x64 23h2.iso",
+        "desc": "win10",
+        "time": "2026-01-08 10:30:00",
+        "category": "文件",
+        "url": "https://sourceforge.net/projects/health1212/files/Tools/WINOS/tiny-10-23-h2/"
+    },
+    {
+        "name": "tiny11core_25H2_Oct25.iso",
+        "desc": "win11",
+        "time": "2026-01-12 10:30:00",
+        "category": "文件",
+        "url": "https://sourceforge.net/projects/health1212/files/Tools/WINOS/win11/"
     },
     {
         "name": "fg805p.7z",
