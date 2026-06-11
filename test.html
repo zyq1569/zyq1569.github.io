@@ -1,171 +1,374 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>星辰記事</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <title>down.for.u</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
-        
-        body {
-            font-family: 'Noto Sans TC', system-ui, sans-serif;
-            background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.85)), 
-                        url('https://picsum.photos/id/1015/1920/1080') center/cover no-repeat fixed;
-            color: #e0f2fe;
-            min-height: 100vh;
-        }
-        
-        .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
-        .star {
-            position: absolute; background: white; border-radius: 50%;
-            box-shadow: 0 0 8px #fff, 0 0 15px #a5b4fc;
-            animation: twinkle 4s infinite alternate ease-in-out;
-        }
-        @keyframes twinkle { 
-            0% { opacity: 0.4; transform: scale(0.8); } 
-            100% { opacity: 1; transform: scale(1.2); } 
-        }
-        
-        .article-card { 
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
-            background: rgba(15, 23, 42, 0.85); 
-            backdrop-filter: blur(12px); 
-        }
-        .article-card:hover { 
-            transform: translateY(-12px); 
+        /* 全局 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        /* 左上角即時時間 - 完全透明 */
-        #realtime-clock {
+        body,
+        html {
+            height: 100%;
+            font-family: "Microsoft JhengHei", Arial, sans-serif;
+            overflow-x: hidden;
+            color: #fff;
+        }
+
+        /* 背景圖 - 完整拉伸填充 */
+        #background {
             position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 50;
-            background: transparent;
-            color: rgba(224, 242, 254, 0.85);
-            font-size: 0.95rem;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1920&auto=format&fit=crop') center center / cover no-repeat;
+            filter: brightness(1.0) contrast(1.0);
+            z-index: 1;
+        }
+
+        /* 星空粒子 */
+        #particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* 頂部 */
+        .header {
+            position: relative;
+            z-index: 3;
+            background: rgba(22, 119, 255, 0.7);
+            color: #fff;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            border-radius: 8px;
+            backdrop-filter: blur(8px);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .top-right {
             display: flex;
             align-items: center;
-            gap: 8px;
-            pointer-events: none;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .top-right input {
+            width: 250px;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+        }
+
+        .top-right select {
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+        }
+
+        .home-btn {
+            background: #52c41a;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: .3s;
+        }
+
+        .home-btn:hover {
+            background: #73d13d;
+        }
+
+        /* 主體 */
+        .container {
+            position: relative;
+            z-index: 3;
+            max-width: 1400px;
+            margin: auto;
+            padding: 30px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: white;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.00);
+            /* 桌面控制「毛玻璃模糊」 */
+            backdrop-filter: blur(5px);
+            /* 手機控制「毛玻璃模糊」 */
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 18px;
+            transition: .3s;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, .25);
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .card-title a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .card-title a:hover {
+            text-decoration: underline;
+        }
+
+        .card-desc {
+            color: #ddd;
+            line-height: 1.6;
+            min-height: 60px;
+        }
+
+        .card-time {
+            margin-top: 15px;
+            color: #ccc;
+            font-size: 13px;
+        }
+
+        .download-btn {
+            display: inline-block;
+            margin-top: 15px;
+            background: #1677ff;
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+        }
+
+        .download-btn:hover {
+            background: #4096ff;
+        }
+
+        /* 分頁 */
+        .pagination {
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .pagination button {
+            border: none;
+            background: #1677ff;
+            color: white;
+            padding: 8px 14px;
+            margin: 0 4px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .pagination button.active {
+            background: #52c41a;
+        }
+
+        .pagination button:hover {
+            opacity: .9;
+        }
+
+        /* 空資料 */
+        .empty {
+            text-align: center;
+            color: #ccc;
+            padding: 30px;
+        }
+
+        /* 響應式 */
+        @media(max-width:768px) {
+            .header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .top-right {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .top-right input {
+                width: 100%;
+            }
         }
     </style>
 </head>
-<body class="relative">
-    <div class="stars" id="stars"></div>
 
-    <!-- 左上角即時時間（完全透明） -->
-    <div id="realtime-clock">
-        <i class="fa-solid fa-clock text-indigo-300"></i>
-        <span id="clock-time"></span>
+<body>
+
+    <div id="background"></div>
+    <canvas id="particles"></canvas>
+
+    <div class="header">
+        <!-- <div class="logo">📦 下載中心</div> -->
+        <div class="top-right">
+            <button class="home-btn" onclick="goHome()">返回主頁</button>
+            <input type="text" id="search" placeholder="搜尋 名稱 / 說明 / 時間">
+            <select id="sortType">
+                <option value="time">依時間排序</option>
+                <option value="name">依名稱排序</option>
+                <option value="desc">依說明排序</option>
+            </select>
+
+        </div>
     </div>
 
-    <div class="relative z-10">
-        <header class="border-b border-white/10 bg-black/40 backdrop-blur-md sticky top-0 z-50">
-            <div class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
-                <div class="flex items-center gap-3">
-                    <i class="fa-solid fa-moon text-3xl text-indigo-400"></i>
-                    <h1 class="text-3xl font-bold">星辰記事</h1>
-                </div>
-                <input id="searchInput" type="text" placeholder="搜尋文章..." 
-                       class="w-96 bg-slate-900/70 border border-slate-600 rounded-2xl px-5 py-3 focus:outline-none focus:border-indigo-400"
-                       onkeyup="filterArticles()">
-            </div>
-        </header>
-
-        <main class="max-w-7xl mx-auto px-6 py-10">
-            <h2 class="text-4xl font-semibold mb-8">最新文章</h2>
-            <div id="articlesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
-        </main>
+    <div class="container">
+        <div class="section">
+            <div class="section-title">🔥 最新下載（最近5筆）</div>
+            <div id="latestList" class="cards"></div>
+        </div>
+        <div class="section">
+            <div class="section-title">📚 歷史下載</div>
+            <div id="historyList" class="cards"></div>
+            <div id="pagination" class="pagination"></div>
+        </div>
     </div>
 
     <script>
-        let articles = [];
+        /* 星空粒子效果 */
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+        const stars = [];
+        const starCount = 150;
 
-        async function loadArticles() {
-            try {
-                const res = await fetch('articles.json');
-                const data = await res.json();
-                articles = data.articles;
-                renderArticles(articles);
-            } catch (e) {
-                console.error("載入文章失敗", e);
-            }
-        }
-
-        function createStars() {
-            const container = document.getElementById('stars');
-            for (let i = 0; i < 150; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                const size = Math.random() * 3 + 1;
-                star.style.width = star.style.height = `${size}px`;
-                star.style.left = `${Math.random()*100}%`;
-                star.style.top = `${Math.random()*100}%`;
-                star.style.animationDelay = `-${Math.random()*4}s`;
-                container.appendChild(star);
-            }
-        }
-
-        // 即時時間顯示（左上角完全透明）
-        function updateRealTime() {
-            const clockEl = document.getElementById('clock-time');
-            setInterval(() => {
-                const now = new Date();
-                const year = now.getFullYear();
-                const month = String(now.getMonth() + 1).padStart(2, '0');
-                const date = String(now.getDate()).padStart(2, '0');
-                const weekDays = ['日','一','二','三','四','五','六'];
-                const week = weekDays[now.getDay()];
-                const hours = String(now.getHours()).padStart(2, '0');
-                const minutes = String(now.getMinutes()).padStart(2, '0');
-                const seconds = String(now.getSeconds()).padStart(2, '0');
-
-                clockEl.textContent = `${year}年${month}月${date}日 星期${week} ${hours}:${minutes}:${seconds}`;
-            }, 1000);
-        }
-
-        function renderArticles(data) {
-            const container = document.getElementById('articlesContainer');
-            container.innerHTML = '';
-            data.forEach(article => {
-                const card = `
-                <div onclick="goToArticle(${article.id})" class="article-card rounded-3xl overflow-hidden cursor-pointer group">
-                    <img src="${article.image}" class="w-full h-56 object-cover transition-transform group-hover:scale-105">
-                    <div class="p-6">
-                        <div class="flex justify-between text-xs mb-3 text-slate-400">
-                            <span>${article.date}</span>
-                            <span>${article.readTime}</span>
-                        </div>
-                        <h3 class="font-semibold text-xl mb-3 line-clamp-2">${article.title}</h3>
-                        <p class="text-slate-400 text-sm line-clamp-3">${article.excerpt}</p>
-                    </div>
-                </div>`;
-                container.innerHTML += card;
+        for (let i = 0; i < starCount; i++) {
+            stars.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                r: Math.random() * 1.5 + 0.5,
+                dx: (Math.random() - 0.5) * 0.2,
+                dy: (Math.random() - 0.5) * 0.2
             });
         }
 
-        function filterArticles() {
-            const term = document.getElementById('searchInput').value.toLowerCase();
-            const filtered = articles.filter(a => 
-                a.title.toLowerCase().includes(term) || a.excerpt.toLowerCase().includes(term)
-            );
-            renderArticles(filtered.length ? filtered : articles);
+        function animateStars() {
+            ctx.clearRect(0, 0, width, height);
+            for (let s of stars) {
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255,255,255,0.8)';
+                ctx.fill();
+                s.x += s.dx;
+                s.y += s.dy;
+                if (s.x < 0) s.x = width;
+                if (s.x > width) s.x = 0;
+                if (s.y < 0) s.y = height;
+                if (s.y > height) s.y = 0;
+            }
+            requestAnimationFrame(animateStars);
+        }
+        animateStars();
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+
+        /* 下載中心功能 */
+        let allData = [];
+        const pageSize = 5;
+        let currentPage = 1;
+
+        async function loadData() {
+            try {
+                const res = await fetch("./data/down.json?t=" + Date.now());
+                allData = await res.json();
+                render();
+            } catch (err) { console.error(err); }
         }
 
-        function goToArticle(id) {
-            window.location.href = `article.html?id=${id}`;
+        function createCard(item) {
+            return `<div class="card">
+        <div class="card-title"><a href="${item.url}" target="_blank">${item.name}</a></div>
+        <div class="card-desc">${item.desc}</div>
+        <div class="card-time">${item.time}</div>
+        <a class="download-btn" href="${item.url}" target="_blank">立即下載</a>
+    </div>`;
         }
 
-        // 初始化
-        window.onload = () => {
-            createStars();
-            updateRealTime();     // ← 新增即時時間
-            loadArticles();
-        };
+        function render() {
+            const keyword = document.getElementById("search").value.toLowerCase();
+            const sortType = document.getElementById("sortType").value;
+            let data = [...allData];
+            data = data.filter(item => item.name.toLowerCase().includes(keyword) ||
+                item.desc.toLowerCase().includes(keyword) ||
+                item.time.toLowerCase().includes(keyword));
+            if (sortType === "time") { data.sort((a, b) => new Date(b.time) - new Date(a.time)); }
+            else if (sortType === "name") { data.sort((a, b) => a.name.localeCompare(b.name)); }
+            else { data.sort((a, b) => a.desc.localeCompare(b.desc)); }
+
+            const latest = data.slice(0, 5);
+            document.getElementById("latestList").innerHTML = latest.length ? latest.map(createCard).join("") : '<div class="empty">暫無資料</div>';
+            const latestUrls = latest.map(v => v.url);
+            const history = data.slice(5);
+            renderHistory(history);
+        }
+
+        function renderHistory(history) {
+            const totalPages = Math.ceil(history.length / pageSize);
+            if (currentPage > totalPages) currentPage = 1;
+            const start = (currentPage - 1) * pageSize;
+            const pageData = history.slice(start, start + pageSize);
+            document.getElementById("historyList").innerHTML = pageData.length ? pageData.map(createCard).join("") : '<div class="empty">暫無資料</div>';
+            let html = '';
+            for (let i = 1; i <= totalPages; i++) {
+                html += `<button class="${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`;
+            }
+            document.getElementById("pagination").innerHTML = html;
+        }
+
+        function changePage(page) { currentPage = page; render(); }
+        document.getElementById("search").addEventListener("input", () => { currentPage = 1; render(); });
+        document.getElementById("sortType").addEventListener("change", () => { currentPage = 1; render(); });
+
+        function goHome() { window.location.href = "https://zyq1569.github.io"; }
+
+        loadData();
+        setInterval(() => { loadData(); }, 60000);
+
     </script>
 </body>
+
 </html>
