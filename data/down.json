@@ -1,7 +1,7 @@
 [
     {
-        "name": "starviewer Pacs影像阅片工具",
-        "desc": "starviewer Pacs影像阅片工具(需要vc2017运行环境包)",
+        "name": "starviewer醫學影像工具",
+        "desc": "starviewer醫學影像工具(需要vc2017运行环境包)",
         "time": "2025-06-01 10:30:00",
         "category": "工具",
         "url": "https://sourceforge.net/projects/health1212/files/Test_person/"
@@ -29,28 +29,28 @@
     },
     {
         "name": "MPR-3D-20241231.7z",
-        "desc": "Dicom MPR-3D",
+        "desc": "醫學MPR-3D",
         "time": "2025-05-20 09:00:00",
         "category": "工具",
         "url": "https://sourceforge.net/projects/health1212/files/Tools/HealthApp/"
     },
     {
         "name": "CPR_TEST.7z",
-        "desc": "Dicom 影像CPR Demo",
+        "desc": "醫學影像CPR Demo",
         "time": "2025-05-15 18:00:00",
         "category": "工具",
         "url": "https://sourceforge.net/projects/health1212/files/Tools/HealthApp/"
     },
 	{
         "name": "win10 _X64_home_2022-05-25_MinGW.7z",
-        "desc": "open office word win10 _X64_home_2022-05-25_MinGW.7z",
+        "desc": "open office word",
         "time": "2025-06-01 10:30:00",
         "category": "工具",
         "url": "https://sourceforge.net/projects/health1212/files/Tools/open%20office/"
     },
     {
         "name": "tiny10 x64 23h2.iso",
-        "desc": "win10",
+        "desc": "win10 64",
         "time": "2026-01-08 10:30:00",
         "category": "文件",
         "url": "https://sourceforge.net/projects/health1212/files/Tools/WINOS/tiny-10-23-h2/"
@@ -85,7 +85,7 @@
     },
     {
         "name": "Internet Archive",
-        "desc": "系統 工具 等幾乎全部.需要.科學網絡工具",
+        "desc": "系統.工具等.包羅萬象.需網絡工具",
         "time": "2026-05-20 18:00:00",
         "category": "工具",
         "url": "https://archive.org/"
