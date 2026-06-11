@@ -84,6 +84,13 @@
         "url": "https://sourceforge.net/projects/health1212/files/Test_Dicom_Data/"
     },
     {
+        "name": "Internet Archive",
+        "desc": "系統 工具 等幾乎全部.需要網絡工具",
+        "time": "2026-05-20 18:00:00",
+        "category": "工具",
+        "url": "https://archive.org/"
+    },    
+    {
         "name": "qt-opensource-windows-x86-5.12.12.exe",
         "desc": "qt-opensource-windows",
         "time": "2025-04-15 18:00:00",
