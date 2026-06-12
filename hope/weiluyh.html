@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+    <style>
+        #pg-header div,
+        #pg-footer div {
+            all: inherit;
+            display: block;
+            margin-top: 1em;
+            margin-bottom: 1em;
+            margin-left: 2em;
+        }
+
+        #pg-footer div.agate {
+            font-size: 90%;
+            margin-top: 0;
+            margin-bottom: 0;
+            text-align: center;
+        }
+
+        #pg-footer li {
+            all: initial;
+            display: block;
+            margin-top: 1em;
+            margin-bottom: 1em;
+            text-indent: -0.6em;
+        }
+
+        #pg-footer div.secthead {
+            font-size: 110%;
+            font-weight: bold;
+        }
+
+        #pg-footer #project-gutenberg-license {
+            font-size: 110%;
+            margin-top: 0;
+            margin-bottom: 0;
+            text-align: center;
+        }
+
+        #pg-header-heading {
+            all: inherit;
+            text-align: center;
+            font-size: 120%;
+            font-weight: bold;
+        }
+
+        #pg-footer-heading {
+            all: inherit;
+            text-align: center;
+            font-size: 120%;
+            font-weight: normal;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        #pg-header #pg-machine-header p {
+            text-indent: -4em;
+            margin-left: 4em;
+            margin-top: 1em;
+            margin-bottom: 0;
+            font-size: medium
+        }
+
+        #pg-header #pg-header-authlist {
+            all: initial;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        #pg-header #pg-machine-header strong {
+            font-weight: normal;
+        }
+
+        #pg-header #pg-start-separator,
+        #pg-footer #pg-end-separator {
+            margin-bottom: 3em;
+            margin-left: 0;
+            margin-right: auto;
+            margin-top: 2em;
+            text-align: center
+        }
+
+        .xhtml_center {
+            text-align: center;
+            display: block;
+        }
+
+        .xhtml_center table {
+            display: table;
+            text-align: left;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+    <title>The Project Gutenberg eBook of 圍爐夜話, by Yongbin Wang</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        /* ************************************************************************
+ * classless css copied from https://www.pgdp.net/wiki/CSS_Cookbook/Styles
+ * ********************************************************************** */
+        /* ************************************************************************
+ * set the body margins to allow whitespace along sides of window
+ * ********************************************************************** */
+        body {
+            width: 85%;
+            /* == margin-left:7% */
+        }
+
+        @media screen {
+            body {
+                margin-left: 8%;
+                /* == margin-left:7% */
+            }
+        }
+
+        .pagedjs_page_content>div {
+            margin-left: 8%;
+            /* == margin-left:7% */
+        }
+
+        /* ************************************************************************
+ * set the indention, spacing, and leading for body paragraphs.
+ * ********************************************************************** */
+        p {
+            /* all paragraphs unless overridden */
+            margin-top: 1em;
+            /* inter-paragraph space */
+            margin-bottom: 0;
+            /* use only top-margin for spacing */
+            line-height: 1.4em;
+            /* interline spacing ("leading") */
+        }
+
+        body>p {
+            /* paras at <body> level - not in <div> or <table>  */
+            text-align: justify;
+            /* or left?? */
+            text-indent: 1em;
+            /* first-line indent */
+        }
+
+        /* suppress indentation on paragraphs following heads  */
+        h2+p,
+        h3+p,
+        h4+p {
+            text-indent: 0
+        }
+
+        /* tighter spacing for list item paragraphs */
+        dd,
+        li {
+            margin-top: 0.25em;
+            margin-bottom: 0;
+            line-height: 1.2em;
+            /* a bit closer than p's */
+        }
+
+        /* ************************************************************************
+ * Head 2 is for chapter heads. 
+ * ********************************************************************** */
+        h2 {
+            /* text-align:center;  left-aligned by default. */
+            margin-top: 3em;
+            /* extra space above.. */
+            margin-bottom: 2em;
+            /* ..and below */
+            clear: both;
+            /* don't let sidebars overlap */
+        }
+
+        /* ************************************************************************
+ * Head 3 is for main-topic heads.
+ * ********************************************************************** */
+        h3 {
+            /* text-align:center;  left-aligned by default. */
+            margin-top: 2em;
+            /* extra space above but not below */
+            font-weight: normal;
+            /* override default of bold */
+            clear: both;
+            /* don't let sidebars overlap */
+        }
+
+        /* ************************************************************************
+ * Styling the default HR and some special-purpose ones.
+ * Default rule centered and clear of floats; sized for thought-breaks
+ * ********************************************************************** */
+        hr {
+            width: 45%;
+            /* adjust to ape original work */
+            margin-top: 1em;
+            /* space above & below */
+            margin-bottom: 1em;
+            margin-left: auto;
+            /* these two ensure a.. */
+            margin-right: auto;
+            /* ..centered rule */
+            clear: both;
+            /* don't let sidebars & floats overlap rule */
+        }
+
+        /* ************************************************************************
+ * Images and captions
+ * ********************************************************************** */
+        img {
+            /* the default inline image has */
+            border: 1px solid black;
+            /* a thin black line border.. */
+            padding: 6px;
+            /* ..spaced a bit out from the graphic */
+        }
+
+        body {
+            background: initial;
+            color: initial
+        }
+
+        a {
+            text-decoration: initial
+        }
+    </style>
+    <link rel="schema.dc" href="http://purl.org/dc/elements/1.1/">
+    <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+    <meta name="dc.title" content="圍爐夜話">
+    <meta name="dc.language" content="zh">
+    <meta name="dcterms.source" content="https://www.gutenberg.org/files/25421/25421-0.txt">
+    <meta name="dcterms.modified" content="2026-06-10T14:37:04.156331+00:00">
+    <meta name="dc.rights" content="Public domain in the USA.">
+    <link rel="dcterms.isFormatOf" href="http://www.gutenberg.org/ebooks/25421">
+    <meta name="dc.creator" content="Wang, Yongbin">
+    <meta name="dc.subject" content="Aphorisms and apothegms">
+    <meta name="dc.subject" content="Conduct of life -- Early works to 1900">
+    <meta name="dc.subject" content="Quotations, Chinese">
+    <meta name="dcterms.created" content="2008-05-11">
+    <meta name="generator" content="Ebookmaker 0.14.0 by Project Gutenberg">
+    <meta name="format-detection" content="telephone=no,date=no,address=no,email=no,url=no">
+    <meta property="og:title" content="圍爐夜話">
+    <meta property="og:type" content="Text">
+    <meta property="og:url" content="https://www.gutenberg.org/cache/epub/25421/pg25421-images.html">
+    <meta property="og:image" content="https://www.gutenberg.org/cache/epub/25421/pg25421.cover.medium.jpg">
+</head>
+
+<body>
+    <header class="pg-boilerplate pgheader" id="pg-header" lang="en">
+        <h1>本文來源：https://gutenberg.org/ebooks/25421</h1>
+        <h2 id="pg-header-heading" title="">The Project Gutenberg eBook of <span lang="zh"
+                id="pg-title-no-subtitle">圍爐夜話</span></h2>
+
+        <div>This eBook is for the use of anyone anywhere in the United States and
+            most other parts of the world at no cost and with almost no restrictions
+            whatsoever. You may copy it, give it away or re-use it under the terms
+            of the Project Gutenberg License included with this eBook or online
+            at <a class="reference external" href="https://www.gutenberg.org">www.gutenberg.org</a>. If you are not
+            located in the United States,
+            you will have to check the laws of the country where you are located
+            before using this eBook.</div>
+
+        <div class="container" id="pg-machine-header">
+            <p><strong>Title</strong>: 圍爐夜話</p>
+            <div id="pg-header-authlist">
+                <p><strong>Author</strong>: Yongbin Wang</p>
+            </div>
+            <br>
+
+            <p><strong>Release date</strong>: May 11, 2008 [eBook #25421]</p>
+
+            <p><strong>Language</strong>: Chinese</p>
+
+            <p><strong>Other information and formats</strong>: <a
+                    href="https://www.gutenberg.org/ebooks/25421">www.gutenberg.org/ebooks/25421</a></p>
+
+            <p><strong>Credits</strong>: Produced by Li Wen Lai</p>
+
+        </div>
+        <div id="pg-start-separator">
+            <span>*** START OF THE PROJECT GUTENBERG EBOOK 圍爐夜話 ***</span>
+        </div>
+    </header>
+    <p id="id00000">Produced by Li Wen Lai</p>
+
+    <p id="id00001" style="margin-top: 8em">圍爐夜話 王永彬</p>
+
+    <p id="id00002">寒夜圍爐，田家婦子之樂也。顧篝燈坐對，或默默然無一言，或嘻嘻然言非所宜言
+        ，皆無所謂樂，不將虛此良夜乎？余識字農人也。歲晚務閒，家人聚處，相與燒○
+        ○。煨山芋，心有所得，輒述諸口，命兒輩繕寫存之，題曰圍爐夜話。但其中皆隨
+        得隨錄，語無倫次且意淺辭蕪，多非信心之論，特以課家人消永夜耳，不足為外人
+        道也。倘蒙有道君子惠而正之，則幸甚。</p>
+
+    <p id="id00003">咸豐甲寅二月既望 王永彬書於橋西館之一經堂</p>
+
+    <p id="id00004">博學篤誌，切問近思，此八字，是收放心的工夫。
+        神閒氣靜，智深勇沉，此八字，是幹大事的本領。</p>
+
+    <p id="id00005">薄族者，必無好兒孫。薄師者，必無佳子弟。吾所見亦多矣。
+        恃力者，忽逢真敵手。恃勢者，忽逢大對頭。人所料不及也。</p>
+
+    <p id="id00006">飽暖人所共羨，然使享一生飽暖，而氣昏誌惰，豈足有為饑寒人所不甘。
+        然必帶幾分饑寒，則神緊骨堅，乃能任事。</p>
+
+    <p id="id00007">賓入幕中，皆瀝膽披肝之士。客登座上，無焦頭爛額之人。</p>
+
+    <p id="id00008">不必於世事件件皆能，惟求與古人心心相印。</p>
+
+    <p id="id00009">不能縮頭者，且休縮頭。可以放手者，便須放手。</p>
+
+    <p id="id00010">不鏡於水而鏡於人，則吉凶可監也。
+        不蹶於山而蹶於垤，則細微宜防也。</p>
+
+    <p id="id00011">不忮不求，可想見光明境界。勿忘勿助，是形容涵養工夫。</p>
+
+    <p id="id00012">不與人爭得失，惟求己有知能。</p>
+
+    <p id="id00013">卜筮以龜筮為重，故必龜從筮從，乃可言吉。若二者，有一不從，
+        或二者俱不從，則宜其有凶無吉矣。乃洪範稽疑之篇，則於龜從筮逆者，
+        仍曰作內吉。於龜筮共違於人者，仍曰用靜吉，是知吉凶在人，
+        聖人之垂戒深矣。人誠能作內而不作外，用靜而不用作，循分守常，
+        斯亦安往而不吉哉。</p>
+
+    <p id="id00014">把自己太看高了，便不能長進。把自己太看低了，便不能振興。
+        貧賤非辱，貧賤而諂求於人者為辱。
+        富貴非榮，富貴而利濟於世者為榮。</p>
+
+    <p id="id00015">貧無可奈，惟求儉。拙亦何妨，只要勤。</p>
+
+    <p id="id00016">潑婦之啼哭怒罵，伎倆耍亦無多，靜而鎮之，則自止矣。
+        讒人之簸弄挑唆，情形雖若甚迫，淡而置之，則自消矣。</p>
+
+    <p id="id00017">莫大之禍，起於須臾之不忍，不可不謹。</p>
+
+    <p id="id00018">每見待子弟，嚴厲者，易至成德，姑息者，多有敗行，則父兄之教育所系也。
+        又見有子弟，聰穎者，忽入下流，庸愚者，轉為上達，則父兄之培植所關也。</p>
+
+    <p id="id00019">每見勤苦之人，絕無癆疾。顯達之士多出寒門。此亦盈虛消長之機，自然之理也。</p>
+
+    <p id="id00020">謾夸富貴顯榮，功德文章，要可傳諸後世。
+        任教聲名暄赫，人品心術，不能瞞過吏官。</p>
+
+    <p id="id00021">門戶之衰，總由於子孫之驕惰。風俗之壞，多起於富貴之淫奢。</p>
+
+    <p id="id00022">名利之不宜得者竟得之，福終為禍。
+        困窮之最難耐者能耐之，苦定回甘。</p>
+
+    <p id="id00023">明犯國法，罪累豈能幸逃？白得人財，賠償還要加倍。</p>
+
+    <p id="id00024">父兄有善行，子弟學之或無不肖。
+        父兄有惡行，子弟學之則無不肖。
+        可知父兄教子弟，必證其身以率之，無庸徒事言詞也。
+        君子無過行，小人嫉之亦不能容。
+        可知君子處小人，必平其氣以待之，不可稍形激切也。</p>
+
+    <p id="id00025">富不肯讀書，貴不肯積德，錯過可惜也。
+        少不肯事長，愚不肯親賢，不祥莫大焉。</p>
+
+    <p id="id00026">富貴易生禍端，必忠厚謙恭，才無大患。
+        衣祿原有定數，必節儉簡省，乃可久延。</p>
+
+    <p id="id00027">富家慣習驕奢，最難教子。寒士欲謀生活，還是讀書。</p>
+
+    <p id="id00028">發達雖命定，亦由肯做工夫。福壽雖天生，還是多行陰騭。</p>
+
+    <p id="id00029">伐字從戈，矜字從矛，自伐自矜者，可為大戒。
+        仁字從人，義字從我，講仁講義者，不必遠求。</p>
+
+    <p id="id00030">凡遇事物突來，必熟思審處，恐貽後悔。
+        不幸家庭釁起，須忍讓曲全，勿失舊歡。</p>
+
+    <p id="id00031">凡事謹守規模，必不大錯。一生但足衣食，便稱小康。</p>
+
+    <p id="id00032">凡事勿徒委於人，必身體力行，方能有濟。
+        凡事不可執於己，必廣思集益，乃罔後艱。</p>
+
+    <p id="id00033">凡人世險奇之事，決不可為。
+        或為之而幸獲其利，特偶然耳，不可視為常然也。
+        可以為常者，必其平淡無奇，如耕田讀書之類是也。</p>
+
+    <p id="id00034">風俗日趨於奢淫，靡所底止，安得有敦古樸之君子，力挽江河。
+        人心日喪其廉恥，漸至消亡，安得有講名節之大人，光爭日月。</p>
+
+    <p id="id00035">大丈夫處事，論是非不論禍福。士君子立言，貴平正尤貴精詳。</p>
+
+    <p id="id00036">打算精明，自謂得計，然敗祖父之家聲者，必此人也。
+        樸實渾厚，初無甚奇，然培子孫之元氣者，必此人也。</p>
+
+    <p id="id00037">德澤太薄，家有好事，未必是好事。得意者，何可自矜？
+        天道最公，人能苦心，斷不負苦心。為善者，須當自信。</p>
+
+    <p id="id00038">德足以感人，而以有德當大權，其感尤速。
+        財足以累己，而以有財處亂世，其累尤深。</p>
+
+    <p id="id00039">淡中交耐久。靜裡壽延長。</p>
+
+    <p id="id00040">但患我不肯濟人，休患我不能濟人。
+        須使人不忍欺我，勿使人不敢欺我。</p>
+
+    <p id="id00041">但責己不責人，此遠怨之道也。但信己不信人，此取敗之由也。</p>
+
+    <p id="id00042">但作裡中不可少之人，便為於世有濟。
+        必使身後有可傳之事，方為此生不虛。</p>
+
+    <p id="id00043">待人宜寬，惟待子孫不可寬。行禮宜厚，惟行嫁娶不必厚。</p>
+
+    <p id="id00044">敵加於己，不得已而應之，謂之應兵，兵應者勝。
+        利人土地，謂之貪兵，兵貪者敗。此魏相論兵語也。
+        然豈獨用兵為然哉？凡人事之成敗，皆當作如是觀。</p>
+
+    <p id="id00045">地無餘利，人無餘力，是種田兩句要言。
+        心不外馳，氣不外浮，是讀書兩句真訣。</p>
+
+    <p id="id00046">道本足於身，切實求來，則常若不足矣。
+        境難足於心，盡行放下，則未有不足矣。</p>
+
+    <p id="id00047">讀書不下苦功，妄想顯榮，豈有此理？
+        為人全無好處，欲邀福慶，從何得來？</p>
+
+    <p id="id00048">讀論語公子荊一章，富者可以為法。
+        讀論語齊景公一章，貧者可以自興。
+        讀書無論資性高低，但能勤學好問，
+        凡事思一個所以然，自有義理貫通之日。
+        立身不嫌家世貧賤，但能忠厚老成，
+        所行無一毫苟且處，便為鄉黨仰望之人。</p>
+
+    <p id="id00049">東坡誌林有雲﹕
+        人生耐貧賤易，耐富貴難；安勤苦易，安閒散難；
+        忍疼易，忍癢難；能耐富貴、安閒散、忍癢者，必有道之士也。
+        余謂如此精爽之論，足以發人深省，
+        正可於朋友聚會時，述之以助清談。</p>
+
+    <p id="id00050">多記先正格言，胸中方有主宰。閒看他人行事，眼前即是規箴。</p>
+
+    <p id="id00051">敦厚之人，始可托大事，故安劉氏者，必絳侯也。
+        謹慎之人，方能成大功，故興漢室者，必武侯也。</p>
+
+    <p id="id00052">天地生人，都有一個良心。苟喪此良心，則人去禽獸不遠矣。
+        聖賢教人，總是一條正路。若舍此正路，則常行荊棘之中矣。</p>
+
+    <p id="id00053">天地無窮期，光陰則有窮期。去一日，便少一日。
+        富貴有定數，學問則無定數。求一分，便得一分。</p>
+
+    <p id="id00054">天雖好生，亦難救求死之人。人能造福，即可邀悔禍之天。</p>
+
+    <p id="id00055">天下無憨人，豈可妄行欺詐？世上皆苦人，何能獨享安閒？</p>
+
+    <p id="id00056">天有風雨，人以宮室蔽之；地有山川，人以舟車通之。
+        是人能補天地之闕也，而可無為乎？
+        人有性理，天以五常賦之；人有形質，地以六谷養之。
+        是天地且厚人之生也，而可自薄乎？</p>
+
+    <p id="id00057">圖功未晚，亡羊尚可補牢。虛慕無成，羨魚何如結網。</p>
+
+    <p id="id00058">桃實之肉暴於外，不自吝惜，人得取而食之。
+        食之而種其核，猶饒生氣焉。此可見積善者有餘慶也。
+        栗實之肉秘於內，深自防護，人乃破而食之。
+        食之而棄其殼，絕無生理矣。此可知多藏者必厚亡也。</p>
+
+    <p id="id00059">念祖考創家基，不知風霜沭雨，
+        受多少苦辛，才能足食足衣，以貽後世。
+        為子孫計長久，除卻讀書耕田，
+        恐別無生活，總期克勤克儉，毋負先人。</p>
+
+    <p id="id00060">能結交直道朋友，其人必有令名。
+        肯親近耆德老成，其家必多善事。</p>
+
+    <p id="id00061">蓮朝開而暮合，至不能合，則將落矣。
+        富貴而無收斂意者，尚其鑒之。
+        草春榮而冬枯，至於極枯，則又生矣。
+        困窮而有振興誌者，亦如是也。</p>
+
+    <p id="id00062">浪子回頭，仍不慚為君子。貴人失足，便貽笑於庸人。</p>
+
+    <p id="id00063">魯如曾子，於道獨得其傳，可知資性不足限人也。
+        貧如顏子，其樂不因以改，可知境遇不足困人也。</p>
+
+    <p id="id00064">論事須真識見。做人要好聲名。</p>
+
+    <p id="id00065">觀規模之大小，可以知事業之高卑。
+        察德澤之淺深，可以知門祚之久暫。</p>
+
+    <p id="id00066">觀周公之不驕不吝，有才何可自矜？
+        觀顏子之若無若虛，為學豈容自足？</p>
+
+    <p id="id00067">觀朱霞悟其明麗，觀白雲悟其卷舒，
+        觀山岳悟其靈奇，觀河海悟其浩瀚，則俯仰間皆文章也。
+        對綠竹得其虛心，對黃華得其晚節，
+        對松柏得其本性，對芝蘭得其幽芳，則游覽處皆師友也。</p>
+
+    <p id="id00068">耕讀固是良謀，必工課無荒，乃能成其業。
+        仕宦雖稱顯貴，若官箴有玷，亦未見其榮。</p>
+
+    <p id="id00069">耕所以養生，讀所以明道，此耕讀之本原也，
+        而後世乃假以謀富貴矣。
+        衣取其蔽體，食取其充饑，此衣食之實用也，
+        而時人乃藉以逞豪奢矣。</p>
+
+    <p id="id00070">古今有為之士，皆不輕為之士。鄉黨好事之人，必非曉事之人。</p>
+
+    <p id="id00071">古之克孝者多矣，獨稱虞舜為大孝，蓋能為其難也。
+        古之有才者眾矣，獨稱周公為美才，蓋能本於德也。</p>
+
+    <p id="id00072">古人比父子為橋梓，比兄弟為花萼，比朋友為芝蘭。
+        敦倫者，當即物窮理也。
+        今人稱諸生曰秀才，稱貢生曰明經，稱舉人曰孝廉。
+        為士者，當顧名思義也。</p>
+
+    <p id="id00073">郭林宗為人倫之鑒，多在細微處留心。
+        王彥方化鄉裡之風，是從德義中立腳。</p>
+
+    <p id="id00074">甘受人欺，定非懦弱。自謂予智，終是糊涂。</p>
+
+    <p id="id00075">孔子何以惡鄉願，只為他似忠似廉，無非假面孔。
+        孔子何以棄鄙夫，只因他患得患失，盡是俗心腸。</p>
+
+    <p id="id00076">看書須放開眼孔。做人要立定腳根。</p>
+
+    <p id="id00077">陶侃運甓官齋，其精勤可企而及也。
+        謝安圍　別墅，其鎮定非學而能也。</p>
+
+    <p id="id00078">肯救人坑坎中，便是活菩薩。能脫身牢籠外，便是大英雄。</p>
+
+    <p id="id00079">和平處事，勿矯俗以為高。正直居心，勿機關以為智。</p>
+
+    <p id="id00080">和氣迎人，平情應物。抗心希古，藏器待時。</p>
+
+    <p id="id00081">和為祥氣，驕為衰氣，相人者，不難以一望而知。
+        善是吉星，惡是凶星，推命者，豈必因五行而定。</p>
+
+    <p id="id00082">何謂享福之人？能讀書者便是。何謂創家之人？能教子者便是。</p>
+
+    <p id="id00083">何者為益友？凡事肯規我之過者是也。
+        何者為小人？凡事必徇己之私者是也。</p>
+
+    <p id="id00084">濟世雖乏貲財，而存心方便，即稱長者。
+        生資雖少智慧，而慮事精詳，即是能人。</p>
+
+    <p id="id00085">積善之家必有餘慶，積不善之家必有餘殃，
+        可知積善以遺子孫，其謀甚遠也。
+        賢而多財則損其誌，愚蠢而多財則益其過，
+        可知積財以遺子孫，其害無窮也。</p>
+
+    <p id="id00086">見小利，不能立大功。存私心，不能謀公事。</p>
+
+    <p id="id00087">見人行善，多方贊成。見人過舉，多方提醒，
+        此長者待人之道也。
+        聞人譽言，加意奮勉，聞人謗語，加意警惕，
+        此君子修己之功也。</p>
+
+    <p id="id00088">敬他人，即是敬自己。靠自己，勝於靠他人。
+        家之富厚者，積田產以遺子孫，子孫未必能保。
+        不如廣積陰功，使天眷其德，或可少延。
+        家之貧窮者，謀奔走以給衣食，衣食未必能充。
+        何若自謀本業，知民生在勤，定當有濟。</p>
+
+    <p id="id00089">家之長幼，皆倚賴於我，我亦嘗體其情否也。
+        士之衣食，皆取資於人，人亦曾受其益否也。</p>
+
+    <p id="id00090">家縱貧寒，也須留讀書種子。人雖富貴，不可忘力穡艱辛。</p>
+
+    <p id="id00091">交朋友增體面，不如交朋友益身心。
+        教子弟求顯榮，不如教子弟立品行。</p>
+
+    <p id="id00092">教弟子於幼時，便應有正大光明氣象。
+        檢身心於平日，不可無憂勤惕厲工夫。</p>
+
+    <p id="id00093">教小兒宜嚴，嚴氣足以平躁氣。待小人宜敬，敬心可以化邪心。</p>
+
+    <p id="id00094">儉可養廉，覺茅舍竹籬，自饒清趣。
+        靜能生悟，即鳥啼花落，都是化機。</p>
+
+    <p id="id00095">進食需箸，而箸亦只隨其操縱所使，於此可悟用人之方。
+        作書需筆，而筆不能必其字畫之工，於此可悟求己之理。</p>
+
+    <p id="id00096">講大經綸，只是落落實實。有真學問，決不怪怪奇奇。</p>
+
+    <p id="id00097">謹守父兄教條，沉實謙恭，便是醇潛子弟。
+        不改祖宗成法，忠厚勤儉，定為悠久人家。</p>
+
+    <p id="id00098">居易俟命，見危授命。言命者，總不外順受其正。
+        木訥近仁，巧令鮮仁。求仁者，即可知從入之方。</p>
+
+    <p id="id00099">君子存心但憑忠信，而婦孺皆敬之如神，所以君子落得為君子。
+        小人處世盡設機關，而鄉黨皆避之若鬼，所以小人枉做了小人。</p>
+
+    <p id="id00100">君子以名教為樂，豈如稽阮之逾閒。
+        聖人以悲憫為心，不取沮溺之忘世。</p>
+
+    <p id="id00101">齊家先修身，言行不可不慎。讀書在明理，識見不可不高。</p>
+
+    <p id="id00102">氣性不和平，則文章事功，俱無足取。
+        語言多矯飾，則人品心術，盡屬可疑。</p>
+
+    <p id="id00103">氣性乖張，多是夭亡之子。語言深刻，終為福薄之人。</p>
+
+    <p id="id00104">求備之心，可用之以修身，不可用之以接物。
+        知足之心，可用之以處境，不可用之以讀書。</p>
+
+    <p id="id00105">求個良心管我。留些餘地處人。</p>
+
+    <p id="id00106">錢能福人，亦能禍人，有錢者不可不知。
+        藥能生人，亦能殺人，用藥者不可不慎。</p>
+
+    <p id="id00107">權勢之徒，雖至親亦作威福，豈知煙雲過眼，已立見其消亡。
+        奸邪之輩，即平地亦起風波，豈知神鬼有靈，不肯聽其顛倒。</p>
+
+    <p id="id00108">清貧，乃讀書人順境。節儉，即種田人豐年。</p>
+
+    <p id="id00109">習讀書之業，便當知讀書之樂。存為善之心，不必邀為善之名。</p>
+
+    <p id="id00110">孝子忠臣，是天地正氣所鍾，鬼神亦為之呵護。
+        聖經賢傳，乃古今命脈所系，人物悉賴以裁成。</p>
+
+    <p id="id00111">行善濟人，人遂得以安全，即在我亦為快意。
+        逞奸謀事，事難必其穩便，可惜他徒自壞心。
+        性情執拗之人，不可與謀事也。機趣流通之士，始可與言文也。</p>
+
+    <p id="id00112">小心謹慎者，必善其後，惕則無咎也。
+        高自位置者，難保其終，亢則有悔也。</p>
+
+    <p id="id00113">心靜則明，水止乃能照物。品超斯遠，雲飛而不礙空。</p>
+
+    <p id="id00114">心能辨是非，處事方能決斷。人不忘廉恥，立身自不卑污。</p>
+
+    <p id="id00115">兄弟相師友，天倫之樂莫大焉。閨門若朝廷，家法之嚴可知也。</p>
+
+    <p id="id00116">知道自家是何等身分，則不敢虛驕矣。
+        想到他日是那樣下場，則可以發憤矣。</p>
+
+    <p id="id00117">知過能改，便是聖人之徒。惡惡太嚴，終為君子之病。</p>
+
+    <p id="id00118">能知往日所行之非，則學日進矣。
+        見世人之可取者多，則德日進矣。</p>
+
+    <p id="id00119">誌不可不高，誌不高，則同流合污，無足有為矣。
+        心不可太大，心太大，則舍近圖遠，難期有成矣。</p>
+
+    <p id="id00120">治術本乎儒術者，念念皆仁厚也。
+        今人不及古人者，事事皆虛浮也。</p>
+
+    <p id="id00121">忠實而無才，尚可立功，心誌專壹也。
+        忠實而無識，必至僨事，意見多偏也。</p>
+
+    <p id="id00122">忠有愚忠，孝有愚孝，可知忠孝二字不是伶俐人做得來。
+        仁有假仁，義有假義，可知仁義二途不無奸險人藏其內。</p>
+
+    <p id="id00123">種田人，改習廛市生涯，定為敗路。
+        讀書人，甘與衙門詞訟，便入下流。
+        正己，為率人之本。守成，念創業之艱。</p>
+
+    <p id="id00124">正而過則迂，直而過則拙，故迂拙之人，猶不失為正直。
+        高或入於虛，華或入於浮，而虛浮之士，究難指為高華。</p>
+
+    <p id="id00125">粗糲能甘，必是有為之士。紛華不染，方稱杰出之人。</p>
+
+    <p id="id00126">處境太求好，必有不好事出來。學藝怕刻苦，還有受苦時在後。</p>
+
+    <p id="id00127">處世以忠厚人為法。傳家得勤儉意便佳。</p>
+
+    <p id="id00128">處事要代人作想。讀書須切己用功。</p>
+
+    <p id="id00129">處事要寬平，而不可有松散之弊。
+        持身貴嚴厲，而不可有激切之形。</p>
+
+    <p id="id00130">處事有何定憑，但求此心過得去。
+        立業無論大小，總要此身做得來。</p>
+
+    <p id="id00131">愁煩中具瀟灑襟懷，滿抱皆春風和氣。
+        昧暗處見光明世界，此心即白日青天。</p>
+
+    <p id="id00132">川學海而至海，故謀道者，不可有止心。
+        莠非苗而似苗，故窮理者，不可無真見。</p>
+
+    <p id="id00133">常人突遭禍患，可決其再興，心動於警惕也。
+        大家漸及消亡，難期其複振，勢成於因循也。</p>
+
+    <p id="id00134">常存仁孝心，則天下凡不可為者，皆不忍為，
+        所以孝居百行之先。
+        一起邪淫念，則生平極不欲為者，皆不難為，
+        所以淫是萬惡之首。</p>
+
+    <p id="id00135">常思某人境界不及我，某人命運不及我，則可以自足矣。
+        常思某人德業勝於我，某人學問勝於我，則可以自慚矣。</p>
+
+    <p id="id00136">成大事功，全仗著赤心斗膽。有真氣節，才算得鐵面銅頭。</p>
+
+    <p id="id00137">成就人才，即是栽培子弟。暴殄天物，自應折磨兒孫。</p>
+
+    <p id="id00138">程子教人以靜，朱子教人以敬。靜者，心不妄動之謂也。
+        敬者，心常惺惺之謂也。又況靜能延壽，敬則日強。
+        為學之功在是，養生之道亦在是。靜敬之益人大矣哉，學者可不務乎？</p>
+
+    <p id="id00139">世風之狡詐多端，到底忠厚人顛撲不破。
+        末俗以繁華相向，終覺冷淡處趣味彌長。</p>
+
+    <p id="id00140">世之言樂者，但曰讀書樂、田家樂。可知務本業者，其境常安。
+        古之言憂者，必曰天下憂、廊廟憂。可知當大任者，其心良苦。</p>
+
+    <p id="id00141">士必以詩書為性命。人須從孝悌立根基。</p>
+
+    <p id="id00142">士既知學，還恐學而無恆。人不患貪，只要貧而有誌。</p>
+
+    <p id="id00143">事但觀其已然，便可知其未然。人必盡其當然，乃可聽其自然。</p>
+
+    <p id="id00144">事當難處之時，只讓退一步，便容易處矣。
+        功到將成之候，若放松一著，便不能成矣。</p>
+
+    <p id="id00145">勢利人裝腔做調，都只在體面上鋪張，可知其百為皆假。
+        虛浮人指東畫西，全不向身心內打算，定卜其一事無成。</p>
+
+    <p id="id00146">十分不耐煩，乃為人大病。一昧學吃虧，是處事良方。</p>
+
+    <p id="id00147">數雖有定，而君子但求其理，理既得，數亦難違。
+        變固宜防，而君子但守其常，常無失，變亦能御。
+        奢侈足以敗家，慳吝亦足以敗家。
+        奢侈之敗家，猶出常情，而慳吝之敗家，必遭奇禍。
+        庸愚足以覆事，精明亦足以覆事。
+        庸愚之覆事，猶為小咎，而精明之覆事，必見大凶。</p>
+
+    <p id="id00148">舍不得錢，不能為義士。舍不得命，不能為忠臣。</p>
+
+    <p id="id00149">守分安貧，何等清閒，而好事者，偏自尋煩惱。
+        持盈保泰，總須忍讓，而恃強者，乃自取滅亡。</p>
+
+    <p id="id00150">守身必嚴謹，凡足以戕吾身者，宜戒之。
+        養心須淡泊，凡足以累吾心者，勿為也。</p>
+
+    <p id="id00151">守身不敢妄為，恐貽羞於父母。創業還須深慮，恐貽害於子孫。</p>
+
+    <p id="id00152">善謀生者，但令長幼內外，勤修恆業而不必富其家。
+        善處事者，但就是非可否，審定章程而不必利於己。</p>
+
+    <p id="id00153">山水是文章化境。煙雲乃富貴幻形。</p>
+
+    <p id="id00154">身不饑寒，天未嘗負我。學無長進，我何以對天？</p>
+
+    <p id="id00155">神傳於目，而目則有胞，閉之可以養神也。
+        禍出於口，而口則有唇，闔之可以防禍也。</p>
+
+    <p id="id00156">生資之高在忠信，非關機巧。學業之美於德行，不僅文章。</p>
+
+    <p id="id00157">盛衰之機，雖關氣運，而有心者，必責諸人謀。
+        性命之理，固極精微，而講學者，必求其實用。</p>
+
+    <p id="id00158">儒者多文為富，其文非時文也。君子疾名不稱，其名非科名也。</p>
+
+    <p id="id00159">人品之不高，總為一利字看不破。
+        學業之不進，總為一懶字丟不開。</p>
+
+    <p id="id00160">人犯一苟字，便不能振。人犯一俗字，便不可醫。</p>
+
+    <p id="id00161">人得一知己，須對知己而無慚。士既多讀書，必求讀書而有用。</p>
+
+    <p id="id00162">人皆欲貴也，請問一官到手，怎樣施行？
+        人皆欲富也，且問萬貫纏腰，如何布置？</p>
+
+    <p id="id00163">人皆欲會說話，蘇秦乃因會說話而殺身。
+        人皆欲多積財，石崇乃因多積財而喪命。</p>
+
+    <p id="id00164">人之生也直，人苟欲生，必全其直。
+        貧者士之常，士不安貧，乃反其常。</p>
+
+    <p id="id00165">人之足傳，在有德，不在有位。世所相信，在能行，不在能言。</p>
+
+    <p id="id00166">人知佛老為異端，不知凡背乎經常者，皆異端也。
+        人知楊默為邪說，不知凡涉於虛誕者，皆邪說也。</p>
+
+    <p id="id00167">人生不可安閒，有恆業，才足收放心。
+        日用必須簡省。杜奢端，即以昭儉德。</p>
+
+    <p id="id00168">人生境遇無常，須自謀一吃飯本領。
+        人生光陰易逝，要早定一成器日期。</p>
+
+    <p id="id00169">人雖無艱難之時，要不可忘艱難之境。
+        世雖有僥幸之事，斷不可存僥幸之心。</p>
+
+    <p id="id00170">人心統耳目官骸，而於百體為君，必隨處見神明之宰。
+        人面合眉眼鼻口，以成一字曰苦，知終身無安逸之時。</p>
+
+    <p id="id00171">人稱我善良，則喜。稱我凶惡，則怒。
+        此可見凶惡非美名也，即當立誌為善良。
+        我見人醇謹，則愛。見人浮躁，則惡。
+        此可見浮躁非佳士也，何不反身為醇謹。</p>
+
+    <p id="id00172">自奉必減幾分方好。處世能退一步為高。</p>
+
+    <p id="id00173">自己所行之是非，尚不能知，安望知人。
+        古人以往之得失，且不必論，但須論己。</p>
+
+    <p id="id00174">自家富貴不著意裡，人家富貴不著眼裡，此是何等胸襟！
+        古人忠孝不離心頭，今人忠孝不離口頭，此是何等誌量！</p>
+
+    <p id="id00175">自虞廷立五倫為教，然後天下有大經。
+        自紫陽集四子成書，然後天下有正學。</p>
+
+    <p id="id00176">子弟天性未灕，教易入也，
+        則體孔子之言以勞之，勿溺愛以長其自肆之心。
+        子弟天性已壞，教難行也，
+        則守孟子之言以養之，勿輕棄以絕其自新之路。</p>
+
+    <p id="id00177">紫陽補大學格致之章，恐人誤入虛無，
+        而必使之即物窮理，所以維正教也。
+        陽明取孟子良知之說，恐人徒事記誦，
+        而必使之反己省心，所以救末流也。</p>
+
+    <p id="id00178">作善降祥，不善降殃，可見塵世之間，已分天堂地獄。
+        人同此心，心同此理，可知庸愚之輩，不隔聖域賢關。</p>
+
+    <p id="id00179">最不幸者，為勢家女作翁姑。最難處者，為富家兒作師友。</p>
+
+    <p id="id00180" style="margin-top: 2em">財不患其不得，患財得而不能善用其財。
+        祿不患其不來，患祿來而不能無愧其祿。</p>
+
+    <p id="id00181">才覺已有不是，便決意改圖，此立誌為君子也。
+        明知人議其非，偏肆行無忌，此甘心為小人也。</p>
+
+    <p id="id00182">在世無過百年，總要作好人、存好心，留個後代榜樣。
+        謀生各有恆業，那得管閒事、說閒話，荒我正經工夫。</p>
+
+    <p id="id00183">存科名之心者，未必有琴書之樂。
+        講性命之學者，不可無經濟之才。</p>
+
+    <p id="id00184">聰明勿使外散，古人有纊以塞耳，旒以蔽目者矣。
+        耕讀何妨兼營，古人有出而負耒，入而橫經者矣。</p>
+
+    <p id="id00185">縱容子孫偷安，其後必至耽酒色而敗門庭。
+        專教子孫謀利，其後必至爭貲財而傷骨肉。</p>
+
+    <p id="id00186">夙夜所為，得無抱慚於裘影。光陰已逝，尚期收效於桑榆。</p>
+
+    <p id="id00187">矮板凳，且坐著。好光陰，莫錯過。</p>
+
+    <p id="id00188">偶緣為善受累，遂無意為善，是因哽廢食也。
+        明識有過當規，卻諱言有過，是護疾忌醫也。</p>
+
+    <p id="id00189">耳目口鼻，皆無知識之輩，全靠著心作主人。
+        身體發膚，總有毀壞之時，要留個名稱後世。</p>
+
+    <p id="id00190">一信字是立身之本，所以人不可無也。
+        一恕字是接物之要，所以終身可行也。</p>
+
+    <p id="id00191">一室閒居，必常懷振卓心，才有生氣。
+        同人聚處，須多說切直話，方見古風。
+        一生快活皆庸福。萬種艱辛出偉人。</p>
+
+    <p id="id00192">一言足以招大禍，故古人守口如瓶，惟恐其覆墜也。
+        一行足以玷終身，故古人飭躬若璧，惟恐有瑕疵也。</p>
+
+    <p id="id00193">以漢高祖之英明，知呂後必殺戚姬，
+        而不能救止，蓋其禍已成也。
+        以陶朱公之智計，知長男必殺仲子，
+        而不能保全，殆其罪難宥乎。</p>
+
+    <p id="id00194">以直道教人，人即不從，而自反無愧，切勿曲以求榮也。
+        以誠心待人，人或不諒，而歷久自明，不必急於求白也。</p>
+
+    <p id="id00195">義之中有利，而尚義之君子，初非計及於利也。
+        利之中有害，而趨利之小人，並不顧其為害也。</p>
+
+    <p id="id00196">意趣清高，利祿不能動也。誌量遠大，富貴不能淫也。</p>
+
+    <p id="id00197">憂先於事，故能無憂，事至而憂無救於事。
+        此唐使李絳語也。其警人之意深矣，可書以揭諸座右。</p>
+
+    <p id="id00198">堯舜大聖，而生朱均。瞽鯀之愚，而生舜禹。揆以餘慶殃之理，似覺難憑。
+        然堯舜之聖，初未嘗因朱均而減。瞽鯀之愚，亦不能因舜禹而掩。
+        所以人貴自立也。</p>
+
+    <p id="id00199">有不可及之誌，必有不可及之功。
+        有不忍言之心，必有不忍言之禍。</p>
+
+    <p id="id00200">有真性情須有真涵養。有大識見乃有大文章。</p>
+
+    <p id="id00201">有守雖無所展布，而其節不撓，故與有猷有為而並重。
+        立言即未經起行，而於人有益，故與立功立德而並傳。</p>
+
+    <p id="id00202">有生資，不加學力，氣質究難化也。
+        慎大德，不矜細行，形跡終可疑也。</p>
+
+    <p id="id00203">有才必韜藏，如渾金璞玉，○然而日章也。
+        為學無間斷，如流水行雲，日進而不已也。</p>
+
+    <p id="id00204">友以成德也，人而無友，則孤陋寡聞，德不能成矣。
+        學以愈愚也，人而不學，則昏昧無知，愚不能愈矣。</p>
+
+    <p id="id00205">言不可盡信，必揆諸理。事未可遽行，必問諸心。</p>
+
+    <p id="id00206">嚴近乎矜，然嚴是正氣，矜是乖氣，故持身貴嚴而不可矜。
+        謙似乎諂，然謙是虛心，諂是媚心。故處世貴謙而不可諂。</p>
+
+    <p id="id00207">顏子之不校，孟子之自反，是賢人處橫逆之方。
+        子貢之無諂，原思之坐弦，是賢人守貧窮之法。</p>
+
+    <p id="id00208">飲食男女，人之大欲存焉，然人欲既勝天理或亡。
+        故有道之士，必使飲食有節，男女有別。</p>
+
+    <p id="id00209">隱微之衍，即干憲典，所以君子懷刑也。
+        技藝之末，無益身心，所以君子務本也。</p>
+
+    <p id="id00210" style="margin-top: 2em">無論作何等人，總不可有勢利氣。
+        無論習何等業，總不可有粗浮心。</p>
+
+    <p id="id00211">無執滯心，才是通方士。有做作氣，便非本色人。</p>
+
+    <p id="id00212">無財非貧，無學乃為貧。無位非賤，無恥乃為賤。
+        無年非夭，無述乃為夭。無子非孤，無德乃為孤。</p>
+
+    <p id="id00213">誤用聰明，何若一生守拙。濫交朋友，不如終日讀書。
+        伍子胥報父兄之仇而郢都滅，
+        申包胥救君上之難而楚國存，可知人心足恃也。
+        秦始皇滅東周之歲而劉季生，
+        梁武帝滅南齊之年而侯景降，可知天道好還也。</p>
+
+    <p id="id00214">為學不外靜敬二字。教人先去驕惰二字。</p>
+
+    <p id="id00215">為鄉鄰解紛爭，使得和好如初，即化人之事也。
+        為世俗談因果，使知報應不爽，亦勸善之方也。</p>
+
+    <p id="id00216">為善之端無盡，只講一讓字，便人人可行。
+        立身之道何窮，只得一敬字，便事事皆整。</p>
+
+    <p id="id00217">為人循矩度，而不見精神，則登場之傀儡也。
+        作事守章程，而不知權變，則依樣之葫蘆也。</p>
+
+    <p id="id00218">文行忠信，孝悌恭敬，孔子立教之目也，今惟教以文而已。
+        誌道據德，依仁游藝，孔門為學之序也，今但學其藝而已。</p>
+
+    <p id="id00219">穩當話，卻是平常話，所以聽穩當話者不多。
+        本分人，即是快活人，無奈做本分人者甚少。</p>
+
+    <p id="id00220">王者不令人放生，而無故卻不殺生，則物命可惜也。
+        聖人不責人無過，惟多方誘之改過，庶人心可回也。</p>
+
+    <p id="id00221">與朋友交游，須將他好處留心學來，方能受益。
+        對聖賢言語，必要我平時照樣行去，才算讀書。</p>
+
+    <p id="id00222">與其使鄉黨有譽言，不如令鄉黨無怨言。
+        與其為子孫謀產業，不如教子孫習恆業。</p>
+
+    <p id="id00223">遇老成人，便肯殷殷求教，則向善必篤也。
+        聽切實話，覺得津津有味，則進德可期也。
+        余最愛草廬日錄有句雲﹕澹如秋水貧中味，和若春風靜後功。
+        讀之覺矜平躁釋，意味深長。</p>
+
+    <p id="id00224">欲利己，便是害己。肯下人，終能上人。</p>
+
+    <p id="id00225">用功於內者，必於外無所求。飾美於外者，必其中無所有。</p>
+
+    <footer class="pg-boilerplate pgheader" id="pg-footer" lang="en">
+        <div id="pg-end-separator">
+            <span>*** END OF THE PROJECT GUTENBERG EBOOK 圍爐夜話 ***</span>
+        </div>
+
+
+        <div>
+            Updated editions will replace the previous one—the old editions will
+            be renamed.
+        </div>
+        <div>
+            Creating the works from print editions not protected by U.S. copyright
+            law means that no one owns a United States copyright in these works,
+            so the Foundation (and you!) can copy and distribute it in the United
+            States without permission and without paying copyright
+            royalties. Special rules, set forth in the General Terms of Use part
+            of this license, apply to copying and distributing Project
+            Gutenberg™ electronic works to protect the PROJECT GUTENBERG™
+            concept and trademark. Project Gutenberg is a registered trademark,
+            and may not be used if you charge for an eBook, except by following
+            the terms of the trademark license, including paying royalties for use
+            of the Project Gutenberg trademark. If you do not charge anything for
+            copies of this eBook, complying with the trademark license is very
+            easy. You may use this eBook for nearly any purpose such as creation
+            of derivative works, reports, performances and research. Project
+            Gutenberg eBooks may be modified and printed and given away—you may
+            do practically ANYTHING in the United States with eBooks not protected
+            by U.S. copyright law. Redistribution is subject to the trademark
+            license, especially commercial redistribution.
+        </div>
+
+        <div id="project-gutenberg-license">START: FULL LICENSE</div>
+
+        <h2 id="pg-footer-heading">THE FULL PROJECT GUTENBERG™ LICENSE</h2>
+
+        <div class="agate">PLEASE READ THIS BEFORE YOU DISTRIBUTE OR USE THIS WORK
+        </div>
+        <div>
+            To protect the Project Gutenberg™ mission of promoting the free
+            distribution of electronic works, by using or distributing this work
+            (or any other work associated in any way with the phrase “Project
+            Gutenberg”), you agree to comply with all the terms of the Full
+            Project Gutenberg License available with this file or online at
+            www.gutenberg.org/license.
+        </div>
+        <div class="secthead">
+            Section 1. General Terms of Use and Redistributing Project Gutenberg
+            electronic works
+        </div>
+        <div>
+            1.A. By reading or using any part of this Project Gutenberg
+            electronic work, you indicate that you have read, understand, agree to
+            and accept all the terms of this license and intellectual property
+            (trademark/copyright) agreement. If you do not agree to abide by all
+            the terms of this agreement, you must cease using and return or
+            destroy all copies of Project Gutenberg electronic works in your
+            possession. If you paid a fee for obtaining a copy of or access to a
+            Project Gutenberg electronic work and you do not agree to be bound
+            by the terms of this agreement, you may obtain a refund from the person
+            or entity to whom you paid the fee as set forth in paragraph 1.E.8.
+        </div>
+        <div>
+            1.B. “Project Gutenberg” is a registered trademark. It may only be
+            used on or associated in any way with an electronic work by people who
+            agree to be bound by the terms of this agreement. There are a few
+            things that you can do with most Project Gutenberg electronic works
+            even without complying with the full terms of this agreement. See
+            paragraph 1.C below. There are a lot of things you can do with Project
+            Gutenberg electronic works if you follow the terms of this
+            agreement and help preserve free future access to Project Gutenberg
+            electronic works. See paragraph 1.E below.
+        </div>
+        <div>
+            1.C. The Project Gutenberg Literary Archive Foundation (“the
+            Foundation” or PGLAF), owns a compilation copyright in the collection
+            of Project Gutenberg electronic works. Nearly all the individual
+            works in the collection are in the public domain in the United
+            States. If an individual work is unprotected by copyright law in the
+            United States and you are located in the United States, we do not
+            claim a right to prevent you from copying, distributing, performing,
+            displaying or creating derivative works based on the work as long as
+            all references to Project Gutenberg are removed. Of course, we hope
+            that you will support the Project Gutenberg mission of promoting
+            free access to electronic works by freely sharing Project Gutenberg
+            works in compliance with the terms of this agreement for keeping the
+            Project Gutenberg name associated with the work. You can easily
+            comply with the terms of this agreement by keeping this work in the
+            same format with its attached full Project Gutenberg License when
+            you share it without charge with others.
+        </div>
+        <div>
+            1.D. The copyright laws of the place where you are located also govern
+            what you can do with this work. Copyright laws in most countries are
+            in a constant state of change. If you are outside the United States,
+            check the laws of your country in addition to the terms of this
+            agreement before downloading, copying, displaying, performing,
+            distributing or creating derivative works based on this work or any
+            other Project Gutenberg work. The Foundation makes no
+            representations concerning the copyright status of any work in any
+            country other than the United States.
+        </div>
+        <div>
+            1.E. Unless you have removed all references to Project Gutenberg:
+        </div>
+        <div>
+            1.E.1. The following sentence, with active links to, or other
+            immediate access to, the full Project Gutenberg License must appear
+            prominently whenever any copy of a Project Gutenberg work (any work
+            on which the phrase “Project Gutenberg” appears, or with which the
+            phrase “Project Gutenberg” is associated) is accessed, displayed,
+            performed, viewed, copied or distributed:
+        </div>
+        <blockquote>
+            <div>
+                This eBook is for the use of anyone anywhere in the United States and most
+                other parts of the world at no cost and with almost no restrictions
+                whatsoever. You may copy it, give it away or re-use it under the terms
+                of the Project Gutenberg™ License included with this eBook or online
+                at <a href="https://www.gutenberg.org">www.gutenberg.org</a>. If you
+                are not located in the United States, you will have to check the laws
+                of the country where you are located before using this eBook.
+            </div>
+        </blockquote>
+        <div>
+            1.E.2. If an individual Project Gutenberg electronic work is
+            derived from texts not protected by U.S. copyright law (does not
+            contain a notice indicating that it is posted with permission of the
+            copyright holder), the work can be copied and distributed to anyone in
+            the United States without paying any fees or charges. If you are
+            redistributing or providing access to a work with the phrase “Project
+            Gutenberg” associated with or appearing on the work, you must comply
+            either with the requirements of paragraphs 1.E.1 through 1.E.7 or
+            obtain permission for the use of the work and the Project Gutenberg
+            trademark as set forth in paragraphs 1.E.8 or 1.E.9.
+        </div>
+        <div>
+            1.E.3. If an individual Project Gutenberg electronic work is posted
+            with the permission of the copyright holder, your use and distribution
+            must comply with both paragraphs 1.E.1 through 1.E.7 and any
+            additional terms imposed by the copyright holder. Additional terms
+            will be linked to the Project Gutenberg License for all works
+            posted with the permission of the copyright holder found at the
+            beginning of this work.
+        </div>
+        <div>
+            1.E.4. Do not unlink or detach or remove the full Project Gutenberg
+            License terms from this work, or any files containing a part of this
+            work or any other work associated with Project Gutenberg.
+        </div>
+        <div>
+            1.E.5. Do not copy, display, perform, distribute or redistribute this
+            electronic work, or any part of this electronic work, without
+            prominently displaying the sentence set forth in paragraph 1.E.1 with
+            active links or immediate access to the full terms of the Project
+            Gutenberg License.
+        </div>
+        <div>
+            1.E.6. You may convert to and distribute this work in any binary,
+            compressed, marked up, nonproprietary or proprietary form, including
+            any word processing or hypertext form. However, if you provide access
+            to or distribute copies of a Project Gutenberg work in a format
+            other than “Plain Vanilla ASCII” or other format used in the official
+            version posted on the official Project Gutenberg website
+            (www.gutenberg.org), you must, at no additional cost, fee or expense
+            to the user, provide a copy, a means of exporting a copy, or a means
+            of obtaining a copy upon request, of the work in its original “Plain
+            Vanilla ASCII” or other form. Any alternate format must include the
+            full Project Gutenberg License as specified in paragraph 1.E.1.
+        </div>
+        <div>
+            1.E.7. Do not charge a fee for access to, viewing, displaying,
+            performing, copying or distributing any Project Gutenberg works
+            unless you comply with paragraph 1.E.8 or 1.E.9.
+        </div>
+        <div>
+            1.E.8. You may charge a reasonable fee for copies of or providing
+            access to or distributing Project Gutenberg electronic works
+            provided that:
+        </div>
+        <ul>
+            <li>• You pay a royalty fee of 20% of the gross profits you derive from
+                the use of Project Gutenberg works calculated using the method
+                you already use to calculate your applicable taxes. The fee is owed
+                to the owner of the Project Gutenberg trademark, but he has
+                agreed to donate royalties under this paragraph to the Project
+                Gutenberg Literary Archive Foundation. Royalty payments must be paid
+                within 60 days following each date on which you prepare (or are
+                legally required to prepare) your periodic tax returns. Royalty
+                payments should be clearly marked as such and sent to the Project
+                Gutenberg Literary Archive Foundation at the address specified in
+                Section 4, “Information about donations to the Project Gutenberg
+                Literary Archive Foundation.”
+            </li>
+            <li>• You provide a full refund of any money paid by a user who notifies
+                you in writing (or by e-mail) within 30 days of receipt that s/he
+                does not agree to the terms of the full Project Gutenberg™
+                License. You must require such a user to return or destroy all
+                copies of the works possessed in a physical medium and discontinue
+                all use of and all access to other copies of Project Gutenberg™
+                works.
+            </li>
+            <li>• You provide, in accordance with paragraph 1.F.3, a full refund of
+                any money paid for a work or a replacement copy, if a defect in the
+                electronic work is discovered and reported to you within 90 days of
+                receipt of the work.
+            </li>
+            <li>• You comply with all other terms of this agreement for free
+                distribution of Project Gutenberg™ works.
+            </li>
+        </ul>
+        <div>
+            1.E.9. If you wish to charge a fee or distribute a Project
+            Gutenberg™ electronic work or group of works on different terms than
+            are set forth in this agreement, you must obtain permission in writing
+            from the Project Gutenberg Literary Archive Foundation, the manager of
+            the Project Gutenberg™ trademark. Contact the Foundation as set
+            forth in Section 3 below.
+        </div>
+        <div>
+            1.F.
+        </div>
+        <div>
+            1.F.1. Project Gutenberg volunteers and employees expend considerable
+            effort to identify, do copyright research on, transcribe and proofread
+            works not protected by U.S. copyright law in creating the Project
+            Gutenberg™ collection. Despite these efforts, Project Gutenberg™
+            electronic works, and the medium on which they may be stored, may
+            contain “Defects,” such as, but not limited to, incomplete, inaccurate
+            or corrupt data, transcription errors, a copyright or other
+            intellectual property infringement, a defective or damaged disk or
+            other medium, a computer virus, or computer codes that damage or
+            cannot be read by your equipment.
+        </div>
+        <div>
+            1.F.2. LIMITED WARRANTY, DISCLAIMER OF DAMAGES - Except for the “Right
+            of Replacement or Refund” described in paragraph 1.F.3, the Project
+            Gutenberg Literary Archive Foundation, the owner of the Project
+            Gutenberg™ trademark, and any other party distributing a Project
+            Gutenberg™ electronic work under this agreement, disclaim all
+            liability to you for damages, costs and expenses, including legal
+            fees. YOU AGREE THAT YOU HAVE NO REMEDIES FOR NEGLIGENCE, STRICT
+            LIABILITY, BREACH OF WARRANTY OR BREACH OF CONTRACT EXCEPT THOSE
+            PROVIDED IN PARAGRAPH 1.F.3. YOU AGREE THAT THE FOUNDATION, THE
+            TRADEMARK OWNER, AND ANY DISTRIBUTOR UNDER THIS AGREEMENT WILL NOT BE
+            LIABLE TO YOU FOR ACTUAL, DIRECT, INDIRECT, CONSEQUENTIAL, PUNITIVE OR
+            INCIDENTAL DAMAGES EVEN IF YOU GIVE NOTICE OF THE POSSIBILITY OF SUCH
+            DAMAGE.
+        </div>
+        <div>
+            1.F.3. LIMITED RIGHT OF REPLACEMENT OR REFUND - If you discover a
+            defect in this electronic work within 90 days of receiving it, you can
+            receive a refund of the money (if any) you paid for it by sending a
+            written explanation to the person you received the work from. If you
+            received the work on a physical medium, you must return the medium
+            with your written explanation. The person or entity that provided you
+            with the defective work may elect to provide a replacement copy in
+            lieu of a refund. If you received the work electronically, the person
+            or entity providing it to you may choose to give you a second
+            opportunity to receive the work electronically in lieu of a refund. If
+            the second copy is also defective, you may demand a refund in writing
+            without further opportunities to fix the problem.
+        </div>
+        <div>
+            1.F.4. Except for the limited right of replacement or refund set forth
+            in paragraph 1.F.3, this work is provided to you ‘AS-IS’, WITH NO
+            OTHER WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+            LIMITED TO WARRANTIES OF MERCHANTABILITY OR FITNESS FOR ANY PURPOSE.
+        </div>
+        <div>
+            1.F.5. Some states do not allow disclaimers of certain implied
+            warranties or the exclusion or limitation of certain types of
+            damages. If any disclaimer or limitation set forth in this agreement
+            violates the law of the state applicable to this agreement, the
+            agreement shall be interpreted to make the maximum disclaimer or
+            limitation permitted by the applicable state law. The invalidity or
+            unenforceability of any provision of this agreement shall not void the
+            remaining provisions.
+        </div>
+        <div>
+            1.F.6. INDEMNITY - You agree to indemnify and hold the Foundation, the
+            trademark owner, any agent or employee of the Foundation, anyone
+            providing copies of Project Gutenberg™ electronic works in
+            accordance with this agreement, and any volunteers associated with the
+            production, promotion and distribution of Project Gutenberg™
+            electronic works, harmless from all liability, costs and expenses,
+            including legal fees, that arise directly or indirectly from any of
+            the following which you do or cause to occur: (a) distribution of this
+            or any Project Gutenberg work, (b) alteration, modification, or
+            additions or deletions to any Project Gutenberg work, and (c) any
+            Defect you cause.
+        </div>
+        <div class="secthead">
+            Section 2. Information about the Mission of Project Gutenberg
+        </div>
+        <div>
+            Project Gutenberg is synonymous with the free distribution of
+            electronic works in formats readable by the widest variety of
+            computers including obsolete, old, middle-aged and new computers. It
+            exists because of the efforts of hundreds of volunteers and donations
+            from people in all walks of life.
+        </div>
+        <div>
+            Volunteers and financial support to provide volunteers with the
+            assistance they need are critical to reaching Project Gutenberg’s
+            goals and ensuring that the Project Gutenberg collection will
+            remain freely available for generations to come. In 2001, the Project
+            Gutenberg Literary Archive Foundation was created to provide a secure
+            and permanent future for Project Gutenberg and future
+            generations. To learn more about the Project Gutenberg Literary
+            Archive Foundation and how your efforts and donations can help, see
+            Sections 3 and 4 and the Foundation information page at www.gutenberg.org.
+        </div>
+        <div class="secthead">
+            Section 3. Information about the Project Gutenberg Literary Archive Foundation
+        </div>
+        <div>
+            The Project Gutenberg Literary Archive Foundation is a non-profit
+            501(c)(3) educational corporation organized under the laws of the
+            state of Mississippi and granted tax exempt status by the Internal
+            Revenue Service. The Foundation’s EIN or federal tax identification
+            number is 64-6221541. Contributions to the Project Gutenberg Literary
+            Archive Foundation are tax deductible to the full extent permitted by
+            U.S. federal laws and your state’s laws.
+        </div>
+        <div>
+            The Foundation’s business office is located at 41 Watchung Plaza #516,
+            Montclair NJ 07042, USA, +1 (862) 621-9288. Email contact links and up
+            to date contact information can be found at the Foundation’s website
+            and official page at www.gutenberg.org/contact
+        </div>
+        <div class="secthead">
+            Section 4. Information about Donations to the Project Gutenberg
+            Literary Archive Foundation
+        </div>
+        <div>
+            Project Gutenberg™ depends upon and cannot survive without widespread
+            public support and donations to carry out its mission of
+            increasing the number of public domain and licensed works that can be
+            freely distributed in machine-readable form accessible by the widest
+            array of equipment including outdated equipment. Many small donations
+            ($1 to $5,000) are particularly important to maintaining tax exempt
+            status with the IRS.
+        </div>
+        <div>
+            The Foundation is committed to complying with the laws regulating
+            charities and charitable donations in all 50 states of the United
+            States. Compliance requirements are not uniform and it takes a
+            considerable effort, much paperwork and many fees to meet and keep up
+            with these requirements. We do not solicit donations in locations
+            where we have not received written confirmation of compliance. To SEND
+            DONATIONS or determine the status of compliance for any particular state
+            visit <a href="https://www.gutenberg.org/donate/">www.gutenberg.org/donate</a>.
+        </div>
+        <div>
+            While we cannot and do not solicit contributions from states where we
+            have not met the solicitation requirements, we know of no prohibition
+            against accepting unsolicited donations from donors in such states who
+            approach us with offers to donate.
+        </div>
+        <div>
+            International donations are gratefully accepted, but we cannot make
+            any statements concerning tax treatment of donations received from
+            outside the United States. U.S. laws alone swamp our small staff.
+        </div>
+        <div>
+            Please check the Project Gutenberg web pages for current donation
+            methods and addresses. Donations are accepted in a number of other
+            ways including checks, online payments and credit card donations. To
+            donate, please visit: www.gutenberg.org/donate.
+        </div>
+        <div class="secthead">
+            Section 5. General Information About Project Gutenberg electronic works
+        </div>
+        <div>
+            Professor Michael S. Hart was the originator of the Project
+            Gutenberg concept of a library of electronic works that could be
+            freely shared with anyone. For forty years, he produced and
+            distributed Project Gutenberg eBooks with only a loose network of
+            volunteer support.
+        </div>
+        <div>
+            Project Gutenberg eBooks are often created from several printed
+            editions, all of which are confirmed as not protected by copyright in
+            the U.S. unless a copyright notice is included. Thus, we do not
+            necessarily keep eBooks in compliance with any particular paper
+            edition.
+        </div>
+        <div>
+            Most people start at our website which has the main PG search
+            facility: <a href="https://www.gutenberg.org">www.gutenberg.org</a>.
+        </div>
+        <div>
+            This website includes information about Project Gutenberg,
+            including how to make donations to the Project Gutenberg Literary
+            Archive Foundation, how to help produce our new eBooks, and how to
+            subscribe to our email newsletter to hear about new eBooks.
+        </div>
+
+    </footer>
+</body>
+
+</html>
