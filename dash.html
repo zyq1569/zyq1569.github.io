@@ -1,154 +1,3115 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Analytics Dashboard</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GoatCounter Dashboard</title>
+  <meta name="description" content="A modern, beautiful, open-source dashboard for GoatCounter analytics." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%90%90%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ====== THEME TOKENS ====== */
+    :root[data-theme="dark"] {
+      --bg:            #0f172a;
+      --bg-surface:    #1e293b;
+      --bg-surface-2:  #334155;
+      --border:        #475569;
+      --text:          #e2e8f0;
+      --text-secondary:#94a3b8;
+      --text-muted:    #64748b;
+      --accent:        #14b8a6;
+      --accent-hover:  #2dd4bf;
+      --accent-dim:    rgba(20, 184, 166, 0.15);
+      --success:       #22c55e;
+      --danger:        #ef4444;
+      --chart-1:       #14b8a6;
+      --chart-2:       #6366f1;
+      --chart-3:       #f59e0b;
+      --chart-4:       #ec4899;
+      --chart-5:       #8b5cf6;
+      --chart-6:       #06b6d4;
+      --shadow:        0 1px 2px rgba(0,0,0,0.3), 0 4px 12px rgba(0,0,0,0.2);
+      --shadow-lg:     0 8px 30px rgba(0,0,0,0.4);
+      --skeleton-base: #1e293b;
+      --skeleton-shine: #334155;
+    }
 
-<style>
-body{font-family:Arial;margin:20px;background:#f5f5f5}
-h1{text-align:center;margin-bottom:20px}
+    :root[data-theme="light"] {
+      --bg:            #f8fafc;
+      --bg-surface:    #ffffff;
+      --bg-surface-2:  #f1f5f9;
+      --border:        #e2e8f0;
+      --text:          #0f172a;
+      --text-secondary:#475569;
+      --text-muted:    #94a3b8;
+      --accent:        #0d9488;
+      --accent-hover:  #14b8a6;
+      --accent-dim:    rgba(13, 148, 136, 0.10);
+      --success:       #16a34a;
+      --danger:        #dc2626;
+      --chart-1:       #0d9488;
+      --chart-2:       #4f46e5;
+      --chart-3:       #d97706;
+      --chart-4:       #db2777;
+      --chart-5:       #7c3aed;
+      --chart-6:       #0891b2;
+      --shadow:        0 1px 2px rgba(15,23,42,0.06), 0 4px 12px rgba(15,23,42,0.04);
+      --shadow-lg:     0 8px 30px rgba(15,23,42,0.08);
+      --skeleton-base: #e2e8f0;
+      --skeleton-shine: #f1f5f9;
+    }
 
-.metrics{display:flex;gap:15px;margin-bottom:25px}
-.metric{flex:1;background:#fff;padding:15px;border-radius:10px;text-align:center;box-shadow:0 2px 5px rgba(0,0,0,.1)}
-.metric-value{font-size:26px;font-weight:bold}
+    /* ====== RESET / BASE ====== */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    html { color-scheme: dark; }
+    html[data-theme="light"] { color-scheme: light; }
 
-table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden}
-th{background:#1976d2;color:#fff;padding:10px}
-td{padding:10px;border-bottom:1px solid #eee}
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
 
-.status{margin-top:10px;color:#666}
-button{padding:8px 12px;background:#1976d2;color:#fff;border:none;border-radius:6px;cursor:pointer}
-button:hover{background:#1565c0}
-</style>
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { color: var(--accent-hover); text-decoration: underline; }
+
+    button {
+      font-family: inherit;
+      font-size: inherit;
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: inherit;
+    }
+    button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+    .recharts-sector:focus:not(:focus-visible) { outline: none; }
+
+    input, select {
+      font-family: inherit;
+      font-size: inherit;
+      color: var(--text);
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    input:focus, select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-dim);
+      outline: none;
+    }
+
+    /* ====== LAYOUT ====== */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    @media (max-width: 768px) {
+      .container { padding: 16px; }
+    }
+
+    /* ====== CONNECT SCREEN ====== */
+    .connect-wrap {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background:
+        radial-gradient(circle at 20% 0%, var(--accent-dim) 0%, transparent 40%),
+        radial-gradient(circle at 80% 100%, var(--accent-dim) 0%, transparent 40%),
+        var(--bg);
+    }
+
+    .connect-card {
+      width: 100%;
+      max-width: 460px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: var(--shadow-lg);
+      animation: fadeUp 0.5s ease;
+    }
+
+    .connect-logo {
+      font-size: 3rem;
+      text-align: center;
+      margin-bottom: 8px;
+      animation: bob 3s ease-in-out infinite;
+    }
+    @keyframes bob {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .connect-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-align: center;
+      margin: 0 0 6px 0;
+      letter-spacing: -0.02em;
+    }
+    .connect-subtitle {
+      color: var(--text-secondary);
+      text-align: center;
+      margin: 0 0 28px 0;
+      font-size: 0.9rem;
+    }
+
+    .field { margin-bottom: 16px; }
+    .field-label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .field input {
+      display: block;
+      width: 100%;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: all 0.15s ease;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 0.95rem;
+      margin-top: 8px;
+    }
+    .btn-primary:hover:not(:disabled) {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px var(--accent-dim);
+    }
+    .btn-primary:active { transform: translateY(0); }
+    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .btn-icon {
+      width: 36px;
+      height: 36px;
+      padding: 0;
+      border-radius: 8px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .btn-icon:hover {
+      color: var(--text);
+      border-color: var(--text-secondary);
+    }
+
+    .help-box {
+      margin-top: 20px;
+      padding: 12px 14px;
+      background: var(--bg-surface-2);
+      border-radius: 8px;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+    .help-box strong { color: var(--text); }
+
+    /* "or" divider on the connect screen between Connect and Try Demo */
+    .or-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 18px 0 14px 0;
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .or-divider::before,
+    .or-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .btn-demo {
+      background: var(--bg-surface-2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 0.95rem;
+      border-radius: 8px;
+      transition: all 0.15s ease;
+    }
+    .btn-demo:hover:not(:disabled) {
+      background: var(--accent-dim);
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-1px);
+    }
+    .btn-demo:active { transform: translateY(0); }
+    .demo-subtitle {
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin: 8px 0 0 0;
+    }
+
+    /* Demo banner: thin strip above the dashboard reminding users the data is sample */
+    .demo-banner {
+      background: var(--bg-surface-2);
+      border-bottom: 1px solid var(--border);
+      padding: 8px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      flex-wrap: wrap;
+    }
+    .demo-banner-link {
+      color: var(--accent);
+      font-weight: 500;
+      background: transparent;
+      padding: 0;
+      font-size: 0.82rem;
+    }
+    .demo-banner-link:hover { text-decoration: underline; color: var(--accent-hover); }
+
+    .error-banner {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: var(--danger);
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      margin-bottom: 16px;
+    }
+
+    /* ====== TOP BAR ====== */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 0 24px 0;
+      flex-wrap: wrap;
+    }
+    .topbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+    .topbar-logo {
+      font-size: 1.6rem;
+      line-height: 1;
+    }
+    .topbar-titles { min-width: 0; }
+    .topbar-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin: 0;
+    }
+    .topbar-site {
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .seg {
+      display: inline-flex;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 3px;
+      gap: 2px;
+    }
+    .seg button {
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      transition: all 0.15s ease;
+    }
+    .seg button:hover { color: var(--text); }
+    .seg button.active {
+      background: var(--accent);
+      color: white;
+    }
+
+    .freshness {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      padding: 6px 4px;
+      white-space: nowrap;
+      cursor: help;
+    }
+    .freshness.loading { color: var(--accent); }
+    .freshness.loading::before {
+      content: '';
+      display: inline-block;
+      width: 8px; height: 8px;
+      margin-right: 6px;
+      vertical-align: middle;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 1.2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.3; transform: scale(0.85); }
+      50% { opacity: 1; transform: scale(1); }
+    }
+
+    .card-error-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 32px 16px;
+      color: var(--text-muted);
+      font-size: 0.875rem;
+    }
+    .retry-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      background: var(--bg-surface-2);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      font-size: 0.82rem;
+      font-weight: 500;
+      transition: all 0.15s ease;
+    }
+    .retry-btn:hover {
+      background: var(--accent-dim);
+      border-color: var(--accent);
+    }
+
+    .row-chevron {
+      display: inline-block;
+      width: 14px;
+      color: var(--text-muted);
+      font-size: 0.7rem;
+      text-align: center;
+      transition: transform 0.15s ease;
+      margin-right: 6px;
+    }
+    .row-chevron.open { transform: rotate(90deg); color: var(--accent); }
+
+    /* ====== GRID ====== */
+    .grid { display: grid; gap: 20px; }
+    .grid-kpis  { grid-template-columns: repeat(4, 1fr); }
+    .grid-2     { grid-template-columns: 1fr 1fr; }
+    .grid-3     { grid-template-columns: repeat(3, 1fr); }
+    /* 7:3 split used for the Top Pages + Languages row. align-items:start
+       keeps Languages compact instead of stretching to match the (typically
+       taller) Top Pages list. */
+    .grid-7-3   { grid-template-columns: 7fr 3fr; align-items: start; }
+
+    @media (max-width: 1024px) {
+      .grid-kpis { grid-template-columns: repeat(2, 1fr); }
+      .grid-3 { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 640px) {
+      .grid-kpis, .grid-2, .grid-3, .grid-7-3 { grid-template-columns: 1fr; }
+    }
+
+    /* ====== CARD ====== */
+    .card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      transition: border-color 0.15s ease, transform 0.15s ease;
+    }
+    .card-hover:hover {
+      border-color: color-mix(in srgb, var(--accent) 50%, var(--border));
+      transform: translateY(-1px);
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .card-title {
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 0;
+      letter-spacing: -0.01em;
+    }
+    .card-subtitle {
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+      margin: 0;
+    }
+
+    /* ====== KPI ====== */
+    .kpi-label {
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin: 0 0 10px 0;
+    }
+    .kpi-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0;
+      line-height: 1.1;
+      color: var(--text);
+      word-break: break-all;
+    }
+    .kpi-value.string {
+      font-size: 1.05rem;
+      font-family: 'Inter', sans-serif;
+      line-height: 1.4;
+    }
+    .kpi-trend {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      margin-top: 8px;
+      padding: 2px 8px;
+      border-radius: 999px;
+    }
+    .kpi-trend.up   { color: var(--success); background: rgba(34, 197, 94, 0.12); }
+    .kpi-trend.down { color: var(--danger); background: rgba(239, 68, 68, 0.12); }
+    .kpi-trend.flat { color: var(--text-muted); background: var(--bg-surface-2); }
+    .kpi-sub {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+
+    /* ====== TABLE / LIST ====== */
+    .row-list { list-style: none; padding: 0; margin: 0; }
+    .row-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+    .row-item:last-child { border-bottom: none; }
+    .row-item.clickable { cursor: pointer; transition: background 0.12s ease; padding-left: 8px; padding-right: 8px; margin-left: -8px; margin-right: -8px; border-radius: 6px; }
+    .row-item.clickable:hover { background: var(--bg-surface-2); border-color: transparent; }
+    .row-item.clickable:hover + .row-item { border-top: 1px solid var(--border); }
+
+    .row-bar {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 2px;
+      background: var(--accent);
+      border-radius: 2px;
+      opacity: 0.5;
+      transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .row-name {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 0.875rem;
+      color: var(--text);
+    }
+    .row-name .muted { color: var(--text-muted); }
+    .row-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+    .row-pct {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-left: 8px;
+    }
+
+    .show-more {
+      width: 100%;
+      margin-top: 12px;
+      padding: 8px;
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      border-radius: 6px;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+    .show-more:hover {
+      background: var(--bg-surface-2);
+      color: var(--text);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 32px 16px;
+      color: var(--text-muted);
+      font-size: 0.875rem;
+    }
+
+    /* ====== REFERRER PANEL (expanded path) ====== */
+    .ref-panel {
+      grid-column: 1 / -1;
+      background: var(--bg-surface-2);
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-top: 4px;
+      animation: fadeUp 0.2s ease;
+    }
+    .ref-panel-title {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin: 0 0 8px 0;
+    }
+    .ref-list { list-style: none; padding: 0; margin: 0; font-size: 0.82rem; }
+    .ref-list li {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .ref-list li:last-child { border-bottom: none; }
+    .ref-list .ref-name { color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    /* ====== CHART CONTAINER ====== */
+    .chart-wrap {
+      width: 100%;
+      height: 320px;
+      margin-top: 8px;
+    }
+    .chart-wrap-sm {
+      width: 100%;
+      height: 220px;
+    }
+    .recharts-default-tooltip {
+      background: var(--bg-surface) !important;
+      border: 1px solid var(--border) !important;
+      border-radius: 8px !important;
+      box-shadow: var(--shadow-lg) !important;
+    }
+    .recharts-tooltip-label, .recharts-tooltip-item { color: var(--text) !important; }
+
+    .legend-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 18px;
+      margin-top: 16px;
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+    }
+
+    /* ====== WORLD MAP ====== */
+    .world-map-wrap {
+      position: relative;
+      margin-bottom: 16px;
+    }
+    .world-map {
+      display: block;
+      width: 100%;
+      height: auto;
+      background: var(--bg);
+      border-radius: 8px;
+      overflow: hidden;
+      user-select: none;
+    }
+    .world-map path {
+      fill: var(--bg-surface);
+      stroke: var(--bg-surface-2);
+      stroke-width: 0.5;
+      vector-effect: non-scaling-stroke;
+      cursor: default;
+      transition: fill-opacity 0.15s ease,
+                  stroke 0.15s ease, stroke-width 0.15s ease;
+    }
+    .world-map path[data-has="1"] {
+      fill: var(--accent);
+      cursor: pointer;
+    }
+    /* Hover: each <path> is one country (all disjoint territories live
+       inside the same `d` attribute as M..Z subpaths), so :hover applies
+       to the whole element. Fill-opacity stays at its data-encoded value
+       — that's the signal (brighter = more visitors), and we don't want
+       to flatten it on hover. Just outline the country in --accent-hover
+       so the grouping is unmistakable. */
+    .world-map path[data-has="1"]:hover,
+    .world-map path.map-selected {
+      stroke: var(--accent-hover);
+      stroke-width: 1.5;
+    }
+    .map-tooltip {
+      position: absolute;
+      pointer-events: none;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 0.82rem;
+      box-shadow: var(--shadow-lg);
+      white-space: nowrap;
+      z-index: 10;
+      animation: fadeUp 0.12s ease;
+    }
+    .map-tooltip .tt-name { color: var(--text); font-weight: 500; }
+    .map-tooltip .tt-stats {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent);
+      font-size: 0.78rem;
+      margin-top: 2px;
+    }
+    .map-legend {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 8px;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+    .map-legend-bar {
+      width: 100px;
+      height: 6px;
+      border-radius: 3px;
+      background: linear-gradient(
+        to right,
+        color-mix(in srgb, var(--accent) 15%, transparent),
+        var(--accent)
+      );
+    }
+    .legend-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+    .legend-name { color: var(--text); }
+    .legend-num { color: var(--text-muted); margin-left: 4px; font-family: 'JetBrains Mono', monospace; }
+
+    /* ====== FOOTER ====== */
+    .footer {
+      margin-top: 32px;
+      padding: 24px 0;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+    .footer .heart { color: var(--danger); }
+
+    /* ====== SKELETON ====== */
+    .sk {
+      background: linear-gradient(
+        90deg,
+        var(--skeleton-base) 0%,
+        var(--skeleton-shine) 50%,
+        var(--skeleton-base) 100%
+      );
+      background-size: 200% 100%;
+      animation: shimmer 1.4s ease-in-out infinite;
+      border-radius: 6px;
+    }
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    .sk-line { height: 14px; margin-bottom: 8px; }
+    .sk-line.lg { height: 28px; width: 60%; }
+    .sk-line.sm { width: 40%; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in { animation: fadeUp 0.3s ease; }
+
+    /* ====== SETTINGS MENU ====== */
+    .menu-wrap { position: relative; }
+    .menu {
+      position: absolute;
+      top: calc(100% + 6px);
+      right: 0;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      box-shadow: var(--shadow-lg);
+      min-width: 180px;
+      z-index: 50;
+      overflow: hidden;
+      animation: fadeUp 0.15s ease;
+    }
+    .menu button {
+      display: block;
+      width: 100%;
+      text-align: left;
+      padding: 10px 14px;
+      font-size: 0.85rem;
+      color: var(--text);
+      transition: background 0.12s ease;
+    }
+    .menu button:hover { background: var(--bg-surface-2); }
+    .menu button.danger { color: var(--danger); }
+    .menu hr { border: none; border-top: 1px solid var(--border); margin: 4px 0; }
+
+    /* ====== CUSTOM RANGE INPUTS ====== */
+    .custom-range {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .custom-range input[type="date"] {
+      padding: 6px 8px;
+      font-size: 0.82rem;
+      border-radius: 6px;
+    }
+    .custom-range .sep { color: var(--text-muted); font-size: 0.82rem; }
+
+    /* ====== UTIL ====== */
+    .truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  </style>
 </head>
-
 <body>
+  <div id="root"></div>
 
-<h1>Analytics Dashboard</h1>
+  <!-- Libraries via CDN. prop-types must load before Recharts: Recharts' UMD
+       build treats PropTypes as an external global (Animate.js calls
+       PropTypes.oneOfType during module init), so dropping it crashes the
+       chart layer. -->
+  <script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/prop-types@15.8.1/prop-types.min.js"></script>
+  <script src="https://unpkg.com/recharts@2.15.4/umd/Recharts.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.3/babel.min.js"></script>
 
-<div class="metrics">
-  <div class="metric">PV<div class="metric-value" id="pv">0</div></div>
-  <div class="metric">UV<div class="metric-value" id="uv">0</div></div>
-  <div class="metric">Avg<div class="metric-value" id="avgDuration">0s</div></div>
-  <div class="metric">Today<div class="metric-value" id="todayPV">0</div></div>
-</div>
+  <!-- World map path data (~28 KB gzipped). Plain script (NOT type="text/babel")
+       so Babel doesn't re-parse a giant JSON-style object on every page load.
+       Sets window.WORLD_MAP_PATHS and window.WORLD_MAP_VIEWBOX. -->
+  <script src="assets/world-map.js"></script>
 
-<button onclick="fetchStats()">Refresh</button>
+  <script type="text/babel" data-presets="react">
+    const { useState, useEffect, useMemo, useRef, useCallback } = React;
+    const {
+      ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,
+      PieChart, Pie, Cell, Sector,
+    } = Recharts;
 
-<h2>Visitor Details</h2>
+    // ============================================================
+    // CONSTANTS / HELPERS
+    // ============================================================
+    const STORAGE_KEY = 'gc-dashboard-config-v1';
+    const THEME_KEY = 'gc-dashboard-theme-v1';
+    const CACHE_PREFIX = 'gc-cache:';
+    const CACHE_TTL_MS = 60_000; // 60s
+    // GoatCounter's documented limit is 4 req/sec, but the actual bucket appears
+    // to be more restrictive in burst conditions. Every request also triggers a
+    // CORS preflight (the Authorization header forces it) which doubles the wire
+    // load. A 500ms gap keeps wire rate ~2 req/sec including preflights.
+    const RATE_LIMIT_MS = 500;
 
-<table>
-<thead>
-<tr>
-  <th>Page</th>
-  <th>IP</th>
-  <th>Region</th>
-  <th>Visits</th>
-  <th>Duration(s)</th>
-  <th>Last Visit</th>
-</tr>
-</thead>
+    const CHART_COLORS = ['var(--chart-1)', 'var(--chart-2)', 'var(--chart-3)', 'var(--chart-4)', 'var(--chart-5)', 'var(--chart-6)'];
 
-<tbody id="pageStats">
-<tr><td colspan="6">Loading...</td></tr>
-</tbody>
-</table>
-
-<div class="status" id="status">Loading...</div>
-
-<script>
-
-const API = "https://view.zyq1569.workers.dev/stats";
-
-// 🌍 GeoIP 本地表
-let geoMap = {};
-
-// 1️⃣ 載入 GeoIP JSON
-async function loadGeo() {
-    try {
-        const res = await fetch("https://raw.githubusercontent.com/sapics/ip-location-db/master/geo-whois-asn-country/geo-whois-asn-country.json");
-        geoMap = await res.json();
-        console.log("Geo loaded:", Object.keys(geoMap).length);
-    } catch (e) {
-        console.warn("Geo load failed", e);
-    }
-}
-
-// 2️⃣ 查地區
-function getRegion(ip, cfCountry, cfCity) {
-
-    if (cfCountry || cfCity) {
-        return (cfCountry || "") + (cfCity ? " / " + cfCity : "");
+    function fmtNum(n) {
+      if (n === null || n === undefined || Number.isNaN(n)) return '—';
+      const num = Number(n);
+      if (num >= 1_000_000) return (num / 1_000_000).toFixed(1).replace(/\.0$/, '') + 'M';
+      if (num >= 1_000) return (num / 1_000).toFixed(1).replace(/\.0$/, '') + 'K';
+      return num.toLocaleString();
     }
 
-    const geo = geoMap[ip];
-    if (geo) {
-        return geo.country || "Unknown";
+    function fmtPct(n) {
+      if (!Number.isFinite(n)) return '—';
+      const sign = n > 0 ? '+' : '';
+      return sign + n.toFixed(1) + '%';
     }
 
-    return ip || "Unknown";
-}
+    function getDateRange(preset, customStart, customEnd) {
+      const end = new Date();
+      end.setMinutes(0, 0, 0);
+      end.setSeconds(0);
+      end.setMilliseconds(0);
+      const start = new Date(end);
 
-// 3️⃣ 拉統計
-async function fetchStats() {
-    try {
+      switch (preset) {
+        case 'today':
+          start.setHours(0, 0, 0, 0);
+          break;
+        case '7d':
+          start.setDate(start.getDate() - 7);
+          break;
+        case '30d':
+          start.setDate(start.getDate() - 30);
+          break;
+        case '90d':
+          start.setDate(start.getDate() - 90);
+          break;
+        case 'custom':
+          if (customStart && customEnd) {
+            // Interpret the date-input strings in the user's local timezone so
+            // "today" in the picker matches "today" on the dashboard. Using
+            // 'T00:00:00' (no Z) anchors to local time; the toISOString() call
+            // converts to UTC for the API. The presets do the same — both
+            // boundaries are local-hour aligned.
+            const s = new Date(customStart + 'T00:00:00');
+            const e = new Date(customEnd + 'T23:00:00');
+            return {
+              start: s.toISOString(),
+              end: e.toISOString(),
+              days: Math.max(1, Math.round((e - s) / 86400000)),
+            };
+          }
+          start.setDate(start.getDate() - 7);
+          break;
+        default:
+          start.setDate(start.getDate() - 7);
+      }
+      const ms = end - start;
+      const days = Math.max(1, Math.round(ms / 86400000));
+      return { start: start.toISOString(), end: end.toISOString(), days };
+    }
 
-        document.getElementById("status").innerText = "Loading...";
+    function getPreviousRange(start, end) {
+      const s = new Date(start);
+      const e = new Date(end);
+      const span = e - s;
+      const prevEnd = new Date(s);
+      const prevStart = new Date(s - span);
+      return { start: prevStart.toISOString(), end: prevEnd.toISOString() };
+    }
 
-        const res = await fetch(API);
-        const data = await res.json();
+    function pickGroup(days) {
+      if (days <= 1) return 'hour';
+      if (days <= 60) return 'day';
+      if (days <= 365) return 'week';
+      return 'month';
+    }
 
-        // metrics
-        document.getElementById("pv").innerText = data.pv || 0;
-        document.getElementById("uv").innerText = data.uv || 0;
-        document.getElementById("avgDuration").innerText = (data.avgDuration || 0) + "s";
-        document.getElementById("todayPV").innerText = data.todayPV || 0;
+    // GoatCounter's /stats/hits payload is pre-aggregated in the SITE's
+    // timezone: `day` is a calendar date string in site-local time, and
+    // `hourly[i]` is the count for hour `i` of that local day. Routing those
+    // through `new Date()` would treat them as UTC and shift everything by
+    // the browser's offset — for an IST site viewed in IST, that's a 5:30 hr
+    // shift on every label. So we parse the components directly instead.
+    function formatDateLabel(iso, group) {
+      if (group === 'hour') {
+        const m = iso.match(/T(\d{2})/);
+        const h = m ? parseInt(m[1], 10) : 0;
+        if (h === 0) return '12 AM';
+        if (h < 12) return h + ' AM';
+        if (h === 12) return '12 PM';
+        return (h - 12) + ' PM';
+      }
+      const m = iso.match(/^(\d{4})-(\d{2})-(\d{2})/);
+      if (!m) return iso;
+      // Construct from local components so the displayed day matches the
+      // site's bucket regardless of the browser's timezone.
+      const d = new Date(+m[1], +m[2] - 1, +m[3]);
+      return d.toLocaleDateString([], { month: 'short', day: 'numeric' });
+    }
 
-        // table
-        const tbody = document.getElementById("pageStats");
-        tbody.innerHTML = "";
+    // Country name → flag emoji (best-effort). GoatCounter returns names
+    // ("India", "United States"), not ISO codes — keys reflect that.
+    // Falls back to 🌐 for unmapped names.
+    const COUNTRY_FLAGS = {
+      'India':'🇮🇳','United States':'🇺🇸','United Kingdom':'🇬🇧','Germany':'🇩🇪','France':'🇫🇷','Japan':'🇯🇵',
+      'Canada':'🇨🇦','Australia':'🇦🇺','Brazil':'🇧🇷','China':'🇨🇳','Russia':'🇷🇺','Spain':'🇪🇸','Italy':'🇮🇹',
+      'Netherlands':'🇳🇱','Sweden':'🇸🇪','Norway':'🇳🇴','Switzerland':'🇨🇭','Singapore':'🇸🇬','Mexico':'🇲🇽',
+      'United Arab Emirates':'🇦🇪','Pakistan':'🇵🇰','Bangladesh':'🇧🇩','Indonesia':'🇮🇩','Turkey':'🇹🇷',
+      'South Korea':'🇰🇷','Vietnam':'🇻🇳','Poland':'🇵🇱','Argentina':'🇦🇷','Saudi Arabia':'🇸🇦',
+      'South Africa':'🇿🇦','Egypt':'🇪🇬','Israel':'🇮🇱','Ireland':'🇮🇪','Belgium':'🇧🇪','Denmark':'🇩🇰',
+      'Finland':'🇫🇮','Portugal':'🇵🇹','Greece':'🇬🇷','Czech Republic':'🇨🇿','Czechia':'🇨🇿','Romania':'🇷🇴',
+      'Ukraine':'🇺🇦','New Zealand':'🇳🇿','Hong Kong':'🇭🇰','Taiwan':'🇹🇼','Thailand':'🇹🇭','Philippines':'🇵🇭',
+      'Malaysia':'🇲🇾','Chile':'🇨🇱','Colombia':'🇨🇴','Austria':'🇦🇹','Hungary':'🇭🇺',
+    };
+    function flagFor(name) { return COUNTRY_FLAGS[name] || '🌐'; }
 
-        if (!data.pages || data.pages.length === 0) {
-            tbody.innerHTML = "<tr><td colspan='6'>No data</td></tr>";
-            return;
+    // Country name → ISO 3166-1 alpha-2 code, used to look up paths in the
+    // world map data shipped at assets/world-map.js. GoatCounter returns
+    // English names from its `geo` package; world-atlas labels match almost
+    // 1:1 but some need explicit mapping. Names not found here are passed
+    // to the heuristic in countryNameToCode() below.
+    const COUNTRY_NAME_TO_CODE = {
+      'United States':'US','United States of America':'US',
+      'United Kingdom':'GB','Great Britain':'GB','England':'GB',
+      'Russia':'RU','Russian Federation':'RU',
+      'South Korea':'KR','Korea, Republic of':'KR','Republic of Korea':'KR',
+      'North Korea':'KP','Korea, Democratic People’s Republic of':'KP',
+      'Czech Republic':'CZ','Czechia':'CZ',
+      'Vietnam':'VN','Viet Nam':'VN',
+      'Iran':'IR','Iran, Islamic Republic of':'IR',
+      'Syria':'SY','Syrian Arab Republic':'SY',
+      'Tanzania':'TZ','Tanzania, United Republic of':'TZ',
+      'Bolivia':'BO','Bolivia (Plurinational State of)':'BO',
+      'Venezuela':'VE','Venezuela (Bolivarian Republic of)':'VE',
+      'Moldova':'MD','Republic of Moldova':'MD',
+      'Laos':'LA','Lao People’s Democratic Republic':'LA',
+      'Brunei':'BN','Brunei Darussalam':'BN',
+      'Macedonia':'MK','North Macedonia':'MK','Republic of Macedonia':'MK',
+      'Ivory Coast':'CI','Cote d’Ivoire':'CI','Côte d’Ivoire':'CI',
+      'Cape Verde':'CV','Cabo Verde':'CV',
+      'East Timor':'TL','Timor-Leste':'TL',
+      'Swaziland':'SZ','Eswatini':'SZ','eSwatini':'SZ',
+      'Burma':'MM','Myanmar':'MM',
+      'Falkland Islands':'FK','Falkland Is.':'FK',
+      'DR Congo':'CD','Democratic Republic of the Congo':'CD','Congo (Kinshasa)':'CD',
+      'Republic of the Congo':'CG','Congo':'CG','Congo (Brazzaville)':'CG',
+      'Palestine':'PS','State of Palestine':'PS','Palestinian Territory':'PS',
+      'Hong Kong':'HK','Macao':'MO','Macau':'MO',
+      'Taiwan':'TW','Taiwan, Province of China':'TW',
+      'Vatican':'VA','Holy See':'VA','Vatican City':'VA',
+      'Kosovo':'XK',
+    };
+    // Resolve a GoatCounter country name to an ISO alpha-2 code. Variants
+    // table above wins; otherwise we fall back to the canonical ISO names
+    // list shipped with assets/world-map.js (covers the simple cases like
+    // "India", "Japan", "United Arab Emirates"). Returns null if neither
+    // matches — caller decides what to do.
+    function countryNameToCode(name) {
+      if (!name) return null;
+      const trimmed = name.trim();
+      if (COUNTRY_NAME_TO_CODE[trimmed]) return COUNTRY_NAME_TO_CODE[trimmed];
+      const isoNames = (typeof window !== 'undefined' && window.WORLD_MAP_NAMES) || null;
+      if (isoNames && isoNames[trimmed]) return isoNames[trimmed];
+      return null;
+    }
+
+    // ============================================================
+    // DEMO MODE — sample data for the "Try Demo" button on the connect screen.
+    // Static weights (relative proportions) are scaled to a per-range visitor
+    // total inside buildDemoData(). The shape of the output exactly matches
+    // the GoatCounter API responses the dashboard already consumes — same
+    // field names, same nesting — so it's a drop-in replacement for the
+    // fetched payloads. Generated only on demand (when the user clicks
+    // "Try Demo" or switches the date range in demo mode).
+    // ============================================================
+
+    // Top pages with relative weights. Used to distribute pageviews. Counts
+    // in the spec are advisory; the generator scales these proportionally.
+    const DEMO_PATHS = [
+      { path: '/', title: 'Home', weight: 4231 },
+      { path: '/blog/building-distributed-systems-at-scale', title: 'Building Distributed Systems at Scale', weight: 3847 },
+      { path: '/blog/mcp-server-production-guide', title: 'How I Built a Production MCP Server', weight: 2156 },
+      { path: '/blog/rate-limiting-lessons', title: 'Rate Limiting Lessons from GoatCounter\'s API', weight: 1893 },
+      { path: '/projects', title: 'Projects', weight: 1247 },
+      { path: '/blog/neo4j-rbac-graph-permissions', title: 'Graph-Based RBAC with Neo4j', weight: 987 },
+      { path: '/blog/dag-pipeline-architecture', title: 'Designing a DAG Pipeline Engine', weight: 876 },
+      { path: '/blog/llm-fallback-patterns', title: 'LLM Provider Fallback Patterns', weight: 743 },
+      { path: '/about', title: 'About', weight: 612 },
+      { path: '/blog/algolia-search-analytics', title: 'Search Analytics with Algolia + S3 + Athena', weight: 534 },
+      { path: '/blog/sse-streaming-guide', title: 'SSE Streaming for AI Features', weight: 423 },
+      { path: '/blog/zero-downtime-reindexing', title: 'Zero-Downtime Reindexing at Scale', weight: 387 },
+      { path: '/resume', title: 'Resume', weight: 298 },
+      { path: '/blog/fastapi-async-patterns', title: 'FastAPI Async Patterns for Production', weight: 267 },
+      { path: '/contact', title: 'Contact', weight: 189 },
+    ];
+
+    // Per-page referrer drill-down. Keyed by path string (not path_id since
+    // ids are generated). Used by TopPagesCard when demoMode is on.
+    const DEMO_REFS = {
+      '/': [
+        { name: '(direct)', count: 1245 },
+        { name: 'google.com', count: 876 },
+        { name: 'twitter.com', count: 412 },
+        { name: 'linkedin.com', count: 287 },
+        { name: 'github.com', count: 198 },
+      ],
+      '/blog/building-distributed-systems-at-scale': [
+        { name: 'news.ycombinator.com', count: 1847 },
+        { name: 'reddit.com', count: 823 },
+        { name: 'google.com', count: 412 },
+        { name: 'twitter.com', count: 298 },
+        { name: '(direct)', count: 267 },
+        { name: 'linkedin.com', count: 134 },
+        { name: 'dev.to', count: 66 },
+      ],
+      '/blog/mcp-server-production-guide': [
+        { name: 'google.com', count: 687 },
+        { name: 'reddit.com', count: 534 },
+        { name: 'twitter.com', count: 423 },
+        { name: '(direct)', count: 312 },
+        { name: 'news.ycombinator.com', count: 134 },
+        { name: 'linkedin.com', count: 66 },
+      ],
+      '/blog/rate-limiting-lessons': [
+        { name: 'news.ycombinator.com', count: 743 },
+        { name: 'reddit.com', count: 412 },
+        { name: 'google.com', count: 298 },
+        { name: '(direct)', count: 234 },
+        { name: 'twitter.com', count: 156 },
+        { name: 'lobste.rs', count: 50 },
+      ],
+      '/projects': [
+        { name: '(direct)', count: 543 },
+        { name: 'github.com', count: 412 },
+        { name: 'google.com', count: 198 },
+        { name: 'linkedin.com', count: 94 },
+      ],
+      '/blog/neo4j-rbac-graph-permissions': [
+        { name: 'google.com', count: 412 },
+        { name: 'reddit.com', count: 234 },
+        { name: '(direct)', count: 187 },
+        { name: 'twitter.com', count: 98 },
+        { name: 'dev.to', count: 56 },
+      ],
+      '/blog/dag-pipeline-architecture': [
+        { name: 'google.com', count: 387 },
+        { name: 'twitter.com', count: 198 },
+        { name: 'reddit.com', count: 156 },
+        { name: '(direct)', count: 135 },
+      ],
+      '/blog/llm-fallback-patterns': [
+        { name: 'twitter.com', count: 312 },
+        { name: 'google.com', count: 234 },
+        { name: 'news.ycombinator.com', count: 123 },
+        { name: '(direct)', count: 74 },
+      ],
+    };
+
+    const DEMO_BROWSER_DETAILS = {
+      'Chrome':  [{ name: 'Chrome 124', count: 3412 }, { name: 'Chrome 123', count: 2876 }, { name: 'Chrome 122', count: 1243 }, { name: 'Chrome 121', count: 596 }],
+      'Safari':  [{ name: 'Safari 17.4', count: 1423 }, { name: 'Safari 17.3', count: 987 }, { name: 'Safari 16.6', count: 534 }, { name: 'Safari 16.5', count: 275 }],
+      'Firefox': [{ name: 'Firefox 125', count: 1123 }, { name: 'Firefox 124', count: 834 }, { name: 'Firefox 115', count: 384 }],
+      'Edge':    [{ name: 'Edge 124', count: 534 }, { name: 'Edge 123', count: 267 }, { name: 'Edge 122', count: 75 }],
+      'Arc':     [{ name: 'Arc 1.4', count: 112 }, { name: 'Arc 1.3', count: 86 }],
+      'Brave':   [{ name: 'Brave 1.65', count: 78 }, { name: 'Brave 1.64', count: 34 }],
+    };
+
+    const DEMO_SYSTEM_DETAILS = {
+      'macOS':     [{ name: 'macOS 14', count: 2876 }, { name: 'macOS 13', count: 1987 }, { name: 'macOS 12', count: 734 }, { name: 'macOS 11', count: 337 }],
+      'Windows':   [{ name: 'Windows 11', count: 2134 }, { name: 'Windows 10', count: 1567 }, { name: 'Windows 8.1', count: 234 }, { name: 'Windows 7', count: 188 }],
+      'iOS':       [{ name: 'iOS 17', count: 1423 }, { name: 'iOS 16', count: 634 }, { name: 'iOS 15', count: 290 }],
+      'Android':   [{ name: 'Android 14', count: 876 }, { name: 'Android 13', count: 467 }, { name: 'Android 12', count: 224 }],
+      'Linux':     [{ name: 'Linux x86_64', count: 612 }, { name: 'Linux aarch64', count: 222 }],
+      'Chrome OS': [{ name: 'Chrome OS 120', count: 68 }],
+    };
+
+    const DEMO_SIZE_DETAILS = {
+      'desktop':   [{ name: '↔ 1920px', count: 4123 }, { name: '↔ 1440px', count: 2876 }, { name: '↔ 1536px', count: 1534 }, { name: '↔ 1366px', count: 701 }],
+      'phone':     [{ name: '↔ 390px', count: 1876 }, { name: '↔ 375px', count: 1123 }, { name: '↔ 414px', count: 734 }, { name: '↔ 360px', count: 390 }],
+      'tablet':    [{ name: '↔ 768px', count: 423 }, { name: '↔ 810px', count: 312 }, { name: '↔ 820px', count: 141 }],
+      'desktophd': [{ name: '↔ 2560px', count: 312 }, { name: '↔ 3840px', count: 134 }, { name: '↔ 3440px', count: 88 }],
+    };
+
+    const DEMO_LOCATION_DETAILS = {
+      'United States':  [{ name: 'California', count: 1423 }, { name: 'New York', count: 876 }, { name: 'Texas', count: 534 }, { name: 'Washington', count: 423 }, { name: 'Massachusetts', count: 312 }],
+      'India':          [{ name: 'Maharashtra', count: 534 }, { name: 'Karnataka', count: 423 }, { name: 'Delhi', count: 312 }, { name: 'Tamil Nadu', count: 267 }, { name: 'Telangana', count: 198 }],
+      'Germany':        [{ name: 'Berlin', count: 312 }, { name: 'Bavaria', count: 267 }, { name: 'North Rhine-Westphalia', count: 234 }, { name: 'Hamburg', count: 134 }],
+      'United Kingdom': [{ name: 'England', count: 623 }, { name: 'Scotland', count: 187 }, { name: 'Wales', count: 98 }, { name: 'Northern Ireland', count: 79 }],
+      'Canada':         [{ name: 'Ontario', count: 312 }, { name: 'British Columbia', count: 198 }, { name: 'Quebec', count: 134 }, { name: 'Alberta', count: 99 }],
+      'France':         [{ name: 'Ile-de-France', count: 234 }, { name: 'Auvergne-Rhone-Alpes', count: 134 }, { name: 'Provence-Alpes-Cote d\'Azur', count: 98 }],
+      'Japan':          [{ name: 'Tokyo', count: 198 }, { name: 'Osaka', count: 134 }, { name: 'Kanagawa', count: 87 }],
+      'Australia':      [{ name: 'New South Wales', count: 156 }, { name: 'Victoria', count: 112 }, { name: 'Queensland', count: 67 }],
+      'Brazil':         [{ name: 'Sao Paulo', count: 134 }, { name: 'Rio de Janeiro', count: 87 }, { name: 'Minas Gerais', count: 56 }],
+    };
+
+    const DEMO_CAMPAIGN_DETAILS = {
+      'hackernews-apr':    [{ name: 'https://news.ycombinator.com/item?id=39812', count: 1234 }, { name: 'https://news.ycombinator.com/item?id=39845', count: 613 }],
+      'reddit-selfhosted': [{ name: 'https://reddit.com/r/selfhosted/comments/abc123', count: 534 }, { name: 'https://reddit.com/r/golang/comments/def456', count: 289 }],
+      'twitter-thread':    [{ name: 'https://twitter.com/user/status/123456', count: 312 }, { name: 'https://twitter.com/user/status/789012', count: 222 }],
+      'linkedin-post':     [{ name: 'https://linkedin.com/posts/user_abc123', count: 312 }],
+      'devto-article':     [{ name: 'https://dev.to/user/article-slug', count: 198 }],
+      'newsletter-weekly': [{ name: 'https://buttondown.email/newsletter/archive/42', count: 156 }],
+    };
+
+    const DEMO_BROWSERS = [
+      { name: 'Chrome',  weight: 8127 },
+      { name: 'Safari',  weight: 3219 },
+      { name: 'Firefox', weight: 2341 },
+      { name: 'Edge',    weight: 876 },
+      { name: 'Arc',     weight: 198 },
+      { name: 'Brave',   weight: 112 },
+    ];
+
+    const DEMO_SYSTEMS = [
+      { name: 'macOS',     weight: 5934 },
+      { name: 'Windows',   weight: 4123 },
+      { name: 'iOS',       weight: 2347 },
+      { name: 'Android',   weight: 1567 },
+      { name: 'Linux',     weight: 834 },
+      { name: 'Chrome OS', weight: 68 },
+    ];
+
+    // Sizes use the `id` field with empty `name`, matching the real API shape
+    // we already handle (DEVICE_LABELS in DonutCard).
+    const DEMO_SIZES = [
+      { id: 'desktop',   weight: 9234 },
+      { id: 'phone',     weight: 4123 },
+      { id: 'tablet',    weight: 876 },
+      { id: 'desktophd', weight: 534 },
+      { id: 'unknown',   weight: 106 },
+    ];
+
+    const DEMO_LANGUAGES = [
+      { name: 'English',     weight: 11234 },
+      { name: 'German',      weight: 1123 },
+      { name: 'Japanese',    weight: 487 },
+      { name: 'French',      weight: 423 },
+      { name: 'Portuguese',  weight: 312 },
+      { name: 'Spanish',     weight: 267 },
+      { name: 'Korean',      weight: 198 },
+      { name: 'Chinese',     weight: 156 },
+      { name: 'Dutch',       weight: 134 },
+      { name: 'Swedish',     weight: 98 },
+      { name: '(unknown)',   weight: 441 },
+    ];
+
+    const DEMO_CAMPAIGNS = [
+      { name: 'hackernews-apr',     weight: 1847 },
+      { name: 'reddit-selfhosted',  weight: 823 },
+      { name: 'twitter-thread',     weight: 534 },
+      { name: 'linkedin-post',      weight: 312 },
+      { name: 'devto-article',      weight: 198 },
+      { name: 'newsletter-weekly',  weight: 156 },
+    ];
+
+    // Country list with weights. Sorted high → low so we can pick the top N
+    // for the smaller date ranges (today: 15, 7d: 25, 30d/90d/custom: all 40).
+    // Geographic spread covers all continents and the major tech hubs.
+    const DEMO_COUNTRIES = [
+      { name: 'United States',        weight: 5423 },
+      { name: 'India',                weight: 2134 },
+      { name: 'Germany',              weight: 1247 },
+      { name: 'United Kingdom',       weight: 987 },
+      { name: 'Canada',               weight: 743 },
+      { name: 'France',               weight: 534 },
+      { name: 'Japan',                weight: 487 },
+      { name: 'Netherlands',          weight: 423 },
+      { name: 'Australia',            weight: 387 },
+      { name: 'Brazil',               weight: 312 },
+      { name: 'Sweden',               weight: 267 },
+      { name: 'Poland',               weight: 234 },
+      { name: 'South Korea',          weight: 198 },
+      { name: 'Spain',                weight: 176 },
+      { name: 'Singapore',            weight: 156 },
+      { name: 'Indonesia',            weight: 134 },
+      { name: 'Italy',                weight: 123 },
+      { name: 'Switzerland',          weight: 112 },
+      { name: 'China',                weight: 98 },
+      { name: 'Israel',               weight: 87 },
+      { name: 'Finland',              weight: 76 },
+      { name: 'Norway',               weight: 67 },
+      { name: 'Ireland',              weight: 56 },
+      { name: 'Denmark',              weight: 45 },
+      { name: 'Austria',              weight: 43 },
+      { name: 'Portugal',             weight: 38 },
+      { name: 'Belgium',              weight: 34 },
+      { name: 'New Zealand',          weight: 32 },
+      { name: 'Mexico',               weight: 28 },
+      { name: 'Argentina',            weight: 23 },
+      { name: 'Ukraine',              weight: 21 },
+      { name: 'Vietnam',              weight: 19 },
+      { name: 'Taiwan',               weight: 18 },
+      { name: 'Czechia',              weight: 15 },
+      { name: 'Romania',              weight: 14 },
+      { name: 'Philippines',          weight: 12 },
+      { name: 'Thailand',             weight: 11 },
+      { name: 'South Africa',         weight: 9 },
+      { name: 'Colombia',             weight: 8 },
+      { name: 'Nigeria',              weight: 7 },
+    ];
+
+    // Distribute a total across weighted entries. Last entry absorbs the
+    // rounding remainder so the sum is exact.
+    function distributeByWeight(items, total, copyKeys) {
+      const totalW = items.reduce((s, x) => s + x.weight, 0);
+      const out = items.map((x) => {
+        const row = { count: Math.max(0, Math.round(total * x.weight / totalW)) };
+        for (const k of copyKeys) if (x[k] !== undefined) row[k] = x[k];
+        if (!('name' in row)) row.name = '';
+        return row;
+      });
+      const sum = out.reduce((s, r) => s + r.count, 0);
+      if (out.length) out[0].count += (total - sum);
+      return out;
+    }
+
+    // Daily traffic shape: weekday/weekend pattern + viral spikes + slight
+    // upward trend. Returns N day-strings with relative weights summing to ~1.
+    // viralIndices is an array of zero-based offsets (from the oldest day)
+    // that should be amplified to simulate HN/Reddit hits.
+    function demoDailyShape(numDays, viralIndices = [], viralMagnitudes = []) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const out = [];
+      for (let i = numDays - 1; i >= 0; i--) {
+        const d = new Date(today);
+        d.setDate(d.getDate() - i);
+        const dow = d.getDay();
+        const isWeekend = dow === 0 || dow === 6;
+        let w = isWeekend ? 0.55 + Math.random() * 0.15 : 0.95 + Math.random() * 0.20;
+        // Gradual upward trend: newer days lift slightly. ~30% over 30 days.
+        const dayIdx = numDays - 1 - i;
+        w *= 1 + dayIdx * (0.30 / Math.max(1, numDays - 1));
+        // Viral spikes (architect: keep the spikes — they're the story)
+        const vi = viralIndices.indexOf(dayIdx);
+        if (vi !== -1) w *= viralMagnitudes[vi] || 2.5;
+        out.push({ day: d.toISOString().slice(0, 10), weight: w });
+      }
+      return out;
+    }
+
+    // 24-hour shape: low overnight, ramp into morning peak, lunch dip,
+    // afternoon peak, gentle wind-down.
+    function demoHourlyShape() {
+      const profile = [
+        2, 2, 1, 1, 2, 4,        // 00-05 overnight
+        8, 14, 22, 30, 42, 48,   // 06-11 morning ramp
+        34, 28, 38, 50, 45, 32,  // 12-17 lunch dip + afternoon peak
+        25, 20, 18, 15, 12, 8,   // 18-23 wind-down
+      ];
+      // Add ±20% noise but keep the curve recognizable.
+      return profile.map(v => v * (0.85 + Math.random() * 0.30));
+    }
+
+    // Weekly shape for the 90d view: 13 weeks with growth from low to high.
+    function demoWeeklyShape(numWeeks) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      // Snap to most recent Sunday so weekly buckets align.
+      today.setDate(today.getDate() - today.getDay());
+      const out = [];
+      for (let i = numWeeks - 1; i >= 0; i--) {
+        const d = new Date(today);
+        d.setDate(d.getDate() - i * 7);
+        const trend = 0.7 + (numWeeks - 1 - i) * (0.6 / Math.max(1, numWeeks - 1)); // 0.7 → 1.3
+        const noise = 0.92 + Math.random() * 0.16;
+        out.push({ day: d.toISOString().slice(0, 10), weight: trend * noise });
+      }
+      return out;
+    }
+
+    // Allocate a per-bucket time-series proportional to the supplied weights.
+    // Returns an array of integers summing to `total` (last entry absorbs
+    // rounding remainder).
+    function allocateByWeights(weights, total) {
+      const sumW = weights.reduce((s, w) => s + w, 0);
+      const out = weights.map(w => Math.max(0, Math.round(total * w / sumW)));
+      const got = out.reduce((s, v) => s + v, 0);
+      if (out.length) out[out.length - 1] += (total - got);
+      return out;
+    }
+
+    // Range scaling. Numbers calibrated to feel realistic for a "successful
+    // technical blog" — see spec section 5/6.
+    const DEMO_RANGE_TOTALS = {
+      'today': { visitors: 487,   prev: 412,    days: 1,  group: 'hour'  },
+      '7d':    { visitors: 3842,  prev: 3156,   days: 7,  group: 'day'   },
+      '30d':   { visitors: 14873, prev: 11249,  days: 30, group: 'day'   },
+      '90d':   { visitors: 41247, prev: 28934,  days: 90, group: 'week'  },
+    };
+    // Custom date range in demo mode falls back to 30d numbers — the demo
+    // isn't meant to be queryable, just visually representative.
+    const DEMO_CUSTOM_FALLBACK = '30d';
+
+    // Build a complete demo payload for the given preset. Returns
+    // { data, prevTotal } where `data` mirrors the keys the Dashboard
+    // populates from its real fetches (total/hits/browsers/...).
+    function buildDemoData(preset) {
+      const key = (preset === 'custom' || !DEMO_RANGE_TOTALS[preset])
+        ? DEMO_CUSTOM_FALLBACK
+        : preset;
+      const range = DEMO_RANGE_TOTALS[key];
+      const visitors = range.visitors;
+      // Pageviews exceed visitors (multi-page sessions). ~1.25 pages/visit.
+      const pageviews = Math.round(visitors * 1.25);
+
+      // Build the time-series shape first — we need the per-bucket weights
+      // so we can distribute each path's count across the same buckets.
+      let buckets;            // array of { day, weight, hourly? }
+      let hourlyMode = false;
+      if (range.group === 'hour') {
+        const todayStr = new Date().toISOString().slice(0, 10);
+        const hourly = demoHourlyShape();
+        buckets = [{ day: todayStr, hourly }];
+        hourlyMode = true;
+      } else if (range.group === 'week') {
+        buckets = demoWeeklyShape(13);
+      } else {
+        // Daily. For the 30-day view, two viral spikes (HN + Reddit).
+        const viralIdx = key === '30d' ? [7, 21] : (key === '7d' ? [3] : []);
+        const viralMag = key === '30d' ? [3.0, 1.9] : (key === '7d' ? [1.5] : []);
+        buckets = demoDailyShape(range.days, viralIdx, viralMag);
+      }
+
+      // Allocate the aggregate pageview total across the buckets so the
+      // visible traffic chart sums to `pageviews`.
+      let aggregatePerBucket;
+      if (hourlyMode) {
+        aggregatePerBucket = allocateByWeights(buckets[0].hourly, pageviews);
+      } else {
+        aggregatePerBucket = allocateByWeights(buckets.map(b => b.weight), pageviews);
+      }
+
+      // Path counts: distribute pageviews across DEMO_PATHS by weight.
+      const pathRows = distributeByWeight(DEMO_PATHS, pageviews, ['path', 'title']);
+      // Then for each path, distribute its count across the same time buckets
+      // proportionally to the aggregate. This means the trafficSeries memo
+      // (which sums each bucket across paths) naturally reproduces the
+      // aggregate curve.
+      const paths = pathRows.map((p, i) => {
+        const path_id = 1001 + i;
+        let stats;
+        if (hourlyMode) {
+          // Single bucket day with a 24-element hourly array.
+          const dayStr = buckets[0].day;
+          const pathHourly = allocateByWeights(buckets[0].hourly, p.count);
+          stats = [{ day: dayStr, hourly: pathHourly }];
+        } else {
+          const pathDailies = allocateByWeights(buckets.map(b => b.weight), p.count);
+          stats = buckets.map((b, j) => ({ day: b.day, daily: pathDailies[j] }));
         }
+        return {
+          path: p.path,
+          title: p.title,
+          path_id,
+          count: p.count,
+          event: false,
+          stats,
+        };
+      }).sort((a, b) => b.count - a.count);
 
-        data.pages.forEach(p => {
+      // Country list size shrinks for shorter ranges (less variety in a day).
+      const numCountries = key === 'today' ? 15 : key === '7d' ? 25 : DEMO_COUNTRIES.length;
+      const countriesSubset = DEMO_COUNTRIES.slice(0, numCountries);
 
-            const region = getRegion(p.ip, p.country, p.city);
+      return {
+        data: {
+          total:     { total: visitors, total_utc: visitors, total_events: 0 },
+          hits:      { hits: paths, total: visitors, more: false },
+          browsers:  { stats: distributeByWeight(DEMO_BROWSERS,  visitors, ['name']) },
+          systems:   { stats: distributeByWeight(DEMO_SYSTEMS,   visitors, ['name']) },
+          sizes:     { stats: distributeByWeight(DEMO_SIZES,     visitors, ['id']) },
+          locations: { stats: distributeByWeight(countriesSubset, visitors, ['name']) },
+          languages: { stats: distributeByWeight(DEMO_LANGUAGES, visitors, ['name']) },
+          // Campaigns reflect ~15% of traffic (only some visits are campaign-tagged).
+          campaigns: { stats: distributeByWeight(DEMO_CAMPAIGNS, Math.round(visitors * 0.15), ['name']) },
+        },
+        prevTotal: range.prev,
+      };
+    }
 
-            const tr = document.createElement("tr");
-            tr.innerHTML = `
-                <td>${p.path}</td>
-                <td>${p.ip}</td>
-                <td>${region}</td>
-                <td>${p.count}</td>
-                <td>${p.totalDuration}</td>
-                <td>${p.lastVisit}</td>
-            `;
-            tbody.appendChild(tr);
+    // ============================================================
+    // API CLIENT (rate-limited)
+    // ============================================================
+    class APIClient {
+      constructor(baseURL, apiKey) {
+        this.baseURL = baseURL.replace(/\/+$/, '');
+        this.apiKey = apiKey;
+        // lastCompleted is the wall-clock time the previous request *finished*,
+        // not when its slot was acquired. The next request waits RATE_LIMIT_MS
+        // from this point — so we never have two fetches in flight at once.
+        this.lastCompleted = 0;
+        this.queue = Promise.resolve();
+      }
+
+      async _fetchOnce(endpoint) {
+        const url = this.baseURL + endpoint;
+        // Note: no Content-Type on GETs (no body). Authorization alone forces
+        // the CORS preflight; adding Content-Type would gain nothing.
+        const res = await fetch(url, {
+          method: 'GET',
+          headers: { 'Authorization': 'Bearer ' + this.apiKey },
         });
 
-        document.getElementById("status").innerText =
-            "Last update: " + new Date().toLocaleString();
+        if (res.status === 401) {
+          const err = new Error('API key not recognized. Please check you copied the full key with no extra spaces.');
+          err.status = 401; err.kind = 'auth';
+          throw err;
+        }
+        if (res.status === 403) {
+          const err = new Error('API key lacks read permission. Go to your GoatCounter settings, API tab, and create a key with "Read only" or "Count & Read" access.');
+          err.status = 403; err.kind = 'auth';
+          throw err;
+        }
+        if (res.status === 404) {
+          const err = new Error(`Not found: ${endpoint}. Check that the URL points to your GoatCounter site (not a sub-path).`);
+          err.status = 404; err.kind = 'notfound';
+          throw err;
+        }
+        if (res.status === 429) {
+          const err = new Error('Rate limit hit.');
+          err.status = 429; err.kind = 'rate';
+          throw err;
+        }
+        if (!res.ok) {
+          let msg = 'Request failed: ' + res.status;
+          try { const body = await res.json(); if (body && body.error) msg = body.error; } catch(e) {}
+          const err = new Error(msg); err.status = res.status;
+          throw err;
+        }
+        return res.json();
+      }
 
-    } catch (e) {
-        console.error(e);
-        document.getElementById("status").innerText = "Error loading data";
+      _cacheKey(endpoint) { return `${CACHE_PREFIX}${this.baseURL}:${endpoint}`; }
+
+      _readCache(endpoint) {
+        try {
+          const raw = localStorage.getItem(this._cacheKey(endpoint));
+          if (!raw) return null;
+          const entry = JSON.parse(raw);
+          if (!entry || (Date.now() - entry.timestamp) > CACHE_TTL_MS) return null;
+          return entry;
+        } catch (e) { return null; }
+      }
+
+      _writeCache(endpoint, data) {
+        try {
+          localStorage.setItem(
+            this._cacheKey(endpoint),
+            JSON.stringify({ data, timestamp: Date.now() })
+          );
+        } catch (e) { /* private mode / quota — non-fatal */ }
+      }
+
+      // Wipe all cache entries belonging to this baseURL.
+      static clearCache(baseURL) {
+        const prefix = `${CACHE_PREFIX}${(baseURL || '').replace(/\/+$/, '')}:`;
+        try {
+          const toRemove = [];
+          for (let i = 0; i < localStorage.length; i++) {
+            const k = localStorage.key(i);
+            if (k && k.startsWith(prefix)) toRemove.push(k);
+          }
+          toRemove.forEach(k => localStorage.removeItem(k));
+        } catch (e) { /* ignore */ }
+      }
+
+      // Strict-sequential request: the entire fetch (including retries) runs
+      // inside the queue chain, so two callers can never have fetches in flight
+      // at the same time. Cache reads happen *outside* the queue — a cache hit
+      // doesn't consume a rate-limit slot.
+      //
+      // Retries on transient failures: TypeError (fetch/CORS error, commonly a
+      // 429 with stripped CORS headers) and explicit 429s. Auth and 404 never
+      // retry — user action is required.
+      async request(endpoint, { retries = 2, forceRefresh = false } = {}) {
+        if (!forceRefresh) {
+          const cached = this._readCache(endpoint);
+          if (cached) return cached.data;
+        }
+
+        const run = async () => {
+          // Wait for the gap from the previous *completion*.
+          const since = Date.now() - this.lastCompleted;
+          if (since < RATE_LIMIT_MS) {
+            await new Promise(r => setTimeout(r, RATE_LIMIT_MS - since));
+          }
+          try {
+            let lastErr;
+            for (let attempt = 0; attempt <= retries; attempt++) {
+              try {
+                const data = await this._fetchOnce(endpoint);
+                this._writeCache(endpoint, data);
+                return data;
+              } catch (e) {
+                lastErr = e;
+                if (e.kind === 'auth' || e.kind === 'notfound') throw e;
+                const transient = (e instanceof TypeError) || e.kind === 'rate';
+                if (!transient || attempt === retries) throw e;
+                // Backoff: ~700ms, ~1700ms… (with jitter)
+                const wait = 700 + attempt * 1000 + Math.random() * 200;
+                await new Promise(r => setTimeout(r, wait));
+              }
+            }
+            throw lastErr;
+          } finally {
+            this.lastCompleted = Date.now();
+          }
+        };
+
+        // Chain onto the queue so this run waits for any previous run to finish.
+        // The chain swallows upstream rejections (passing `run` as both then/catch
+        // handlers) so one caller's failure doesn't stall the queue for the next.
+        const next = this.queue.then(run, run);
+        this.queue = next.catch(() => {});
+        return next;
+      }
     }
-}
 
-// init
-(async function(){
-    await loadGeo();     // 先載入 Geo 表
-    await fetchStats();  // 再載入數據
+    // ============================================================
+    // THEME
+    // ============================================================
+    function useTheme() {
+      const [theme, setTheme] = useState(() => {
+        try {
+          const saved = localStorage.getItem(THEME_KEY);
+          if (saved) return saved;
+        } catch (e) {}
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) return 'light';
+        return 'dark';
+      });
+      useEffect(() => {
+        document.documentElement.setAttribute('data-theme', theme);
+        try { localStorage.setItem(THEME_KEY, theme); } catch (e) {}
+      }, [theme]);
+      const toggle = useCallback(() => setTheme(t => t === 'dark' ? 'light' : 'dark'), []);
+      return [theme, toggle];
+    }
 
-    // 10 秒刷新
-    setInterval(fetchStats, 10000);
-})();
+    // ============================================================
+    // useInView — fires once when the ref'd element enters viewport.
+    // Used to lazy-trigger fetches for below-the-fold cards so the initial
+    // load is small (3 requests) and later tiers fetch on scroll.
+    // ============================================================
+    function useInView({ threshold = 0.1, rootMargin = '0px' } = {}) {
+      const ref = useRef(null);
+      const [inView, setInView] = useState(false);
+      useEffect(() => {
+        if (inView) return; // sticky once visible — no re-observe
+        const el = ref.current;
+        if (!el) return;
+        // Defensive fallback for environments without IntersectionObserver
+        // (very old browsers). The dashboard never SSRs — it's a static
+        // single-page app — so this never fires in normal use.
+        if (typeof IntersectionObserver === 'undefined') { setInView(true); return; }
+        const observer = new IntersectionObserver(([entry]) => {
+          if (entry.isIntersecting) {
+            setInView(true);
+            observer.disconnect();
+          }
+        }, { threshold, rootMargin });
+        observer.observe(el);
+        return () => observer.disconnect();
+      }, [inView, threshold, rootMargin]);
+      return [ref, inView];
+    }
 
-</script>
+    // Relative-time formatter for the "Updated Xs ago" indicator.
+    function relativeTime(ts) {
+      if (!ts) return '';
+      const s = Math.max(0, Math.floor((Date.now() - ts) / 1000));
+      if (s < 5) return 'just now';
+      if (s < 60) return `${s}s ago`;
+      const m = Math.floor(s / 60);
+      if (m < 60) return `${m}m ago`;
+      const h = Math.floor(m / 60);
+      return `${h}h ago`;
+    }
 
+    // ============================================================
+    // CONNECT SCREEN
+    // ============================================================
+    function ConnectScreen({ onConnect, onTryDemo, initialError }) {
+      const [url, setUrl] = useState('');
+      const [key, setKey] = useState('');
+      const [busy, setBusy] = useState(false);
+      const [error, setError] = useState(initialError || '');
+
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError('');
+        let baseURL = url.trim();
+        if (!baseURL) { setError('Please enter your GoatCounter URL.'); return; }
+        if (!/^https?:\/\//i.test(baseURL)) baseURL = 'https://' + baseURL;
+        baseURL = baseURL.replace(/\/+$/, '');
+        // If user pasted "...goatcounter.com/somepath", strip it — API lives at the root.
+        try {
+          const u = new URL(baseURL);
+          baseURL = u.protocol + '//' + u.host;
+        } catch (e) {
+          setError('That doesn\'t look like a valid URL. Try e.g. https://yoursite.goatcounter.com');
+          return;
+        }
+
+        if (!key.trim()) { setError('Please enter your API key.'); return; }
+
+        setBusy(true);
+        try {
+          const client = new APIClient(baseURL, key.trim());
+          const me = await client.request('/api/v0/me', { retries: 1 });
+          onConnect({ baseURL, apiKey: key.trim(), me });
+        } catch (err) {
+          let msg = err.message || 'Could not connect.';
+          if (err instanceof TypeError) {
+            msg = `Could not reach ${baseURL}. Check the URL is correct and the site supports CORS (most GoatCounter instances do). If you have an ad blocker (uBlock Origin, Brave Shields, etc.), try disabling it for this page -- GoatCounter domains are on common filter lists.`;
+          }
+          setError(msg);
+          setBusy(false);
+        }
+      };
+
+      return (
+        <div className="connect-wrap">
+          <form className="connect-card" onSubmit={handleSubmit}>
+            <div className="connect-logo" aria-hidden="true">🐐</div>
+            <h1 className="connect-title">GoatCounter Dashboard</h1>
+            <p className="connect-subtitle">A modern analytics view for your stats.</p>
+
+            {error && <div className="error-banner" role="alert">{error}</div>}
+
+            <div className="field">
+              <label className="field-label" htmlFor="gc-url">GoatCounter URL</label>
+              <input
+                id="gc-url"
+                type="text"
+                placeholder="https://yoursite.goatcounter.com"
+                value={url}
+                onChange={(e) => setUrl(e.target.value)}
+                autoComplete="url"
+                spellCheck="false"
+                disabled={busy}
+              />
+            </div>
+
+            <div className="field">
+              <label className="field-label" htmlFor="gc-key">API Key</label>
+              <input
+                id="gc-key"
+                type="password"
+                placeholder="Paste your API key"
+                value={key}
+                onChange={(e) => setKey(e.target.value)}
+                autoComplete="off"
+                disabled={busy}
+              />
+            </div>
+
+            <button type="submit" className="btn btn-primary" disabled={busy}>
+              {busy ? 'Connecting…' : 'Connect →'}
+            </button>
+
+            {onTryDemo && (
+              <>
+                <div className="or-divider" aria-hidden="true"><span>or</span></div>
+                <button
+                  type="button"
+                  className="btn-demo"
+                  onClick={onTryDemo}
+                  disabled={busy}
+                >📊 Try Demo →</button>
+                <p className="demo-subtitle">See it in action with sample data</p>
+              </>
+            )}
+
+            <div className="help-box">
+              <strong>How to get an API key:</strong> Log into GoatCounter →
+              user menu (top right) → <em>Settings</em> → <em>API</em> tab → <em>Create key</em>.
+              Grant the <em>Count</em> &amp; <em>Read statistics</em> permissions.
+            </div>
+          </form>
+        </div>
+      );
+    }
+
+    // ============================================================
+    // SKELETON BLOCKS
+    // ============================================================
+    function SkeletonKPI() {
+      return (
+        <div className="card">
+          <div className="sk sk-line sm" />
+          <div className="sk sk-line lg" style={{marginTop: 14}} />
+          <div className="sk sk-line sm" />
+        </div>
+      );
+    }
+    function SkeletonCard({ h = 200 }) {
+      return (
+        <div className="card">
+          <div className="sk sk-line sm" />
+          <div className="sk" style={{height: h, marginTop: 12, borderRadius: 8}} />
+        </div>
+      );
+    }
+
+    // ============================================================
+    // KPI CARD
+    // ============================================================
+    function KPICard({ label, value, trend, sub, isString }) {
+      let trendClass = 'flat', trendIcon = '—';
+      if (Number.isFinite(trend)) {
+        if (trend > 0.5) { trendClass = 'up'; trendIcon = '▲'; }
+        else if (trend < -0.5) { trendClass = 'down'; trendIcon = '▼'; }
+        else { trendClass = 'flat'; trendIcon = '→'; }
+      }
+      return (
+        <div className="card card-hover fade-in">
+          <p className="kpi-label">{label}</p>
+          <div className={'kpi-value' + (isString ? ' string' : '')} title={isString ? value : undefined}>
+            {value}
+          </div>
+          {Number.isFinite(trend) && (
+            <span className={'kpi-trend ' + trendClass}>
+              <span aria-hidden="true">{trendIcon}</span> {fmtPct(trend)}
+            </span>
+          )}
+          {sub && <div className="kpi-sub">{sub}</div>}
+        </div>
+      );
+    }
+
+    // ============================================================
+    // TRAFFIC AREA CHART
+    // ============================================================
+    function TrafficChart({ series, group }) {
+      const data = useMemo(() => series.map(p => ({
+        ts: p.ts,
+        label: formatDateLabel(p.ts, group),
+        count: p.count,
+      })), [series, group]);
+
+      const isEmpty = !data.length || data.every(d => d.count === 0);
+
+      return (
+        <div className="card fade-in">
+          <div className="card-header">
+            <div>
+              <h3 className="card-title">Visitors over time</h3>
+              <p className="card-subtitle">Pageview counts for the selected period</p>
+            </div>
+          </div>
+          {isEmpty ? (
+            <div className="empty-state">No traffic data for this period.</div>
+          ) : (
+            <div className="chart-wrap">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={data} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
+                  <defs>
+                    <linearGradient id="trafficGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="var(--accent)" stopOpacity={0.35} />
+                      <stop offset="100%" stopColor="var(--accent)" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" opacity={0.3} vertical={false} />
+                  <XAxis
+                    dataKey="label"
+                    tick={{ fontSize: 11, fill: 'var(--text-secondary)' }}
+                    stroke="var(--border)"
+                    axisLine={false}
+                    tickLine={false}
+                    minTickGap={20}
+                  />
+                  <YAxis
+                    tick={{ fontSize: 11, fill: 'var(--text-secondary)' }}
+                    stroke="var(--border)"
+                    axisLine={false}
+                    tickLine={false}
+                    width={40}
+                    tickFormatter={(v) => fmtNum(v)}
+                  />
+                  <Tooltip
+                    contentStyle={{
+                      background: 'var(--bg-surface)',
+                      border: '1px solid var(--border)',
+                      borderRadius: '8px',
+                      fontSize: '0.85rem',
+                    }}
+                    labelStyle={{ color: 'var(--text)', fontWeight: 600 }}
+                    itemStyle={{ color: 'var(--accent)' }}
+                    formatter={(value) => [fmtNum(value), 'Pageviews']}
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="count"
+                    stroke="var(--accent)"
+                    strokeWidth={2}
+                    fill="url(#trafficGradient)"
+                    animationDuration={900}
+                    activeDot={{ r: 5, strokeWidth: 0 }}
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // ============================================================
+    // TOP PAGES (with referrer drill-down)
+    // ============================================================
+    function TopPagesCard({ paths, total, client, dateRange, demoMode, demoRefs }) {
+      const [expanded, setExpanded] = useState(null);
+      const [refData, setRefData] = useState({});
+      const [refLoading, setRefLoading] = useState(null);
+      const [showAll, setShowAll] = useState(false);
+
+      useEffect(() => {
+        setExpanded(null);
+        setRefData({});
+      }, [dateRange]);
+
+      // Normalize: GoatCounter returns `path_id`; older docs/snapshots used `id`. Use whichever is present.
+      const items = useMemo(
+        () => (paths || []).map(p => ({ ...p, id: p.path_id ?? p.id })).sort((a, b) => b.count - a.count),
+        [paths]
+      );
+      const visible = showAll ? items : items.slice(0, 8);
+      const max = Math.max(1, ...(items.map(p => p.count)));
+
+      const handleClick = useCallback(async (item) => {
+        if (expanded === item.id) { setExpanded(null); return; }
+        setExpanded(item.id);
+        if (refData[item.id]) return;
+        // Demo mode: serve refs from the static lookup, no network call.
+        if (demoMode) {
+          const refs = (demoRefs && demoRefs[item.path]) || [];
+          setRefData(prev => ({ ...prev, [item.id]: refs }));
+          return;
+        }
+        setRefLoading(item.id);
+        try {
+          const url = `/api/v0/stats/hits/${item.id}?start=${encodeURIComponent(dateRange.start)}&end=${encodeURIComponent(dateRange.end)}&limit=10`;
+          const data = await client.request(url);
+          setRefData(prev => ({ ...prev, [item.id]: data.refs || [] }));
+        } catch (e) {
+          setRefData(prev => ({ ...prev, [item.id]: { error: e.message } }));
+        } finally {
+          setRefLoading(null);
+        }
+      }, [expanded, refData, client, dateRange, demoMode, demoRefs]);
+
+      return (
+        <div className="card fade-in">
+          <div className="card-header">
+            <div>
+              <h3 className="card-title">Top pages</h3>
+              <p className="card-subtitle">Click any page to see its referrers</p>
+            </div>
+            <span className="card-subtitle">{items.length} paths</span>
+          </div>
+          {!items.length ? (
+            <div className="empty-state">No page data.</div>
+          ) : (
+            <ul className="row-list">
+              {visible.map((p) => {
+                const widthPct = (p.count / max) * 100;
+                const sharePct = total > 0 ? (p.count / total) * 100 : 0;
+                const isOpen = expanded === p.id;
+                return (
+                  <React.Fragment key={p.id}>
+                    <li
+                      className="row-item clickable"
+                      onClick={() => handleClick(p)}
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleClick(p); } }}
+                      aria-expanded={isOpen}
+                    >
+                      <span className="row-name truncate" title={p.path}>
+                        <span className={'row-chevron' + (isOpen ? ' open' : '')} aria-hidden="true">▸</span>
+                        {p.path}
+                        {p.title ? <span className="muted"> — {p.title}</span> : null}
+                      </span>
+                      <span>
+                        <span className="row-value">{fmtNum(p.count)}</span>
+                        <span className="row-pct">{sharePct.toFixed(1)}%</span>
+                      </span>
+                      <span className="row-bar" style={{ width: widthPct + '%' }} />
+                    </li>
+                    {isOpen && (
+                      <li className="ref-panel">
+                        <p className="ref-panel-title">Top referrers for {p.path}</p>
+                        {refLoading === p.id && <div style={{fontSize:'0.82rem', color:'var(--text-muted)'}}>Loading…</div>}
+                        {refData[p.id] && Array.isArray(refData[p.id]) && refData[p.id].length === 0 && (
+                          <div style={{fontSize:'0.82rem', color:'var(--text-muted)'}}>No referrers tracked.</div>
+                        )}
+                        {refData[p.id] && refData[p.id].error && (
+                          <div style={{fontSize:'0.82rem', color:'var(--danger)'}}>{refData[p.id].error}</div>
+                        )}
+                        {Array.isArray(refData[p.id]) && refData[p.id].length > 0 && (
+                          <ul className="ref-list">
+                            {refData[p.id].slice(0, 8).map((r, i) => (
+                              <li key={i}>
+                                <span className="ref-name">{r.name || '(direct)'}</span>
+                                <span className="row-value">{fmtNum(r.count)}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </li>
+                    )}
+                  </React.Fragment>
+                );
+              })}
+            </ul>
+          )}
+          {items.length > 8 && (
+            <button className="show-more" onClick={() => setShowAll(s => !s)}>
+              {showAll ? 'Show less' : `Show all (${items.length})`}
+            </button>
+          )}
+        </div>
+      );
+    }
+
+    // ============================================================
+    // GENERIC TOP-LIST CARD (referrers, etc.)
+    // ============================================================
+    // `topSlot`: optional React node rendered between the card header and the
+    // list (used by the Countries card to slot the world map above the list).
+    function TopListCard({ title, subtitle, stats, prefix, formatName, topSlot, client, dateRange, demoMode, page, demoDetails }) {
+      const [showAll, setShowAll] = useState(false);
+      const [expanded, setExpanded] = useState(null);
+      const [detailData, setDetailData] = useState({});
+      const [detailLoading, setDetailLoading] = useState(null);
+
+      useEffect(() => {
+        setExpanded(null);
+        setDetailData({});
+      }, [dateRange]);
+
+      const items = useMemo(() => (stats || []).slice().sort((a,b) => b.count - a.count), [stats]);
+      const total = items.reduce((s, x) => s + (x.count || 0), 0);
+      const max = Math.max(1, ...(items.map(x => x.count)));
+      const visible = showAll ? items : items.slice(0, 8);
+      const canDrill = !!((client || demoMode) && page);
+
+      const handleDrilldown = useCallback(async (item) => {
+        const itemId = item.id || item.name || '';
+        if (expanded === itemId) { setExpanded(null); return; }
+        setExpanded(itemId);
+        if (detailData[itemId]) return;
+        if (demoMode) {
+          const details = (demoDetails && demoDetails[itemId]) || [];
+          setDetailData(prev => ({ ...prev, [itemId]: details }));
+          return;
+        }
+        setDetailLoading(itemId);
+        try {
+          const url = `/api/v0/stats/${page}/${encodeURIComponent(itemId)}?start=${encodeURIComponent(dateRange.start)}&end=${encodeURIComponent(dateRange.end)}&limit=10`;
+          const res = await client.request(url);
+          setDetailData(prev => ({ ...prev, [itemId]: res.stats || [] }));
+        } catch (e) {
+          setDetailData(prev => ({ ...prev, [itemId]: { error: e.message } }));
+        } finally {
+          setDetailLoading(null);
+        }
+      }, [expanded, detailData, client, dateRange, demoMode, demoDetails, page]);
+
+      return (
+        <div className="card fade-in">
+          <div className="card-header">
+            <h3 className="card-title">{title}</h3>
+            {subtitle && <span className="card-subtitle">{subtitle}</span>}
+          </div>
+          {topSlot && canDrill ? React.cloneElement(topSlot, { highlightCountry: expanded }) : topSlot}
+          {!items.length ? (
+            <div className="empty-state">No data.</div>
+          ) : (
+            <ul className="row-list">
+              {visible.map((x, i) => {
+                const widthPct = (x.count / max) * 100;
+                const sharePct = total > 0 ? (x.count / total) * 100 : 0;
+                const itemId = x.id || x.name || '';
+                const isOpen = expanded === itemId;
+                const detail = detailData[itemId];
+                const detailMax = Array.isArray(detail) ? Math.max(1, ...detail.map(r => r.count || 0)) : 1;
+                return (
+                  <React.Fragment key={i}>
+                    <li
+                      className={'row-item' + (canDrill ? ' clickable' : '')}
+                      onClick={canDrill ? () => handleDrilldown(x) : undefined}
+                      role={canDrill ? 'button' : undefined}
+                      tabIndex={canDrill ? 0 : undefined}
+                      onKeyDown={canDrill ? (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleDrilldown(x); } } : undefined}
+                      aria-expanded={canDrill ? isOpen : undefined}
+                    >
+                      <span className="row-name truncate" title={x.name}>
+                        {canDrill && <span className={'row-chevron' + (isOpen ? ' open' : '')} aria-hidden="true">▸</span>}
+                        {prefix ? prefix(x) : null}
+                        {formatName ? formatName(x) : (x.name || '(none)')}
+                      </span>
+                      <span>
+                        <span className="row-value">{fmtNum(x.count)}</span>
+                        <span className="row-pct">{sharePct.toFixed(1)}%</span>
+                      </span>
+                      <span className="row-bar" style={{ width: widthPct + '%' }} />
+                    </li>
+                    {canDrill && isOpen && (
+                      <li className="ref-panel">
+                        <p className="ref-panel-title">{x.name} breakdown</p>
+                        {detailLoading === itemId && <div style={{fontSize:'0.82rem', color:'var(--text-muted)'}}>Loading...</div>}
+                        {detail && detail.error && (
+                          <div style={{fontSize:'0.82rem', color:'var(--danger)'}}>{detail.error}</div>
+                        )}
+                        {Array.isArray(detail) && detail.length === 0 && (
+                          <div style={{fontSize:'0.82rem', color:'var(--text-muted)'}}>No detail data.</div>
+                        )}
+                        {Array.isArray(detail) && detail.length > 0 && (
+                          <ul className="ref-list">
+                            {detail.slice(0, 8).map((r, ri) => (
+                              <li key={ri} style={{position:'relative'}}>
+                                <span className="ref-name">{r.name || '(unknown)'}</span>
+                                <span className="row-value">{fmtNum(r.count)}</span>
+                                <span className="row-bar" style={{ width: ((r.count || 0) / detailMax * 100) + '%' }} />
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </li>
+                    )}
+                  </React.Fragment>
+                );
+              })}
+            </ul>
+          )}
+          {items.length > 8 && (
+            <button className="show-more" onClick={() => setShowAll(s => !s)}>
+              {showAll ? 'Show less' : `Show all (${items.length})`}
+            </button>
+          )}
+        </div>
+      );
+    }
+
+    // ============================================================
+    // DONUT CHART (browsers / OS / devices)
+    // ============================================================
+    // Display labels for /stats/sizes: GoatCounter puts the category in `id`
+    // ("phone", "desktop", etc.) and leaves `name` empty. /stats/browsers and
+    // /stats/systems put the label in `name` directly, so non-device cards
+    // don't go through this lookup.
+    const DEVICE_LABELS = {
+      phone: 'Phones',
+      tablet: 'Tablets',
+      desktop: 'Laptop/Desktop',
+      desktophd: 'HD Display',
+      unknown: 'Unknown',
+    };
+
+    function DonutCard({ title, stats, deviceMode, client, dateRange, demoMode, page, demoDetails }) {
+      const [expanded, setExpanded] = useState(null);
+      const [detailData, setDetailData] = useState({});
+      const [detailLoading, setDetailLoading] = useState(null);
+
+      useEffect(() => {
+        setExpanded(null);
+        setDetailData({});
+      }, [dateRange]);
+
+      let data = (stats || [])
+        .map((x) => {
+          const label = deviceMode
+            ? (DEVICE_LABELS[x.id]
+                || (x.name && x.name.trim())
+                || (x.id ? x.id.charAt(0).toUpperCase() + x.id.slice(1) : 'Unknown'))
+            : (x.name || 'Unknown');
+          return { name: label, value: x.count || 0, apiId: x.id || x.name || '' };
+        })
+        .filter(x => x.value > 0)
+        .sort((a, b) => b.value - a.value);
+
+      if (deviceMode) {
+        const merged = {};
+        for (const d of data) {
+          if (!merged[d.name]) merged[d.name] = { value: 0, apiId: d.apiId };
+          merged[d.name].value += d.value;
+        }
+        data = Object.entries(merged)
+          .map(([name, { value, apiId }]) => ({ name, value, apiId }))
+          .sort((a, b) => b.value - a.value);
+      }
+
+      let chartData = data;
+      if (data.length > 6) {
+        const top = data.slice(0, 5);
+        const rest = data.slice(5).reduce((s, x) => s + x.value, 0);
+        chartData = [...top, { name: 'Other', value: rest, apiId: '__other__' }];
+      }
+
+      const total = chartData.reduce((s, x) => s + x.value, 0);
+      const canDrill = !!((client || demoMode) && page);
+      const activeIdx = expanded !== null ? chartData.findIndex(d => d.apiId === expanded) : -1;
+
+      const handleDrilldown = useCallback(async (item) => {
+        if (item.apiId === '__other__') return;
+        if (expanded === item.apiId) { setExpanded(null); return; }
+        setExpanded(item.apiId);
+        if (detailData[item.apiId]) return;
+        if (demoMode) {
+          const details = (demoDetails && demoDetails[item.apiId]) || [];
+          setDetailData(prev => ({ ...prev, [item.apiId]: details }));
+          return;
+        }
+        setDetailLoading(item.apiId);
+        try {
+          const url = `/api/v0/stats/${page}/${encodeURIComponent(item.apiId)}?start=${encodeURIComponent(dateRange.start)}&end=${encodeURIComponent(dateRange.end)}&limit=10`;
+          const res = await client.request(url);
+          setDetailData(prev => ({ ...prev, [item.apiId]: res.stats || [] }));
+        } catch (e) {
+          setDetailData(prev => ({ ...prev, [item.apiId]: { error: e.message } }));
+        } finally {
+          setDetailLoading(null);
+        }
+      }, [expanded, detailData, client, dateRange, demoMode, demoDetails, page]);
+
+      const activeShape = useCallback((props) => (
+        <Sector
+          {...props}
+          outerRadius={props.outerRadius + 6}
+          stroke="var(--accent-hover)"
+          strokeWidth={2}
+        />
+      ), []);
+
+      const expandedItem = expanded !== null ? chartData.find(d => d.apiId === expanded) : null;
+      const detailMax = expandedItem && Array.isArray(detailData[expanded])
+        ? Math.max(1, ...detailData[expanded].map(x => x.count || 0))
+        : 1;
+
+      return (
+        <div className="card fade-in">
+          <div className="card-header">
+            <h3 className="card-title">{title}</h3>
+          </div>
+          {!chartData.length || total === 0 ? (
+            <div className="empty-state">No data.</div>
+          ) : (
+            <>
+              <div className="chart-wrap-sm" style={{position:'relative'}}>
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Tooltip
+                      contentStyle={{
+                        background: 'var(--bg-surface)',
+                        border: '1px solid var(--border)',
+                        borderRadius: '8px',
+                        fontSize: '0.82rem',
+                      }}
+                      formatter={(value, name) => [
+                        `${fmtNum(value)} (${((value / total) * 100).toFixed(1)}%)`,
+                        name,
+                      ]}
+                    />
+                    <Pie
+                      data={chartData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={55}
+                      outerRadius={80}
+                      paddingAngle={2}
+                      dataKey="value"
+                      animationDuration={800}
+                      stroke="var(--bg-surface)"
+                      strokeWidth={2}
+                      activeIndex={activeIdx >= 0 ? activeIdx : undefined}
+                      activeShape={canDrill ? activeShape : undefined}
+                      onClick={canDrill ? (_, idx) => handleDrilldown(chartData[idx]) : undefined}
+                      style={canDrill ? { cursor: 'pointer' } : undefined}
+                    >
+                      {chartData.map((entry, idx) => (
+                        <Cell key={idx} fill={CHART_COLORS[idx % CHART_COLORS.length]} />
+                      ))}
+                    </Pie>
+                  </PieChart>
+                </ResponsiveContainer>
+                <div style={{
+                  position:'absolute', top:'50%', left:'50%',
+                  transform:'translate(-50%, -50%)',
+                  textAlign:'center', pointerEvents:'none',
+                }}>
+                  <div style={{
+                    fontFamily:"'JetBrains Mono', monospace",
+                    fontWeight:700, fontSize:'1.4rem', color:'var(--text)',
+                    lineHeight:1.1,
+                  }}>{fmtNum(total)}</div>
+                  <div style={{
+                    fontSize:'0.7rem', color:'var(--text-secondary)',
+                    letterSpacing:'0.06em', marginTop:2,
+                  }}>TOTAL</div>
+                </div>
+              </div>
+              <div className="legend-row">
+                {chartData.map((d, idx) => {
+                  const isOther = d.apiId === '__other__';
+                  const isActive = expanded === d.apiId;
+                  return (
+                    <span
+                      key={idx}
+                      onClick={canDrill && !isOther ? () => handleDrilldown(d) : undefined}
+                      style={canDrill && !isOther ? { cursor: 'pointer' } : undefined}
+                      role={canDrill && !isOther ? 'button' : undefined}
+                      tabIndex={canDrill && !isOther ? 0 : undefined}
+                      onKeyDown={canDrill && !isOther ? (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleDrilldown(d); } } : undefined}
+                    >
+                      <span className="legend-dot" style={{ background: CHART_COLORS[idx % CHART_COLORS.length] }} />
+                      <span className="legend-name" style={isActive ? { fontWeight: 600, color: 'var(--text)' } : undefined}>{d.name}</span>
+                      <span className="legend-num">{fmtNum(d.value)}</span>
+                      {canDrill && !isOther && <span className={'row-chevron' + (isActive ? ' open' : '')} aria-hidden="true" style={{marginLeft:4}}>▸</span>}
+                    </span>
+                  );
+                })}
+              </div>
+              {expandedItem && (
+                <div className="ref-panel" style={{marginTop: 8}}>
+                  <p className="ref-panel-title">{expandedItem.name} breakdown</p>
+                  {detailLoading === expanded && <div style={{fontSize:'0.82rem', color:'var(--text-muted)'}}>Loading...</div>}
+                  {detailData[expanded] && detailData[expanded].error && (
+                    <div style={{fontSize:'0.82rem', color:'var(--danger)'}}>{detailData[expanded].error}</div>
+                  )}
+                  {Array.isArray(detailData[expanded]) && detailData[expanded].length === 0 && (
+                    <div style={{fontSize:'0.82rem', color:'var(--text-muted)'}}>No detail data.</div>
+                  )}
+                  {Array.isArray(detailData[expanded]) && detailData[expanded].length > 0 && (
+                    <ul className="ref-list">
+                      {detailData[expanded].slice(0, 8).map((r, i) => (
+                        <li key={i} style={{position:'relative'}}>
+                          <span className="ref-name">{r.name || '(unknown)'}</span>
+                          <span className="row-value">{fmtNum(r.count)}</span>
+                          <span className="row-bar" style={{ width: ((r.count || 0) / detailMax * 100) + '%' }} />
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      );
+    }
+
+    // ============================================================
+    // WORLD MAP — choropleth, lazy-attached to the Countries card.
+    // Path data ships separately at assets/world-map.js to keep Babel out
+    // of its parse path. Color scale is sqrt so the bottom 80% of countries
+    // stay distinguishable. Single delegated mouse handler on the SVG root
+    // (not per-path) so 174 countries don't each carry a listener.
+    // ============================================================
+    const WorldMap = React.memo(function WorldMap({ data, total, highlightCountry }) {
+      const [tooltip, setTooltip] = useState(null);
+      const wrapRef = useRef(null);
+
+      // Resolve country names to ISO codes; collect any unmapped names
+      // for diagnostics (logged once, only when ?debug=1 is in the URL).
+      const byCode = useMemo(() => {
+        const out = new Map();
+        const unmapped = [];
+        for (const row of (data || [])) {
+          if (!row || !row.count) continue;
+          const code = countryNameToCode(row.name);
+          if (!code) { unmapped.push(row.name); continue; }
+          // If the same ISO appears twice (shouldn't normally), sum counts.
+          const prev = out.get(code);
+          out.set(code, prev
+            ? { name: prev.name, count: prev.count + row.count }
+            : { name: row.name, count: row.count });
+        }
+        if (unmapped.length) {
+          try {
+            const debug = new URLSearchParams(window.location.search).get('debug') === '1';
+            if (debug) console.warn('[WorldMap] Unmapped country names:', unmapped);
+          } catch (e) {}
+        }
+        return out;
+      }, [data]);
+
+      const maxCount = useMemo(() => {
+        let m = 0;
+        for (const v of byCode.values()) if (v.count > m) m = v.count;
+        return m;
+      }, [byCode]);
+
+      // Map data is provided by assets/world-map.js. If the script failed
+      // to load (offline, blocked), render nothing — country list still works.
+      const paths = typeof window !== 'undefined' ? window.WORLD_MAP_PATHS : null;
+      const viewBox = (typeof window !== 'undefined' && window.WORLD_MAP_VIEWBOX) || '0 0 1000 500';
+
+      // Memoize SVG path nodes so hover state changes don't recreate them.
+      // Reconciliation still walks them, but each node is reference-equal
+      // and the DOM stays untouched.
+      const highlightCode = highlightCountry ? (countryNameToCode(highlightCountry) || highlightCountry) : null;
+
+      const renderedPaths = useMemo(() => {
+        if (!paths) return null;
+        const out = [];
+        for (const code in paths) {
+          const entry = byCode.get(code);
+          const has = !!entry;
+          let opacity = 1;
+          if (has && maxCount > 0) {
+            const norm = Math.sqrt(entry.count) / Math.sqrt(maxCount);
+            opacity = 0.25 + norm * 0.75;
+          }
+          out.push(
+            <path
+              key={code}
+              d={paths[code]}
+              data-code={code}
+              data-has={has ? '1' : '0'}
+              className={code === highlightCode ? 'map-selected' : undefined}
+              fillOpacity={has ? opacity : 1}
+            />
+          );
+        }
+        return out;
+      }, [paths, byCode, maxCount, highlightCode]);
+
+      // Single delegated handler on the SVG root. Reads data-code from
+      // event.target (which is the path under the cursor).
+      const handlePoint = useCallback((e) => {
+        const target = e.target.closest && e.target.closest('path');
+        if (!target || target.dataset.has !== '1') {
+          setTooltip(t => t ? null : t);
+          return;
+        }
+        const entry = byCode.get(target.dataset.code);
+        if (!entry) return;
+        const wrapRect = wrapRef.current && wrapRef.current.getBoundingClientRect();
+        if (!wrapRect) return;
+        const point = e.touches && e.touches[0] ? e.touches[0] : e;
+        setTooltip({
+          x: point.clientX - wrapRect.left,
+          y: point.clientY - wrapRect.top,
+          name: entry.name,
+          count: entry.count,
+          pct: total > 0 ? ((entry.count / total) * 100).toFixed(1) : '0.0',
+        });
+      }, [byCode, total]);
+
+      const handleLeave = useCallback(() => setTooltip(null), []);
+
+      // Mobile UX: tap-elsewhere or scroll dismisses the tooltip.
+      useEffect(() => {
+        if (!tooltip) return;
+        const dismiss = () => setTooltip(null);
+        window.addEventListener('scroll', dismiss, { passive: true });
+        return () => window.removeEventListener('scroll', dismiss);
+      }, [tooltip]);
+
+      if (!paths) return null;
+
+      // Position the tooltip with a small offset and clamp it inside the wrap
+      // so it doesn't overflow the right edge.
+      let ttLeft = 0, ttTop = 0;
+      if (tooltip) {
+        const wrapW = (wrapRef.current && wrapRef.current.clientWidth) || 1000;
+        ttLeft = Math.max(4, Math.min(tooltip.x + 12, wrapW - 200));
+        ttTop = Math.max(4, tooltip.y - 50);
+      }
+
+      return (
+        <div className="world-map-wrap" ref={wrapRef}>
+          <svg
+            className="world-map"
+            viewBox={viewBox}
+            preserveAspectRatio="xMidYMid meet"
+            role="img"
+            aria-label="World map of visitor countries"
+            onMouseMove={handlePoint}
+            onMouseLeave={handleLeave}
+            onTouchStart={handlePoint}
+            onTouchMove={handlePoint}
+          >
+            {renderedPaths}
+          </svg>
+          {tooltip && (
+            <div className="map-tooltip" style={{ left: ttLeft, top: ttTop }}>
+              <div className="tt-name">{flagFor(tooltip.name)} {tooltip.name}</div>
+              <div className="tt-stats">{fmtNum(tooltip.count)} · {tooltip.pct}%</div>
+            </div>
+          )}
+          <div className="map-legend" aria-hidden="true">
+            <span>Less</span>
+            <span className="map-legend-bar" />
+            <span>More</span>
+          </div>
+        </div>
+      );
+    });
+
+    // ============================================================
+    // DASHBOARD
+    // ============================================================
+    function Dashboard({ config, onDisconnect, theme, toggleTheme, demoMode = false }) {
+      const [preset, setPreset] = useState('7d');
+      const [customStart, setCustomStart] = useState('');
+      const [customEnd, setCustomEnd] = useState('');
+      const [data, setData] = useState({});
+      const [errors, setErrors] = useState({}); // per-key error map
+      const [prevTotal, setPrevTotal] = useState(null);
+      const [authErr, setAuthErr] = useState(null); // only fatal: bad auth
+      const [menuOpen, setMenuOpen] = useState(false);
+      const [refreshTick, setRefreshTick] = useState(0);
+      const [lastUpdatedAt, setLastUpdatedAt] = useState(null);
+      const [progress, setProgress] = useState({ fired: 0, done: 0 });
+      const [, setNowTick] = useState(0); // forces re-render so "Updated Xs ago" ticks
+
+      const client = useMemo(() => new APIClient(config.baseURL, config.apiKey), [config]);
+      const dateRange = useMemo(() => getDateRange(preset, customStart, customEnd), [preset, customStart, customEnd]);
+      const { start, end, days } = dateRange;
+      const group = useMemo(() => pickGroup(days), [days]);
+      const q = useCallback((path) =>
+        path + (path.includes('?') ? '&' : '?') +
+        `start=${encodeURIComponent(start)}&end=${encodeURIComponent(end)}`,
+        [start, end]
+      );
+
+      // Single source of truth for the URL of each data key. Used by tiers and
+      // by per-card retry so they can't drift out of sync.
+      const endpointFor = useCallback((key) => {
+        switch (key) {
+          case 'total':     return q('/api/v0/stats/total');
+          case 'hits':      return q(`/api/v0/stats/hits?limit=20&group=${group}`);
+          case 'browsers':  return q('/api/v0/stats/browsers');
+          case 'systems':   return q('/api/v0/stats/systems');
+          case 'sizes':     return q('/api/v0/stats/sizes');
+          case 'locations': return q('/api/v0/stats/locations');
+          case 'languages': return q('/api/v0/stats/languages');
+          case 'campaigns': return q('/api/v0/stats/campaigns');
+          default: return null;
+        }
+      }, [q, group]);
+
+      // Reset state when range or refresh changes — cache makes re-fetch fast on repeats.
+      useEffect(() => {
+        setData({});
+        setErrors({});
+        setPrevTotal(null);
+        setProgress({ fired: 0, done: 0 });
+      }, [start, end, refreshTick]);
+
+      // Generic tier runner. Each entry is a key. Errors and data are tracked
+      // per key so a single failure never bricks the dashboard. Progress
+      // counters drive the topbar "Loading X of Y…" indicator.
+      const runTier = useCallback(async (keys, cancelledRef) => {
+        for (const k of keys) {
+          if (cancelledRef.current) return;
+          const url = endpointFor(k);
+          if (!url) continue;
+          setProgress(p => ({ ...p, fired: p.fired + 1 }));
+          let earlyReturn = false;
+          try {
+            const res = await client.request(url);
+            if (cancelledRef.current) { earlyReturn = true; return; }
+            setData(prev => ({ ...prev, [k]: res }));
+            setErrors(prev => { if (!(k in prev)) return prev; const n = { ...prev }; delete n[k]; return n; });
+          } catch (e) {
+            if (cancelledRef.current) { earlyReturn = true; return; }
+            if (e.kind === 'auth') { setAuthErr(e); earlyReturn = true; return; }
+            // campaigns is optional — older self-hosted instances may 404
+            if (k === 'campaigns' && e.kind === 'notfound') {
+              setData(prev => ({ ...prev, campaigns: { stats: [] } }));
+              continue;
+            }
+            setErrors(prev => ({ ...prev, [k]: e.message || 'Failed' }));
+          } finally {
+            // Always pair fired++ with done++ so the progress counter never
+            // gets stuck. React 18 silently no-ops setState on unmounted
+            // components, so we don't need to guard for that.
+            setProgress(p => ({ ...p, done: p.done + 1 }));
+          }
+          if (earlyReturn) return;
+        }
+      }, [client, endpointFor]);
+
+      // Single-key retry — fires one request through the queue with cache bypass.
+      // By the time the user notices a failed card and clicks retry, the bucket
+      // has refilled, and a single isolated request is very likely to succeed.
+      // Dedupe on rapid clicks so the same retry doesn't queue twice.
+      const inFlightRetries = useRef(new Set());
+      const retryKey = useCallback(async (key) => {
+        if (inFlightRetries.current.has(key)) return;
+        const url = endpointFor(key);
+        if (!url) return;
+        inFlightRetries.current.add(key);
+        setErrors(prev => { if (!(key in prev)) return prev; const n = {...prev}; delete n[key]; return n; });
+        setProgress(p => ({ ...p, fired: p.fired + 1 }));
+        try {
+          const res = await client.request(url, { forceRefresh: true });
+          setData(prev => ({ ...prev, [key]: res }));
+        } catch (e) {
+          if (e.kind === 'auth') { setAuthErr(e); return; }
+          setErrors(prev => ({ ...prev, [key]: e.message || 'Failed' }));
+        } finally {
+          setProgress(p => ({ ...p, done: p.done + 1 }));
+          inFlightRetries.current.delete(key);
+        }
+      }, [client, endpointFor]);
+
+      // Demo mode: load static fixtures directly, skip the entire fetch
+      // pipeline. Effect fires when range/refreshTick change. All four real
+      // tier effects below early-return when demoMode is on.
+      useEffect(() => {
+        if (!demoMode) return;
+        const demo = buildDemoData(preset);
+        setData(demo.data);
+        setPrevTotal(demo.prevTotal);
+        setErrors({});
+        setProgress({ fired: 0, done: 0 });
+        setLastUpdatedAt(Date.now());
+      }, [demoMode, preset, customStart, customEnd, refreshTick]);
+
+      // Network warm-up: prime DNS, TCP, TLS, and CORS preflight before
+      // real data requests. On mobile (especially iOS Safari), the first
+      // fetch after a long tab suspension often fails because the network
+      // stack isn't ready. This throwaway request absorbs that penalty.
+      // Runs once per session; the bfcache handler resets the flag so a
+      // restore triggers a fresh warm-up.
+      const warmUpDone = useRef(false);
+      const warmUp = useCallback(async () => {
+        if (warmUpDone.current) return;
+        warmUpDone.current = true;
+        for (let i = 0; i < 3; i++) {
+          try {
+            await fetch(config.baseURL + '/api/v0/me', {
+              headers: { 'Authorization': 'Bearer ' + config.apiKey },
+            });
+            return;
+          } catch (e) {
+            if (i < 2) await new Promise(r => setTimeout(r, 300 * (i + 1)));
+          }
+        }
+      }, [config.baseURL, config.apiKey]);
+
+      // Tier 1 — always fires. KPIs, traffic chart, top pages, and languages.
+      // Plus the previous-period total for the trend KPI.
+      // Languages is in Tier 1 (not lazy) because it sits next to Top Pages
+      // in the same row — an asymmetric skeleton would look broken. The
+      // extra ~500ms (one queue slot) is invisible after the first load
+      // since the cache absorbs it.
+      useEffect(() => {
+        if (demoMode) return;
+        const cancelledRef = { current: false };
+        (async () => {
+          await warmUp();
+          if (cancelledRef.current) return;
+          await runTier(['total', 'hits', 'languages'], cancelledRef);
+          if (cancelledRef.current) return;
+          setLastUpdatedAt(Date.now());
+
+          // Previous-period total for trend (best-effort, doesn't block UI)
+          setProgress(p => ({ ...p, fired: p.fired + 1 }));
+          try {
+            const prev = getPreviousRange(start, end);
+            const prevRes = await client.request(
+              `/api/v0/stats/total?start=${encodeURIComponent(prev.start)}&end=${encodeURIComponent(prev.end)}`
+            );
+            if (!cancelledRef.current) setPrevTotal(prevRes.total ?? prevRes.total_utc ?? null);
+          } catch (e) {
+            if (!cancelledRef.current) setPrevTotal(null);
+          } finally {
+            // Always increment done — see runTier finally for the rationale.
+            setProgress(p => ({ ...p, done: p.done + 1 }));
+          }
+        })();
+        return () => { cancelledRef.current = true; };
+      }, [demoMode, client, start, end, refreshTick, runTier, warmUp]);
+
+      // Tier 2 — donut row (browsers / OS / devices). Lazy on visibility.
+      const [donutRowRef, donutInView] = useInView();
+      useEffect(() => {
+        if (demoMode || !donutInView) return;
+        const cancelledRef = { current: false };
+        runTier(['browsers', 'systems', 'sizes'], cancelledRef);
+        return () => { cancelledRef.current = true; };
+      }, [demoMode, donutInView, refreshTick, runTier]);
+
+      // Tier 3 — Countries (with map). Lazy on visibility. Languages used
+      // to live here too but moved to Tier 1 when the layout paired it with
+      // Top Pages.
+      const [geoRowRef, geoInView] = useInView();
+      useEffect(() => {
+        if (demoMode || !geoInView) return;
+        const cancelledRef = { current: false };
+        runTier(['locations'], cancelledRef);
+        return () => { cancelledRef.current = true; };
+      }, [demoMode, geoInView, refreshTick, runTier]);
+
+      // Tier 4 — campaigns. Lazy on visibility.
+      const [campaignsRef, campaignsInView] = useInView();
+      useEffect(() => {
+        if (demoMode || !campaignsInView) return;
+        const cancelledRef = { current: false };
+        runTier(['campaigns'], cancelledRef);
+        return () => { cancelledRef.current = true; };
+      }, [demoMode, campaignsInView, refreshTick, runTier]);
+
+      // bfcache restore: browser preserved the JS heap across a back/forward
+      // navigation or long tab suspension. React state is stale — force a full
+      // re-fetch by bumping refreshTick so every tier effect re-fires.
+      useEffect(() => {
+        const onPageShow = (e) => { if (e.persisted) { warmUpDone.current = false; setRefreshTick(t => t + 1); } };
+        window.addEventListener('pageshow', onPageShow);
+        return () => window.removeEventListener('pageshow', onPageShow);
+      }, []);
+
+      // Tick every 10s so the "Updated Xs ago" label stays current.
+      useEffect(() => {
+        if (!lastUpdatedAt) return;
+        const id = setInterval(() => setNowTick(t => t + 1), 10_000);
+        return () => clearInterval(id);
+      }, [lastUpdatedAt]);
+
+      // Auth error: bounce to connect screen
+      useEffect(() => {
+        if (authErr) {
+          onDisconnect(authErr.message || 'Authentication failed.');
+        }
+      }, [authErr, onDisconnect]);
+
+      const hasAnyError = Object.keys(errors).length > 0;
+      const failedKeys = Object.keys(errors);
+
+      // Click-outside to close menu
+      const menuRef = useRef(null);
+      useEffect(() => {
+        if (!menuOpen) return;
+        const onDown = (e) => { if (menuRef.current && !menuRef.current.contains(e.target)) setMenuOpen(false); };
+        document.addEventListener('mousedown', onDown);
+        return () => document.removeEventListener('mousedown', onDown);
+      }, [menuOpen]);
+
+      const site = config.me?.site;
+      const siteName = site?.cname
+        || (site?.code ? `${site.code}.goatcounter.com` : new URL(config.baseURL).host);
+
+      // Build time-series for traffic chart from hits "max"-grouped buckets.
+      // GoatCounter's hits payload returns per-path series keyed by group:
+      //   stats: [{ day: 'YYYY-MM-DD', daily: N, hourly: [..] }]
+      // Aggregate across paths for the overall traffic line.
+      const trafficSeries = useMemo(() => {
+        if (!data || !data.hits || !Array.isArray(data.hits.hits)) return [];
+        const buckets = new Map();
+
+        for (const path of data.hits.hits) {
+          const stats = path.stats || [];
+          for (const s of stats) {
+            if (group === 'hour' && Array.isArray(s.hourly)) {
+              s.hourly.forEach((cnt, hour) => {
+                const ts = `${s.day}T${String(hour).padStart(2, '0')}:00:00Z`;
+                buckets.set(ts, (buckets.get(ts) || 0) + (cnt || 0));
+              });
+            } else {
+              const ts = `${s.day}T00:00:00Z`;
+              buckets.set(ts, (buckets.get(ts) || 0) + (s.daily || 0));
+            }
+          }
+        }
+
+        return Array.from(buckets.entries())
+          .sort(([a], [b]) => a.localeCompare(b))
+          .map(([ts, count]) => ({ ts, count }));
+      }, [data, group]);
+
+      const totalNum = data?.total?.total ?? data?.total?.total_utc ?? 0;
+      const trend = useMemo(() => {
+        if (!Number.isFinite(totalNum) || prevTotal === null || prevTotal === 0) {
+          if (prevTotal === 0 && totalNum > 0) return 100;
+          return null;
+        }
+        return ((totalNum - prevTotal) / prevTotal) * 100;
+      }, [totalNum, prevTotal]);
+
+      const pageviewSum = useMemo(
+        () => trafficSeries.reduce((s, p) => s + p.count, 0),
+        [trafficSeries]
+      );
+
+      const topPagePath = useMemo(() => {
+        if (!data?.hits?.hits?.length) return { name: '—', count: 0 };
+        const top = data.hits.hits.slice().sort((a, b) => b.count - a.count)[0];
+        return { name: top.path, count: top.count };
+      }, [data]);
+
+      const presetLabel = (p) => p === '7d' ? 'last 7 days' : p === '30d' ? 'last 30 days' : p === '90d' ? 'last 90 days' : p === 'today' ? 'today' : 'selected range';
+
+      return (
+        <>
+          {demoMode && (
+            <div className="demo-banner" role="status">
+              <span>📊 Viewing demo data · Connect your GoatCounter to see real analytics</span>
+              <button
+                onClick={onDisconnect}
+                className="demo-banner-link"
+                title="Exit demo and return to the connect screen"
+              >Connect →</button>
+            </div>
+          )}
+        <div className="container">
+          {/* Top bar */}
+          <header className="topbar">
+            <div className="topbar-brand">
+              <span className="topbar-logo" aria-hidden="true">🐐</span>
+              <div className="topbar-titles">
+                <h1 className="topbar-title">GoatCounter Dashboard</h1>
+                <p className="topbar-site truncate">{siteName}</p>
+              </div>
+            </div>
+
+            <div className="topbar-actions">
+              <div className="seg" role="tablist" aria-label="Date range">
+                {[
+                  ['today','Today'],
+                  ['7d','7d'],
+                  ['30d','30d'],
+                  ['90d','90d'],
+                  ['custom','Custom'],
+                ].map(([val,label]) => (
+                  <button
+                    key={val}
+                    className={preset === val ? 'active' : ''}
+                    onClick={() => setPreset(val)}
+                    role="tab"
+                    aria-selected={preset === val}
+                  >{label}</button>
+                ))}
+              </div>
+
+              {preset === 'custom' && (
+                <div className="custom-range">
+                  <input
+                    type="date"
+                    value={customStart}
+                    onChange={(e) => setCustomStart(e.target.value)}
+                    aria-label="Start date"
+                    max={customEnd || undefined}
+                  />
+                  <span className="sep">→</span>
+                  <input
+                    type="date"
+                    value={customEnd}
+                    onChange={(e) => setCustomEnd(e.target.value)}
+                    aria-label="End date"
+                    min={customStart || undefined}
+                  />
+                </div>
+              )}
+
+              <button
+                className="btn-icon"
+                onClick={toggleTheme}
+                title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+                aria-label="Toggle theme"
+              >
+                {theme === 'dark' ? '☀' : '🌙'}
+              </button>
+
+              {demoMode ? (
+                <span className="freshness" title="Static demo dataset — no live API">Demo data</span>
+              ) : progress.fired > progress.done ? (
+                <span className="freshness loading" title="Fetching from GoatCounter…">
+                  Loading {progress.done + 1} of {progress.fired}…
+                </span>
+              ) : lastUpdatedAt ? (
+                <span
+                  className="freshness"
+                  title={new Date(lastUpdatedAt).toLocaleString()}
+                >Updated {relativeTime(lastUpdatedAt)}</span>
+              ) : null}
+
+              <div className="menu-wrap" ref={menuRef}>
+                <button
+                  className="btn-icon"
+                  onClick={() => setMenuOpen(o => !o)}
+                  aria-haspopup="true"
+                  aria-expanded={menuOpen}
+                  aria-label="Settings"
+                >⚙</button>
+                {menuOpen && (
+                  <div className="menu" role="menu">
+                    {!demoMode && (
+                      <>
+                        <button onClick={() => {
+                          setMenuOpen(false);
+                          APIClient.clearCache(config.baseURL);
+                          setRefreshTick(t => t + 1);
+                        }}>↻ Refresh data</button>
+                        <hr />
+                      </>
+                    )}
+                    <button className="danger" onClick={() => {
+                      setMenuOpen(false);
+                      if (!demoMode && config.baseURL) APIClient.clearCache(config.baseURL);
+                      onDisconnect();
+                    }}>{demoMode ? 'Exit demo' : 'Disconnect'}</button>
+                  </div>
+                )}
+              </div>
+            </div>
+          </header>
+
+          {hasAnyError && (
+            <div className="error-banner" role="alert" style={{marginBottom:16}}>
+              Some sections couldn't load: <strong>{failedKeys.join(', ')}</strong>. Retry each card individually below — single requests usually succeed once the rate limit refills.
+            </div>
+          )}
+
+          {/* Per-key state helpers — render real card when ready, error card when failed,
+              skeleton otherwise. Keeps the dashboard usable when one endpoint fails. */}
+          {(() => {
+            const ready = (k) => data && (data[k] !== undefined);
+            const failed = (k) => errors[k] !== undefined;
+            const ErrCard = ({ title, onRetry }) => (
+              <div className="card fade-in">
+                <div className="card-header"><h3 className="card-title">{title}</h3></div>
+                <div className="card-error-row">
+                  <span>Failed to load</span>
+                  {onRetry && (
+                    <button
+                      onClick={onRetry}
+                      className="retry-btn"
+                      title="Retry this card"
+                      aria-label={`Retry ${title}`}
+                    >↻ Retry</button>
+                  )}
+                </div>
+              </div>
+            );
+
+            return (
+              <>
+                {/* KPI row */}
+                <section className="grid grid-kpis" style={{marginBottom: 20}}>
+                  {ready('total') || failed('total') ? (
+                    <KPICard
+                      label="Total visitors"
+                      value={failed('total') ? '—' : fmtNum(totalNum)}
+                      trend={failed('total') ? null : trend}
+                      sub={`vs previous ${presetLabel(preset)}`}
+                    />
+                  ) : <SkeletonKPI />}
+                  {ready('hits') || failed('hits') ? (
+                    <KPICard
+                      label="Pageviews"
+                      value={failed('hits') ? '—' : fmtNum(pageviewSum)}
+                      sub={presetLabel(preset)}
+                    />
+                  ) : <SkeletonKPI />}
+                  {ready('hits') || failed('hits') ? (
+                    <KPICard
+                      label="Top page"
+                      value={failed('hits') ? '—' : topPagePath.name}
+                      sub={failed('hits') ? '' : `${fmtNum(topPagePath.count)} hits`}
+                      isString
+                    />
+                  ) : <SkeletonKPI />}
+                  {ready('hits') || failed('hits') ? (
+                    <KPICard
+                      label="Tracked paths"
+                      value={failed('hits') ? '—' : fmtNum(data?.hits?.hits?.length || 0)}
+                      sub="distinct URLs in range"
+                    />
+                  ) : <SkeletonKPI />}
+                </section>
+
+                {/* Traffic chart */}
+                <section style={{marginBottom: 20}}>
+                  {failed('hits') ? <ErrCard title="Visitors over time" onRetry={() => retryKey('hits')} />
+                    : ready('hits') ? <TrafficChart series={trafficSeries} group={group} />
+                    : <SkeletonCard h={280} />}
+                </section>
+
+                {/* Top pages + Languages — paired list cards. 70/30 split.
+                    Both load in Tier 1 so they appear together; an asymmetric
+                    skeleton (one rendered, one shimming) would look broken.
+                    Aggregate referrers aren't returned by GoatCounter at the
+                    dashboard level — click any row in Top Pages to drill in. */}
+                <section className="grid grid-7-3" style={{marginBottom: 20}}>
+                  {failed('hits') ? <ErrCard title="Top pages" onRetry={() => retryKey('hits')} />
+                    : ready('hits') ? (
+                      <TopPagesCard
+                        paths={data?.hits?.hits || []}
+                        total={totalNum}
+                        client={client}
+                        dateRange={dateRange}
+                        demoMode={demoMode}
+                        demoRefs={demoMode ? DEMO_REFS : null}
+                      />
+                    ) : <SkeletonCard />}
+                  {failed('languages') ? <ErrCard title="Languages" onRetry={() => retryKey('languages')} />
+                    : ready('languages') ? <TopListCard title="Languages" stats={data?.languages?.stats} />
+                    : <SkeletonCard />}
+                </section>
+
+                {/* Donuts: browsers / OS / devices — lazy on visibility (Tier 2) */}
+                <section ref={donutRowRef} className="grid grid-3" style={{marginBottom: 20}}>
+                  {failed('browsers') ? <ErrCard title="Browsers" onRetry={() => retryKey('browsers')} />
+                    : ready('browsers') ? <DonutCard title="Browsers" stats={data?.browsers?.stats} client={client} dateRange={dateRange} demoMode={demoMode} page="browsers" demoDetails={DEMO_BROWSER_DETAILS} />
+                    : <SkeletonCard />}
+                  {failed('systems') ? <ErrCard title="Operating systems" onRetry={() => retryKey('systems')} />
+                    : ready('systems') ? <DonutCard title="Operating systems" stats={data?.systems?.stats} client={client} dateRange={dateRange} demoMode={demoMode} page="systems" demoDetails={DEMO_SYSTEM_DETAILS} />
+                    : <SkeletonCard />}
+                  {failed('sizes') ? <ErrCard title="Devices" onRetry={() => retryKey('sizes')} />
+                    : ready('sizes') ? <DonutCard title="Devices" stats={data?.sizes?.stats} deviceMode client={client} dateRange={dateRange} demoMode={demoMode} page="sizes" demoDetails={DEMO_SIZE_DETAILS} />
+                    : <SkeletonCard />}
+                </section>
+
+                {/* Countries with embedded world map — full width, lazy on
+                    visibility (Tier 3). The map is the heaviest visual on the
+                    page and benefits from the full width; users who only want
+                    quick stats never need to scroll past it. */}
+                <section ref={geoRowRef} style={{marginBottom: 20}}>
+                  {failed('locations') ? <ErrCard title="Countries" onRetry={() => retryKey('locations')} />
+                    : ready('locations') ? (
+                      <TopListCard
+                        title="Countries"
+                        stats={data?.locations?.stats}
+                        prefix={(x) => <span style={{marginRight:8, fontSize:'1rem'}}>{flagFor(x.name)}</span>}
+                        topSlot={<WorldMap data={data?.locations?.stats} total={totalNum} />}
+                        client={client}
+                        dateRange={dateRange}
+                        demoMode={demoMode}
+                        page="locations"
+                        demoDetails={DEMO_LOCATION_DETAILS}
+                      />
+                    ) : <SkeletonCard />}
+                </section>
+
+                {/* Campaigns — lazy on visibility (Tier 4). Only renders the card if data has rows. */}
+                <section ref={campaignsRef} style={{marginBottom: 20}}>
+                  {ready('campaigns') && data?.campaigns?.stats?.length > 0 && (
+                    <div className="grid">
+                      <TopListCard
+                        title="Campaigns"
+                        subtitle="Campaign parameters seen in traffic"
+                        stats={data.campaigns.stats}
+                        client={client}
+                        dateRange={dateRange}
+                        demoMode={demoMode}
+                        page="campaigns"
+                        demoDetails={DEMO_CAMPAIGN_DETAILS}
+                      />
+                    </div>
+                  )}
+                </section>
+              </>
+            );
+          })()}
+
+          <footer className="footer">
+            Built with <span className="heart">♥</span> by{' '}
+            <a href="https://abhishekhsingh.github.io" target="_blank" rel="noopener noreferrer">Abhishekh Singh</a>
+            {' · '}
+            <a href="https://github.com/abhishekhsingh/goatcounter-dashboard" target="_blank" rel="noopener noreferrer">GitHub</a>
+            {' · '}
+            Powered by <a href="https://goatcounter.com" target="_blank" rel="noopener noreferrer">GoatCounter</a> API
+          </footer>
+        </div>
+        </>
+      );
+    }
+
+    // ============================================================
+    // ROOT
+    // ============================================================
+    function App() {
+      const [theme, toggleTheme] = useTheme();
+      const [config, setConfig] = useState(() => {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (raw) return JSON.parse(raw);
+        } catch (e) {}
+        return null;
+      });
+      const [authError, setAuthError] = useState('');
+      const [demoMode, setDemoMode] = useState(false);
+
+      const handleConnect = useCallback(({ baseURL, apiKey, me }) => {
+        const cfg = { baseURL, apiKey, me };
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(cfg)); } catch (e) {}
+        setConfig(cfg);
+        setDemoMode(false);
+        setAuthError('');
+      }, []);
+
+      const handleDisconnect = useCallback((msg) => {
+        try {
+          if (config?.baseURL) APIClient.clearCache(config.baseURL);
+          localStorage.removeItem(STORAGE_KEY);
+        } catch (e) {}
+        setConfig(null);
+        if (msg) setAuthError(msg);
+        else setAuthError('');
+      }, [config?.baseURL]);
+
+      // Demo mode: skip the connect form entirely and feed Dashboard a stub
+      // config. APIClient is created but never called (every fetch effect
+      // early-returns on demoMode). Exiting demo just clears the flag.
+      const handleTryDemo = useCallback(() => {
+        setDemoMode(true);
+        setAuthError('');
+      }, []);
+      const handleExitDemo = useCallback(() => {
+        setDemoMode(false);
+      }, []);
+
+      if (!config && !demoMode) {
+        return (
+          <ConnectScreen
+            onConnect={handleConnect}
+            onTryDemo={handleTryDemo}
+            initialError={authError}
+          />
+        );
+      }
+
+      const effectiveConfig = config || {
+        baseURL: '_demo_',
+        apiKey: '_demo_',
+        me: { site: { cname: 'Demo site', code: 'demo' } },
+      };
+
+      return (
+        <Dashboard
+          config={effectiveConfig}
+          onDisconnect={demoMode ? handleExitDemo : handleDisconnect}
+          theme={theme}
+          toggleTheme={toggleTheme}
+          demoMode={demoMode}
+        />
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
 </body>
 </html>
