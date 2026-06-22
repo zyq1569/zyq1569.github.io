@@ -1,340 +1,339 @@
 <!doctype html>
 <html lang="zh-Hant">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>J...Day</title>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
+  <title>J...Day</title>
 
-      html,
-      body {
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        font-family: "Microsoft JhengHei", sans-serif;
-        background: #000;
-      }
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-      /* =========================
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: "Microsoft JhengHei", sans-serif;
+      background: #000;
+    }
+
+    /* =========================
    背景
 ========================= */
-      body {
-        background-image:
-          linear-gradient(
-            to bottom,
-            rgba(0, 0, 0, 0.10),
-            rgba(60, 0, 0, 0.30),
-            rgba(120, 40, 0, 0.50)
-          ),
-          url("https://upload.wikimedia.org/wikipedia/commons/1/18/Last_Judgement_%28Michelangelo%29.jpg");
+    body {
+      background-image:
+        linear-gradient(to bottom,
+          rgba(0, 0, 0, 0.10),
+          rgba(60, 0, 0, 0.30),
+          rgba(120, 40, 0, 0.50)),
+        url("https://upload.wikimedia.org/wikipedia/commons/1/18/Last_Judgement_%28Michelangelo%29.jpg");
 
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
 
-        animation: bgMove 40s ease-in-out infinite alternate;
+      animation: bgMove 40s ease-in-out infinite alternate;
 
-        position: relative;
+      position: relative;
+    }
+
+    /* 微動態背景 */
+    @keyframes bgMove {
+      0% {
+        background-position: center top;
       }
 
-      /* 微動態背景 */
-      @keyframes bgMove {
-        0% {
-          background-position: center top;
-        }
-
-        100% {
-          background-position: center bottom;
-        }
+      100% {
+        background-position: center bottom;
       }
+    }
 
-      /* =========================
+    /* =========================
    黑暗煙霧
 ========================= */
-      body::before {
-        content: "";
-        position: absolute;
-        inset: 0;
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
 
-        background: radial-gradient(
-          circle at center,
+      background: radial-gradient(circle at center,
           rgba(255, 180, 120, 0.08),
-          rgba(0, 0, 0, 0.82)
-        );
+          rgba(0, 0, 0, 0.82));
 
-        z-index: 0;
-      }
+      z-index: 0;
+    }
 
-      /* =========================
+    /* =========================
    火焰光暈
 ========================= */
-      .fire-glow {
-        position: absolute;
-        bottom: -200px;
-        left: 50%;
-        transform: translateX(-50%);
+    .fire-glow {
+      position: absolute;
+      bottom: -200px;
+      left: 50%;
+      transform: translateX(-50%);
 
-        width: 1200px;
-        height: 500px;
+      width: 1200px;
+      height: 500px;
 
-        background: radial-gradient(
-          ellipse at center,
+      background: radial-gradient(ellipse at center,
           rgba(255, 120, 0, 0.42),
           rgba(255, 0, 0, 0.12),
-          transparent 70%
-        );
+          transparent 70%);
 
-        filter: blur(60px);
+      filter: blur(60px);
 
-        animation: firePulse 5s infinite alternate;
+      animation: firePulse 5s infinite alternate;
 
-        z-index: 0;
+      z-index: 0;
+    }
+
+    @keyframes firePulse {
+      from {
+        opacity: 0.4;
+        transform: translateX(-50%) scale(1);
       }
 
-      @keyframes firePulse {
-        from {
-          opacity: 0.4;
-          transform: translateX(-50%) scale(1);
-        }
-
-        to {
-          opacity: 0.9;
-          transform: translateX(-50%) scale(1.1);
-        }
+      to {
+        opacity: 0.9;
+        transform: translateX(-50%) scale(1.1);
       }
+    }
 
-      /* =========================
+    /* =========================
    頂部按鈕
 ========================= */
-      .top-buttons {
-        position: absolute;
+    .top-buttons {
+      position: absolute;
 
-        top: 30px;
-        left: 50%;
+      top: 30px;
+      left: 50%;
 
-        transform: translateX(-50%);
-        flex-wrap: nowrap;
-        display: flex;
-        gap: 7px;
+      transform: translateX(-50%);
+      flex-wrap: nowrap;
+      display: flex;
+      gap: 7px;
 
-        z-index: 10;
-      }
+      z-index: 10;
+    }
 
-      .top-buttons button {
-        padding: 15px 34px;
+    .top-buttons button {
+      padding: 15px 34px;
 
-        border: none;
-        border-radius: 14px;
+      border: none;
+      border-radius: 14px;
 
-        cursor: pointer;
+      cursor: pointer;
 
-        font-size: 16px;
-        font-weight: bold;
-        white-space: nowrap;
-        color: #fff;
+      font-size: 16px;
+      font-weight: bold;
+      white-space: nowrap;
+      color: #fff;
 
-        background: linear-gradient(135deg, #660000, #ff5500);
+      background: linear-gradient(135deg, #660000, #ff5500);
 
-        box-shadow: 0 0 20px rgba(255, 100, 0, 0.6);
+      box-shadow: 0 0 20px rgba(255, 100, 0, 0.6);
 
-        transition: 0.3s;
-      }
+      transition: 0.3s;
+    }
 
-      .top-buttons button:hover {
-        transform: scale(1.08);
+    .top-buttons button:hover {
+      transform: scale(1.08);
 
-        background: linear-gradient(135deg, #ff2200, #ffcc00);
+      background: linear-gradient(135deg, #ff2200, #ffcc00);
 
-        box-shadow: 0 0 35px rgba(255, 180, 0, 0.9);
-      }
+      box-shadow: 0 0 35px rgba(255, 180, 0, 0.9);
+    }
 
-      /* =========================
+    /* =========================
    標題
 ========================= */
-      .title {
-        position: absolute;
+    .title {
+      position: absolute;
 
-        top: 50%;
-        left: 50%;
+      top: 50%;
+      left: 50%;
 
-        transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
 
-        text-align: center;
+      text-align: center;
 
-        color: #fff;
+      color: #fff;
 
-        z-index: 5;
+      z-index: 5;
 
-        text-shadow:
-          0 0 15px rgba(255, 120, 0, 0.9),
-          0 0 40px rgba(255, 50, 0, 0.7);
-      }
+      text-shadow:
+        0 0 15px rgba(255, 120, 0, 0.9),
+        0 0 40px rgba(255, 50, 0, 0.7);
+    }
 
-      .title h1 {
-        font-size: 78px;
-        letter-spacing: 6px;
-      }
+    .title h1 {
+      font-size: 78px;
+      letter-spacing: 6px;
+    }
 
-      .title p {
-        margin-top: 18px;
+    .title p {
+      margin-top: 18px;
 
-        font-size: 26px;
+      font-size: 26px;
 
-        color: #f5d6a0;
-      }
+      color: #f5d6a0;
+    }
 
-      /* =========================
+    /* =========================
    iframe 內容區
 ========================= */
-      #iframeContainer {
-        position: absolute;
+    #iframeContainer {
+      position: absolute;
 
-        inset: 0;
+      inset: 0;
 
-        z-index: 20;
+      z-index: 20;
 
-        display: none;
+      display: none;
 
-        background: #000;
-      }
+      background: #000;
+    }
 
-      #iframeContainer iframe {
-        width: 100%;
-        height: 100%;
+    #iframeContainer iframe {
+      width: 100%;
+      height: 100%;
 
-        border: none;
-      }
+      border: none;
+    }
 
-      /* 關閉按鈕 */
-      .closeBtn {
-        position: absolute;
+    /* 關閉按鈕 */
+    .closeBtn {
+      position: absolute;
 
-        top: 20px;
-        right: 20px;
+      top: 20px;
+      right: 20px;
 
-        z-index: 50;
+      z-index: 50;
 
-        padding: 10px 18px;
+      padding: 10px 18px;
 
-        border: none;
-        border-radius: 10px;
+      border: none;
+      border-radius: 10px;
 
-        background: #ff3300;
-        color: #fff;
+      background: #ff3300;
+      color: #fff;
 
-        font-size: 16px;
-        cursor: pointer;
-      }
+      font-size: 16px;
+      cursor: pointer;
+    }
 
-      .closeBtn:hover {
-        background: #ff6600;
-      }
+    .closeBtn:hover {
+      background: #ff6600;
+    }
 
-      /* =========================
+    /* =========================
    浮動粒子
 ========================= */
-      .particle {
-        position: absolute;
+    .particle {
+      position: absolute;
 
-        width: 4px;
-        height: 4px;
+      width: 4px;
+      height: 4px;
 
-        border-radius: 50%;
+      border-radius: 50%;
 
-        background: rgba(255, 180, 100, 0.8);
+      background: rgba(255, 180, 100, 0.8);
 
-        animation: floatUp linear infinite;
+      animation: floatUp linear infinite;
+    }
+
+    @keyframes floatUp {
+      from {
+        transform: translateY(100vh);
+        opacity: 0;
       }
 
-      @keyframes floatUp {
-        from {
-          transform: translateY(100vh);
-          opacity: 0;
-        }
-
-        20% {
-          opacity: 1;
-        }
-
-        to {
-          transform: translateY(-120vh);
-          opacity: 0;
-        }
-      }
-    </style>
-  </head>
-
-  <body>
-    <!-- 火焰光暈 -->
-    <div class="fire-glow"></div>
-
-    <!-- 上方按鈕 -->
-    <div class="top-buttons">
-      <button onclick="openInside('https://zyq1569.github.io/all')">技術</button>
-
-      <button onclick="openInside('https://zyq1569.github.io/ai')">AI</button>
-    </div>
-
-    <!-- 標題 -->
-    <div class="title">
-      <!-- <h1>最後審判</h1> -->
-
-      <p>THE LAST JUDGMENT</p>
-    </div>
-
-    <!-- iframe -->
-    <div id="iframeContainer">
-      <!-- <button class="closeBtn" onclick="closeFrame()">關閉</button> -->
-
-      <iframe id="pageFrame"></iframe>
-    </div>
-
-    <script>
-      /* =========================
-           在頁面內打開網址
-        ========================= */
-      function openInside(url) {
-       // document.getElementById("iframeContainer").style.display = "block";
-       // document.getElementById("pageFrame").src = url;
-        window.location.href = url;
+      20% {
+        opacity: 1;
       }
 
-      /* =========================
-           關閉 iframe
-        ========================= */
-      function closeFrame() {
-        document.getElementById("iframeContainer").style.display = "none";
-
-        document.getElementById("pageFrame").src = "";
+      to {
+        transform: translateY(-120vh);
+        opacity: 0;
       }
+    }
+  </style>
+</head>
 
-      /* =========================
-           生成火焰粒子
-        ========================= */
-      for (let i = 0; i < 80; i++) {
-        let p = document.createElement("div");
+<body>
+  <!-- 火焰光暈 -->
+  <div class="fire-glow"></div>
 
-        p.className = "particle";
+  <!-- 上方按鈕 -->
+  <div class="top-buttons">
+    <button onclick="openInside('https://zyq1569.github.io/all')">技術</button>
 
-        p.style.left = Math.random() * 100 + "vw";
+    <button onclick="openInside('https://zyq1569.github.io/ai')">AI</button>
+  </div>
 
-        p.style.animationDuration = 6 + Math.random() * 10 + "s";
+  <!-- 標題 -->
+  <div class="title">
+    <!-- <h1>最後審判</h1> -->
 
-        p.style.animationDelay = Math.random() * 5 + "s";
+    <p>THE LAST JUDGMENT</p>
+  </div>
 
-        p.style.opacity = Math.random();
+  <!-- iframe -->
+  <div id="iframeContainer">
+    <!-- <button class="closeBtn" onclick="closeFrame()">關閉</button> -->
 
-        p.style.width = p.style.height = 2 + Math.random() * 5 + "px";
+    <iframe id="pageFrame"></iframe>
+  </div>
 
-        document.body.appendChild(p);
-      }
-    </script>
-  </body>
+  <script>
+    /* =========================
+         在頁面內打開網址
+      ========================= */
+    function openInside(url) {
+      // document.getElementById("iframeContainer").style.display = "block";
+      // document.getElementById("pageFrame").src = url;
+      window.location.href = url;
+    }
+
+    /* =========================
+         關閉 iframe
+      ========================= */
+    function closeFrame() {
+      document.getElementById("iframeContainer").style.display = "none";
+
+      document.getElementById("pageFrame").src = "";
+    }
+
+    /* =========================
+         生成火焰粒子
+      ========================= */
+    for (let i = 0; i < 80; i++) {
+      let p = document.createElement("div");
+
+      p.className = "particle";
+
+      p.style.left = Math.random() * 100 + "vw";
+
+      p.style.animationDuration = 6 + Math.random() * 10 + "s";
+
+      p.style.animationDelay = Math.random() * 5 + "s";
+
+      p.style.opacity = Math.random();
+
+      p.style.width = p.style.height = 2 + Math.random() * 5 + "px";
+
+      document.body.appendChild(p);
+    }
+  </script>
+  </script>
+  <script data-goatcounter="https://bitterlive.goatcounter.com/count" async src="/JS/count.js">
+  </script>
+</body>
+
 </html>

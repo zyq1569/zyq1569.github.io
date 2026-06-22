@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -18,7 +19,8 @@
             box-sizing: border-box;
         }
 
-        body, html {
+        body,
+        html {
             height: 100vh;
             height: 100dvh;
             overflow: hidden;
@@ -46,10 +48,10 @@
             left: 8%;
             width: 380px;
             height: 180%;
-            background: linear-gradient(to bottom, 
-                rgba(255, 255, 255, 0.78),
-                rgba(180, 220, 255, 0.48),
-                transparent);
+            background: linear-gradient(to bottom,
+                    rgba(255, 255, 255, 0.78),
+                    rgba(180, 220, 255, 0.48),
+                    transparent);
             filter: blur(58px);
             transform: rotate(15deg);
             animation: beamMove 16s infinite alternate ease-in-out;
@@ -59,13 +61,21 @@
         }
 
         @keyframes beamMove {
-            from { left: 3%; transform: rotate(12deg); }
-            to   { left: 68%; transform: rotate(22deg); }
+            from {
+                left: 3%;
+                transform: rotate(12deg);
+            }
+
+            to {
+                left: 68%;
+                transform: rotate(22deg);
+            }
         }
 
         canvas {
             position: fixed;
-            top: 0; left: 0;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             z-index: 2;
@@ -172,6 +182,7 @@
         }
     </style>
 </head>
+
 <body>
     <div id="background"></div>
     <div class="lightBeam"></div>
@@ -187,11 +198,12 @@
                 <a href="https://aistudio.google.com/prompts/new_chat" class="nav-link">📝AI.google-Gemini</a>
                 <a href="https://x.com/i/grok" class="nav-link">📝AI.X-grok</a>
                 <a href="https://github.com/freegate-release/website" class="nav-link">📬网络工具下載</a>
-                <a href="https://sourceforge.net/projects/health1212/files/Tools/OS%20Software/windows%20tools/fg805p.7z/download" class="nav-link">📬備用地址下載</a>
+                <a href="https://sourceforge.net/projects/health1212/files/Tools/OS%20Software/windows%20tools/fg805p.7z/download"
+                    class="nav-link">📬備用地址下載</a>
                 <a href="https://zyq1569.github.io/down" class="nav-link">📬其它下載</a>
                 <a href="https://archive.org/" class="nav-link">📸https://archive.org/包羅萬象.需網絡工具.</a>
-                <a href="https://zyq1569.github.io" class="nav-link">🏠主頁</a>             
-            <!-- <h1 class="title">星辰导航</h1>
+                <a href="https://zyq1569.github.io" class="nav-link">🏠主頁</a>
+                <!-- <h1 class="title">星辰导航</h1>
             <nav>
                 <a href="#" class="nav-link">🏠 首页</a>
                 <a href="#" class="nav-link">📝 博客</a>
@@ -288,5 +300,9 @@
             setInterval(drawFlash, 16);
         };
     </script>
+    </script>
+    <script data-goatcounter="https://bitterlive.goatcounter.com/count" async src="/JS/count.js">
+    </script>
 </body>
+
 </html>
