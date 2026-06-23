@@ -1655,7 +1655,7 @@
         e.preventDefault();
         setError('');
         let baseURL = url.trim();
-        if (!baseURL) { setError('Please enter your GoatCounter URL.'); return; }
+        if (!baseURL) { setError('Please enter your GoatCounter URL.https://.goatcounter.com'); return; }
         if (!/^https?:\/\//i.test(baseURL)) baseURL = 'https://' + baseURL;
         baseURL = baseURL.replace(/\/+$/, '');
         // If user pasted "...goatcounter.com/somepath", strip it — API lives at the root.
