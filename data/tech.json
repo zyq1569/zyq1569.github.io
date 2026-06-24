@@ -1,0 +1,197 @@
+{
+  "pages": [
+    {
+      "id": 1,
+      "title": "简易PACS系统模拟搭建（仅供参考学习）",
+      "category": "PACS",
+      "summary": "简易PACS系统模拟搭建（仅供参考学习）",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "目前测试环境 ：1. win10 home(64位)系统 【12G 内存，cpu i5-6200U】2. mariadb-10.5.5-winx64 -（支持linux 运行需要另外单独编译）具体应用包在下面链接 可以找到下載。"
+        },
+        {
+          "type": "text",
+          "value": "打开 HServerUI.exe，进行配置。如果需要使用dcm store scp，需要启动 SaveDcmInfo（保存dcm相关信息到数据库 ），针对数据库，建议用户名和密码设置和图中一样。如果测试 dcm Query 服务，需要scu端的AE 和 port 和图中一样（由于目前需要单独配置文件 才可以自定义）"
+        },
+        {
+          "type": "text",
+          "value": "在MHealthReport中启动相關的服務，及配置好端口，然後啟動應用，效果如下圖"
+        },
+        {
+          "type": "media-group",
+          "layout": "row",
+          "wrap": false,
+          "items": [
+            {
+              "type": "image",
+              "value": "./pic/e.jpeg"
+            },
+            {
+              "type": "image",
+              "value": "https://images.unsplash.com/photo-1520975916090-3105956dac38"
+            },
+            {
+              "type": "image",
+              "value": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
+            },
+            {
+              "type": "image",
+              "value": "https://images.unsplash.com/photo-1518837695005-2083093ee35b"
+            },
+            {
+              "type": "image",
+              "value": "https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d"
+            }
+          ]
+        },
+        {
+          "type": "image",
+          "value": "https://images.unsplash.com/photo-1555066931-4365d14bab8c"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "UI 设计理念",
+      "category": "Design",
+      "summary": "透明 UI 与信息层级",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "UI 核心是信息层级结构。"
+        },
+        {
+          "type": "image",
+          "value": "https://images.unsplash.com/photo-1522542550221-31fd19575a2d"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "性能优化策略",
+      "category": "Tech",
+      "summary": "渲染与加载优化方法",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "减少 DOM 操作是关键。"
+        },
+        {
+          "type": "video",
+          "value": "https://www.w3schools.com/html/mov_bbb.mp4"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "多媒体排版示例（横向滚动）",
+      "category": "Media",
+      "summary": "多个图片同行排列 + 横向滑动",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "下面是 media-group 横向排列示例"
+        },
+        {
+          "type": "media-group",
+          "layout": "row",
+          "wrap": false,
+          "items": [
+            {
+              "type": "image",
+              "value": "https://images.unsplash.com/photo-1501785888041-af3ef285b470"
+            },
+            {
+              "type": "image",
+              "value": "https://images.unsplash.com/photo-1520975916090-3105956dac38"
+            },
+            {
+              "type": "image",
+              "value": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
+            },
+            {
+              "type": "image",
+              "value": "https://images.unsplash.com/photo-1518837695005-2083093ee35b"
+            },
+            {
+              "type": "image",
+              "value": "https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "设计系统原则",
+      "category": "Design",
+      "summary": "模块化与一致性",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "设计系统必须保持一致性。"
+        },
+        {
+          "type": "text",
+          "value": "组件化是核心思想。"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "视频教学合集",
+      "category": "Media",
+      "summary": "嵌入视频与说明",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "下面是视频内容："
+        },
+        {
+          "type": "video",
+          "value": "https://www.w3schools.com/html/mov_bbb.mp4"
+        },
+        {
+          "type": "link",
+          "value": "https://developer.mozilla.org"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "综合布局测试页面",
+      "category": "Demo",
+      "summary": "混合 block + media-group + text",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "这是一个综合测试页面。"
+        },
+        {
+          "type": "media-group",
+          "layout": "grid",
+          "wrap": true,
+          "items": [
+            {
+              "type": "image",
+              "value": "https://images.unsplash.com/photo-1506744038136-46273834b3fb"
+            },
+            {
+              "type": "image",
+              "value": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e"
+            },
+            {
+              "type": "video",
+              "value": "https://www.w3schools.com/html/mov_bbb.mp4"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": "以上是混合布局示例。"
+        }
+      ]
+    }
+  ]
+}
