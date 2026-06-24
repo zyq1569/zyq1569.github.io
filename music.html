@@ -329,6 +329,10 @@
                     <option value="2">2x</option>
                 </select>
             </label>
+            <label style="display:flex;align-items:center;gap:4px;">
+                🔊
+                <input id="volume-slider" type="range" min="0" max="1" step="0.01" value="1">
+            </label>
             <a id="download-btn" href="#" download>下載</a>
         </div>
     </div>
@@ -386,11 +390,13 @@
         const playlistAudio = document.createElement("audio");
         playlistAudio.style.display = "none";
         document.body.appendChild(playlistAudio);
+        playlistAudio.volume = 1;
 
         const playBtn = document.getElementById("play-btn");
         const downloadBtn = document.getElementById("download-btn");
         const progressBar = document.getElementById("progress-bar");
         const speedSelect = document.getElementById("speed-select");
+        const volumeSlider = document.getElementById("volume-slider");
 
         let playlist = [];
         let currentIndex = 0;
@@ -501,6 +507,11 @@
         });
 
         speedSelect.addEventListener("change", () => playlistAudio.playbackRate = parseFloat(speedSelect.value));
+
+        //音量事件控制
+        volumeSlider.addEventListener("input", () => {
+            playlistAudio.volume = parseFloat(volumeSlider.value);
+        });
 
         playlistAudio.addEventListener("timeupdate", () => {
             if (playlistAudio.duration) progressBar.value = (playlistAudio.currentTime / playlistAudio.duration) * 100;
