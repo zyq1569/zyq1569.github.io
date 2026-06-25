@@ -1,305 +1,399 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Bittersweet</title>
-    <link rel="shortcut icon" href="office/assets/img/health.ico" type="image/x-icon">
-    <!-- Bootstrap core CSS -->
+    <title>Apple Gallery Full</title>
 
-    <!-- Font Awesome -->
-    <link href="office/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
-    <!-- GoogleFonts -->
-    <link href="office/webfonts/GoogleFonts.woff2" rel="stylesheet" />
-    <link href="office/webfonts/GoogleFonts2.woff2" rel="stylesheet" />
-
-    <!-- MDB -->
-    <link href="office/css/mdb.min.css" rel="stylesheet" />
-    <script type="text/javascript" src="office/js/mdb.min.js"></script>
-
-    <!--  -->
     <style>
-        #introCarousel,
-        .carousel-inner,
-        .carousel-item,
-        .carousel-item.active {
+        body {
+            margin: 0;
+            background: #000;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, Arial;
+        }
+
+        /* ===================== 主圖 ===================== */
+        .mainSwiper {
+            width: 100%;
             height: 100vh;
+            background: #000;
         }
 
-        .carousel-item:nth-child(1) {
-            background-image: url(resource/images/login_web.jpg);
-            background-repeat: no-repeat;
-            background-size: contain;
-            background-position: center center;
-            object-fit: scale-down;
+        .mainSwiper .swiper-slide {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #000;
         }
 
-        .carousel-item:nth-child(2) {
-            background-image: url(resource/images/add_and_mod_study_web.png);
-            background-repeat: no-repeat;
-            background-size: contain;
-            background-position: center center;
-            object-fit: scale-down;
+        .mainSwiper img {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
         }
 
-        .carousel-item:nth-child(3) {
-            background-image: url(resource/images/show_study_web.png);
-            background-repeat: no-repeat;
-            background-size: contain;
-            background-position: center center;
-            object-fit: scale-down;
+        /* ===================== overlay ===================== */
+        .overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.25);
         }
 
-        .carousel-item:nth-child(4) {
-            background-image: url(resource/images/image_web1.png);
-            background-repeat: no-repeat;
-            background-size: contain;
-            background-position: center center;
-            object-fit: scale-down;
+        /* ===================== hero content（恢復） ===================== */
+        .hero-content {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #2e0bdd;
+            width: 90%;
+            z-index: 10;
         }
 
-        .carousel-item:nth-child(5) {
-            background-image: url(resource/images/image_web2.png);
-            background-repeat: no-repeat;
-            background-size: contain;
-            background-position: center center;
-            object-fit: scale-down;
+        .hero-content h1 {
+            font-size: clamp(24px, 4vw, 60px);
+            margin: 0 0 10px;
         }
 
-        .carousel-item:nth-child(6) {
-            background-image: url(resource/images/report_web.png);
-            background-repeat: no-repeat;
-            background-size: contain;
-            background-position: center center;
-            object-fit: scale-down;
+        .hero-content p {
+            font-size: clamp(14px, 2vw, 20px);
+            margin: 0 0 20px;
+            opacity: 0.9;
         }
 
-        .carousel-item:nth-child(7) {
-            background-image: url(resource/images/add_and_mod_study_app1.png);
-            background-repeat: no-repeat;
-            background-size: contain;
-            background-position: center center;
-            object-fit: scale-down;
+        .hero-content .btns {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
         }
 
-        .carousel-item:nth-child(8) {
-            background-image: url(resource/images/add_and_mod_study_app2.png);
-            background-repeat: no-repeat;
-            background-size: contain;
-            background-position: center center;
-            object-fit: scale-down;
+        .hero-content a {
+            padding: 10px 20px;
+            border-radius: 999px;
+            background: #fff;
+            color: #12de5d;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
         }
 
-        .carousel-item:nth-child(9) {
-            background-image: url(resource/images/add_and_mod_study_app3.png);
-            background-repeat: no-repeat;
-            background-size: contain;
-            background-position: center center;
-            object-fit: scale-down;
-        }
+        /* 手機端配置 */
+        @media (max-width: 768px) {
 
-        .carousel-item:nth-child(10) {
-            background-image: url(resource/images/report_app_show_web.png);
-            background-repeat: no-repeat;
-            background-size: contain;
-            background-position: center center;
-            object-fit: scale-down;
-        }
+            .hero-content {
+                width: 92%;
+                top: 45%;
+                /* 稍微往上，避免被縮圖擋住 */
+                transform: translate(-50%, -45%);
+                padding: 0 10px;
+            }
 
-        .carousel-item:nth-child(11) {
-            background-image: url(resource/images/image_app1.png);
-            background-repeat: no-repeat;
-            background-size: contain;
-            background-position: center center;
-            object-fit: scale-down;
-        }
+            .hero-content h1 {
+                font-size: 22px;
+                /* 明顯縮小標題 */
+                margin-bottom: 6px;
+            }
 
-        .carousel-item:nth-child(12) {
-            background-image: url(resource/images/image_app2.png);
-            background-repeat: no-repeat;
-            background-size: contain;
-            background-position: center center;
-            object-fit: scale-down;
-        }
+            .hero-content p {
+                font-size: 13px;
+                margin-bottom: 12px;
+                line-height: 1.4;
+            }
 
-        .carousel-item:nth-child(13) {
-            background-image: url(resource/images/report_word_app.png);
-            background-repeat: no-repeat;
-            background-size: contain;
-            background-position: center center;
-            object-fit: scale-down;
-        }
+            .hero-content .btns {
+                flex-direction: column;
+                /* 按鈕改成垂直 */
+                gap: 8px;
+            }
 
-        /* Height for devices larger than 576px */
-        @media (min-width: 992px) {
-            #introCarousel {
-                margin-top: -1px;
+            .hero-content a {
+                padding: 8px 16px;
+                font-size: 13px;
+                width: fit-content;
+                margin: 0 auto;
             }
         }
 
-        .navbar .nav-link {
-            color: #fff !important;
+        /* ===================== 縮圖 Apple glass ===================== */
+        .thumbSwiper {
+            position: absolute;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+
+            width: auto;
+            max-width: 90vw;
+
+            padding: 10px 14px;
+
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+
+            border-radius: 18px;
+            z-index: 50;
+        }
+
+        .thumbSwiper .swiper-wrapper {
+            display: flex;
+            align-items: center;
+        }
+
+        .thumbSwiper .swiper-slide {
+            width: auto;
+            opacity: 0.4;
+            transition: all 0.25s ease;
+            cursor: pointer;
+            opacity: 0.4;
+            transform: scale(1);
+        }
+
+        .thumbSwiper .swiper-slide:hover {
+            opacity: 1;
+            transform: scale(1.12);
+            filter: brightness(1.2);
+        }
+
+        /* 🔵 當前 active（Swiper 控制） */
+        .thumbSwiper .swiper-slide-thumb-active {
+            opacity: 1;
+            transform: scale(1.2);
+            filter: brightness(1.3);
+        }
+
+        .thumbSwiper .swiper-slide-thumb-active {
+            opacity: 1;
+            transform: scale(1.2);
+
+            /* 🔵 新增：邊框高亮 121212*/
+             border: 2px solid #121212;
+            /* border: 2px solid rgba(0, 255, 0, 0.8); */
+
+            /* ✨ 發光效果 */
+             box-shadow: 0 0 12px  #f6f4f4;
+            /* box-shadow: 0 0 12px rgba(0, 170, 255, 0.8); */
+
+            border-radius: 10px;
+
+            filter: brightness(1.3);
+        }
+
+        .thumbSwiper img {
+            height: 52px;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+
+        .swiper-button-next,
+        .swiper-button-prev {
+            color: #fff;
+            opacity: 0.6;
         }
     </style>
-
-    <!-- Carousel wrapper -->
-    <div id="introCarousel" class="carousel slide carousel-fade shadow-2-strong" data-mdb-ride="carousel"
-        data-interval="2500">
-        <!-- Indicators -->
-        <ol class="carousel-indicators">
-            <li data-mdb-target="#introCarousel" data-mdb-slide-to="0" class="active"></li>
-            <li data-mdb-target="#introCarousel" data-mdb-slide-to="1"></li>
-            <li data-mdb-target="#introCarousel" data-mdb-slide-to="2"></li>
-            <li data-mdb-target="#introCarousel" data-mdb-slide-to="3"></li>
-            <li data-mdb-target="#introCarousel" data-mdb-slide-to="4"></li>
-            <li data-mdb-target="#introCarousel" data-mdb-slide-to="5"></li>
-            <li data-mdb-target="#introCarousel" data-mdb-slide-to="6"></li>
-            <li data-mdb-target="#introCarousel" data-mdb-slide-to="7"></li>
-            <li data-mdb-target="#introCarousel" data-mdb-slide-to="8"></li>
-            <li data-mdb-target="#introCarousel" data-mdb-slide-to="9"></li>
-            <li data-mdb-target="#introCarousel" data-mdb-slide-to="10"></li>
-            <li data-mdb-target="#introCarousel" data-mdb-slide-to="11"></li>
-            <li data-mdb-target="#introCarousel" data-mdb-slide-to="12"></li>
-        </ol>
-        <!-- Inner -->
-        <div class="carousel-inner">
-            <!-- Single item -->
-            <div class="carousel-item active">
-                <div class="mask" style="background-color: rgba(0, 0, 0, 0.3);">
-                    <div class="d-flex justify-content-center align-items-center h-100">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Single item -->
-            <div class="carousel-item">
-                <div class="mask" style="background-color: rgba(0, 0, 0, 0.3);">
-                    <div class="d-flex justify-content-center align-items-center h-100">
-                    </div>
-                </div>
-            </div>
-
-            <div class="carousel-item">
-                <div class="mask" style="background-color: rgba(0, 0, 0, 0.3);">
-                    <div class="d-flex justify-content-center align-items-center h-100">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Single item -->
-            <div class="carousel-item">
-                <div class="mask" style="background-color: rgba(0, 0, 0, 0.4);">
-                    <div class="d-flex justify-content-center align-items-center h-100">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Single item -->
-            <div class="carousel-item">
-                <div class="mask" style="background-color: rgba(0, 0, 0, 0.2);">
-                    <div class="d-flex justify-content-center align-items-center h-100">
-                    </div>
-                </div>
-            </div>
-
-            <div class="carousel-item">
-                <div class="mask" style="background-color: rgba(0, 0, 0, 0.4);">
-                    <div class="d-flex justify-content-center align-items-center h-100">
-                    </div>
-                </div>
-            </div>
-
-            <div class="carousel-item">
-                <div class="mask" style="background-color: rgba(0, 0, 0, 0.4);">
-                    <div class="d-flex justify-content-center align-items-center h-100">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Single item -->
-            <div class="carousel-item">
-                <div class="mask" style="background-color: rgba(0, 0, 0, 0.3);">
-                    <div class="d-flex justify-content-center align-items-center h-100">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Single item -->
-            <div class="carousel-item">
-                <div class="mask" style="background-color: rgba(0, 0, 0, 0.3);">
-                    <div class="d-flex justify-content-center align-items-center h-100">
-                    </div>
-                </div>
-            </div>
-
-            <div class="carousel-item">
-                <div class="mask" style="background-color: rgba(0, 0, 0, 0.3);">
-                    <div class="d-flex justify-content-center align-items-center h-100">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Single item -->
-            <div class="carousel-item">
-                <div class="mask" style="background-color: rgba(0, 0, 0, 0.4);">
-                    <div class="d-flex justify-content-center align-items-center h-100">
-                        <div class="text-white text-center">
-                            <h1 class="mb-3">影像</h1>
-                            <h5 class="mb-4">支持常规二维功能(pan, zoom, rotate, flip, invert,distances, angles, 2D ROIs,
-                                TA-GT,MIP...),也支持SPECT-CT/PET-CT融合、三维重建3D.</h5>
-                            <a class="btn btn-outline-light btn-lg m-2"
-                                href="https://sourceforge.net/projects/health1212/files/Tools/" target="_blank"
-                                role="button">Download</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Single item -->
-            <div class="carousel-item">
-                <div class="mask" style="background-color: rgba(0, 0, 0, 0.2);">
-                    <div class="d-flex justify-content-center align-items-center h-100">
-                    </div>
-                </div>
-            </div>
-
-            <div class="carousel-item">
-                <div class="mask" style="background-color: rgba(0, 0, 0, 0.473);">
-                    <div class="d-flex justify-content-center align-items-center h-100">
-                        <div class="text-white text-center">
-                            <a class="btn btn-outline-light btn-lg m-1"
-                                href="https://sourceforge.net/projects/health1212/files/Tools/" target="_blank"
-                                role="button">Download</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <a class="carousel-control-prev" href="#introCarousel" role="button" data-mdb-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#introCarousel" role="button" data-mdb-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
-        </div>
-        <!-- Inner -->
-    </div>
-
-    <p> zyq1569@126.com:人身难得.佛法难闻 </p>
-
-    </script>
-    <script data-goatcounter="https://bitterlive.goatcounter.com/count" async src="./JS/count.js">
-    </script>
 </head>
 
-<!-- 开发内容更新日志 参考 https://obsproject.com/blog -->
-<!-- data-interval 设置间隔时间 单位毫秒 -->
-<!-- https://getbootstrap.net/docs/components/carousel/ -->
+<body>
+
+    <!-- 主圖 -->
+    <div class="swiper mainSwiper">
+        <div class="swiper-wrapper" id="mainWrapper"></div>
+
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+    </div>
+
+    <!-- 縮圖 -->
+    <div class="swiper thumbSwiper">
+        <div class="swiper-wrapper" id="thumbWrapper"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script>
+
+        // ===================== data =====================
+        const images = [
+            {
+                src: "./resource/images/login_web.jpg",
+                title: "WEB登錄界面",
+                desc: "web",
+                btn1: "更多",
+                btn2: "下載",
+                link1: "#",
+                link2: "#"
+            },
+            {
+                src: "./resource/images/add_and_mod_study_web.png",
+                title: "登記界面",
+                desc: "登記信息",
+                btn1: "更多",
+                btn2: "下載",
+                link1: "#",
+                link2: "#"
+            },
+            {
+                src: "./resource/images/show_study_web.png",
+                title: "信息列表界面",
+                desc: "登記信息列表",
+                btn1: "更多",
+                btn2: "下載",
+                link1: "#",
+                link2: "#"
+            },
+            {
+                src: "./resource/images/image_web1.png",
+                title: "WEB圖像查看界面",
+                desc: "圖像瀏覽",
+                btn1: "更多",
+                btn2: "下載",
+                link1: "#",
+                link2: "#"
+            },
+            {
+                src: "./resource/images/image_web2.png",
+                title: "WEB圖像查看界面",
+                desc: "圖像瀏覽",
+                btn1: "更多",
+                btn2: "下載",
+                link1: "#",
+                link2: "#"
+            },
+            {
+                src: "./resource/images/add_and_mod_study_app1.png",
+                title: "App端登記信息界面",
+                desc: "登記信息",
+                btn1: "更多",
+                btn2: "下載",
+                link1: "#",
+                link2: "#"
+            },
+            {
+                src: "./resource/images/add_and_mod_study_app2.png",
+                title: "App端登記信息界面",
+                desc: "登記信息",
+                btn1: "更多",
+                btn2: "下載",
+                link1: "#",
+                link2: "#"
+            },
+            {
+                src: "./resource/images/add_and_mod_study_app3.png",
+                title: "App端檢查信息界面",
+                desc: "檢查信息",
+                btn1: "更多",
+                btn2: "下載",
+                link1: "#",
+                link2: "#"
+            },
+            {
+                src: "./resource/images/report_app_show_web.png",
+                title: "App端集成報告界面",
+                desc: "檢查報告",
+                btn1: "更多",
+                btn2: "下載",
+                link1: "#",
+                link2: "#"
+            },
+            {
+                src: "./resource/images/image_app1.png",
+                title: "專業影像瀏覽界面",
+                desc: "檢查影像瀏覽",
+                btn1: "更多",
+                btn2: "下載",
+                link1: "#",
+                link2: "#"
+            },
+            {
+                src: "./resource/images/image_app2.png",
+                title: "專業影像MPR界面",
+                desc: "影像MPR瀏覽",
+                btn1: "更多",
+                btn2: "下載",
+                link1: "#",
+                link2: "#"
+            },
+            {
+                src: "./resource/images/report_word_app.png",
+                title: "專業檢查報告界面",
+                desc: "檢查報告",
+                btn1: "更多",
+                btn2: "下載",
+                link1: "#",
+                link2: "#"
+            }
+        ];
+
+
+        // ===================== DOM =====================
+        const mainWrapper = document.getElementById("mainWrapper");
+        const thumbWrapper = document.getElementById("thumbWrapper");
+
+        // ===================== render =====================
+        images.forEach(item => {
+
+            // ===== 主圖 =====
+            const slide = document.createElement("div");
+            slide.className = "swiper-slide";
+
+            slide.innerHTML = `
+        <img src="${item.src}">
+        <div class="overlay"></div>
+
+        <div class="hero-content">
+            <h1>${item.title}</h1>
+            <p>${item.desc}</p>
+
+            <div class="btns">
+                <a href="${item.link1}">${item.btn1}</a>
+                <a href="${item.link2}">${item.btn2}</a>
+            </div>
+        </div>
+    `;
+
+            mainWrapper.appendChild(slide);
+
+            // ===== 縮圖 =====
+            const thumb = document.createElement("div");
+            thumb.className = "swiper-slide";
+
+            thumb.innerHTML = `<img src="${item.src}">`;
+
+            thumbWrapper.appendChild(thumb);
+
+        });
+
+        // ===================== Swiper =====================
+
+        // 縮圖（Apple glass）
+        const thumbs = new Swiper(".thumbSwiper", {
+            slidesPerView: "auto",
+            spaceBetween: 10,
+            watchSlidesProgress: true
+        });
+
+        // 主圖
+        const mainSwiper = new Swiper(".mainSwiper", {
+            loop: true,
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev"
+            },
+            thumbs: {
+                swiper: thumbs
+            }
+        });
+
+    </script>
+
+</body>
 
 </html>
