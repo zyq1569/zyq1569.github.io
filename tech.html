@@ -225,20 +225,6 @@
       color: #8fd3ff;
     }
 
-    /* back button */
-    .back {
-      position: fixed;
-      right: 20px;
-      top: 20px;
-      z-index: 20;
-      padding: 10px 14px;
-      border-radius: 10px;
-      border: none;
-      background: rgba(255, 255, 255, 0.15);
-      color: white;
-      cursor: pointer;
-    }
-
     .home {
       padding: 10px 14px;
       border-radius: 10px;
@@ -246,6 +232,15 @@
       background: rgba(255, 255, 255, 0.15);
       color: white;
       cursor: pointer;
+
+      height: 40px;
+      display: flex;
+      align-items: center;
+    }
+
+    #detail h1 {
+      text-align: center;
+      margin: 20px 0;
     }
 
     /* =========================
@@ -264,18 +259,6 @@
       width: 100%;
     }
 
-    /* container */
-    .media-container {
-      display: grid;
-      gap: 10px;
-    }
-
-    /* =========================
-   GRID MODE（默认）
-========================= */
-    .media-container.grid {
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    }
 
     /* =========================
    ROW MODE（强制一行）
@@ -284,13 +267,6 @@
       grid-auto-flow: column;
       grid-auto-columns: 160px;
       overflow-x: auto;
-    }
-
-    /* =========================
-   COLUMN MODE
-========================= */
-    .media-container.column {
-      grid-template-columns: 1fr;
     }
 
     /* =========================
@@ -314,6 +290,85 @@
     .media-group.wrap .media-container.grid {
       overflow: visible;
     }
+
+
+    /* =========================
+   SMART MEDIA ENGINE
+========================= */
+
+    /* 单图 */
+    .single-media {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+    }
+
+    .single-media img,
+    .single-media video {
+      display: block;
+    }
+
+    /* 桌面端 */
+    @media (min-width: 769px) {
+
+      .single-media img,
+      .single-media video {
+        width: 66.7%;
+        max-width: 900px;
+        height: auto;
+      }
+    }
+
+    /* 手机端保持原样 */
+    @media (max-width: 768px) {
+
+      .single-media img,
+      .single-media video {
+        width: 100%;
+      }
+    }
+
+    /* =========================
+   MULTI MEDIA ENGINE
+========================= */
+
+    .media-container {
+      width: 100%;
+      gap: 12px;
+    }
+
+    /* 单图 */
+    .media-container.column {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .media-container.column .media-item {
+      width: 66.7%;
+      max-width: 900px;
+    }
+
+    /* 多图 */
+    .media-container.grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 12px;
+    }
+
+    /* 防止图片把 Grid 撑坏 */
+    .media-item {
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .media-item img,
+    .media-item video {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 12px;
+    }
   </style>
 </head>
 
@@ -322,15 +377,19 @@
   <div id="stars"></div>
 
   <header>
+    <button class="home" onclick="location.href='https://zyq1569.github.io/'"> 主頁 </button>
     <input id="search" placeholder="搜索文章..." />
     <select id="category"></select>
     <select id="sort">
       <option value="new">最新</option>
       <option value="old">最旧</option>
     </select>
+    <!-- ✅ 新增 Home 按钮 -->
+    <button class="home" onclick="goHome()">返回</button>
+
   </header>
 
-  <button class="back" onclick="back()">返回</button>
+
 
   <!-- LIST -->
   <div id="app"></div>
@@ -447,50 +506,64 @@
       });
     }
     function renderBlock(b) {
+
       const el = document.createElement("div");
       el.className = "block";
 
-      /* =========================
-       TEXT
-    ========================= */
       if (b.type === "text") {
+
         el.innerHTML = `<p>${b.value}</p>`;
+
       } else if (b.type === "image") {
 
-        /* =========================
-         IMAGE
-      ========================= */
-        el.innerHTML = `<img src="${b.value}" />`;
+        const wrap = document.createElement("div");
+        wrap.className = "single-media";
+
+        wrap.innerHTML =
+          `<img src="${b.value}" loading="lazy">`;
+
+        el.appendChild(wrap);
+
       } else if (b.type === "video") {
 
-        /* =========================
-         VIDEO
-      ========================= */
-        el.innerHTML = `<video controls src="${b.value}"></video>`;
+        const wrap = document.createElement("div");
+        wrap.className = "single-media";
+
+        wrap.innerHTML =
+          `<video controls src="${b.value}"></video>`;
+
+        el.appendChild(wrap);
+
       } else if (b.type === "link") {
 
-        /* =========================
-         LINK
-      ========================= */
-        el.innerHTML = `<a href="${b.value}" target="_blank">${b.value}</a>`;
+        el.innerHTML =
+          `<a href="${b.value}" target="_blank">${b.value}</a>`;
+
       } else if (b.type === "media-group") {
 
-        /* =========================
-         🔥 MEDIA GROUP（多图/视频组合）
-      ========================= */
         const container = document.createElement("div");
-        container.className = "media-container " + (b.layout || "grid");
 
-        b.items.forEach((item) => {
+        const count = b.items.length;
+
+        if (count === 1) {
+          container.className = "media-container column";
+        } else {
+          container.className = "media-container grid";
+        }
+
+        b.items.forEach(item => {
+
           const m = document.createElement("div");
           m.className = "media-item";
 
           if (item.type === "image") {
-            m.innerHTML = `<img src="${item.value}" />`;
+            m.innerHTML =
+              `<img src="${item.value}" loading="lazy">`;
           }
 
           if (item.type === "video") {
-            m.innerHTML = `<video controls src="${item.value}"></video>`;
+            m.innerHTML =
+              `<video controls src="${item.value}"></video>`;
           }
 
           container.appendChild(m);
@@ -514,6 +587,13 @@
     search.oninput = renderList;
     category.onchange = renderList;
     sort.onchange = renderList;
+
+
+    function goHome() {
+      document.getElementById("detail").style.display = "none";
+      document.getElementById("app").style.display = "grid";
+      current = null;
+    }
   </script>
 </body>
 
