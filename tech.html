@@ -74,9 +74,20 @@
       backdrop-filter: blur(14px);
       background: rgba(0, 0, 0, 0.35);
       padding: 10px;
+
       display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
+      flex-wrap: nowrap;
+
+      gap: 6px;
+
+      overflow-x: auto;
+      overflow-y: hidden;
+
+      scrollbar-width: none;
+    }
+
+    header::-webkit-scrollbar {
+      display: none;
     }
 
     input,
@@ -369,6 +380,48 @@
       display: block;
       border-radius: 12px;
     }
+
+    /* =========================
+   MOBILE MEDIA FIX
+========================= */
+
+    @media (max-width: 768px) {
+
+      /* 单图 */
+      .single-media img,
+      .single-media video {
+        width: 100% !important;
+        max-width: none;
+      }
+
+      /* media-group 单图 */
+      .media-container.column .media-item {
+        width: 100% !important;
+        max-width: none;
+      }
+
+      /* 多图 */
+      .media-container.grid {
+        display: grid;
+
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr));
+
+        gap: 8px;
+      }
+
+      .media-item {
+        width: 100% !important;
+        min-width: 0;
+      }
+
+      .media-item img,
+      .media-item video {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+    }
   </style>
 </head>
 
@@ -386,7 +439,6 @@
     </select>
     <!-- ✅ 新增 Home 按钮 -->
     <button class="home" onclick="goHome()">返回</button>
-
   </header>
 
 
