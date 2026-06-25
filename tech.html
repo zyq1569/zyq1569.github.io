@@ -232,17 +232,31 @@
       color: #8fd3ff;
     }
 
-    .home {
-      padding: 10px 14px;
-      border-radius: 10px;
-      border: none;
-      background: rgba(255, 255, 255, 0.15);
-      color: white;
-      cursor: pointer;
+    .home,
+    .back,
+    .nav-btn {
 
       height: 40px;
+
       display: flex;
       align-items: center;
+      justify-content: center;
+
+      padding: 0 10px;
+
+      white-space: nowrap;
+      /* ⭐ 禁止文字换行 */
+
+      flex-shrink: 0;
+      /* ⭐ 禁止被压缩 */
+
+      border-radius: 10px;
+      border: none;
+
+      background: rgba(255, 255, 255, .15);
+      color: white;
+
+      cursor: pointer;
     }
 
     #detail h1 {
@@ -416,6 +430,31 @@
         width: 100%;
         height: auto;
         display: block;
+      }
+    }
+
+
+    @media (max-width: 768px) {
+
+      .home,
+      .back,
+      .nav-btn {
+
+        height: 34px;
+
+        padding: 0 8px;
+
+        font-size: 13px;
+      }
+
+      input,
+      select {
+
+        min-width: 70px;
+
+        font-size: 13px;
+
+        padding: 8px;
       }
     }
   </style>
