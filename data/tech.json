@@ -54,28 +54,56 @@
     {
       "id": 2,
       "title": "Open Word",
-      "category": "Design",
-      "summary": "透明 UI 与信息层级",
+      "category": "Office",
+      "summary": "COMING FOR YOU. STAY TUNED",
       "blocks": [
         {
           "type": "text",
-          "value": "以开源calligra为基础开发的Office，包含word，直观的文字处理应用程序,支持图像表格的富文本编辑,使用简单.更詳細下面鏈接"
+          "value": "以开源calligra为基础开发的Office，包含word，直观的文字处理应用程序,支持图像表格的富文本编辑,使用简单.文件下面鏈接"
         },
         {
           "type": "link",
-          "value": "https://zyq1569.github.io/all"
+          "value": "https://zyq1569.github.io/OpenTools.html"
         },
         {
           "type": "image",
           "value": "./office/assets/img/words-summary.png"
+        },
+        {
+          "type": "text",
+          "value": "OpenWord:文档处理应用程序,支持图像、图表等添加到文档中,通过鼠标拖入文档中.(基于开源Calligra 开发)."
+        },
+        {
+          "type": "text",
+          "value": "进一步便利的调整编辑,如移动、旋转、调整大小及设置文字紧贴地围绕图像周围."
+        },
+        {
+          "type": "text",
+          "value": "兼容性：OpenWord可以打开和保存ODF文档作为其默认文件格式.开放文档格式是OpenOffice.org、 LibreOffice、Microsoft Office、Google Docs、Lotus Symphony 以及许多其他支持的供应商中立格式。."
+        },
+        {
+          "type": "text",
+          "value": "此外，还可以打开Microsoft Office Word文件（.doc 和 .docx）.之后, 您可以编辑文档并将其保存为默认ODF,有限支持保存为docx."
+        },
+        {
+          "type": "text",
+          "value": "打印預覽."
+        },
+        {
+          "type": "image",
+          "value": "./office/assets/img/words-printpreview.png"
+        },
+        {
+          "type": "text",
+          "value": "简洁的打印预览对话框.当预览确认值得打印时,可以使用选择的打印机打印或PDF格式文件导出电子出版."
         }
       ]
     },
     {
       "id": 3,
-      "title": "性能优化策略",
-      "category": "Tech",
-      "summary": "渲染与加载优化方法",
+      "title": "三維重建",
+      "category": "醫學",
+      "summary": "COMING FOR YOU. STAY TUNED",
       "blocks": [
         {
           "type": "text",
@@ -89,9 +117,9 @@
     },
     {
       "id": 4,
-      "title": "多媒体排版示例（横向滚动）",
-      "category": "Media",
-      "summary": "多个图片同行排列 + 横向滑动",
+      "title": "Dicom解析",
+      "category": "醫學",
+      "summary": "COMING FOR YOU. STAY TUNED",
       "blocks": [
         {
           "type": "text",
@@ -128,9 +156,9 @@
     },
     {
       "id": 5,
-      "title": "设计系统原则",
-      "category": "Design",
-      "summary": "模块化与一致性",
+      "title": "Dicom SCU",
+      "category": "醫學",
+      "summary": "COMING FOR YOU. STAY TUNED",
       "blocks": [
         {
           "type": "text",
@@ -144,9 +172,9 @@
     },
     {
       "id": 6,
-      "title": "视频教学合集",
-      "category": "Media",
-      "summary": "嵌入视频与说明",
+      "title": "醫學MPR",
+      "category": "醫學",
+      "summary": "COMING FOR YOU. STAY TUNED",
       "blocks": [
         {
           "type": "text",
@@ -164,9 +192,9 @@
     },
     {
       "id": 7,
-      "title": "综合布局测试页面",
-      "category": "Demo",
-      "summary": "混合 block + media-group + text",
+      "title": "醫學CPR",
+      "category": "醫學",
+      "summary": "COMING FOR YOU. STAY TUNED",
       "blocks": [
         {
           "type": "text",
