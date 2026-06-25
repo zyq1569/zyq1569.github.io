@@ -53,17 +53,21 @@
     },
     {
       "id": 2,
-      "title": "UI 设计理念",
+      "title": "Open Word",
       "category": "Design",
       "summary": "透明 UI 与信息层级",
       "blocks": [
         {
           "type": "text",
-          "value": "UI 核心是信息层级结构。"
+          "value": "以开源calligra为基础开发的Office，包含word，直观的文字处理应用程序,支持图像表格的富文本编辑,使用简单.更詳細下面鏈接"
+        },
+        {
+          "type": "link",
+          "value": "https://zyq1569.github.io/all"
         },
         {
           "type": "image",
-          "value": "https://images.unsplash.com/photo-1522542550221-31fd19575a2d"
+          "value": "./office/assets/img/words-summary.png"
         }
       ]
     },
