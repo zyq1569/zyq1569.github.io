@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tec.</title>
+
+  <style>
+    /* =========================
+   GLOBAL
+========================= */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, Arial;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    /* =========================
+   BACKGROUND
+========================= */
+    #bg {
+      position: fixed;
+      inset: 0;
+      background: url("https://images.unsplash.com/photo-1501785888041-af3ef285b470") center/cover no-repeat;
+      filter: brightness(0.55);
+      z-index: -3;
+    }
+
+    /* stars */
+    #stars {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+    }
+
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.3;
+      animation: breathe 3s infinite ease-in-out;
+    }
+
+    @keyframes breathe {
+
+      0%,
+      100% {
+        transform: scale(1);
+        opacity: 0.2;
+      }
+
+      50% {
+        transform: scale(2);
+        opacity: 1;
+      }
+    }
+
+    /* =========================
+   TOP BAR
+========================= */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(14px);
+      background: rgba(0, 0, 0, 0.35);
+      padding: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    input,
+    select {
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+
+    /* 下拉选项颜色（关键修改） */
+    select option {
+      color: black;
+      /* 字体颜色 */
+      background: white;
+      /* 背景颜色（可选） */
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+    }
+
+
+    /* =========================
+   LAYOUT
+========================= */
+    /* =========================
+   GOLDEN GRID LAYOUT
+========================= */
+    #app {
+      padding: 20px;
+
+      /* 更高级网格：控制密度 */
+      display: grid;
+
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+
+      gap: 14px;
+
+      /* 对齐节奏（关键） */
+      align-items: start;
+    }
+
+    /* =========================
+   GOLDEN RATIO CARD
+========================= */
+    .card {
+      /* 黄金比例关键 */
+      aspect-ratio: 1 / 0.618;
+
+      background: rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(16px);
+
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+
+      padding: 12px;
+
+      cursor: pointer;
+
+      transition: 0.25s ease;
+
+      /* 内容溢出控制 */
+      overflow: hidden;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* hover 提升层级 */
+    .card:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    /* 标题压缩 */
+    .card h3 {
+      font-size: 14px;
+      margin: 0;
+    }
+
+    /* summary 更紧凑 */
+    .card p {
+      font-size: 12px;
+      opacity: 0.8;
+      margin: 6px 0 0;
+      line-height: 1.4;
+    }
+
+    /* 分类标签更轻 */
+    .card small {
+      opacity: 0.5;
+      font-size: 11px;
+    }
+
+    /* =========================
+   MOBILE OPTIMIZATION
+========================= */
+    @media (max-width: 768px) {
+      #app {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+
+      .card {
+        aspect-ratio: 1 / 0.7;
+      }
+    }
+
+    @media (max-width: 420px) {
+      #app {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+    }
+
+    .card h3 {
+      margin: 0 0 6px;
+    }
+
+    /* =========================
+   DETAIL PAGE
+========================= */
+    #detail {
+      display: none;
+      padding: 20px;
+    }
+
+    .block {
+      margin: 14px 0;
+      line-height: 1.6;
+    }
+
+    img,
+    video {
+      width: 100%;
+      border-radius: 12px;
+    }
+
+    a {
+      color: #8fd3ff;
+    }
+
+    /* back button */
+    .back {
+      position: fixed;
+      right: 20px;
+      top: 20px;
+      z-index: 20;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: none;
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      cursor: pointer;
+    }
+
+    .home {
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: none;
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      cursor: pointer;
+    }
+
+    /* =========================
+   RESPONSIVE
+========================= */
+    @media (max-width: 768px) {
+      #app {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* =========================
+   MEDIA GROUP BASE
+========================= */
+    .media-group {
+      width: 100%;
+    }
+
+    /* container */
+    .media-container {
+      display: grid;
+      gap: 10px;
+    }
+
+    /* =========================
+   GRID MODE（默认）
+========================= */
+    .media-container.grid {
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    }
+
+    /* =========================
+   ROW MODE（强制一行）
+========================= */
+    .media-container.row {
+      grid-auto-flow: column;
+      grid-auto-columns: 160px;
+      overflow-x: auto;
+    }
+
+    /* =========================
+   COLUMN MODE
+========================= */
+    .media-container.column {
+      grid-template-columns: 1fr;
+    }
+
+    /* =========================
+   MEDIA ITEM
+========================= */
+    .media-item img,
+    .media-item video {
+      width: 100%;
+      border-radius: 10px;
+      display: block;
+    }
+
+    /* =========================
+   WRAP CONTROL
+========================= */
+    .media-group.nowrap .media-container.row {
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    .media-group.wrap .media-container.grid {
+      overflow: visible;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="bg"></div>
+  <div id="stars"></div>
+
+  <header>
+    <input id="search" placeholder="搜索文章..." />
+    <select id="category"></select>
+    <select id="sort">
+      <option value="new">最新</option>
+      <option value="old">最旧</option>
+    </select>
+    <!-- <button class="home" href="https://zyq1569.github.io/">主頁</button> -->
+     <a href="https://zyq1569.github.io/" class="home">主頁</a>
+  </header>
+
+  <button class="back" onclick="back()">返回</button>
+
+  <!-- LIST -->
+  <div id="app"></div>
+
+  <!-- DETAIL -->
+  <div id="detail"></div>
+
+  <script>
+    let DB = null;
+    let current = null;
+
+    /* =========================
+     LOAD JSON
+  ========================= */
+    fetch("./data/tech.json")
+      .then((r) => r.json())
+      .then((d) => {
+        DB = d;
+        init();
+      });
+
+    /* =========================
+     STAR EFFECT
+  ========================= */
+    const starBox = document.getElementById("stars");
+    for (let i = 0; i < 120; i++) {
+      const s = document.createElement("div");
+      s.className = "star";
+      s.style.top = Math.random() * 100 + "%";
+      s.style.left = Math.random() * 100 + "%";
+      s.style.animationDuration = 2 + Math.random() * 3 + "s";
+      starBox.appendChild(s);
+    }
+
+    /* =========================
+     INIT
+  ========================= */
+    function init() {
+      const cat = document.getElementById("category");
+
+      const cats = ["all", ...new Set(DB.pages.map((p) => p.category))];
+      cat.innerHTML = cats
+        .map((c) => `<option value="${c}">${c}</option>`)
+        .join("");
+
+      renderList();
+    }
+
+    /* =========================
+     LIST RENDER
+  ========================= */
+    function renderList() {
+      document.getElementById("app").style.display = "grid";
+      document.getElementById("detail").style.display = "none";
+
+      let list = [...DB.pages];
+
+      const q = search.value;
+      const c = category.value;
+      const s = sort.value;
+
+      if (c !== "all") list = list.filter((i) => i.category === c);
+      if (q) list = list.filter((i) => i.title.includes(q));
+
+      list.sort((a, b) => (s === "new" ? b.id - a.id : a.id - b.id));
+
+      const app = document.getElementById("app");
+      app.innerHTML = "";
+
+      list.forEach((p) => {
+        const div = document.createElement("div");
+        div.className = "card";
+        div.innerHTML = `
+      <h3>${p.title}</h3>
+      <p>${p.summary}</p>
+      <small>${p.category}</small>
+    `;
+        div.onclick = () => openPage(p.id);
+        app.appendChild(div);
+      });
+    }
+
+    /* =========================
+     OPEN PAGE
+  ========================= */
+    function openPage(id) {
+      const page = DB.pages.find((p) => p.id === id);
+      if (!page) return;
+
+      current = page;
+
+      /* =========================
+       切换视图
+    ========================= */
+      document.getElementById("app").style.display = "none";
+      const detail = document.getElementById("detail");
+      detail.style.display = "block";
+
+      detail.innerHTML = "";
+
+      /* =========================
+       TITLE
+    ========================= */
+      const title = document.createElement("h1");
+      title.textContent = page.title;
+      detail.appendChild(title);
+
+      /* =========================
+       BLOCK RENDER ENGINE
+    ========================= */
+      page.blocks.forEach((block) => {
+        const el = renderBlock(block);
+        detail.appendChild(el);
+      });
+    }
+    function renderBlock(b) {
+      const el = document.createElement("div");
+      el.className = "block";
+
+      /* =========================
+       TEXT
+    ========================= */
+      if (b.type === "text") {
+        el.innerHTML = `<p>${b.value}</p>`;
+      } else if (b.type === "image") {
+
+        /* =========================
+         IMAGE
+      ========================= */
+        el.innerHTML = `<img src="${b.value}" />`;
+      } else if (b.type === "video") {
+
+        /* =========================
+         VIDEO
+      ========================= */
+        el.innerHTML = `<video controls src="${b.value}"></video>`;
+      } else if (b.type === "link") {
+
+        /* =========================
+         LINK
+      ========================= */
+        el.innerHTML = `<a href="${b.value}" target="_blank">${b.value}</a>`;
+      } else if (b.type === "media-group") {
+
+        /* =========================
+         🔥 MEDIA GROUP（多图/视频组合）
+      ========================= */
+        const container = document.createElement("div");
+        container.className = "media-container " + (b.layout || "grid");
+
+        b.items.forEach((item) => {
+          const m = document.createElement("div");
+          m.className = "media-item";
+
+          if (item.type === "image") {
+            m.innerHTML = `<img src="${item.value}" />`;
+          }
+
+          if (item.type === "video") {
+            m.innerHTML = `<video controls src="${item.value}"></video>`;
+          }
+
+          container.appendChild(m);
+        });
+
+        el.appendChild(container);
+      }
+
+      return el;
+    }
+    /* =========================
+     BACK
+  ========================= */
+    function back() {
+      renderList();
+    }
+
+    /* =========================
+     EVENTS
+  ========================= */
+    search.oninput = renderList;
+    category.onchange = renderList;
+    sort.onchange = renderList;
+  </script>
+</body>
+
+</html>
