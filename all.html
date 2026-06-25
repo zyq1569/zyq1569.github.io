@@ -145,10 +145,19 @@
             height: 75px;
             z-index: 20;
         }
+
         .thumbSwiper .swiper-slide-thumb-active {
             opacity: 1;
             border: 2px solid white;
         }
+
+        /* 🟡 滑鼠 hover 高亮 */
+        .thumbSwiper .swiper-slide:hover {
+            opacity: 1;
+            transform: scale(1.12);
+            filter: brightness(1.2);
+        }
+
         .thumbSwiper {
             position: absolute;
             bottom: 20px;
@@ -182,36 +191,40 @@
         /* 手機 */
 
         @media (max-width: 768px) {
-             .hero-title{
-        font-size:20px;
-    }
+            .hero-title {
+                font-size: 20px;
+            }
 
-    .hero-desc{
-        font-size:24px;
-    }
+            .hero-desc {
+                font-size: 24px;
+            }
 
-    .cta{
-        font-size:10px;
-        padding:10px 20px;
-    }
+            .cta {
+                font-size: 10px;
+                padding: 10px 20px;
+            }
+
             .thumbSwiper {
                 height: 60px;
             }
+
             .swiper-button-next:after,
             .swiper-button-prev:after {
                 font-size: 24px;
             }
+
             .hero-desc {
-            font-size: clamp(16px, 2vw, 24px);
-            margin-bottom: 30px;
-            line-height: 1.6;
+                font-size: clamp(16px, 2vw, 24px);
+                margin-bottom: 30px;
+                line-height: 1.6;
             }
+
             .cta-group {
-            display: flex;
-            justify-content: center;
-            gap: 5px;
-            flex-wrap: wrap;
-        }
+                display: flex;
+                justify-content: center;
+                gap: 5px;
+                flex-wrap: wrap;
+            }
         }
     </style>
 </head>
@@ -292,7 +305,7 @@
                         <a href="https://okular.kde.org/zh-cn/" class="cta cta-primary"> 更多 </a>
 
                         <a href="https://sourceforge.net/projects/health1212/files/Tools/" class="cta cta-secondary">
-                           下載 </a>
+                            下載 </a>
                     </div>
                 </div>
             </div>
