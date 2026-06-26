@@ -668,13 +668,14 @@
         })();
     </script>
 
-<!-- Privacy-friendly analytics by Plausible -->
-
-
-
-<script data-goatcounter="https://bitterlive.goatcounter.com/count"
-        async src="./JS/count.js">
-</script>
+    <!-- Privacy-friendly analytics by Plausible -->
+    <script>
+        window.goatcounter = {
+            path: function (p) { return location.host + p }
+        }
+    </script>
+    <script data-goatcounter="https://bitterlive.goatcounter.com/count" async src="./JS/count.js">
+    </script>
 
 </body>
 
