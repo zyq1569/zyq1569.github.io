@@ -155,7 +155,7 @@
       "id": 2,
       "title": "Open Word",
       "category": "Office",
-      "summary": "COMING FOR YOU. STAY TUNED",
+      "summary": "Word 文件編輯器,支持常規的基本MS office 文件.",
       "blocks": [
         {
           "type": "text",
