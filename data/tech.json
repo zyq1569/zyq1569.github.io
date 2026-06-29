@@ -86,6 +86,10 @@
           "value": "此外，还可以打开Microsoft Office Word文件（.doc 和 .docx）.之后, 您可以编辑文档并将其保存为默认ODF,有限支持保存为docx."
         },
         {
+          "type": "subtitle",
+          "value": "这是小标题"
+        },
+        {
           "type": "text",
           "value": "打印預覽."
         },

@@ -181,6 +181,29 @@
       font-size: 11px;
     }
 
+    .text-block {
+      text-indent: 4ch;
+      /* = 4个字符宽度 */
+      line-height: 1.7;
+    }
+
+    .subtitle-block {
+      font-weight: 700;
+      font-size: 16px;
+      margin: 18px 0 8px;
+    }
+
+    @media (min-width: 769px) {
+
+      #detail {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 10.1%;
+        /* 0.191 ≈ 黄金比例 1 - 0.618 */
+      }
+
+    }
+
     /* =========================
    MOBILE OPTIMIZATION
 ========================= */
@@ -599,7 +622,11 @@
 
       if (b.type === "text") {
 
-        el.innerHTML = `<p>${b.value}</p>`;
+        el.innerHTML = `<p class="text-block">${b.value}</p>`;
+
+      } else if (b.type === "subtitle") {
+
+        el.innerHTML = `<h3 class="subtitle-block">${b.value}</h3>`;
 
       } else if (b.type === "image") {
 
