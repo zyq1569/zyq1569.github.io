@@ -211,7 +211,7 @@
       "blocks": [
         {
           "type": "text",
-          "value": "加载序列图像数据,可以重建体数据三维，支持窗位.缩放.平移.旋转等,支持选择不同部分模型渲染效果"
+          "value": "加载序列图像数据,可以重建体数据三维，支持窗位.缩放.平移.旋转等,支持选择不同部分模型渲染效果.应用和代码均可以在下方链接下载.TestITKimage0524(旧的版本TestITKimage)"
         },
         {
           "type": "link",
@@ -219,19 +219,27 @@
         },
         {
           "type": "text",
-          "value": "运行效果图如下"
+          "value": "旧版本运行效果图如下"
         },
         {
           "type": "image",
-          "value": "./resource/images/DicomMetadata.png"
+          "value": "./resource/images/TestITKimage1.png"
         },
         {
           "type": "text",
-          "value": "浏览序列图像效果如下"
+          "value": "新版本运行效果图如下"
+        },
+        {
+          "type": "image",
+          "value": "./resource/images/TestITKimage0.png"
+        },
+        {
+          "type": "text",
+          "value": "新版本三维重建演示视频如下"
         },
         {
           "type": "video",
-          "value": "./resource/images/DicomMetadata.mp4"
+          "value": "./resource/images/TestITKimage.mp4"
         }
       ]
     },
