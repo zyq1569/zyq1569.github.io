@@ -206,55 +206,64 @@
     {
       "id": 3,
       "title": "三維重建",
-      "category": "醫學",
-      "summary": "COMING FOR YOU. STAY TUNED",
+      "category": "工具",
+      "summary": "支持放射图像重建三维及相关操作",
       "blocks": [
         {
           "type": "text",
-          "value": "减少 DOM 操作是关键。"
+          "value": "加载序列图像数据,可以重建体数据三维，支持窗位.缩放.平移.旋转等,支持选择不同部分模型渲染效果"
+        },
+        {
+          "type": "link",
+          "value": "https://sourceforge.net/projects/health1212/files/Tools/HealthApp/"
+        },
+        {
+          "type": "text",
+          "value": "运行效果图如下"
+        },
+        {
+          "type": "image",
+          "value": "./resource/images/DicomMetadata.png"
+        },
+        {
+          "type": "text",
+          "value": "浏览序列图像效果如下"
         },
         {
           "type": "video",
-          "value": "https://www.w3schools.com/html/mov_bbb.mp4"
+          "value": "./resource/images/DicomMetadata.mp4"
         }
       ]
     },
     {
       "id": 4,
       "title": "Dicom解析",
-      "category": "醫學",
-      "summary": "COMING FOR YOU. STAY TUNED",
+      "category": "工具",
+      "summary": "支持常规的dicom文件解析字段显示",
       "blocks": [
         {
           "type": "text",
-          "value": "下面是 media-group 横向排列示例"
+          "value": "支持常规的dicom文件解析字段显示,也可以支持浏览整个序列dicom文件信息.应用可以在下面链接中下载"
         },
         {
-          "type": "media-group",
-          "layout": "row",
-          "wrap": false,
-          "items": [
-            {
-              "type": "image",
-              "value": "https://images.unsplash.com/photo-1501785888041-af3ef285b470"
-            },
-            {
-              "type": "image",
-              "value": "https://images.unsplash.com/photo-1520975916090-3105956dac38"
-            },
-            {
-              "type": "image",
-              "value": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
-            },
-            {
-              "type": "image",
-              "value": "https://images.unsplash.com/photo-1518837695005-2083093ee35b"
-            },
-            {
-              "type": "image",
-              "value": "https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d"
-            }
-          ]
+          "type": "link",
+          "value": "https://sourceforge.net/projects/health1212/files/Tools/HealthApp/"
+        },
+        {
+          "type": "text",
+          "value": "运行效果图如下"
+        },
+        {
+          "type": "image",
+          "value": "./resource/images/DicomMetadata.png"
+        },
+        {
+          "type": "text",
+          "value": "浏览序列图像效果如下"
+        },
+        {
+          "type": "video",
+          "value": "./resource/images/DicomMetadata.mp4"
         }
       ]
     },
