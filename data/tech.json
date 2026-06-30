@@ -302,7 +302,35 @@
       "blocks": [
         {
           "type": "text",
-          "value": "这是一个综合测试页面。"
+          "value": "基于样条曲线的图像切片算法。该算法通过一个继承自 vtkAlgorithm 的类来实现，该类接受两个输入并输出两个结果。第一个输入是待重建切片的体数据，第二个输入是样条曲线，其切向量用作切片平面的法线。第一个输出是从体数据重新切片得到的二维图像。第二个输出给出了切片平面在体空间中的几何位置信息。這種方法可以應用於很多需求，下面通过模拟从多层螺旋CT（MDCT）体数据重建牙科全景图像来展示该算法的一個方面的应用实例."
+        },
+        {
+          "type": "text",
+          "value": "實現原理文獻參考下方鏈接."
+        },
+        {
+          "type": "link",
+          "value": " https://www.researchgate.net/publication/357547876_A_Spline-Driven_Image_Slicer"
+        },
+        {
+          "type": "text",
+          "value": "實現的demo完整代碼參考下方鏈接."
+        },
+        {
+          "type": "link",
+          "value": "https://sourceforge.net/projects/health1212/files/Tools/HealthApp/"
+        },
+        {
+          "type": "text",
+          "value": "在demo中，點擊CPR按鈕後，鼠標右鍵選擇拾取點，然後雙擊右鍵結束選擇.依据電腦性能，快速呈現所有切片後的三維數據效果.下面視頻."
+        },
+        {
+          "type": "video",
+          "value": "./resource/images/CPR.mp4"
+        },
+                {
+          "type": "text",
+          "value": "下方是實現原理的圖解"
         },
         {
           "type": "media-group",
@@ -311,21 +339,25 @@
           "items": [
             {
               "type": "image",
-              "value": "https://images.unsplash.com/photo-1506744038136-46273834b3fb"
+              "value": "./resource/images/CPR.png"
             },
             {
               "type": "image",
-              "value": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e"
+              "value":  "./resource/images/CPR_all.png"
             },
             {
-              "type": "video",
-              "value": "https://www.w3schools.com/html/mov_bbb.mp4"
+              "type": "image",
+              "value":  "./resource/images/CPR_N_B.jpg"
+            },
+            {
+              "type": "image",
+              "value":  "./resource/images/CPR_Thickness.png"
             }
           ]
         },
         {
           "type": "text",
-          "value": "以上是混合布局示例。"
+          "value": "以上是CPR的一個應用方面的示例。"
         }
       ]
     }
