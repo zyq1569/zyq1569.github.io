@@ -261,16 +261,24 @@
     {
       "id": 5,
       "title": "Dicom SCU",
-      "category": "醫學",
-      "summary": "COMING FOR YOU. STAY TUNED",
+      "category": "工具",
+      "summary": "DIcom文件模拟发送端",
       "blocks": [
         {
           "type": "text",
-          "value": "设计系统必须保持一致性。"
+          "value": "SCU应用可以在下面链接下载,直接使用。"
+        },
+        {
+          "type": "link",
+          "value": "https://sourceforge.net/projects/health1212/files/Tools/HealthApp/"
         },
         {
           "type": "text",
-          "value": "组件化是核心思想。"
+          "value": "运行效果图如下"
+        },
+        {
+          "type": "image",
+          "value": "./resource/images/SendSCU.png"
         }
       ]
     },
@@ -296,13 +304,13 @@
           "type": "image",
           "value": "./resource/images/MPR3D.png"
         },
-                {
+        {
           "type": "text",
           "value": "demo演示效果如下."
         },
         {
           "type": "video",
-          "value":  "./resource/images/MPR.mp4"
+          "value": "./resource/images/MPR.mp4"
         }
       ]
     },
