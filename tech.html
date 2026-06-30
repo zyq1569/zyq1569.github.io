@@ -480,6 +480,135 @@
         padding: 8px;
       }
     }
+
+
+    .code-block {
+      margin: 14px 0;
+      border-radius: 12px;
+      overflow: hidden;
+      background: rgba(0, 0, 0, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .code-block pre {
+      margin: 0;
+      padding: 14px;
+      overflow-x: auto;
+      font-size: 13px;
+      line-height: 1.5;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+
+    .code-block code {
+      color: #e6e6e6;
+      white-space: pre;
+    }
+
+    .code-block::before {
+      content: attr(data-lang);
+      display: block;
+      font-size: 11px;
+      opacity: 0.6;
+      padding: 6px 10px;
+    }
+
+
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 10px;
+      background: rgba(255, 255, 255, 0.08);
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .code-lang {
+      opacity: 0.7;
+    }
+
+    .code-toggle {
+      background: transparent;
+      border: none;
+      color: white;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    /* =========================
+   折叠核心逻辑
+========================= */
+
+    /* 折叠状态 */
+    .code-block pre {
+      margin: 0;
+      padding: 14px;
+      overflow-x: auto;
+
+      /* 🔥关键：允许纵向展开 */
+      max-height: 600px;
+      overflow-y: auto;
+
+      transition: max-height 0.25s ease;
+    }
+
+    /* 折叠状态 */
+    .code-block.collapsed pre {
+      max-height: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+      overflow: hidden;
+    }
+
+    .code-block pre code {
+      white-space: pre;
+      display: block;
+    }
+
+    .code-scroll {
+      display: flex;
+      max-height: 500px;
+      overflow: auto;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas;
+      font-size: 13px;
+    }
+
+    /* 行号列 */
+    .code-linenums {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 14px 8px;
+      text-align: right;
+      user-select: none;
+
+      position: sticky;
+      left: 0;
+      /* 🔥关键：固定 */
+    }
+
+    /* 每一行 */
+    .line-num {
+      height: 20px;
+      opacity: 0.4;
+    }
+
+    /* 代码列 */
+    .code-content {
+      padding: 14px;
+      white-space: pre;
+      min-width: 100%;
+    }
+
+    /* 每行对齐 */
+    .line-text {
+      height: 20px;
+      white-space: pre;
+    }
+
+    /* 折叠 */
+    .code-block.collapsed .code-scroll {
+      max-height: 0;
+      overflow: hidden;
+    }
   </style>
 </head>
 
@@ -684,8 +813,82 @@
         });
 
         el.appendChild(container);
-      }
+      } else if (b.type === "code") {
+        const wrap = document.createElement("div");
+        wrap.className = "code-block";
 
+        const header = document.createElement("div");
+        header.className = "code-header";
+
+        const btn = document.createElement("button");
+        btn.className = "code-toggle";
+        btn.textContent = "展开 / 折叠";
+
+        const lang = document.createElement("span");
+        lang.className = "code-lang";
+        lang.textContent = b.lang || "code";
+
+        /* =========================
+           数据处理
+        ========================= */
+        const text = Array.isArray(b.value)
+          ? b.value.join("\n")
+          : (b.value || "");
+
+        const lines = text.split("\n");
+
+        /* =========================
+           主滚动容器（关键）
+        ========================= */
+        const scroll = document.createElement("div");
+        scroll.className = "code-scroll";
+
+        /* 左侧行号 */
+        const nums = document.createElement("div");
+        nums.className = "code-linenums";
+
+        /* 右侧代码 */
+        const code = document.createElement("div");
+        code.className = "code-content";
+
+        /* =========================
+           生成行号 + 代码
+        ========================= */
+        lines.forEach((line, i) => {
+
+          const n = document.createElement("div");
+          n.className = "line-num";
+          n.textContent = i + 1;
+
+          const c = document.createElement("div");
+          c.className = "line-text";
+          c.textContent = line;
+
+          nums.appendChild(n);
+          code.appendChild(c);
+        });
+
+        /* =========================
+           结构组合
+        ========================= */
+        scroll.appendChild(nums);
+        scroll.appendChild(code);
+
+        header.appendChild(lang);
+        header.appendChild(btn);
+
+        wrap.appendChild(header);
+        wrap.appendChild(scroll);
+
+        /* 默认折叠 */
+        wrap.classList.add("collapsed");
+
+        btn.onclick = () => {
+          wrap.classList.toggle("collapsed");
+        };
+
+        el.appendChild(wrap);
+      }
       return el;
     }
     /* =========================

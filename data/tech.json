@@ -321,6 +321,64 @@
           "value": "https://sourceforge.net/projects/health1212/files/Tools/HealthApp/"
         },
         {
+          "type": "code",
+          "lang": "c++",
+          "value":[ "m_mHDreader->SetFileName(\"0916214701.472116.mhd\");                                   ",
+          "m_mHDreader->Update();                                                               ",
+          "itkImageData = m_mHDreader->GetOutput();                                             ",
+          "vtkActor *vtkactor = vtkActor::New();                                                ",
+          "vtkMarchingCubes *marchingcube = vtkMarchingCubes::New();                            ",
+          "marchingcube->SetInputData(itkImageData);                                            ",
+          "marchingcube->SetValue(0, 200);//Setting the threshold;                              ",
+          "marchingcube->ComputeNormalsOn();//计算表面法向量;                                   ",
+          "vtkStripper *Stripper = vtkStripper::New();                                          ",
+          "Stripper->SetInputConnection(marchingcube->GetOutputPort());//获取三角片             ",
+          "marchingcube->Delete();                                                              ",
+          "marchingcube = NULL;                                                                 ",
+          "vtkPolyDataMapper *Mapper = vtkPolyDataMapper::New();//将三角片映射为几何数据；      ",
+          "Mapper->SetInputConnection(Stripper->GetOutputPort());                               ",
+          "Stripper->Delete();                                                                  ",
+          "Stripper = NULL;                                                                     ",
+          "Mapper->ScalarVisibilityOff();//                                                     ",
+          "vtkactor->SetMapper(Mapper);//获得皮肤几何数据                                       ",
+          "Mapper->Delete();                                                                    ",
+          "Mapper = NULL;                                                                       ",
+          "vtkactor->GetProperty()->SetDiffuseColor(.50, .50, .50);//设置皮肤颜色；             ",
+          "vtkactor->GetProperty()->SetSpecular(0.3);//反射率；                                 ",
+          "vtkactor->GetProperty()->SetOpacity(1.0);//透明度；                                  ",
+          "vtkactor->GetProperty()->SetSpecularPower(20);//反射光强度；                         ",
+          "vtkactor->GetProperty()->SetColor(0.23, 0.23, 0.23);//设置角的颜色；                 ",
+          "vtkactor->GetProperty()->SetRepresentationToWireframe();//线框；                     ",
+          "vtkOutlineFilter * outfilterline = vtkOutlineFilter::New();                          ",
+          "outfilterline->SetInputData(itkImageData);                                           ",
+          "vtkPolyDataMapper *outmapper = vtkPolyDataMapper::New();                             ",
+          "outmapper->SetInputConnection(outfilterline->GetOutputPort());                       ",
+          "outfilterline->Delete();                                                             ",
+          "outfilterline = NULL;                                                                ",
+          "vtkActor *OutlineActor = vtkActor::New();                                            ",
+          "OutlineActor->SetMapper(outmapper);                                                  ",
+          "OutlineActor->GetProperty()->SetColor(0, 0, 0);//线框颜色                            ",
+          "outmapper->Delete();                                                                 ",
+          "outmapper = NULL;                                                                    ",
+          "OutlineActor->Delete();                                                              ",
+          "OutlineActor = NULL;                                                                 ",
+          "vtkRenderer *vtkrenderer = vtkRenderer::New();                                       ",
+          "vtkRenderWindow* show3DWinow = vtkRenderWindow::New();                               ",
+          "show3DWinow->AddRenderer(vtkrenderer);                                               ",
+          "vtkRenderWindowInteractor *show3DInteractor = vtkRenderWindowInteractor::New();      ",
+          "show3DInteractor->SetRenderWindow(show3DWinow);                                      ",
+          "vtkrenderer->AddActor(vtkactor);                                                     ",
+          "vtkrenderer->SetBackground(1, 1, 1);//设置背景颜色；                                 ",
+          "show3DWinow->SetSize(500, 500);                                                      ",
+          "vtkInteractorStyleTrackballCamera *style = vtkInteractorStyleTrackballCamera::New(); ",
+          "show3DInteractor->SetInteractorStyle(style);                                         ",
+          "show3DWinow->Render();                                                               ",
+          "show3DWinow->SetWindowName(\"Image3D-Viewer\");                                        ",
+          "show3DInteractor->Initialize();                                                      ",
+          "show3DInteractor->Start();                                                           "
+          ]
+        },
+        {
           "type": "text",
           "value": "在demo中，點擊CPR按鈕後，鼠標右鍵選擇拾取點，然後雙擊右鍵結束選擇.依据電腦性能，快速呈現所有切片後的三維數據效果.下面視頻."
         },
@@ -328,7 +386,7 @@
           "type": "video",
           "value": "./resource/images/CPR.mp4"
         },
-                {
+        {
           "type": "text",
           "value": "下方是實現原理的圖解"
         },
@@ -343,15 +401,15 @@
             },
             {
               "type": "image",
-              "value":  "./resource/images/CPR_all.png"
+              "value": "./resource/images/CPR_all.png"
             },
             {
               "type": "image",
-              "value":  "./resource/images/CPR_N_B.jpg"
+              "value": "./resource/images/CPR_N_B.jpg"
             },
             {
               "type": "image",
-              "value":  "./resource/images/CPR_Thickness.png"
+              "value": "./resource/images/CPR_Thickness.png"
             }
           ]
         },
