@@ -456,6 +456,87 @@
           "value": "以上是CPR的一個應用方面的示例。"
         }
       ]
+    },
+    {
+      "id": 8,
+      "title": "photoview",
+      "category": "工具",
+      "summary": "photoview:简单易用的照片库.简单快捷的浏览目录.包含数千张高分辨率照片",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "photoview:简单易用的照片库.非常適合個人用的照片共享私有雲.简单快捷的浏览目录.包含数千张高分辨率照片.官方地址下面."
+        },
+        {
+          "type": "link",
+          "value": "https://photoview.github.io/"
+        },
+        {
+          "type": "text",
+          "value": "如果不想使用官方的鏡像Docker.可以下載支持Windows下已經編譯好的應用.下載路徑下方鏈接."
+        },
+        {
+          "type": "link",
+          "value": "https://sourceforge.net/projects/health1212/files/Tools/Photoview/"
+        },
+        {
+          "type": "text",
+          "value": "效果如下桌面端效果如下."
+        },
+        {
+          "type": "image",
+          "value": "./resource/images/photoview1.jpeg"
+        },
+        {
+          "type": "text",
+          "value": "效果如下手機端效果如下."
+        },
+        {
+          "type": "image",
+          "value": "./resource/images/photoview2.jpeg"
+        }
+      ]
+    }
+    ,
+    {
+      "id": 9,
+      "title": "photoview",
+      "category": "工具",
+      "summary": "photoview:简单易用的照片库.简单快捷的浏览目录.包含数千张高分辨率照片",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "photoview:简单易用的照片库.非常適合個人用的照片共享私有雲.简单快捷的浏览目录.包含数千张高分辨率照片.官方地址下面."
+        },
+        {
+          "type": "link",
+          "value": "https://photoview.github.io/"
+        },
+        {
+          "type": "text",
+          "value": "如果不想使用官方的鏡像Docker.可以下載支持Windows下已經編譯好的應用.下載路徑下方鏈接."
+        },
+        {
+          "type": "link",
+          "value": "https://sourceforge.net/projects/health1212/files/Tools/Photoview/"
+        },
+        {
+          "type": "text",
+          "value": "效果如下桌面端效果如下."
+        },
+        {
+          "type": "image",
+          "value": "./resource/images/okular.png"
+        },
+        {
+          "type": "text",
+          "value": "官網效果圖."
+        },
+        {
+          "type": "image",
+          "value": "https://okular.kde.org/images/screenies/okular-main.png"
+        }
+      ]
     }
   ]
 }
