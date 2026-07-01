@@ -511,7 +511,6 @@
       padding: 6px 10px;
     }
 
-
     .code-header {
       display: flex;
       justify-content: space-between;
@@ -668,7 +667,7 @@
     function init() {
       const cat = document.getElementById("category");
 
-      const cats = ["all", ...new Set(DB.pages.map((p) => p.category))];
+      const cats = ["All", ...new Set(DB.pages.map((p) => p.category))];
       cat.innerHTML = cats
         .map((c) => `<option value="${c}">${c}</option>`)
         .join("");
@@ -689,7 +688,7 @@
       const c = category.value;
       const s = sort.value;
 
-      if (c !== "all") list = list.filter((i) => i.category === c);
+      if (c !== "All") list = list.filter((i) => i.category === c);
       if (q) list = list.filter((i) => i.title.includes(q));
 
       list.sort((a, b) => (s === "new" ? b.id - a.id : a.id - b.id));
