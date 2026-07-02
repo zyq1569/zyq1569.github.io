@@ -148,6 +148,14 @@
         {
           "type": "image",
           "value": "./resource/images/PACSsmall.jpg"
+        },
+        {
+          "type": "text",
+          "value": "更多效果圖鏈接."
+        },
+        {
+          "type": "link",
+          "value": "https://zyq1569.github.io/health.html"
         }
       ]
     },
