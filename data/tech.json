@@ -500,17 +500,17 @@
     ,
     {
       "id": 9,
-      "title": "photoview",
+      "title": "Okular",
       "category": "工具",
-      "summary": "photoview:简单易用的照片库.简单快捷的浏览目录.包含数千张高分辨率照片",
+      "summary": "跨平台閱讀 PDF 文件、漫畫書、EPub 電子書、瀏覽影像、視覺檢視 Markdown 文件等等，且提供許多功能",
       "blocks": [
         {
           "type": "text",
-          "value": "photoview:简单易用的照片库.非常適合個人用的照片共享私有雲.简单快捷的浏览目录.包含数千张高分辨率照片.官方地址下面."
+          "value": "Okular:跨平台閱讀 PDF 文件、漫畫書、EPub 電子書、瀏覽影像、視覺檢視 Markdown 文件等等，且提供許多功能.官網地址如下."
         },
         {
           "type": "link",
-          "value": "https://photoview.github.io/"
+          "value": "https://okular.kde.org/zh-tw/"
         },
         {
           "type": "text",
@@ -518,7 +518,7 @@
         },
         {
           "type": "link",
-          "value": "https://sourceforge.net/projects/health1212/files/Tools/Photoview/"
+          "value": "https://sourceforge.net/projects/health1212/files/Tools/"
         },
         {
           "type": "text",
