@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>網絡收集實用網址大全</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            color: #fff;
+            font-family: 'Noto Sans TC', sans-serif;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #fff;
+            animation: breathe 4s infinite ease-in-out;
+        }
+
+        @keyframes breathe {
+
+            0%,
+            100% {
+                opacity: 0.3;
+                transform: scale(0.7);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.4);
+            }
+        }
+
+        header {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 40px 20px 25px;
+        }
+
+        h1 {
+            font-size: 3.2rem;
+            background: linear-gradient(90deg, #a0d8ff, #ffffff, #a0d8ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            color: #88ccff;
+            margin-top: 8px;
+            font-size: 1.15rem;
+        }
+
+        .search-container {
+            position: relative;
+            z-index: 10;
+            max-width: 620px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        #search {
+            width: 100%;
+            padding: 15px 22px;
+            background: rgba(255, 255, 255, 0.09);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            color: white;
+            font-size: 1.1rem;
+        }
+
+        #search:focus {
+            border-color: #66bbff;
+            box-shadow: 0 0 18px rgba(102, 187, 255, 0.4);
+        }
+
+        .grid-container {
+            position: relative;
+            z-index: 10;
+            max-width: 1680px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 22px;
+        }
+
+        .link-card {
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            padding: 22px;
+            transition: all 0.35s ease;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .link-card:hover {
+            transform: translateY(-12px);
+            background: rgba(255, 255, 255, 0.16);
+            border-color: #77ccff;
+            box-shadow: 0 22px 40px rgba(102, 187, 255, 0.25);
+        }
+
+        .link-card h3 {
+            color: #a0d8ff;
+            font-size: 1.25rem;
+            margin-bottom: 10px;
+        }
+
+        .link-card .domain {
+            color: #77ccff;
+            font-size: 0.92rem;
+            margin-bottom: 12px;
+        }
+
+        .link-card .desc {
+            color: #ddd;
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+
+        .count {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            background: rgba(0, 0, 0, 0.75);
+            padding: 8px 18px;
+            border-radius: 30px;
+            z-index: 20;
+            border: 1px solid rgba(150, 200, 255, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="stars" id="stars"></div>
+    <header>
+        <h1>🌌 實用工具大全</h1>
+        <!-- <p class="subtitle">已整合全部網站•超百個網站</p> -->
+        <a href="https://zyq1569.github.io" class="nav-link"
+           style="margin-left: 15px; padding: 6px 14px; background: rgba(102, 187, 255, 0.2); color: #66bbff; border: 1px solid #66bbff; border-radius: 20px; text-decoration: none; font-size: 0.95rem; vertical-align: middle; display: inline-block;">
+            🏠主頁
+        </a>
+    </header>
+    <div class="search-container">
+        <input type="text" id="search" placeholder="🔍 搜尋網站或關鍵字...">
+    </div>
+    <div class="count" id="count">超百個網站</div>
+    <div class="grid-container" id="grid"></div>
+    <footer style="position:relative;z-index:10;text-align:center;padding:50px 20px;color:rgba(255,255,255,0.35);">
+        點擊卡片前往網站•星星正在呼吸哦!
+    </footer>
+    <script>
+        const websites = [
+            { "name": "網絡工具", "url": "https://github.com/freegate-release/website", "desc": "必備科學網絡工具.多數網址的打開的前提" },
+            { "name": "Cobalt Tools", "url": "https://cobalt.tools", "desc": "任何社交平台的影片一鍵扒下來，YouTube、推特、抖音通殺" },
+            { "name": "Photopea", "url": "https://photopea.com", "desc": "瀏覽器裡跑的 Photoshop，免費、不用破解不用註冊" },
+            { "name": "Temp Mail", "url": "https://temp-mail.org", "desc": "一鍵臨時郵箱，註冊垃圾網站再也不怕被騷擾" },
+            { "name": "10 Minute Mail", "url": "https://10minutemail.com", "desc": "秒速臨時郵箱" },
+            { "name": "TinyWow", "url": "https://tinywow.com", "desc": "一個站 100+ 免費工具，PDF、圖片、影片全搞定" },
+            { "name": "Internet Archive", "url": "https://archive.org", "desc": "互聯網考古神器，10 年前被刪的網頁都能挖出來" },
+            { "name": "LibGen", "url": "https://libgen.li", "desc": "數百萬本教科書白嫖，留学黨狂喜" },
+            { "name": "Sci-Hub", "url": "https://sci-hub.al", "desc": "全球科研人的祖師爺，付費論文不存在的" },
+            { "name": "AlternativeTo", "url": "https://alternativeto.net", "desc": "付費軟體的免費平替" },
+            { "name": "JustWatch", "url": "https://justwatch.com", "desc": "查找影視作品的串流平台位置" },
+            { "name": "Project Gutenberg", "url": "https://gutenberg.org", "desc": "7萬本經典免費書籍" },
+            { "name": "PDF Drive", "url": "https://pdfdrive.com", "desc": "大量免費 PDF 下載" },
+            { "name": "Open Culture", "url": "https://openculture.com", "desc": "頂級大學免費課程（哈佛、MIT 等）" },
+            { "name": "Wolfram Alpha", "url": "https://wolframalpha.com", "desc": "數學作業克星" },
+            { "name": "Remove.bg", "url": "https://remove.bg", "desc": "一鍵移除照片背景" },
+            { "name": "Cleanup.pictures", "url": "https://cleanup.pictures", "desc": "照片中前任、路人、電線杆一鍵消失" },
+            { "name": "Unscreen", "url": "https://unscreen.com", "desc": "免費移除影片背景" },
+            { "name": "Squoosh", "url": "https://squoosh.app", "desc": "Google 出品的高品質圖片壓縮" },
+            { "name": "Excalidraw", "url": "https://excalidraw.com", "desc": "手繪風無限白板" },
+            { "name": "Carbon", "url": "https://carbon.now.sh", "desc": "程式碼變藝術截圖" },
+            { "name": "Ray.so", "url": "https://ray.so", "desc": "極致美觀的程式碼截圖工具" },
+            { "name": "Flightradar24", "url": "https://flightradar24.com", "desc": "即時追蹤全球飛機（包含馬斯克專機）" },
+            { "name": "CamelCamelCamel", "url": "https://camelcamelcamel.com", "desc": "Amazon 價格歷史追蹤" },
+            { "name": "Have I Been Pwned", "url": "https://haveibeenpwned.com", "desc": "檢查帳號是否被外洩" },
+            { "name": "VirusTotal", "url": "https://virustotal.com", "desc": "掃描檔案惡意程式" },
+            { "name": "Privnote", "url": "https://privnote.com", "desc": "閱後即焚自毀訊息" },
+            { "name": "File.io", "url": "https://file.io", "desc": "自毀檔案傳輸" },
+            { "name": "Archive.ph", "url": "https://archive.ph", "desc": "永久保存任何網頁" },
+            { "name": "AccountKiller", "url": "https://accountkiller.com", "desc": "教你從各種網站徹底刪除帳號" },
+            { "name": "Radio Garden", "url": "https://radio.garden", "desc": "聽全世界廣播電台" },
+            { "name": "TuneFind", "url": "https://tunefind.com", "desc": "找影視劇中的 BGM" },
+            { "name": "Music for Programming", "url": "https://musicforprogramming.net", "desc": "程式設計專用背景音樂" },
+            { "name": "MyNoise", "url": "https://mynoise.net", "desc": "自訂白噪音" },
+            { "name": "Anna's Archive", "url": "https://annasarchive.org", "desc": "全人類書籍搜索" },
+            { "name": "Elicit", "url": "https://elicit.com", "desc": "AI 研究論文助手" },
+            { "name": "Consensus", "url": "https://consensus.app", "desc": "搜尋科學共識" },
+            { "name": "Connected Papers", "url": "https://connectedpapers.com", "desc": "論文關係視覺化圖譜" },
+            { "name": "Semantic Scholar", "url": "https://semanticscholar.org", "desc": "免費學術搜索" },
+            { "name": "SciSpace", "url": "https://scispace.com", "desc": "AI 解釋研究論文" },
+            { "name": "Summarize.tech", "url": "https://summarize.tech", "desc": "總結 YouTube 長影片" },
+            { "name": "Phind", "url": "https://phind.com", "desc": "開發者專用 AI 搜尋" },
+            { "name": "Regex101", "url": "https://regex101.com", "desc": "即時測試正則表達式" },
+            { "name": "Code Beautify", "url": "https://codebeautify.org", "desc": "格式化各種程式碼" },
+            { "name": "Explain Shell", "url": "https://explainshell.com", "desc": "解釋 Linux 終端命令" },
+            { "name": "tldraw", "url": "https://tldraw.com", "desc": "瀏覽器中無限白板" },
+            { "name": "DownDetector", "url": "https://downdetector.com", "desc": "檢查網站是否當機" },
+            { "name": "TinEye", "url": "https://tineye.com", "desc": "反向圖片搜尋" },
+            { "name": "Fast.com", "url": "https://fast.com", "desc": "快速測網速" },
+            { "name": "Smallpdf", "url": "https://smallpdf.com", "desc": "線上 PDF 工具" },
+            { "name": "ILovePDF", "url": "https://ilovepdf.com", "desc": "PDF 合併分割工具" },
+            // 新增推薦（類似 X 神站風格）
+            { "name": "Unpaywall", "url": "https://unpaywall.org", "desc": "合法免費取得研究論文" },
+            { "name": "OA.mg", "url": "https://oa.mg", "desc": "快速找開放存取論文" },
+            { "name": "Hugging Face", "url": "https://huggingface.co", "desc": "AI 模型與工具平台" },
+            { "name": "Perplexity", "url": "https://perplexity.ai", "desc": "AI 搜尋引擎" },
+            { "name": "Blackmagic", "url": "https://www.blackmagictools.com", "desc": "影片音訊處理工具" },
+            { "name": "CapCut Web", "url": "https://www.capcut.com", "desc": "線上影片剪輯" },
+            { "name": "Claude", "url": "https://claude.ai", "desc": "強大 AI 對話助手" },
+            { "name": "Groq", "url": "https://groq.com", "desc": "超快 AI 聊天" },
+            { "name": "Pixlr", "url": "https://pixlr.com", "desc": "線上圖片編輯器" },
+            { "name": "Canva", "url": "https://www.canva.com", "desc": "快速設計工具" },
+            { "name": "Notion", "url": "https://www.notion.so", "desc": "全能筆記與資料庫" },
+            { "name": "Obsidian", "url": "https://obsidian.md", "desc": "本地知識連結管理" },
+            { "name": "Figma", "url": "https://www.figma.com", "desc": "介面設計協作" },
+            { "name": "Framer", "url": "https://www.framer.com", "desc": "快速做出互動原型" },
+            { "name": "Remove Watermark", "url": "https://www.remove-watermark.ai", "desc": "移除影片/圖片浮水印" },
+            { "name": "Snapdrop", "url": "https://snapdrop.net", "desc": "同網域快速傳檔" },
+            { "name": "TempFile", "url": "https://tempfile.io", "desc": "臨時檔案分享" },
+            { "name": "Crx Extractor", "url": "https://crxextractor.com", "desc": "下載 Chrome 擴充功能" },
+            { "name": "123Apps", "url": "https://123apps.com", "desc": "線上音訊影片工具包" },
+            { "name": "ILoveIMG", "url": "https://www.iloveimg.com", "desc": "圖片批量處理" },
+            { "name": "PDF24 Tools", "url": "https://tools.pdf24.org", "desc": "強大線上 PDF 工具" },
+            { "name": "EveryLang", "url": "https://everylang.net", "desc": "程式碼即時轉換" },
+            { "name": "DevToys", "url": "https://devtoys.app", "desc": "開發者工具箱" },
+            { "name": "Massive", "url": "https://massive.app", "desc": "線上批量下載工具" },
+            { "name": "Social Blade", "url": "https://socialblade.com", "desc": "社群數據分析" },
+            { "name": "Wayback Machine", "url": "https://web.archive.org", "desc": "網頁歷史存檔" },
+            { "name": "DuckDuckGo", "url": "https://duckduckgo.com", "desc": "隱私導向搜尋引擎" },
+            { "name": "Startpage", "url": "https://www.startpage.com", "desc": "隱私搜尋" },
+            { "name": "LibreTranslate", "url": "https://libretranslate.com", "desc": "開源翻譯工具" },
+            // 新增：AI 類
+            { "name": "ChatGPT", "url": "https://chat.openai.com", "desc": "最知名通用 AI" },
+            { "name": "Claude", "url": "https://claude.ai", "desc": " Anthropic 強大 AI 助手" },
+            { "name": "Groq", "url": "https://groq.com", "desc": "超高速 AI 推理" },
+            { "name": "Perplexity", "url": "https://perplexity.ai", "desc": "AI 搜尋引擎" },
+            { "name": "Hugging Face", "url": "https://huggingface.co", "desc": "AI 模型分享平台" },
+            { "name": "Gemini", "url": "https://gemini.google.com", "desc": "Google 多模態 AI" },
+            { "name": "Cursor", "url": "https://cursor.com", "desc": "AI 程式碼編輯器" },
+
+            // 新增：程式碼編寫 / 開發
+            { "name": "GitHub", "url": "https://github.com", "desc": "程式碼託管與協作" },
+            { "name": "Replit", "url": "https://replit.com", "desc": "線上程式開發環境" },
+            { "name": "CodePen", "url": "https://codepen.io", "desc": "前端程式碼展示" },
+            { "name": "StackBlitz", "url": "https://stackblitz.com", "desc": "線上 VS Code" },
+            { "name": "Phind", "url": "https://phind.com", "desc": "開發者 AI 搜尋" },
+            { "name": "DevToys", "url": "https://devtoys.app", "desc": "開發者工具箱" },
+            { "name": "EveryLang", "url": "https://everylang.net", "desc": "程式語言即時轉換" },
+
+            // 新增：影片編輯
+            { "name": "CapCut Web", "url": "https://www.capcut.com", "desc": "強大線上影片剪輯" },
+            { "name": "Canva Video", "url": "https://www.canva.com/video", "desc": "簡單影片製作" },
+            { "name": "VEED", "url": "https://www.veed.io", "desc": "線上影片編輯與字幕" },
+            { "name": "Clideo", "url": "https://clideo.com", "desc": "簡單影片處理工具" },
+            { "name": "Blackmagic", "url": "https://www.blackmagictools.com", "desc": "專業影片音訊工具" },
+
+            // 新增：VTK / 醫學影像相關
+            { "name": "VTK", "url": "https://vtk.org", "desc": "醫學影像視覺化開源庫" },
+            { "name": "ITK", "url": "https://itk.org", "desc": "醫學影像處理工具包" },
+            { "name": "3D Slicer", "url": "https://www.slicer.org", "desc": "醫學影像分析平台" },
+            { "name": "OHIF Viewer", "url": "https://ohif.org", "desc": "開源 DICOM 影像檢視器" },
+            { "name": "RadiAnt", "url": "https://www.radiantviewer.com", "desc": "DICOM 醫學影像檢視器" },
+            { "name": "MicroDicom", "url": "https://www.microdicom.com", "desc": "免費 DICOM 檢視器" },
+            { "name": "OsiriX", "url": "https://www.osirix-viewer.com", "desc": "Mac 醫學影像軟體" },
+
+            // 其他開發 / 實用工具
+            { "name": "Figma", "url": "https://www.figma.com", "desc": "介面設計協作" },
+            { "name": "Framer", "url": "https://www.framer.com", "desc": "互動原型設計" },
+            { "name": "Notion", "url": "https://www.notion.so", "desc": "全能筆記資料庫" },
+            { "name": "Obsidian", "url": "https://obsidian.md", "desc": "本地知識管理" },
+            { "name": "Snapdrop", "url": "https://snapdrop.net", "desc": "同網域快速傳檔" },
+            { "name": "PDF24 Tools", "url": "https://tools.pdf24.org", "desc": "專業 PDF 工具" },
+            { "name": "ILoveIMG", "url": "https://www.iloveimg.com", "desc": "圖片批量處理" }
+        ];
+
+        // 生成星星
+        function createStars() {
+            const container = document.getElementById('stars');
+            for (let i = 0; i < 300; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                const size = Math.random() * 3.5 + 1.2;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.animationDuration = `${Math.random() * 4 + 3.5}s`;
+                star.style.animationDelay = `-${Math.random() * 6}s`;
+                container.appendChild(star);
+            }
+        }
+
+        function renderCards(sites) {
+            const grid = document.getElementById('grid');
+            grid.innerHTML = '';
+            sites.forEach(site => {
+                const card = document.createElement('a');
+                card.href = site.url;
+                card.target = "_blank";
+                card.className = "link-card";
+                card.innerHTML = `
+                    <h3>${site.name}</h3>
+                    <div class="domain">${site.url.replace('https://', '').replace('www.', '')}</div>
+                    <div class="desc">${site.desc}</div>
+                `;
+                grid.appendChild(card);
+            });
+            document.getElementById('count').textContent = `共 ${sites.length} 個網站`;
+        }
+
+        function setupSearch() {
+            const input = document.getElementById('search');
+            input.addEventListener('input', () => {
+                const term = input.value.toLowerCase().trim();
+                const filtered = websites.filter(site =>
+                    site.name.toLowerCase().includes(term) ||
+                    site.desc.toLowerCase().includes(term)
+                );
+                renderCards(filtered);
+            });
+        }
+
+        window.onload = () => {
+            createStars();
+            renderCards(websites);
+            setupSearch();
+        };
+    </script>
+</body>
+
+</html>
