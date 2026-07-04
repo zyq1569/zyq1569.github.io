@@ -160,18 +160,30 @@
         /* ==================== 手機端優化 ==================== */
         @media (max-width: 768px) {
             h1 {
-                font-size: 1.4rem !important;
+                font-size: 1.2rem !important;
                 /* 標題在手機上變小 */
             }
 
             .subtitle {
                 font-size: 1rem !important;
             }
+            /* 新增：搜尋框手機端變小 */
+            #search {
+                padding: 12px 18px !important;
+                font-size: 1rem !important;
+            }
 
+            /* 新增：右上角計數器變小 */
+            .count {
+                top: 15px !important;
+                right: 15px !important;
+                padding: 6px 12px !important;
+                font-size: 0.85rem !important;
+            }
             .grid-container {
                 grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)) !important;
                 /* 至少 2 列 */
-                gap: 14px !important;
+                gap: 10px !important;
                 /* 間距縮小 */
                 padding: 15px 12px !important;
             }
