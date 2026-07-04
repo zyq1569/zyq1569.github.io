@@ -156,18 +156,62 @@
             z-index: 20;
             border: 1px solid rgba(150, 200, 255, 0.2);
         }
+
+        /* ==================== 手機端優化 ==================== */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.4rem !important;
+                /* 標題在手機上變小 */
+            }
+
+            .subtitle {
+                font-size: 1rem !important;
+            }
+
+            .grid-container {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)) !important;
+                /* 至少 2 列 */
+                gap: 14px !important;
+                /* 間距縮小 */
+                padding: 15px 12px !important;
+            }
+
+            .link-card {
+                padding: 16px !important;
+            }
+
+            .link-card h3 {
+                font-size: 1.1rem !important;
+            }
+
+            .link-card .desc {
+                font-size: 0.9rem !important;
+                line-height: 1.45;
+            }
+
+            header {
+                padding: 30px 15px 20px !important;
+            }
+
+            .search-container {
+                padding: 0 15px !important;
+                margin: 15px auto !important;
+            }
+        }
     </style>
 </head>
 
 <body>
     <div class="stars" id="stars"></div>
     <header>
-        <h1>🌌 實用工具大全</h1>
-        <!-- <p class="subtitle">已整合全部網站•超百個網站</p> -->
-        <a href="https://zyq1569.github.io" class="nav-link"
-            style="margin-left: 15px; padding: 6px 14px; background: rgba(102, 187, 255, 0.2); color: #66bbff; border: 1px solid #66bbff; border-radius: 20px; text-decoration: none; font-size: 0.95rem; vertical-align: middle; display: inline-block;">
-            🏠主頁
-        </a>
+        <h1>🌌 實用工具大全 (專業版)</h1>
+        <p class="subtitle">
+            已整合全部網站 • 超百個網站
+            <a href="https://zyq1569.github.io"
+                style="margin-left: 12px; padding: 5px 12px; background: rgba(102, 187, 255, 0.2); color: #66bbff; border: 1px solid #66bbff; border-radius: 20px; text-decoration: none; font-size: 0.9rem; vertical-align: middle; display: inline-block;">
+                🏠主頁
+            </a>
+        </p>
     </header>
     <div class="search-container">
         <input type="text" id="search" placeholder="🔍 搜尋網站或關鍵字...">
@@ -233,12 +277,8 @@
             // 新增推薦（類似 X 神站風格）
             { "name": "Unpaywall", "url": "https://unpaywall.org", "desc": "合法免費取得研究論文" },
             { "name": "OA.mg", "url": "https://oa.mg", "desc": "快速找開放存取論文" },
-            { "name": "Hugging Face", "url": "https://huggingface.co", "desc": "AI 模型與工具平台" },
-            { "name": "Perplexity", "url": "https://perplexity.ai", "desc": "AI 搜尋引擎" },
             { "name": "Blackmagic", "url": "https://www.blackmagictools.com", "desc": "影片音訊處理工具" },
             { "name": "CapCut Web", "url": "https://www.capcut.com", "desc": "線上影片剪輯" },
-            { "name": "Claude", "url": "https://claude.ai", "desc": "強大 AI 對話助手" },
-            { "name": "Groq", "url": "https://groq.com", "desc": "超快 AI 聊天" },
             { "name": "Pixlr", "url": "https://pixlr.com", "desc": "線上圖片編輯器" },
             { "name": "Canva", "url": "https://www.canva.com", "desc": "快速設計工具" },
             { "name": "Notion", "url": "https://www.notion.so", "desc": "全能筆記與資料庫" },
@@ -252,8 +292,6 @@
             { "name": "123Apps", "url": "https://123apps.com", "desc": "線上音訊影片工具包" },
             { "name": "ILoveIMG", "url": "https://www.iloveimg.com", "desc": "圖片批量處理" },
             { "name": "PDF24 Tools", "url": "https://tools.pdf24.org", "desc": "強大線上 PDF 工具" },
-            { "name": "EveryLang", "url": "https://everylang.net", "desc": "程式碼即時轉換" },
-            { "name": "DevToys", "url": "https://devtoys.app", "desc": "開發者工具箱" },
             { "name": "Massive", "url": "https://massive.app", "desc": "線上批量下載工具" },
             { "name": "Social Blade", "url": "https://socialblade.com", "desc": "社群數據分析" },
             { "name": "Wayback Machine", "url": "https://web.archive.org", "desc": "網頁歷史存檔" },
@@ -279,6 +317,9 @@
             { "name": "EveryLang", "url": "https://everylang.net", "desc": "程式語言即時轉換" },
 
             // 新增：影片編輯
+            { "name": "ganjingworld", "url": "https://www.ganjingworld.com/zh-CN", "desc": "強大線上影片等.超過油管" },
+            { "name": "大記元", "url": "https://www.epochtimes.com/gb/ncnews.htm", "desc": "強大媒體集合" },  
+            { "name": "阿波羅", "url": "https://www.aboluowang.com/index.html", "desc": "同樣強大媒體集合" },  
             { "name": "CapCut Web", "url": "https://www.capcut.com", "desc": "強大線上影片剪輯" },
             { "name": "Canva Video", "url": "https://www.canva.com/video", "desc": "簡單影片製作" },
             { "name": "VEED", "url": "https://www.veed.io", "desc": "線上影片編輯與字幕" },
